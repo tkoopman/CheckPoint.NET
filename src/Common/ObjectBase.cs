@@ -1,0 +1,124 @@
+﻿// MIT License
+//
+// Copyright (c) 2018 Tim Koopman
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using Newtonsoft.Json;
+using System.Diagnostics;
+
+namespace Koopman.CheckPoint.Common
+{
+    public abstract class ObjectBase : ObjectSummary
+    {
+        #region Fields
+
+        private Colors _color;
+        private string _comments;
+        private string _icon;
+        private MetaInfo _metaInfo;
+        private bool _readOnly;
+        private MembershipChangeTracking<Tag> _tags = new MembershipChangeTracking<Tag>();
+
+        #endregion Fields
+
+        #region Constructors
+
+        protected ObjectBase(Session session, DetailLevels detailLevel) : base(session, detailLevel)
+        {
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// <para type="description">Color of the object.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "color")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public Colors? Color
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _color : (Colors?)null;
+            set
+            {
+                _color = value ?? throw new System.ArgumentNullException(nameof(Color));
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// <para type="description">Comments string.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "comments")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string Comments
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _comments : null;
+            set
+            {
+                _comments = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// <para type="description">Object icon.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "icon")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string Icon
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _icon : null;
+            private set => _icon = value;
+        }
+
+        /// <summary>
+        /// <para type="description">Object icon.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "meta-info")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MetaInfo MetaInfo
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _metaInfo : null;
+            private set => _metaInfo = value;
+        }
+
+        /// <summary>
+        /// <para type="description">Indicates whether the object is read-only.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "read-only")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public bool? ReadOnly
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _readOnly : (bool?)null;
+            set => _readOnly = value ?? throw new System.ArgumentNullException(nameof(ReadOnly));
+        }
+
+        [JsonProperty(PropertyName = "tags")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MembershipChangeTracking<Tag> Tags
+        {
+            get => _tags;
+            internal set => _tags = value;
+        }
+
+        #endregion Properties
+    }
+}
