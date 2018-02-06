@@ -34,12 +34,12 @@ namespace Koopman.CheckPoint.Json
     {
         #region Methods
 
+        public override bool CanRead => false;
+
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(NATSettings);
         }
-
-        public override bool CanRead => false;
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {

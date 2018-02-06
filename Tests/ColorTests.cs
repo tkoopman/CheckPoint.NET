@@ -29,7 +29,11 @@ namespace Tests
     [TestClass]
     public class ColorTests : StandardTestsBase
     {
+        #region Fields
+
         private static readonly string Name = "DNS Server";
+
+        #endregion Fields
 
         #region Methods
 
