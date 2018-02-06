@@ -46,6 +46,7 @@
 using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Koopman.CheckPoint.Json
 {
@@ -77,7 +78,7 @@ namespace Koopman.CheckPoint.Json
         /// Initializes a new instance of the <see cref="EnumConverter" /> class.
         /// </summary>
         /// <param name="outputCase">The string case to use when writing the value.</param>
-        public EnumConverter(StringCases outputCase) : this(outputCase, null)
+        public EnumConverter(StringCases outputCase) : this(outputCase, null, null)
         {
         }
 
@@ -86,10 +87,20 @@ namespace Koopman.CheckPoint.Json
         /// </summary>
         /// <param name="outputCase">The string case to use when writing the value.</param>
         /// <param name="outputSplitWords">if set to <c>true</c> CamelCase Enum values will be split into separate words.</param>
-        public EnumConverter(StringCases outputCase, string splitWordsWith)
+        public EnumConverter(StringCases outputCase, string splitWordsWith) : this(outputCase, splitWordsWith, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumConverter" /> class.
+        /// </summary>
+        /// <param name="outputCase">The string case to use when writing the value.</param>
+        /// <param name="outputSplitWords">if set to <c>true</c> CamelCase Enum values will be split into separate words.</param>
+        public EnumConverter(StringCases outputCase, string splitWordsWith, string preDigits)
         {
             OutputCase = outputCase;
             SplitWordsWith = splitWordsWith;
+            PreDigits = preDigits;
         }
 
         #endregion Constructors
@@ -100,6 +111,11 @@ namespace Koopman.CheckPoint.Json
         /// Gets or sets string case to use when writing the value.
         /// </summary>
         public StringCases OutputCase { get; set; }
+
+        /// <summary>
+        /// Gets or sets the string to insert before digits.
+        /// </summary>
+        public string PreDigits { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether CamelCase Enum values will be split into separate words.
@@ -166,6 +182,11 @@ namespace Koopman.CheckPoint.Json
                         enumText = enumText.Replace(SplitWordsWith, "");
                     }
 
+                    if (PreDigits != null)
+                    {
+                        enumText = enumText.Replace(PreDigits, "");
+                    }
+
                     return Enum.Parse(enumType: t, value: enumText, ignoreCase: true);
                 }
 
@@ -202,6 +223,12 @@ namespace Koopman.CheckPoint.Json
             if (SplitWordsWith != null)
             {
                 v = v.CamelCaseToRegular(SplitWordsWith);
+            }
+
+            if (PreDigits != null)
+            {
+                Regex regex = new Regex(@"(\d+)");
+                v = regex.Replace(v, $"{PreDigits}$1");
             }
 
             switch (OutputCase)

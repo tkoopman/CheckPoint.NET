@@ -136,11 +136,15 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         public override void AcceptChanges()
         {
             throw new System.NotImplementedException("User AcceptChanges from Parent Object.");
         }
 
-        #endregion Properties
+        #endregion Methods
     }
 }
