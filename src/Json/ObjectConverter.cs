@@ -111,6 +111,10 @@ namespace Koopman.CheckPoint.Json
                     result = (existingValue == null) ? new Network(_Session, GetDetailLevel(reader)) : (Network)existingValue;
                     break;
 
+                case "simple-gateway":
+                    result = (existingValue == null) ? new SimpleGateway(_Session, GetDetailLevel(reader)) : (SimpleGateway)existingValue;
+                    break;
+
                 case "tag":
                     result = (existingValue == null) ? new Tag(_Session, GetDetailLevel(reader)) : (Tag)existingValue;
                     break;

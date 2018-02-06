@@ -54,6 +54,7 @@
     <Compile Include="..\src\Internal\SubnetMask.cs">
       <Link>SubnetMask.cs</Link>
     </Compile>
+    <Compile Include="SimpleGatewayTests.cs" />
     <Compile Include="MulticastAddressRangeTests.cs" />
     <Compile Include="NATSettingsTests.cs" />
     <Compile Include="AddressRangeTests.cs" />
