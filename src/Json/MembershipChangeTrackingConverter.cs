@@ -46,7 +46,10 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType.IsGenericType) ? typeof(MembershipChangeTracking<>) == objectType.GetGenericTypeDefinition() : false;
+            return (objectType.IsGenericType) ?
+                typeof(MembershipChangeTracking<>) == objectType.GetGenericTypeDefinition() ||
+                typeof(ObjectMembershipChangeTracking<>) == objectType.GetGenericTypeDefinition()
+                : false;
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

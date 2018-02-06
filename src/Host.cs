@@ -32,7 +32,7 @@ namespace Koopman.CheckPoint
     {
         #region Fields
 
-        private MembershipChangeTracking<Group> _groups = new MembershipChangeTracking<Group>();
+        private ObjectMembershipChangeTracking<Group> _groups;
         private IPAddress _ipv4Address;
         private IPAddress _ipv6Address;
         private NATSettings _natSettings;
@@ -41,12 +41,13 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
-        public Host(Session session) : base(session, DetailLevels.Full)
+        public Host(Session session) : this(session, DetailLevels.Full)
         {
         }
 
         protected internal Host(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
+            _groups = new ObjectMembershipChangeTracking<Group>(this);
         }
 
         #endregion Constructors
@@ -55,7 +56,7 @@ namespace Koopman.CheckPoint
 
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public MembershipChangeTracking<Group> Groups
+        public ObjectMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;

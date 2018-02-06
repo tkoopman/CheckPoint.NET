@@ -39,12 +39,15 @@ namespace Koopman.CheckPoint
         private bool _dynamicIP;
         private bool _firewall;
         private FirewallSettings _firewallSettings;
-        private MembershipChangeTracking<Group> _groups = new MembershipChangeTracking<Group>();
+        private ObjectMembershipChangeTracking<Group> _groups;
         private IPAddress _ipv4Address;
         private IPAddress _ipv6Address;
         private LogsSettings _logsSettings;
         private string _osName;
         private bool _saveLogsLocally;
+        private MembershipChangeTracking<string> _sendAlertsToServer;
+        private MembershipChangeTracking<string> _sendLogsToBackupServer;
+        private MembershipChangeTracking<string> _sendLogsToServer;
         private string _sicName;
         private string _sicState;
         private bool _threatEmulation;
@@ -57,12 +60,16 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
-        public SimpleGateway(Session session) : base(session, DetailLevels.Full)
+        public SimpleGateway(Session session) : this(session, DetailLevels.Full)
         {
         }
 
         protected internal SimpleGateway(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
+            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _sendAlertsToServer = new MembershipChangeTracking<string>(this);
+            _sendLogsToBackupServer = new MembershipChangeTracking<string>(this);
+            _sendLogsToServer = new MembershipChangeTracking<string>(this);
         }
 
         #endregion Constructors
@@ -162,7 +169,7 @@ namespace Koopman.CheckPoint
 
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public MembershipChangeTracking<Group> Groups
+        public ObjectMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;
@@ -233,6 +240,30 @@ namespace Koopman.CheckPoint
                 _saveLogsLocally = value;
                 OnPropertyChanged(nameof(SaveLogsLocally));
             }
+        }
+
+        [JsonProperty(PropertyName = "send-alerts-to-server")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MembershipChangeTracking<string> SendAlertsToServer
+        {
+            get => _sendAlertsToServer;
+            internal set => _sendAlertsToServer = value;
+        }
+
+        [JsonProperty(PropertyName = "send-logs-to-backup-server")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MembershipChangeTracking<string> SendLogsToBackupServer
+        {
+            get => _sendLogsToBackupServer;
+            internal set => _sendLogsToBackupServer = value;
+        }
+
+        [JsonProperty(PropertyName = "send-logs-to-server")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MembershipChangeTracking<string> SendLogsToServer
+        {
+            get => _sendLogsToServer;
+            internal set => _sendLogsToServer = value;
         }
 
         [JsonProperty(PropertyName = "sic-name")]

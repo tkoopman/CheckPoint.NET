@@ -30,19 +30,21 @@ namespace Koopman.CheckPoint
     {
         #region Fields
 
-        private MembershipChangeTracking<ObjectSummary> _groups = new MembershipChangeTracking<ObjectSummary>();
-        private MembershipChangeTracking<ObjectSummary> _members = new MembershipChangeTracking<ObjectSummary>();
+        private ObjectMembershipChangeTracking<ObjectSummary> _groups;
+        private ObjectMembershipChangeTracking<ObjectSummary> _members;
 
         #endregion Fields
 
         #region Constructors
 
-        public Group(Session session) : base(session, DetailLevels.Full)
+        public Group(Session session) : this(session, DetailLevels.Full)
         {
         }
 
         protected internal Group(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
+            _groups = new ObjectMembershipChangeTracking<ObjectSummary>(this);
+            _members = new ObjectMembershipChangeTracking<ObjectSummary>(this);
         }
 
         #endregion Constructors
@@ -51,7 +53,7 @@ namespace Koopman.CheckPoint
 
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public MembershipChangeTracking<ObjectSummary> Groups
+        public ObjectMembershipChangeTracking<ObjectSummary> Groups
         {
             get => _groups;
             internal set => _groups = value;
@@ -59,7 +61,7 @@ namespace Koopman.CheckPoint
 
         [JsonProperty(PropertyName = "members")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public MembershipChangeTracking<ObjectSummary> Members
+        public ObjectMembershipChangeTracking<ObjectSummary> Members
         {
             get => _members;
             internal set => _members = value;
