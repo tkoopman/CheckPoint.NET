@@ -40,7 +40,6 @@ namespace Koopman.CheckPoint
         private NATSettings _natSettings;
         private IPAddress _subnet4;
         private IPAddress _subnet6;
-        private string _subnetMask;
 
         #endregion Fields
 

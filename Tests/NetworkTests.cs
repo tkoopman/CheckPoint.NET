@@ -31,15 +31,17 @@ namespace Tests
     [TestClass]
     public class NetworkTests : StandardTestsBase
     {
+        #region Fields
+
+        private static readonly string v4Filter = "172.16.0.0";
+        private static readonly int v4MaskLen = 24;
         private static readonly string v4Name = "CP_default_Office_Mode_addresses_pool";
         private static readonly IPAddress v4Subnet = IPAddress.Parse("172.16.10.0");
-        private static readonly int v4MaskLen = 24;
-        private static readonly string v4Filter = "172.16.0.0";
-
+        private static readonly int v6MaskLen = 64;
         private static readonly string v6Name = "IPv6_Link_Local_Hosts";
         private static readonly IPAddress v6Subnet = IPAddress.Parse("fe80::");
-        private static readonly int v6MaskLen = 64;
-        private static readonly string v6Filter = "fe80::";
+
+        #endregion Fields
 
         #region Methods
 

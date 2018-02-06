@@ -30,12 +30,6 @@ namespace Tests
     [TestClass]
     public class BadSessionTests
     {
-        #region Fields
-
-        private readonly static bool NoCertificateValidation = true;
-
-        #endregion Fields
-
         #region Properties
 
         public TestContext TestContext { get; set; }
