@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +37,7 @@ namespace Koopman.CheckPoint.Common
         Remove
     }
 
-    public class MembershipChangeTracking<T> : IEnumerable<T>, IList<T>, IChangeTracking where T : ObjectSummary
+    public class MembershipChangeTracking<T> : IEnumerable<T>, IList<T>, IChangeTracking
     {
         #region Fields
 
@@ -47,27 +47,30 @@ namespace Koopman.CheckPoint.Common
 
         #region Constructors
 
-        [JsonConstructor]
-        internal MembershipChangeTracking()
+        internal MembershipChangeTracking(ObjectSummary parent)
         {
+            Parent = parent;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public int Count => ((IList<T>)Members).Count;
-
         public bool IsChanged
         {
             get { return Action != ChangeAction.None; }
         }
 
+        public int Count => ((IList<T>)Members).Count;
         public bool IsReadOnly => ((IList<T>)Members).IsReadOnly;
         protected internal ChangeAction Action { get; private set; } = ChangeAction.None;
         protected internal List<string> ChangedMembers { get; private set; } = null;
         protected internal bool HadMembers { get; private set; }
         protected internal bool IsDeserializing { get; private set; } = false;
+
+        [JsonIgnore]
+        protected internal ObjectSummary Parent { get; internal set; }
+
         protected bool HasDeserialized { get; private set; } = false;
 
         #endregion Properties
@@ -89,10 +92,10 @@ namespace Koopman.CheckPoint.Common
         {
             if (Action == ChangeAction.None || Action == ChangeAction.Add || Action == ChangeAction.Set)
             {
-                Action = (Action == ChangeAction.None) ? ChangeAction.Add : Action;
-                if (ChangedMembers == null)
+                if (Action == ChangeAction.None)
                 {
                     ChangedMembers = new List<string>();
+                    Action = (Parent.IsNew) ? ChangeAction.Set : ChangeAction.Add;
                 }
 
                 ChangedMembers.Add(item);
@@ -105,9 +108,9 @@ namespace Koopman.CheckPoint.Common
 
                 foreach (var m in Members)
                 {
-                    if (!ToRemove.Contains(m.Name) && !ToRemove.Contains(m.UID))
+                    if (!ToRemove.Contains(m.ToString()))
                     {
-                        ChangedMembers.Add(m.UID);
+                        ChangedMembers.Add(m.ToString());
                     }
                 }
 
@@ -119,7 +122,7 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             if (IsDeserializing)
             {
@@ -127,7 +130,7 @@ namespace Koopman.CheckPoint.Common
             }
             else
             {
-                Add(item.UID);
+                Add(item.ToString());
             }
         }
 
@@ -152,11 +155,6 @@ namespace Koopman.CheckPoint.Common
             return ((IEnumerable<T>)Members).GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<T>)Members).GetEnumerator();
-        }
-
         public int IndexOf(T item)
         {
             return ((IList<T>)Members).IndexOf(item);
@@ -169,7 +167,7 @@ namespace Koopman.CheckPoint.Common
 
         public bool Remove(string item)
         {
-            if (Action == ChangeAction.None || Action == ChangeAction.Remove)
+            if ((Action == ChangeAction.None || Action == ChangeAction.Remove) && !Parent.IsNew)
             {
                 Action = ChangeAction.Remove;
                 if (ChangedMembers == null)
@@ -192,7 +190,7 @@ namespace Koopman.CheckPoint.Common
                 ChangedMembers.Clear();
                 foreach (var m in Members)
                 {
-                    ChangedMembers.Add(m.UID);
+                    ChangedMembers.Add(m.ToString());
                 }
                 ChangedMembers.AddRange(ToAdd);
 
@@ -204,18 +202,19 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
-        public bool Remove(T item)
+        public virtual bool Remove(T item)
         {
-            if (!Remove(item.UID))
-            {
-                return Remove(item.Name);
-            }
-            else { return true; }
+            return Remove(item.ToString());
         }
 
         public void RemoveAt(int index)
         {
             throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership.");
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<T>)Members).GetEnumerator();
         }
 
         [OnDeserialized]

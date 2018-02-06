@@ -130,6 +130,13 @@ namespace Koopman.CheckPoint
 
         protected virtual IContractResolver SetContractResolver => ChangeTrackingContractResolver.SetInstance;
 
+        protected internal string GetMembershipID()
+        {
+            if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
+
+            return (IsPropertyChanged(nameof(Name)) || String.IsNullOrWhiteSpace(Name)) ? UID : Name;
+        }
+
         #endregion Properties
 
         #region Methods

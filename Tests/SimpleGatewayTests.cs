@@ -124,11 +124,16 @@ namespace Tests
                 }
             };
 
+            a.SendAlertsToServer.Add("mgmt");
+            a.SendLogsToServer.Add("mgmt");
+
             Assert.IsTrue(a.IsNew);
             a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
             Assert.AreEqual(Metrics.Percent, a.LogsSettings.FreeDiskSpaceMetrics);
+            Assert.AreEqual(1, a.SendAlertsToServer.Count);
+            Assert.AreEqual(1, a.SendLogsToServer.Count);
         }
 
         [TestMethod]
