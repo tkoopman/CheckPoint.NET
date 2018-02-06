@@ -121,14 +121,14 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; private set; }
 
+        [JsonProperty(PropertyName = "OldName", NullValueHandling = NullValueHandling.Ignore)]
+        protected internal string OldName { get; private set; }
+
         protected internal Session Session { get; private set; }
 
         protected virtual IContractResolver AddContractResolver => ChangeTrackingContractResolver.AddInstance;
 
         protected virtual IContractResolver SetContractResolver => ChangeTrackingContractResolver.SetInstance;
-
-        [JsonProperty(PropertyName = "OldName", NullValueHandling = NullValueHandling.Ignore)]
-        protected internal string OldName { get; private set; }
 
         #endregion Properties
 

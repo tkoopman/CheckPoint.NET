@@ -28,8 +28,12 @@ namespace Tests
     [TestClass]
     public class GroupTests : StandardTestsBase
     {
-        private static readonly string Name = "Corporate LANs";
+        #region Fields
+
         private static readonly string Add = "DNS Server";
+        private static readonly string Name = "Corporate LANs";
+
+        #endregion Fields
 
         #region Methods
 

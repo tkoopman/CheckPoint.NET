@@ -30,10 +30,14 @@ namespace Tests
     [TestClass]
     public class MulticastAddressRangeTests : StandardTestsBase
     {
-        private static readonly string v6Name = "All_DHCPv6_Servers";
+        #region Fields
+
         private static readonly string v6Filter = "ff05::1:3";
         private static readonly IPAddress v6First = IPAddress.Parse(v6Filter);
         private static readonly IPAddress v6Last = IPAddress.Parse(v6Filter);
+        private static readonly string v6Name = "All_DHCPv6_Servers";
+
+        #endregion Fields
 
         #region Methods
 

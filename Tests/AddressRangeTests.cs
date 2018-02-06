@@ -30,10 +30,14 @@ namespace Tests
     [TestClass]
     public class AddressRangeTests : StandardTestsBase
     {
-        private static readonly string v4Name = "All_Internet";
+        #region Fields
+
+        private static readonly string v4Filter = "0.0.0.0";
         private static readonly IPAddress v4First = IPAddress.Parse("0.0.0.0");
         private static readonly IPAddress v4Last = IPAddress.Parse("255.255.255.255");
-        private static readonly string v4Filter = "0.0.0.0";
+        private static readonly string v4Name = "All_Internet";
+
+        #endregion Fields
 
         #region Methods
 
