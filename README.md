@@ -22,7 +22,7 @@ host.AcceptChanges();
 
 var newHost = new Host(Session) 
 {
-	Name = name,
+	Name = "NewHost",
 	IPv4Address = IPAddress.Parse("10.0.0.138")
 }.AcceptChanges(Ignore.Warnings);
 ```
