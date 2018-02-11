@@ -46,7 +46,7 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
-        public Session(CheckPointSessionOptions options, TextWriter debugWriter = null)
+        public Session(SessionOptions options, TextWriter debugWriter = null)
         {
             Options = options;
             DebugWriter = debugWriter;
@@ -62,7 +62,7 @@ namespace Koopman.CheckPoint
 
             Options.Password = null;
 
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
             string result = this.Post("login", jsonData);
 
@@ -129,7 +129,8 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "url")]
         public string URL { get; private set; }
 
-        internal CheckPointSessionOptions Options { get; private set; }
+        internal SessionOptions Options { get; private set; }
+        protected internal Formatting JsonFormatting => (Options.IndentJson) ? Formatting.Indented : Formatting.None;
 
         #endregion Properties
 

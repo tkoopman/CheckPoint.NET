@@ -42,7 +42,7 @@ namespace Koopman.CheckPoint.Internal
                 { "details-level", detailLevel.ToString() }
             };
 
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, obj.Session.JsonFormatting);
 
             string result = obj.Session.Post(command, jsonData);
 

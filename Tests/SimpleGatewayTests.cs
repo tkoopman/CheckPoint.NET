@@ -35,7 +35,8 @@ namespace Tests
 
         private static readonly string Filter = "gw";
         private static readonly IPAddress IP = IPAddress.Parse("10.0.0.138");
-        private static readonly string Name = "BranchOffice";
+        private static readonly IPAddress IPv6 = IPAddress.Parse("fe80::1");
+        private static readonly string Name = "HQgw";
 
         #endregion Fields
 
@@ -57,6 +58,7 @@ namespace Tests
             Assert.AreEqual(Name, a.Name);
             Assert.AreEqual(Domain.Default, a.Domain);
             Assert.IsFalse(a.IsChanged);
+            Assert.IsTrue(a.Interfaces.Count > 0);
         }
 
         [TestMethod]
@@ -92,14 +94,15 @@ namespace Tests
             {
                 Name = name,
                 Firewall = true,
-                FirewallSettings = new FirewallSettings()
+                FirewallSettings = new Koopman.CheckPoint.SimpleGatewaySettings.Firewall()
                 {
                     AutoCalculateConnectionsHashTableSizeAndMemoryPool = true,
                     AutoMaximumLimitForConcurrentConnections = false,
                     MaximumLimitForConcurrentConnections = 50000
                 },
                 IPv4Address = IP,
-                LogsSettings = new LogsSettings()
+                IPv6Address = IPv6,
+                LogsSettings = new Koopman.CheckPoint.SimpleGatewaySettings.Logs()
                 {
                     AlertWhenFreeDiskSpaceBelow = true,
                     FreeDiskSpaceMetrics = Metrics.Percent,
@@ -117,7 +120,7 @@ namespace Tests
                     DeleteWhenFreeDiskSpaceBelowThreshold = 15
                 },
                 VPN = true,
-                VPNSettings = new VPNSettings()
+                VPNSettings = new Koopman.CheckPoint.SimpleGatewaySettings.VPN()
                 {
                     MaximumConcurrentIKENegotiations = 5,
                     MaximumConcurrentTunnels = 1000
@@ -126,6 +129,36 @@ namespace Tests
 
             a.SendAlertsToServer.Add("mgmt");
             a.SendLogsToServer.Add("mgmt");
+            a.Interfaces.Add(new Koopman.CheckPoint.SimpleGatewaySettings.Interface()
+            {
+                Name = "eth0",
+                IPv4Address = IP,
+                IPv4MaskLength = 24,
+                AntiSpoofing = true,
+                AntiSpoofingSettings = new Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofing()
+                {
+                    Action = Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofingAction.Detect
+                },
+                SecurityZoneSettings = new SecurityZoneSettings.SpecificZone() { Name = "WirelessZone" },
+                Topology = Koopman.CheckPoint.SimpleGatewaySettings.Topology.Internal,
+                TopologySettings = new Koopman.CheckPoint.SimpleGatewaySettings.TopologySettings()
+                {
+                    InterfaceLeadsToDMZ = true,
+                    IPAddressBehindThisInterface = Koopman.CheckPoint.SimpleGatewaySettings.TopologyBehind.NetworkDefinedByTheInterfaceIPAndNetMask
+                }
+            });
+            a.Interfaces.Add(new Koopman.CheckPoint.SimpleGatewaySettings.Interface()
+            {
+                Name = "eth1",
+                IPv4Address = IP,
+                IPv4MaskLength = 24,
+                AntiSpoofing = true,
+                AntiSpoofingSettings = new Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofing()
+                {
+                    Action = Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofingAction.Detect
+                },
+                SecurityZoneSettings = new SecurityZoneSettings.AutoCalculated()
+            });
 
             Assert.IsTrue(a.IsNew);
             a.AcceptChanges(Ignore.Warnings);
@@ -134,6 +167,8 @@ namespace Tests
             Assert.AreEqual(Metrics.Percent, a.LogsSettings.FreeDiskSpaceMetrics);
             Assert.AreEqual(1, a.SendAlertsToServer.Count);
             Assert.AreEqual(1, a.SendLogsToServer.Count);
+            Assert.AreEqual(typeof(SecurityZoneSettings.SpecificZone), a.Interfaces["eth0"]?.SecurityZoneSettings?.GetType());
+            Assert.AreEqual(typeof(SecurityZoneSettings.AutoCalculated), a.Interfaces["eth1"]?.SecurityZoneSettings?.GetType());
         }
 
         [TestMethod]
@@ -144,6 +179,7 @@ namespace Tests
             var a = Session.FindSimpleGateway(Name);
             a.Name = set;
             a.LogsSettings.AlertWhenFreeDiskSpaceBelowType = AlertType.UserDefinedAlertNo1;
+            a.Interfaces[0].IPv4MaskLength = 20;
             Assert.IsTrue(a.IsChanged);
             a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);

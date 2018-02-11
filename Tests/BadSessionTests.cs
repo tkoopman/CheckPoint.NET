@@ -68,7 +68,7 @@ namespace Tests
         public void WrongCredentials()
         {
             using (var session = new Session(
-                new CheckPointSessionOptions()
+                new SessionOptions()
                 {
                     ManagementServer = TestContext.Properties["ManagementServer"].ToString(),
                     User = "dummy",

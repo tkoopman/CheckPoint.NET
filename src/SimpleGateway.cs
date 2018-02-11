@@ -22,6 +22,7 @@
 
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Json;
+using Koopman.CheckPoint.SimpleGatewaySettings;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
@@ -38,11 +39,12 @@ namespace Koopman.CheckPoint
         private bool _contentAwareness;
         private bool _dynamicIP;
         private bool _firewall;
-        private FirewallSettings _firewallSettings;
+        private Firewall _firewallSettings;
         private ObjectMembershipChangeTracking<Group> _groups;
+        private ListChangeTracking<Interface> _interfaces;
         private IPAddress _ipv4Address;
         private IPAddress _ipv6Address;
-        private LogsSettings _logsSettings;
+        private Logs _logsSettings;
         private string _osName;
         private bool _saveLogsLocally;
         private MembershipChangeTracking<string> _sendAlertsToServer;
@@ -54,7 +56,7 @@ namespace Koopman.CheckPoint
         private bool _urlFiltering;
         private string _version;
         private bool _vpn;
-        private VPNSettings _vpnSettings;
+        private VPN _vpnSettings;
 
         #endregion Fields
 
@@ -70,6 +72,7 @@ namespace Koopman.CheckPoint
             _sendAlertsToServer = new MembershipChangeTracking<string>(this);
             _sendLogsToBackupServer = new MembershipChangeTracking<string>(this);
             _sendLogsToServer = new MembershipChangeTracking<string>(this);
+            _interfaces = new ListChangeTracking<Interface>();
         }
 
         #endregion Constructors
@@ -85,7 +88,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _antiBot = value;
-                OnPropertyChanged(nameof(AntiBot));
+                OnPropertyChanged();
             }
         }
 
@@ -98,7 +101,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _antiVirus = value;
-                OnPropertyChanged(nameof(AntiVirus));
+                OnPropertyChanged();
             }
         }
 
@@ -111,7 +114,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _applicationControl = value;
-                OnPropertyChanged(nameof(ApplicationControl));
+                OnPropertyChanged();
             }
         }
 
@@ -124,7 +127,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _contentAwareness = value;
-                OnPropertyChanged(nameof(ContentAwareness));
+                OnPropertyChanged();
             }
         }
 
@@ -137,7 +140,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _dynamicIP = value;
-                OnPropertyChanged(nameof(DynamicIP));
+                OnPropertyChanged();
             }
         }
 
@@ -150,20 +153,20 @@ namespace Koopman.CheckPoint
             set
             {
                 _firewall = value;
-                OnPropertyChanged(nameof(Firewall));
+                OnPropertyChanged();
             }
         }
 
         [JsonProperty(PropertyName = "firewall-settings")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public FirewallSettings FirewallSettings
+        public Firewall FirewallSettings
         {
             get => (TestDetailLevel(DetailLevels.Full)) ? _firewallSettings : null;
 
             set
             {
                 _firewallSettings = value;
-                OnPropertyChanged(nameof(FirewallSettings));
+                OnPropertyChanged();
             }
         }
 
@@ -173,6 +176,15 @@ namespace Koopman.CheckPoint
         {
             get => _groups;
             internal set => _groups = value;
+        }
+
+        [JsonProperty(PropertyName = "interfaces")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public ListChangeTracking<Interface> Interfaces
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _interfaces : null;
+
+            private set => _interfaces = value;
         }
 
         [JsonProperty(PropertyName = "ipv4-address")]
@@ -205,14 +217,14 @@ namespace Koopman.CheckPoint
 
         [JsonProperty(PropertyName = "logs-settings")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public LogsSettings LogsSettings
+        public Logs LogsSettings
         {
             get => (TestDetailLevel(DetailLevels.Full)) ? _logsSettings : null;
 
             set
             {
                 _logsSettings = value;
-                OnPropertyChanged(nameof(LogsSettings));
+                OnPropertyChanged();
             }
         }
 
@@ -225,7 +237,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _osName = value;
-                OnPropertyChanged(nameof(OSName));
+                OnPropertyChanged();
             }
         }
 
@@ -238,7 +250,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _saveLogsLocally = value;
-                OnPropertyChanged(nameof(SaveLogsLocally));
+                OnPropertyChanged();
             }
         }
 
@@ -275,7 +287,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _sicName = value;
-                OnPropertyChanged(nameof(SICName));
+                OnPropertyChanged();
             }
         }
 
@@ -288,7 +300,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _sicState = value;
-                OnPropertyChanged(nameof(SICState));
+                OnPropertyChanged();
             }
         }
 
@@ -301,7 +313,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _threatEmulation = value;
-                OnPropertyChanged(nameof(ThreatEmulation));
+                OnPropertyChanged();
             }
         }
 
@@ -314,7 +326,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _urlFiltering = value;
-                OnPropertyChanged(nameof(URLFiltering));
+                OnPropertyChanged();
             }
         }
 
@@ -327,7 +339,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _version = value;
-                OnPropertyChanged(nameof(Version));
+                OnPropertyChanged();
             }
         }
 
@@ -340,20 +352,20 @@ namespace Koopman.CheckPoint
             set
             {
                 _vpn = value;
-                OnPropertyChanged(nameof(VPN));
+                OnPropertyChanged();
             }
         }
 
         [JsonProperty(PropertyName = "vpn-settings")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public VPNSettings VPNSettings
+        public VPN VPNSettings
         {
             get => (TestDetailLevel(DetailLevels.Full)) ? _vpnSettings : null;
 
             set
             {
                 _vpnSettings = value;
-                OnPropertyChanged(nameof(VPNSettings));
+                OnPropertyChanged();
             }
         }
 

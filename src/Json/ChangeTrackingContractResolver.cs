@@ -39,12 +39,12 @@ namespace Koopman.CheckPoint.Json
         /// <summary>
         /// Default instance to be used when adding new objects.
         /// </summary>
-        public new static readonly ChangeTrackingContractResolver AddInstance = new ChangeTrackingContractResolver() { SetMethod = false };
+        public static readonly ChangeTrackingContractResolver AddInstance = new ChangeTrackingContractResolver() { SetMethod = false };
 
         /// <summary>
         /// Default instance to be used when updating existing objects.
         /// </summary>
-        public new static readonly ChangeTrackingContractResolver SetInstance = new ChangeTrackingContractResolver() { SetMethod = true };
+        public static readonly ChangeTrackingContractResolver SetInstance = new ChangeTrackingContractResolver() { SetMethod = true };
 
         #endregion Fields
 

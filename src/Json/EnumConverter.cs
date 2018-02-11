@@ -195,7 +195,7 @@ namespace Koopman.CheckPoint.Json
                     throw new JsonSerializationException($"Integer value {reader.Value} is not allowed.");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new JsonSerializationException($"Error converting value {reader.Value} to type '{objectType}'.");
             }

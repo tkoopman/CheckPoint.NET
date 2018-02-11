@@ -20,44 +20,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Koopman.CheckPoint.Json;
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using System;
 
-namespace Koopman.CheckPoint.Internal
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
-    internal static class Find
+    public class VPN : ChangeTracking
     {
+        #region Fields
+
+        private int _maximumConcurrentIKENegotiations;
+        private int _maximumConcurrentTunnels;
+
+        #endregion Fields
+
+        #region Properties
+
+        [JsonProperty(PropertyName = "maximum-concurrent-ike-negotiations")]
+        public int MaximumConcurrentIKENegotiations
+        {
+            get => _maximumConcurrentIKENegotiations;
+            set
+            {
+                _maximumConcurrentIKENegotiations = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty(PropertyName = "maximum-concurrent-tunnels")]
+        public int MaximumConcurrentTunnels
+        {
+            get => _maximumConcurrentTunnels;
+            set
+            {
+                _maximumConcurrentTunnels = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion Properties
+
         #region Methods
 
-        internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
+        public override void AcceptChanges()
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
-            {
-                { Value.isUID() ? "uid" : "name", Value },
-                { "details-level", DetailLevel.ToString() }
-            };
-
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post(Command, jsonData);
-
-            return JsonConvert.DeserializeObject<T>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
+            throw new NotImplementedException("Use AcceptChanges from Parent Object.");
         }
 
         #endregion Methods
-
-        #region Classes
-
-        internal static class Defaults
-        {
-            #region Fields
-
-            internal const DetailLevels DetailLevel = DetailLevels.Standard;
-
-            #endregion Fields
-        }
-
-        #endregion Classes
     }
 }

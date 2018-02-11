@@ -24,8 +24,6 @@ using Koopman.CheckPoint.Exceptions;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -37,7 +35,7 @@ namespace Koopman.CheckPoint.Common
         Remove
     }
 
-    public class MembershipChangeTracking<T> : IEnumerable<T>, IList<T>, IChangeTracking
+    public class MembershipChangeTracking<T> : SimpleChangeTracking, IEnumerable<T>, IList<T>
     {
         #region Fields
 
@@ -56,7 +54,7 @@ namespace Koopman.CheckPoint.Common
 
         #region Properties
 
-        public bool IsChanged
+        public override bool IsChanged
         {
             get { return Action != ChangeAction.None; }
         }
@@ -66,12 +64,9 @@ namespace Koopman.CheckPoint.Common
         protected internal ChangeAction Action { get; private set; } = ChangeAction.None;
         protected internal List<string> ChangedMembers { get; private set; } = null;
         protected internal bool HadMembers { get; private set; }
-        protected internal bool IsDeserializing { get; private set; } = false;
 
         [JsonIgnore]
         protected internal ObjectSummary Parent { get; internal set; }
-
-        protected bool HasDeserialized { get; private set; } = false;
 
         #endregion Properties
 
@@ -82,11 +77,6 @@ namespace Koopman.CheckPoint.Common
         #endregion Indexers
 
         #region Methods
-
-        public void AcceptChanges()
-        {
-            throw new System.NotImplementedException("Use AcceptChanges() on parent object.");
-        }
 
         public void Add(string item)
         {
@@ -100,7 +90,7 @@ namespace Koopman.CheckPoint.Common
 
                 ChangedMembers.Add(item);
             }
-            else if (HasDeserialized)
+            else if (!IsNew)
             {
                 Action = ChangeAction.Set;
                 List<string> ToRemove = new List<string>(ChangedMembers);
@@ -183,7 +173,7 @@ namespace Koopman.CheckPoint.Common
             {
                 return ChangedMembers.Remove(item);
             }
-            else if (HasDeserialized)
+            else if (!IsNew)
             {
                 Action = ChangeAction.Set;
                 string[] ToAdd = ChangedMembers.ToArray();
@@ -217,20 +207,15 @@ namespace Koopman.CheckPoint.Common
             return ((IEnumerable<T>)Members).GetEnumerator();
         }
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+        protected override void OnDeserialized()
         {
-            IsDeserializing = false;
             HadMembers = Count > 0;
-            HasDeserialized = true;
             ChangedMembers = null;
             Action = ChangeAction.None;
         }
 
-        [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context)
+        protected override void OnDeserializing()
         {
-            IsDeserializing = true;
             Members.Clear();
         }
 

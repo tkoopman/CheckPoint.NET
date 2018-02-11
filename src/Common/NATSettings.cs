@@ -75,7 +75,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _autoRule = value;
-                OnPropertyChanged(nameof(AutoRule));
+                OnPropertyChanged();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _hideBehind = value;
-                OnPropertyChanged(nameof(HideBehind));
+                OnPropertyChanged();
             }
         }
 
@@ -97,7 +97,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _installOn = value;
-                OnPropertyChanged(nameof(InstallOn));
+                OnPropertyChanged();
             }
         }
 
@@ -109,7 +109,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _iPv4Address = value;
-                OnPropertyChanged(nameof(IPv4Address));
+                OnPropertyChanged();
             }
         }
 
@@ -121,7 +121,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _iPv6Address = value;
-                OnPropertyChanged(nameof(IPv6Address));
+                OnPropertyChanged();
             }
         }
 
@@ -132,7 +132,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _method = value;
-                OnPropertyChanged(nameof(Method));
+                OnPropertyChanged();
             }
         }
 
@@ -142,7 +142,7 @@ namespace Koopman.CheckPoint.Common
 
         public override void AcceptChanges()
         {
-            throw new System.NotImplementedException("User AcceptChanges from Parent Object.");
+            throw new System.NotImplementedException("Use AcceptChanges from Parent Object.");
         }
 
         #endregion Methods

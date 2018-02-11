@@ -178,7 +178,7 @@ namespace Koopman.CheckPoint
 
                 jo.AddIgnore(ignore);
 
-                string jsonData = JsonConvert.SerializeObject(jo);
+                string jsonData = JsonConvert.SerializeObject(jo, Session.JsonFormatting);
 
                 string result = Session.Post(command, jsonData);
 

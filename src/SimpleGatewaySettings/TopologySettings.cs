@@ -20,53 +20,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
-using System;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
-    public class VPNSettings : ChangeTracking
+    public class TopologySettings : SimpleChangeTracking
     {
         #region Fields
 
-        private int _maximumConcurrentIKENegotiations;
-        private int _maximumConcurrentTunnels;
+        private bool _interfaceLeadsToDMZ;
+        private TopologyBehind _ipAddressBehindThisInterface;
+        private string _specificNetwork;
 
         #endregion Fields
 
         #region Properties
 
-        [JsonProperty(PropertyName = "maximum-concurrent-ike-negotiations")]
-        public int MaximumConcurrentIKENegotiations
+        [JsonProperty(PropertyName = "interface-leads-to-dmz")]
+        public bool InterfaceLeadsToDMZ
         {
-            get => _maximumConcurrentIKENegotiations;
+            get => _interfaceLeadsToDMZ;
             set
             {
-                _maximumConcurrentIKENegotiations = value;
-                OnPropertyChanged(nameof(MaximumConcurrentIKENegotiations));
+                _interfaceLeadsToDMZ = value;
+                IsChanged = true;
             }
         }
 
-        [JsonProperty(PropertyName = "maximum-concurrent-tunnels")]
-        public int MaximumConcurrentTunnels
+        [JsonProperty(PropertyName = "ip-address-behind-this-interface")]
+        public TopologyBehind IPAddressBehindThisInterface
         {
-            get => _maximumConcurrentTunnels;
+            get => _ipAddressBehindThisInterface;
             set
             {
-                _maximumConcurrentTunnels = value;
-                OnPropertyChanged(nameof(MaximumConcurrentTunnels));
+                _ipAddressBehindThisInterface = value;
+                IsChanged = true;
+            }
+        }
+
+        [JsonProperty(PropertyName = "specific-network")]
+        public string SpecificNetwork
+        {
+            get => _specificNetwork;
+            set
+            {
+                _specificNetwork = value;
+                IsChanged = true;
             }
         }
 
         #endregion Properties
-
-        #region Methods
-
-        public override void AcceptChanges()
-        {
-            throw new NotImplementedException("User AcceptChanges from Parent Object.");
-        }
-
-        #endregion Methods
     }
 }

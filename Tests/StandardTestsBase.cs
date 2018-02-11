@@ -56,13 +56,14 @@ namespace Tests
             string Password = TestContext.Properties["Password"].ToString();
 
             Session = new Session(
-                new CheckPointSessionOptions()
+                new SessionOptions()
                 {
                     ManagementServer = ManagementServer,
                     User = User,
                     Password = Password,
                     CertificateValidation = false,
-                    DetailLevelAction = DetailLevelActions.ThrowException
+                    DetailLevelAction = DetailLevelActions.ThrowException,
+                    IndentJson = true
                 }
                 );
 

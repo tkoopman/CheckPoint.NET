@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Koopman.CheckPoint.Internal
@@ -45,7 +46,10 @@ namespace Koopman.CheckPoint.Internal
         /// </example>
         internal static string[] CamelCaseToArray(this string source)
         {
-            return Regex.Split(source, @"(?<!^)(?=[A-Z])");
+            return Regex.Matches(source, @"(^[a-z\d]+|[A-Z]+(?![a-z\d])|[A-Z][a-z\d]+)")
+                .OfType<Match>()
+                .Select(m => m.Value)
+                .ToArray();
         }
 
         /// <summary>

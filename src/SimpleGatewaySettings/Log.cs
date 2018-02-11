@@ -20,16 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using System;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
     /// <summary>
     /// Simple Gateway Logs Settings
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
-    public partial class LogsSettings : ChangeTracking
+    public class Logs : ChangeTracking
     {
         #region Fields
 
@@ -68,7 +69,7 @@ namespace Koopman.CheckPoint.Common
 
         #region Constructors
 
-        public LogsSettings()
+        public Logs()
         {
         }
 
@@ -83,7 +84,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _alertWhenFreeDiskSpaceBelow = value;
-                OnPropertyChanged(nameof(AlertWhenFreeDiskSpaceBelow));
+                OnPropertyChanged();
             }
         }
 
@@ -101,7 +102,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _alertWhenFreeDiskSpaceBelowThreshold = value;
-                OnPropertyChanged(nameof(AlertWhenFreeDiskSpaceBelowThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -112,7 +113,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _alertWhenFreeDiskSpaceBelowType = value;
-                OnPropertyChanged(nameof(AlertWhenFreeDiskSpaceBelowType));
+                OnPropertyChanged();
             }
         }
 
@@ -123,7 +124,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _beforeDeleteKeepLogsFromTheLastDays = value;
-                OnPropertyChanged(nameof(BeforeDeleteKeepLogsFromTheLastDays));
+                OnPropertyChanged();
             }
         }
 
@@ -134,7 +135,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _beforeDeleteKeepLogsFromTheLastDaysThreshold = value;
-                OnPropertyChanged(nameof(BeforeDeleteKeepLogsFromTheLastDaysThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -145,7 +146,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _beforeDeleteRunScript = value;
-                OnPropertyChanged(nameof(BeforeDeleteRunScript));
+                OnPropertyChanged();
             }
         }
 
@@ -156,7 +157,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _beforeDeleteRunScriptCommand = value;
-                OnPropertyChanged(nameof(BeforeDeleteRunScriptCommand));
+                OnPropertyChanged();
             }
         }
 
@@ -167,7 +168,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _deleteIndexFilesOlderThanDays = value;
-                OnPropertyChanged(nameof(DeleteIndexFilesOlderThanDays));
+                OnPropertyChanged();
             }
         }
 
@@ -178,7 +179,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _deleteIndexFilesOlderThanDaysThreshold = value;
-                OnPropertyChanged(nameof(DeleteIndexFilesOlderThanDaysThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -189,7 +190,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _deleteIndexFilesWhenIndexSizeAbove = value;
-                OnPropertyChanged(nameof(DeleteIndexFilesWhenIndexSizeAbove));
+                OnPropertyChanged();
             }
         }
 
@@ -207,7 +208,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _deleteIndexFilesWhenIndexSizeAboveThreshold = value;
-                OnPropertyChanged(nameof(DeleteIndexFilesWhenIndexSizeAboveThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -218,7 +219,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _deleteWhenFreeDiskSpaceBelow = value;
-                OnPropertyChanged(nameof(DeleteWhenFreeDiskSpaceBelow));
+                OnPropertyChanged();
             }
         }
 
@@ -236,7 +237,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _deleteWhenFreeDiskSpaceBelowThreshold = value;
-                OnPropertyChanged(nameof(DeleteWhenFreeDiskSpaceBelowThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -247,7 +248,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _detectNewCitrixIcaApplicationNames = value;
-                OnPropertyChanged(nameof(DetectNewCitrixIcaApplicationNames));
+                OnPropertyChanged();
             }
         }
 
@@ -258,7 +259,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _forwardLogsToLogServer = value;
-                OnPropertyChanged(nameof(ForwardLogsToLogServer));
+                OnPropertyChanged();
             }
         }
 
@@ -269,7 +270,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _forwardLogsToLogServerName = value;
-                OnPropertyChanged(nameof(ForwardLogsToLogServerName));
+                OnPropertyChanged();
             }
         }
 
@@ -280,7 +281,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _forwardLogsToLogServerScheduleName = value;
-                OnPropertyChanged(nameof(ForwardLogsToLogServerScheduleName));
+                OnPropertyChanged();
             }
         }
 
@@ -291,7 +292,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _freeDiskSpaceMetrics = value;
-                OnPropertyChanged(nameof(FreeDiskSpaceMetrics));
+                OnPropertyChanged();
             }
         }
 
@@ -302,7 +303,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _performLogRotateBeforeLogForwarding = value;
-                OnPropertyChanged(nameof(PerformLogRotateBeforeLogForwarding));
+                OnPropertyChanged();
             }
         }
 
@@ -313,7 +314,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _rejectConnectionsWhenFreeDiskSpaceBelowThreshold = value;
-                OnPropertyChanged(nameof(RejectConnectionsWhenFreeDiskSpaceBelowThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -324,7 +325,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _reserveForPacketCaptureMetrics = value;
-                OnPropertyChanged(nameof(ReserveForPacketCaptureMetrics));
+                OnPropertyChanged();
             }
         }
 
@@ -335,7 +336,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _reserveForPacketCaptureThreshold = value;
-                OnPropertyChanged(nameof(ReserveForPacketCaptureThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -346,7 +347,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _rotateLogByFileSize = value;
-                OnPropertyChanged(nameof(RotateLogByFileSize));
+                OnPropertyChanged();
             }
         }
 
@@ -357,7 +358,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _rotateLogFileSizeThreshold = value;
-                OnPropertyChanged(nameof(RotateLogFileSizeThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -368,7 +369,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _rotateLogOnSchedule = value;
-                OnPropertyChanged(nameof(RotateLogOnSchedule));
+                OnPropertyChanged();
             }
         }
 
@@ -379,7 +380,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _rotateLogScheduleName = value;
-                OnPropertyChanged(nameof(RotateLogScheduleName));
+                OnPropertyChanged();
             }
         }
 
@@ -390,7 +391,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _stopLoggingWhenFreeDiskSpaceBelow = value;
-                OnPropertyChanged(nameof(StopLoggingWhenFreeDiskSpaceBelow));
+                OnPropertyChanged();
             }
         }
 
@@ -406,7 +407,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _stopLoggingWhenFreeDiskSpaceBelowThreshold = value;
-                OnPropertyChanged(nameof(StopLoggingWhenFreeDiskSpaceBelowThreshold));
+                OnPropertyChanged();
             }
         }
 
@@ -417,7 +418,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _turnOnQOSLogging = value;
-                OnPropertyChanged(nameof(TurnOnQOSLogging));
+                OnPropertyChanged();
             }
         }
 
@@ -428,7 +429,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _updateAccountLogEvery = value;
-                OnPropertyChanged(nameof(UpdateAccountLogEvery));
+                OnPropertyChanged();
             }
         }
 
@@ -438,7 +439,7 @@ namespace Koopman.CheckPoint.Common
 
         public override void AcceptChanges()
         {
-            throw new NotImplementedException("User AcceptChanges from Parent Object.");
+            throw new NotImplementedException("Use AcceptChanges from Parent Object.");
         }
 
         #endregion Methods

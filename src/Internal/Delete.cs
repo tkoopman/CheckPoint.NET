@@ -38,12 +38,14 @@ namespace Koopman.CheckPoint.Internal
 
             jo.AddIgnore(Ignore);
 
-            string jsonData = JsonConvert.SerializeObject(jo);
+            string jsonData = JsonConvert.SerializeObject(jo, Session.JsonFormatting);
 
             string result = Session.Post(Command, jsonData);
         }
 
         #endregion Methods
+
+        #region Classes
 
         internal static class Defaults
         {
@@ -53,5 +55,7 @@ namespace Koopman.CheckPoint.Internal
 
             #endregion Fields
         }
+
+        #endregion Classes
     }
 }

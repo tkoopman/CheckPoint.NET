@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,12 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using System;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
-    public class FirewallSettings : ChangeTracking
+    public class Firewall : ChangeTracking
     {
         #region Fields
 
@@ -40,7 +41,7 @@ namespace Koopman.CheckPoint.Common
 
         #region Constructors
 
-        public FirewallSettings()
+        public Firewall()
         {
         }
 
@@ -55,7 +56,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _autoCalculateConnectionsHashTableSizeAndMemoryPool = value;
-                OnPropertyChanged(nameof(AutoCalculateConnectionsHashTableSizeAndMemoryPool));
+                OnPropertyChanged();
             }
         }
 
@@ -66,7 +67,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _autoMaximumLimitForConcurrentConnections = value;
-                OnPropertyChanged(nameof(AutoMaximumLimitForConcurrentConnections));
+                OnPropertyChanged();
             }
         }
 
@@ -77,7 +78,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _connectionsHashSize = value;
-                OnPropertyChanged(nameof(ConnectionsHashSize));
+                OnPropertyChanged();
             }
         }
 
@@ -88,7 +89,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _maximumLimitForConcurrentConnections = value;
-                OnPropertyChanged(nameof(MaximumLimitForConcurrentConnections));
+                OnPropertyChanged();
             }
         }
 
@@ -99,7 +100,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _maximumMemoryPoolSize = value;
-                OnPropertyChanged(nameof(MaximumMemoryPoolSize));
+                OnPropertyChanged();
             }
         }
 
@@ -110,7 +111,7 @@ namespace Koopman.CheckPoint.Common
             set
             {
                 _memoryPoolSize = value;
-                OnPropertyChanged(nameof(MemoryPoolSize));
+                OnPropertyChanged();
             }
         }
 
@@ -120,7 +121,7 @@ namespace Koopman.CheckPoint.Common
 
         public override void AcceptChanges()
         {
-            throw new NotImplementedException("User AcceptChanges from Parent Object.");
+            throw new NotImplementedException("Use AcceptChanges from Parent Object.");
         }
 
         #endregion Methods
