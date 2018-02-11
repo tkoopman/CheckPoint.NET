@@ -62,6 +62,7 @@
     <Compile Include="NetworkTests.cs" />
     <Compile Include="SubnetMaskTest.cs" />
     <Compile Include="GroupWithExclusionTests.cs" />
+    <Compile Include="SecurityZoneTests.cs" />
     <Compile Include="TagTests.cs" />
     <Compile Include="SessionTests.cs" />
     <Compile Include="GroupTests.cs" />

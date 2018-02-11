@@ -1025,6 +1025,114 @@ namespace Koopman.CheckPoint
 
         #endregion SimpleGateway Methods
 
+        #region SecurityZone Methods
+
+        /// <summary>
+        /// Deletes a security-zone.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        public void DeleteSecurityZone
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-security-zone",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all security-zones.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SecurityZones</returns>
+        public NetworkObjectsPagingResults<SecurityZone> FindAllSecurityZones
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<SecurityZone>
+                (
+                    Session: this,
+                    Command: "show-security-zones",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all security-zones that match filter.
+        /// </summary>
+        /// <param name="session">The active session to management server.</param>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SecurityZones</returns>
+        public NetworkObjectsPagingResults<SecurityZone> FindAllSecurityZones
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<SecurityZone>
+                (
+                    Session: this,
+                    Type: "security-zone",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a security-zone.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>SecurityZone object</returns>
+        public SecurityZone FindSecurityZone
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<SecurityZone>
+                (
+                    Session: this,
+                    Command: "show-security-zone",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion SecurityZone Methods
+
         #region Tag Methods
 
         /// <summary>

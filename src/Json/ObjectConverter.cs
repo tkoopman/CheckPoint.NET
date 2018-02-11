@@ -113,6 +113,10 @@ namespace Koopman.CheckPoint.Json
                     result = (existingValue == null) ? new SimpleGateway(_Session, GetDetailLevel(reader)) : (SimpleGateway)existingValue;
                     break;
 
+                case "security-zone":
+                    result = (existingValue == null) ? new SecurityZone(_Session, GetDetailLevel(reader)) : (SecurityZone)existingValue;
+                    break;
+
                 case "tag":
                     result = (existingValue == null) ? new Tag(_Session, GetDetailLevel(reader)) : (Tag)existingValue;
                     break;

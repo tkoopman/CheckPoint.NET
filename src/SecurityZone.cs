@@ -29,7 +29,7 @@ namespace Koopman.CheckPoint
         {
         }
 
-        protected SecurityZone(Session session, DetailLevels detailLevel) : base(session, detailLevel)
+        protected internal SecurityZone(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
         }
 
