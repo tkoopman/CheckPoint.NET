@@ -6,7 +6,7 @@ I am not affiliated with Check Point. I am just a customer who has written this 
 # Example
 ```C#
 var Session = new Session(
-    new CheckPointSessionOptions()
+    new SessionOptions()
 		{
 			ManagementServer = "192.168.1.1",
 			User = "Admin",
