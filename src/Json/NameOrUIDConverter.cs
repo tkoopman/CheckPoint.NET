@@ -31,9 +31,22 @@ namespace Koopman.CheckPoint.Json
     /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     public class NameOrUIDConverter : JsonConverter
     {
+        #region Properties
+
+        public override bool CanRead => false;
+
+        #endregion Properties
+
+        #region Methods
+
         public override bool CanConvert(Type objectType)
         {
             return typeof(ObjectSummary).IsAssignableFrom(objectType);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -51,11 +64,6 @@ namespace Koopman.CheckPoint.Json
                 writer.WriteValue(obj.Name);
         }
 
-        public override bool CanRead => false;
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion Methods
     }
 }
