@@ -30,17 +30,13 @@ namespace Tests
     [TestClass]
     public class NATSettingsTests : StandardTestsBase
     {
+        #region Fields
+
         private static readonly string Name = "DNS Server";
 
-        #region Methods
+        #endregion Fields
 
-        [TestMethod]
-        public void None()
-        {
-            var a = Session.FindHost(Name);
-            a.NATSettings = new NATSettings();
-            a.AcceptChanges();
-        }
+        #region Methods
 
         [TestMethod]
         public void HideGateway()
@@ -52,6 +48,14 @@ namespace Tests
                 Method = NATSettings.NATMethods.Hide,
                 HideBehind = NATSettings.HideBehindValues.Gateway
             };
+            a.AcceptChanges();
+        }
+
+        [TestMethod]
+        public void None()
+        {
+            var a = Session.FindHost(Name);
+            a.NATSettings = new NATSettings();
             a.AcceptChanges();
         }
 

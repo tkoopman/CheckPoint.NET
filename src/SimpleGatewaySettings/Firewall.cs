@@ -20,118 +20,97 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Koopman.CheckPoint.Json;
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
-using System.Net;
+using System;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
-    [JsonConverter(typeof(NATSettingsConverter))]
-    public class NATSettings : ChangeTracking
+    public class Firewall : ChangeTracking
     {
         #region Fields
 
-        private bool _autoRule = false;
-        private HideBehindValues _hideBehind;
-        private string _installOn = "All";
-        private IPAddress _iPv4Address;
-        private IPAddress _iPv6Address;
-        private NATMethods _method;
+        private bool _autoCalculateConnectionsHashTableSizeAndMemoryPool;
+        private bool _autoMaximumLimitForConcurrentConnections;
+        private int _connectionsHashSize;
+        private int _maximumLimitForConcurrentConnections;
+        private int _maximumMemoryPoolSize;
+        private int _memoryPoolSize;
 
         #endregion Fields
 
         #region Constructors
 
-        public NATSettings()
+        public Firewall()
         {
         }
 
         #endregion Constructors
 
-        #region Enums
-
-        [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, "-")]
-        public enum HideBehindValues
-        {
-            Gateway,
-            IPAddress
-        }
-
-        [JsonConverter(typeof(EnumConverter), StringCases.Lowercase)]
-        public enum NATMethods
-        {
-            Hide,
-            Static
-        }
-
-        #endregion Enums
-
         #region Properties
 
-        [JsonProperty(PropertyName = "auto-rule")]
-        public bool AutoRule
+        [JsonProperty(PropertyName = "auto-calculate-connections-hash-table-size-and-memory-pool")]
+        public bool AutoCalculateConnectionsHashTableSizeAndMemoryPool
         {
-            get => _autoRule;
+            get => _autoCalculateConnectionsHashTableSizeAndMemoryPool;
             set
             {
-                _autoRule = value;
+                _autoCalculateConnectionsHashTableSizeAndMemoryPool = value;
                 OnPropertyChanged();
             }
         }
 
-        [JsonProperty(PropertyName = "hide-behind")]
-        public HideBehindValues HideBehind
+        [JsonProperty(PropertyName = "auto-maximum-limit-for-concurrent-connections")]
+        public bool AutoMaximumLimitForConcurrentConnections
         {
-            get => _hideBehind;
+            get => _autoMaximumLimitForConcurrentConnections;
             set
             {
-                _hideBehind = value;
+                _autoMaximumLimitForConcurrentConnections = value;
                 OnPropertyChanged();
             }
         }
 
-        [JsonProperty(PropertyName = "install-on")]
-        public string InstallOn
+        [JsonProperty(PropertyName = "connections-hash-size")]
+        public int ConnectionsHashSize
         {
-            get => _installOn;
+            get => _connectionsHashSize;
             set
             {
-                _installOn = value;
+                _connectionsHashSize = value;
                 OnPropertyChanged();
             }
         }
 
-        [JsonProperty(PropertyName = "ipv4-address")]
-        [JsonConverter(typeof(IPAddressConverter))]
-        public IPAddress IPv4Address
+        [JsonProperty(PropertyName = "maximum-limit-for-concurrent-connections")]
+        public int MaximumLimitForConcurrentConnections
         {
-            get => _iPv4Address;
+            get => _maximumLimitForConcurrentConnections;
             set
             {
-                _iPv4Address = value;
+                _maximumLimitForConcurrentConnections = value;
                 OnPropertyChanged();
             }
         }
 
-        [JsonProperty(PropertyName = "ipv6-address")]
-        [JsonConverter(typeof(IPAddressConverter))]
-        public IPAddress IPv6Address
+        [JsonProperty(PropertyName = "maximum-memory-pool-size")]
+        public int MaximumMemoryPoolSize
         {
-            get => _iPv6Address;
+            get => _maximumMemoryPoolSize;
             set
             {
-                _iPv6Address = value;
+                _maximumMemoryPoolSize = value;
                 OnPropertyChanged();
             }
         }
 
-        [JsonProperty(PropertyName = "method")]
-        public NATMethods Method
+        [JsonProperty(PropertyName = "memory-pool-size")]
+        public int MemoryPoolSize
         {
-            get => _method;
+            get => _memoryPoolSize;
             set
             {
-                _method = value;
+                _memoryPoolSize = value;
                 OnPropertyChanged();
             }
         }
@@ -142,7 +121,7 @@ namespace Koopman.CheckPoint.Common
 
         public override void AcceptChanges()
         {
-            throw new System.NotImplementedException("Use AcceptChanges from Parent Object.");
+            throw new NotImplementedException("Use AcceptChanges from Parent Object.");
         }
 
         #endregion Methods

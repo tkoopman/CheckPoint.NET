@@ -5,6 +5,7 @@
     <Authors>Tim Koopman</Authors>
     <Company />
     <Product>.NET CheckPoint Web API</Product>
+    <RootNamespace>Koopman.CheckPoint</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">

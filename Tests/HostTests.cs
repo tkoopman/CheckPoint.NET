@@ -31,15 +31,18 @@ namespace Tests
     [TestClass]
     public class HostTests : StandardTestsBase
     {
-        private static readonly string Name = "DNS Server";
-        private static readonly IPAddress IP = IPAddress.Parse("10.0.0.138");
+        #region Fields
+
         private static readonly string Filter = "10.0.0.0/8";
         private static readonly string Group = "Corporate LANs";
+        private static readonly IPAddress IP = IPAddress.Parse("4.3.2.1");
+        private static readonly string Name = "InterfacesTestHost";
+
+        #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        [ExpectedException(typeof(ObjectDeletionException))]
         public void Delete()
         {
             Session.DeleteHost(Name);

@@ -46,7 +46,7 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
-        public Session(CheckPointSessionOptions options, TextWriter debugWriter = null)
+        public Session(SessionOptions options, TextWriter debugWriter = null)
         {
             Options = options;
             DebugWriter = debugWriter;
@@ -62,7 +62,7 @@ namespace Koopman.CheckPoint
 
             Options.Password = null;
 
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
             string result = this.Post("login", jsonData);
 
@@ -129,7 +129,8 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "url")]
         public string URL { get; private set; }
 
-        internal CheckPointSessionOptions Options { get; private set; }
+        internal SessionOptions Options { get; private set; }
+        protected internal Formatting JsonFormatting => (Options.IndentJson) ? Formatting.Indented : Formatting.None;
 
         #endregion Properties
 
@@ -284,6 +285,27 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
+        /// Finds a address-range.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>AddressRange object</returns>
+        public AddressRange FindAddressRange
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<AddressRange>
+                (
+                    Session: this,
+                    Command: "show-address-range",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
         /// Finds all address-ranges.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
@@ -341,27 +363,6 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
-        }
-
-        /// <summary>
-        /// Finds a address-range.
-        /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>AddressRange object</returns>
-        public AddressRange FindAddressRange
-            (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
-            )
-        {
-            return Find.Invoke<AddressRange>
-                (
-                    Session: this,
-                    Command: "show-address-range",
-                    Value: value,
-                    DetailLevel: detailLevel
                 );
         }
 
@@ -894,6 +895,111 @@ namespace Koopman.CheckPoint
         }
 
         #endregion Network Methods
+
+        #region SimpleGateway Methods
+
+        /// <summary>
+        /// Deletes a simple-gateway.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        public void DeleteSimpleGateway
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-simple-gateway",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all simple-gateways.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SimpleGateways</returns>
+        public NetworkObjectsPagingResults<SimpleGateway> FindAllSimpleGateways
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<SimpleGateway>
+                (
+                    Session: this,
+                    Command: "show-simple-gateways",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all simple-gateways that match filter.
+        /// </summary>
+        /// <param name="session">The active session to management server.</param>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SimpleGateways</returns>
+        public NetworkObjectsPagingResults<SimpleGateway> FindAllSimpleGateways
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<SimpleGateway>
+                (
+                    Session: this,
+                    Type: "simple-gateway",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a simple-gateway.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>SimpleGateway object</returns>
+        public SimpleGateway FindSimpleGateway
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<SimpleGateway>
+                (
+                    Session: this,
+                    Command: "show-simple-gateway",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion SimpleGateway Methods
 
         #region Tag Methods
 

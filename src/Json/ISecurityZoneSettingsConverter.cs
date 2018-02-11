@@ -22,69 +22,54 @@
 
 using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 
 namespace Koopman.CheckPoint.Json
 {
     /// <summary>
-    /// Convert NAT Settings object to JSON.
+    /// Used for reading Check Point objects in and creating them using the Class that matches the specified type.
     /// </summary>
     /// <seealso cref="Newtonsoft.Json.JsonConverter" />
-    internal class NATSettingsConverter : JsonConverter
+    internal class ISecurityZoneSettingsConverter : JsonConverter
     {
-        #region Methods
+        #region Properties
 
-        public override bool CanRead => false;
+        public override bool CanRead => true;
+
+        public override bool CanWrite => false;
+
+        #endregion Properties
+
+        #region Methods
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(NATSettings);
+            return typeof(ISecurityZoneSettings).IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            JObject obj = serializer.Deserialize<JObject>(reader);
+
+            ISecurityZoneSettings result;
+
+            if (obj.GetValue("specific-zone") == null)
+            {
+                result = new SecurityZoneSettings.AutoCalculated();
+            }
+            else
+            {
+                result = new SecurityZoneSettings.SpecificZone();
+                serializer.Populate(obj.CreateReader(), result);
+            }
+
+            return result;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value == null)
-            {
-                writer.WriteNull();
-                return;
-            }
-
-            NATSettings nat = (NATSettings)value;
-
-            writer.WriteStartObject();
-            writer.WritePropertyName("auto-rule");
-            writer.WriteValue(nat.AutoRule);
-
-            if (nat.AutoRule)
-            {
-                writer.WritePropertyName("install-on");
-                writer.WriteValue(nat.InstallOn);
-
-                writer.WritePropertyName("method");
-                serializer.Serialize(writer, nat.Method);
-
-                if (nat.Method == NATSettings.NATMethods.Hide)
-                {
-                    writer.WritePropertyName("hide-behind");
-                    serializer.Serialize(writer, nat.HideBehind);
-                }
-
-                if (nat.Method == NATSettings.NATMethods.Static || (nat.Method == NATSettings.NATMethods.Hide && nat.HideBehind == NATSettings.HideBehindValues.IPAddress))
-                {
-                    writer.WritePropertyName("ipv4-address");
-                    writer.WriteValue(nat.IPv4Address?.ToString());
-
-                    writer.WritePropertyName("ipv6-address");
-                    writer.WriteValue(nat.IPv6Address?.ToString());
-                }
-            }
-
-            writer.WriteEndObject();
+            throw new NotImplementedException();
         }
 
         #endregion Methods

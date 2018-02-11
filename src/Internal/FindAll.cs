@@ -41,7 +41,7 @@ namespace Koopman.CheckPoint.Internal
                 { "order", new IOrder[] { Order } }
             };
 
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
             string result = Session.Post(Command, jsonData);
 
@@ -72,7 +72,7 @@ namespace Koopman.CheckPoint.Internal
                 { "order", (Order == null)? null:new IOrder[] { Order } }
             };
 
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
             string result = Session.Post("show-objects", jsonData);
 

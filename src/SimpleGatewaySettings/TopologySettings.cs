@@ -20,35 +20,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Koopman.CheckPoint;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using Koopman.CheckPoint.Common;
+using Newtonsoft.Json;
 
-namespace Tests
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
-    [TestClass]
-    public class ColorTests : StandardTestsBase
+    public class TopologySettings : SimpleChangeTracking
     {
         #region Fields
 
-        private static readonly string Name = "DNS Server";
+        private bool _interfaceLeadsToDMZ;
+        private TopologyBehind _ipAddressBehindThisInterface;
+        private string _specificNetwork;
 
         #endregion Fields
 
-        #region Methods
+        #region Properties
 
-        [TestMethod]
-        public void TestAllColors()
+        [JsonProperty(PropertyName = "interface-leads-to-dmz")]
+        public bool InterfaceLeadsToDMZ
         {
-            var a = Session.FindHost(Name);
-            foreach (Colors c in Enum.GetValues(typeof(Colors)))
+            get => _interfaceLeadsToDMZ;
+            set
             {
-                a.Color = c;
-                a.AcceptChanges();
-                Assert.AreEqual(c, a.Color);
+                _interfaceLeadsToDMZ = value;
+                IsChanged = true;
             }
         }
 
-        #endregion Methods
+        [JsonProperty(PropertyName = "ip-address-behind-this-interface")]
+        public TopologyBehind IPAddressBehindThisInterface
+        {
+            get => _ipAddressBehindThisInterface;
+            set
+            {
+                _ipAddressBehindThisInterface = value;
+                IsChanged = true;
+            }
+        }
+
+        [JsonProperty(PropertyName = "specific-network")]
+        public string SpecificNetwork
+        {
+            get => _specificNetwork;
+            set
+            {
+                _specificNetwork = value;
+                IsChanged = true;
+            }
+        }
+
+        #endregion Properties
     }
 }

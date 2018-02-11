@@ -60,7 +60,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _except = value;
-                OnPropertyChanged(nameof(Except));
+                OnPropertyChanged();
             }
         }
 
@@ -74,7 +74,7 @@ namespace Koopman.CheckPoint
             set
             {
                 _include = value;
-                OnPropertyChanged(nameof(Include));
+                OnPropertyChanged();
             }
         }
 

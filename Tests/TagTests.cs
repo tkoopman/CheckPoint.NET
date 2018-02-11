@@ -28,9 +28,13 @@ namespace Tests
     [TestClass]
     public class TagTests : StandardTestsBase
     {
-        private static readonly string Name = "Europe_gw";
+        #region Fields
+
         private static readonly string Filter = "gw";
         private static readonly string Host = "DNS Server";
+        private static readonly string Name = "Europe_gw";
+
+        #endregion Fields
 
         #region Methods
 

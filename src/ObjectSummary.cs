@@ -121,14 +121,21 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; private set; }
 
+        [JsonProperty(PropertyName = "OldName", NullValueHandling = NullValueHandling.Ignore)]
+        protected internal string OldName { get; private set; }
+
         protected internal Session Session { get; private set; }
 
         protected virtual IContractResolver AddContractResolver => ChangeTrackingContractResolver.AddInstance;
 
         protected virtual IContractResolver SetContractResolver => ChangeTrackingContractResolver.SetInstance;
 
-        [JsonProperty(PropertyName = "OldName", NullValueHandling = NullValueHandling.Ignore)]
-        protected internal string OldName { get; private set; }
+        protected internal string GetMembershipID()
+        {
+            if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
+
+            return (IsPropertyChanged(nameof(Name)) || String.IsNullOrWhiteSpace(Name)) ? UID : Name;
+        }
 
         #endregion Properties
 
@@ -171,7 +178,7 @@ namespace Koopman.CheckPoint
 
                 jo.AddIgnore(ignore);
 
-                string jsonData = JsonConvert.SerializeObject(jo);
+                string jsonData = JsonConvert.SerializeObject(jo, Session.JsonFormatting);
 
                 string result = Session.Post(command, jsonData);
 

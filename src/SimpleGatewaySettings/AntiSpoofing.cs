@@ -20,44 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace Koopman.CheckPoint.Internal
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
-    internal static class Find
+    public class AntiSpoofing
     {
-        #region Methods
+        #region Properties
 
-        internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
-        {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
-            {
-                { Value.isUID() ? "uid" : "name", Value },
-                { "details-level", DetailLevel.ToString() }
-            };
+        [JsonProperty(PropertyName = "action")]
+        public AntiSpoofingAction Action { get; set; }
 
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post(Command, jsonData);
-
-            return JsonConvert.DeserializeObject<T>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
-        }
-
-        #endregion Methods
-
-        #region Classes
-
-        internal static class Defaults
-        {
-            #region Fields
-
-            internal const DetailLevels DetailLevel = DetailLevels.Standard;
-
-            #endregion Fields
-        }
-
-        #endregion Classes
+        #endregion Properties
     }
 }

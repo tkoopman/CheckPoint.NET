@@ -24,8 +24,6 @@ using Koopman.CheckPoint.Exceptions;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -37,7 +35,7 @@ namespace Koopman.CheckPoint.Common
         Remove
     }
 
-    public class MembershipChangeTracking<T> : IEnumerable<T>, IList<T>, IChangeTracking where T : ObjectSummary
+    public class MembershipChangeTracking<T> : SimpleChangeTracking, IEnumerable<T>, IList<T>
     {
         #region Fields
 
@@ -47,16 +45,16 @@ namespace Koopman.CheckPoint.Common
 
         #region Constructors
 
-        [JsonConstructor]
-        internal MembershipChangeTracking()
+        internal MembershipChangeTracking(ObjectSummary parent)
         {
+            Parent = parent;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public bool IsChanged
+        public override bool IsChanged
         {
             get { return Action != ChangeAction.None; }
         }
@@ -66,8 +64,9 @@ namespace Koopman.CheckPoint.Common
         protected internal ChangeAction Action { get; private set; } = ChangeAction.None;
         protected internal List<string> ChangedMembers { get; private set; } = null;
         protected internal bool HadMembers { get; private set; }
-        protected internal bool IsDeserializing { get; private set; } = false;
-        protected bool HasDeserialized { get; private set; } = false;
+
+        [JsonIgnore]
+        protected internal ObjectSummary Parent { get; internal set; }
 
         #endregion Properties
 
@@ -79,24 +78,19 @@ namespace Koopman.CheckPoint.Common
 
         #region Methods
 
-        public void AcceptChanges()
-        {
-            throw new System.NotImplementedException("Use AcceptChanges() on parent object.");
-        }
-
         public void Add(string item)
         {
             if (Action == ChangeAction.None || Action == ChangeAction.Add || Action == ChangeAction.Set)
             {
-                Action = (Action == ChangeAction.None) ? ChangeAction.Add : Action;
-                if (ChangedMembers == null)
+                if (Action == ChangeAction.None)
                 {
                     ChangedMembers = new List<string>();
+                    Action = (Parent.IsNew) ? ChangeAction.Set : ChangeAction.Add;
                 }
 
                 ChangedMembers.Add(item);
             }
-            else if (HasDeserialized)
+            else if (!IsNew)
             {
                 Action = ChangeAction.Set;
                 List<string> ToRemove = new List<string>(ChangedMembers);
@@ -104,9 +98,9 @@ namespace Koopman.CheckPoint.Common
 
                 foreach (var m in Members)
                 {
-                    if (!ToRemove.Contains(m.Name) && !ToRemove.Contains(m.UID))
+                    if (!ToRemove.Contains(m.ToString()))
                     {
-                        ChangedMembers.Add(m.UID);
+                        ChangedMembers.Add(m.ToString());
                     }
                 }
 
@@ -118,7 +112,7 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             if (IsDeserializing)
             {
@@ -126,7 +120,7 @@ namespace Koopman.CheckPoint.Common
             }
             else
             {
-                Add(item.UID);
+                Add(item.ToString());
             }
         }
 
@@ -163,7 +157,7 @@ namespace Koopman.CheckPoint.Common
 
         public bool Remove(string item)
         {
-            if (Action == ChangeAction.None || Action == ChangeAction.Remove)
+            if ((Action == ChangeAction.None || Action == ChangeAction.Remove) && !Parent.IsNew)
             {
                 Action = ChangeAction.Remove;
                 if (ChangedMembers == null)
@@ -179,14 +173,14 @@ namespace Koopman.CheckPoint.Common
             {
                 return ChangedMembers.Remove(item);
             }
-            else if (HasDeserialized)
+            else if (!IsNew)
             {
                 Action = ChangeAction.Set;
                 string[] ToAdd = ChangedMembers.ToArray();
                 ChangedMembers.Clear();
                 foreach (var m in Members)
                 {
-                    ChangedMembers.Add(m.UID);
+                    ChangedMembers.Add(m.ToString());
                 }
                 ChangedMembers.AddRange(ToAdd);
 
@@ -198,13 +192,9 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
-        public bool Remove(T item)
+        public virtual bool Remove(T item)
         {
-            if (!Remove(item.UID))
-            {
-                return Remove(item.Name);
-            }
-            else { return true; }
+            return Remove(item.ToString());
         }
 
         public void RemoveAt(int index)
@@ -217,20 +207,15 @@ namespace Koopman.CheckPoint.Common
             return ((IEnumerable<T>)Members).GetEnumerator();
         }
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+        protected override void OnDeserialized()
         {
-            IsDeserializing = false;
             HadMembers = Count > 0;
-            HasDeserialized = true;
             ChangedMembers = null;
             Action = ChangeAction.None;
         }
 
-        [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context)
+        protected override void OnDeserializing()
         {
-            IsDeserializing = true;
             Members.Clear();
         }
 

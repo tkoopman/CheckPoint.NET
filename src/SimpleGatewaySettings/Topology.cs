@@ -22,42 +22,14 @@
 
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace Koopman.CheckPoint.Internal
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
-    internal static class Find
+    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase)]
+    public enum Topology
     {
-        #region Methods
-
-        internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
-        {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
-            {
-                { Value.isUID() ? "uid" : "name", Value },
-                { "details-level", DetailLevel.ToString() }
-            };
-
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post(Command, jsonData);
-
-            return JsonConvert.DeserializeObject<T>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
-        }
-
-        #endregion Methods
-
-        #region Classes
-
-        internal static class Defaults
-        {
-            #region Fields
-
-            internal const DetailLevels DetailLevel = DetailLevels.Standard;
-
-            #endregion Fields
-        }
-
-        #endregion Classes
+        Automatic,
+        External,
+        Internal
     }
 }

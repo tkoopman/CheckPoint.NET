@@ -20,42 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Koopman.CheckPoint.Json;
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace Koopman.CheckPoint.Internal
+namespace Koopman.CheckPoint
 {
-    internal static class Find
+    public static class SecurityZoneSettings
     {
-        #region Methods
-
-        internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
-        {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
-            {
-                { Value.isUID() ? "uid" : "name", Value },
-                { "details-level", DetailLevel.ToString() }
-            };
-
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post(Command, jsonData);
-
-            return JsonConvert.DeserializeObject<T>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
-        }
-
-        #endregion Methods
-
         #region Classes
 
-        internal static class Defaults
+        public class AutoCalculated : ISecurityZoneSettings
         {
-            #region Fields
+            #region Properties
 
-            internal const DetailLevels DetailLevel = DetailLevels.Standard;
+            [JsonProperty(PropertyName = "auto-calculated")]
+            private bool Value { get => true; }
 
-            #endregion Fields
+            #endregion Properties
+        }
+
+        public class SpecificZone : ISecurityZoneSettings
+        {
+            #region Properties
+
+            [JsonProperty(PropertyName = "specific-zone")]
+            public string Name { get; set; }
+
+            #endregion Properties
+
+            #region Methods
+
+            public override string ToString()
+            {
+                return Name;
+            }
+
+            #endregion Methods
         }
 
         #endregion Classes

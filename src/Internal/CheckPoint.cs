@@ -27,15 +27,7 @@ namespace Koopman.CheckPoint.Internal
 {
     internal static class CheckPoint
     {
-        /// <summary>
-        /// Returns true if string is in the format of a Check Point UID
-        /// </summary>
-        /// <param name="str">String to test.</param>
-        /// <returns>True if valid UID format</returns>
-        internal static bool isUID(this string str)
-        {
-            return Regex.IsMatch(str, @"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$");
-        }
+        #region Methods
 
         internal static void AddIgnore(this JObject jo, Ignore ignore)
         {
@@ -50,5 +42,17 @@ namespace Koopman.CheckPoint.Internal
                     break;
             }
         }
+
+        /// <summary>
+        /// Returns true if string is in the format of a Check Point UID
+        /// </summary>
+        /// <param name="str">String to test.</param>
+        /// <returns>True if valid UID format</returns>
+        internal static bool isUID(this string str)
+        {
+            return Regex.IsMatch(str, @"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$");
+        }
+
+        #endregion Methods
     }
 }

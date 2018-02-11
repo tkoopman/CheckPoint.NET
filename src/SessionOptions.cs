@@ -22,7 +22,7 @@
 
 namespace Koopman.CheckPoint
 {
-    public class CheckPointSessionOptions
+    public class SessionOptions
     {
         #region Properties
 
@@ -41,6 +41,8 @@ namespace Koopman.CheckPoint
         /// The detail level action to take.
         /// </value>
         public DetailLevelActions DetailLevelAction { get; set; } = DetailLevelActions.ThrowException;
+
+        public bool IndentJson { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the management server to connect to.

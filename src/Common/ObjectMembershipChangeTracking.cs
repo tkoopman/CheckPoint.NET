@@ -20,44 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Koopman.CheckPoint.Json;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Koopman.CheckPoint.Internal
+namespace Koopman.CheckPoint.Common
 {
-    internal static class Find
+    public class ObjectMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : ObjectSummary
     {
+        #region Constructors
+
+        internal ObjectMembershipChangeTracking(ObjectSummary parent) : base(parent)
+        {
+        }
+
+        #endregion Constructors
+
         #region Methods
 
-        internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
+        public override void Add(T item)
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            if (IsDeserializing)
             {
-                { Value.isUID() ? "uid" : "name", Value },
-                { "details-level", DetailLevel.ToString() }
-            };
+                Members.Add(item);
+            }
+            else
+            {
+                if (item == null) { return; }
+                Add(item.GetMembershipID());
+            }
+        }
 
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post(Command, jsonData);
-
-            return JsonConvert.DeserializeObject<T>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
+        public override bool Remove(T item)
+        {
+            if (item == null) { return false; }
+            return Remove(item.GetMembershipID());
         }
 
         #endregion Methods
-
-        #region Classes
-
-        internal static class Defaults
-        {
-            #region Fields
-
-            internal const DetailLevels DetailLevel = DetailLevels.Standard;
-
-            #endregion Fields
-        }
-
-        #endregion Classes
     }
 }

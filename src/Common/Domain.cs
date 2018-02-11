@@ -30,8 +30,8 @@ namespace Koopman.CheckPoint.Common
     {
         #region Fields
 
-        public readonly static Domain Default = new Domain("SMC User", "41e821a0-3720-11e3-aa6e-0800200c9fde", "domain");
         public readonly static Domain DataDomain = new Domain("Check Point Data", "a0bbbc99-adef-4ef8-bb6d-defdefdefdef", "data domain");
+        public readonly static Domain Default = new Domain("SMC User", "41e821a0-3720-11e3-aa6e-0800200c9fde", "domain");
 
         #endregion Fields
 

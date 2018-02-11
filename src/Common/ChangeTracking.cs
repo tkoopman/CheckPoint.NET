@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -33,7 +32,7 @@ namespace Koopman.CheckPoint.Common
     /// </summary>
     /// <seealso cref="System.ComponentModel.IChangeTracking" />
     /// <seealso cref="Koopman.CheckPoint.Json.ChangeTrackingContractResolver" />
-    public abstract class ChangeTracking : IChangeTracking
+    public abstract class ChangeTracking : SimpleChangeTracking
     {
         #region Fields
 
@@ -49,7 +48,7 @@ namespace Koopman.CheckPoint.Common
         /// <value>
         /// <c>true</c> if any properties have been changed or if any contained MembershipChangeTracking properties have had membership modifications.
         /// </value>
-        public bool IsChanged
+        public override bool IsChanged
         {
             get
             {
@@ -76,46 +75,9 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is new.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is new; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsNew { get; private set; } = true;
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is deserializing.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is deserializing; otherwise, <c>false</c>.
-        /// </value>
-        protected internal bool IsDeserializing { get; private set; } = false;
-
         #endregion Properties
 
         #region Methods
-
-        /// <summary>
-        /// Posts all changes to Check Point server. If successful all object properties will be updated with results.
-        /// </summary>
-        public abstract void AcceptChanges();
-
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
-        {
-            IsDeserializing = false;
-            IsNew = false;
-
-            // Clear all changed properties from AcceptChanges
-            ChangedProperties.Clear();
-        }
-
-        [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context)
-        {
-            IsDeserializing = true;
-        }
 
         protected internal string[] getChangedProperties()
         {
@@ -125,6 +87,11 @@ namespace Koopman.CheckPoint.Common
         protected internal bool IsPropertyChanged(string propertyName)
         {
             return ChangedProperties.Contains(propertyName);
+        }
+
+        protected override void OnDeserialized()
+        {
+            ChangedProperties.Clear();
         }
 
         /// <summary>

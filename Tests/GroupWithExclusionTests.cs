@@ -28,9 +28,13 @@ namespace Tests
     [TestClass]
     public class GroupWithExclusionTests : StandardTestsBase
     {
-        private static readonly string Name = "TestGroupWithExlusion";
-        private static readonly string Filter = "Test Objects";
+        #region Fields
+
         private static readonly string Except = "Corporate LANs";
+        private static readonly string Filter = "Test Objects";
+        private static readonly string Name = "TestGroupWithExlusion";
+
+        #endregion Fields
 
         #region Methods
 
