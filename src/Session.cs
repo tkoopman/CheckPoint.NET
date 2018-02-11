@@ -2,23 +2,20 @@
 //
 // Copyright (c) 2018 Tim Koopman
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
@@ -82,7 +79,9 @@ namespace Koopman.CheckPoint
         public TextWriter DebugWriter { get; set; }
 
         /// <summary>
-        /// <para type="description">Information about the available disk space on the management server.</para>
+        /// <para type="description">
+        /// Information about the available disk space on the management server.
+        /// </para>
         /// </summary>
         [JsonProperty(PropertyName = "disk-space-message")]
         public string DiskSpaceMessage { get; private set; }
@@ -118,7 +117,11 @@ namespace Koopman.CheckPoint
         public bool Standby { get; private set; }
 
         /// <summary>
-        /// <para type="description">Session object unique identifier. This identifier may be used in the discard API to discard changes that were made in this session, when administrator is working from another session, or in the 'switch-session' API.</para>
+        /// <para type="description">
+        /// Session object unique identifier. This identifier may be used in the discard API to
+        /// discard changes that were made in this session, when administrator is working from
+        /// another session, or in the 'switch-session' API.
+        /// </para>
         /// </summary>
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; private set; }
@@ -337,7 +340,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -423,7 +429,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -529,7 +538,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -634,7 +646,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -739,7 +754,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -844,7 +862,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -949,7 +970,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -1054,7 +1078,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="ipOnly">if set to <c>true</c> will search objects by their IP address only, without involving the textual search.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>

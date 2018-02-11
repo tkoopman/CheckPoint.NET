@@ -17,15 +17,19 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Net;
+using Koopman.CheckPoint.Common;
 
-namespace Koopman.CheckPoint.Exceptions
+namespace Koopman.CheckPoint
 {
-    public class MissingRequiredParametersException : GenericException
+    public class SecurityZone : ObjectBase
     {
         #region Constructors
 
-        internal MissingRequiredParametersException(string message, HttpStatusCode httpStatusCode, CheckPointErrorCodes code, CheckPointErrorDetails[] warnings, CheckPointErrorDetails[] errors, CheckPointErrorDetails[] blockingErrors) : base(message, httpStatusCode, code, warnings, errors, blockingErrors)
+        public SecurityZone(Session session) : this(session, DetailLevels.Full)
+        {
+        }
+
+        protected SecurityZone(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
         }
 

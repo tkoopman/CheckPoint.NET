@@ -2,23 +2,20 @@
 //
 // Copyright (c) 2018 Tim Koopman
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Exceptions;
 using Newtonsoft.Json;
@@ -54,12 +51,13 @@ namespace Koopman.CheckPoint.Common
 
         #region Properties
 
+        public int Count => ((IList<T>)Members).Count;
+
         public override bool IsChanged
         {
             get { return Action != ChangeAction.None; }
         }
 
-        public int Count => ((IList<T>)Members).Count;
         public bool IsReadOnly => ((IList<T>)Members).IsReadOnly;
         protected internal ChangeAction Action { get; private set; } = ChangeAction.None;
         protected internal List<string> ChangedMembers { get; private set; } = null;
@@ -145,6 +143,11 @@ namespace Koopman.CheckPoint.Common
             return ((IEnumerable<T>)Members).GetEnumerator();
         }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<T>)Members).GetEnumerator();
+        }
+
         public int IndexOf(T item)
         {
             return ((IList<T>)Members).IndexOf(item);
@@ -200,11 +203,6 @@ namespace Koopman.CheckPoint.Common
         public void RemoveAt(int index)
         {
             throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership.");
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<T>)Members).GetEnumerator();
         }
 
         protected override void OnDeserialized()
