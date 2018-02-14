@@ -25,7 +25,7 @@ namespace Koopman.CheckPoint
     /// <summary>
     /// Meta Info - Validation States
     /// </summary>
-    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase)]
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum ValidationStates
     {
         OK,

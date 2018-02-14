@@ -19,10 +19,12 @@
 
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
+using static Koopman.CheckPoint.Json.EnumConverter;
 
 namespace Koopman.CheckPoint.Common
 {
-    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ", ".")]
+    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ")]
     public enum AlertType
     {
         None,
@@ -30,8 +32,14 @@ namespace Koopman.CheckPoint.Common
         PopupAlert,
         MailAlert,
         SnmpTrapAlert,
+
+        [EnumMember(Value = "user defined alert no.1")]
         UserDefinedAlertNo1,
+
+        [EnumMember(Value = "user defined alert no.2")]
         UserDefinedAlertNo2,
+
+        [EnumMember(Value = "user defined alert no.3")]
         UserDefinedAlertNo3
     }
 }

@@ -25,7 +25,7 @@ namespace Koopman.CheckPoint.Common
     /// <summary>
     /// Metrics used to measure threasholds
     /// </summary>
-    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase)]
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum Metrics
     {
         Percent,

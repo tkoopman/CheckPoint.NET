@@ -37,20 +37,12 @@
 using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Json
 {
-    /// <summary>
-    /// String case to write values in.
-    /// </summary>
-    public enum StringCases
-    {
-        NoChange,
-        Uppercase,
-        Lowercase
-    }
-
     /// <summary>
     /// Converts an <see cref="Enum" /> to and from its name string value.
     /// </summary>
@@ -61,61 +53,57 @@ namespace Koopman.CheckPoint.Json
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumConverter" /> class.
         /// </summary>
-        public EnumConverter() : this(StringCases.NoChange, null)
+        public EnumConverter(
+                StringCases outputCase,
+                string outputSplitWords,
+                OutputArrayOptions outputArray,
+                bool nullAsZero)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumConverter" /> class.
-        /// </summary>
-        /// <param name="outputCase">The string case to use when writing the value.</param>
-        public EnumConverter(StringCases outputCase) : this(outputCase, null, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumConverter" /> class.
-        /// </summary>
-        /// <param name="outputCase">The string case to use when writing the value.</param>
-        /// <param name="outputSplitWords">
-        /// if set to <c>true</c> CamelCase Enum values will be split into separate words.
-        /// </param>
-        public EnumConverter(StringCases outputCase, string splitWordsWith) : this(outputCase, splitWordsWith, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumConverter" /> class.
-        /// </summary>
-        /// <param name="outputCase">The string case to use when writing the value.</param>
-        /// <param name="outputSplitWords">
-        /// if set to <c>true</c> CamelCase Enum values will be split into separate words.
-        /// </param>
-        public EnumConverter(StringCases outputCase, string splitWordsWith, string preDigits)
-        {
+            OutputArray = outputArray;
             OutputCase = outputCase;
-            SplitWordsWith = splitWordsWith;
-            PreDigits = preDigits;
+            OutputSplitWords = outputSplitWords;
+            NullAsZero = nullAsZero;
+        }
+
+        public EnumConverter() : this(StringCases.NoChange, null, OutputArrayOptions.Auto, false)
+        {
+        }
+
+        public EnumConverter(StringCases outputCase) : this(outputCase, null, OutputArrayOptions.Auto, false)
+        {
+        }
+
+        public EnumConverter(StringCases outputCase, string outputSplitWords) : this(outputCase, outputSplitWords, OutputArrayOptions.Auto, false)
+        {
         }
 
         #endregion Constructors
 
+        #region Enums
+
+        public enum OutputArrayOptions
+        {
+            Auto,
+            Yes,
+            No
+        }
+
+        // String case to write values in.
+        public enum StringCases
+        {
+            NoChange,
+            Uppercase,
+            Lowercase
+        }
+
+        #endregion Enums
+
         #region Properties
 
-        /// <summary>
-        /// Gets or sets string case to use when writing the value.
-        /// </summary>
-        public StringCases OutputCase { get; set; }
-
-        /// <summary>
-        /// Gets or sets the string to insert before digits.
-        /// </summary>
-        public string PreDigits { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether CamelCase Enum values will be split into separate words.
-        /// </summary>
-        public string SplitWordsWith { get; set; }
+        public bool NullAsZero { get; }
+        public OutputArrayOptions OutputArray { get; }
+        public StringCases OutputCase { get; }
+        public string OutputSplitWords { get; }
 
         #endregion Properties
 
@@ -147,9 +135,13 @@ namespace Koopman.CheckPoint.Json
         /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            bool isNullable = GetIsNullable(objectType);
+            Type t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+
             if (reader.TokenType == JsonToken.Null)
             {
-                if (!GetIsNullable(objectType))
+                if (NullAsZero) { return 0; }
+                if (!isNullable)
                 {
                     throw new JsonSerializationException($"Cannot convert null value to {objectType}.");
                 }
@@ -157,37 +149,35 @@ namespace Koopman.CheckPoint.Json
                 return null;
             }
 
-            bool isNullable = GetIsNullable(objectType);
-            Type t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
-
             try
             {
                 if (reader.TokenType == JsonToken.String)
                 {
                     string enumText = reader.Value.ToString();
 
-                    if (enumText == string.Empty && isNullable)
+                    if (enumText == string.Empty)
                     {
-                        return null;
+                        if (NullAsZero) { return 0; }
+                        if (isNullable) { return null; }
                     }
 
-                    // Remove SplitWordsWith from value so they can be matched to CamelCase Enum values
-                    if (SplitWordsWith != null)
-                    {
-                        enumText = enumText.Replace(SplitWordsWith, "");
-                    }
-
-                    if (PreDigits != null)
-                    {
-                        enumText = enumText.Replace(PreDigits, "");
-                    }
-
-                    return Enum.Parse(enumType: t, value: enumText, ignoreCase: true);
+                    return DeserializeValue(enumText, t);
                 }
 
-                if (reader.TokenType == JsonToken.Integer)
+                if (reader.TokenType == JsonToken.StartArray)
                 {
-                    throw new JsonSerializationException($"Integer value {reader.Value} is not allowed.");
+                    int result = 0;
+                    reader.Read();
+                    while (reader.TokenType == JsonToken.String)
+                    {
+                        string enumText = reader.Value.ToString();
+                        if (enumText != string.Empty)
+                        {
+                            result |= (int)DeserializeValue(enumText, t);
+                        }
+                        reader.Read();
+                    }
+                    return result;
                 }
             }
             catch (Exception)
@@ -206,24 +196,94 @@ namespace Koopman.CheckPoint.Json
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            bool isNullable = GetIsNullable(value.GetType());
+            Type t = isNullable ? Nullable.GetUnderlyingType(value.GetType()) : value.GetType();
+
+            bool asArray = (OutputArray == OutputArrayOptions.Auto) ?
+                Attribute.IsDefined(t, typeof(FlagsAttribute)) :
+                OutputArray == OutputArrayOptions.Yes;
+
+            if (asArray) { writer.WriteStartArray(); }
+
             if (value == null)
             {
-                writer.WriteNull();
-                return;
+                if (!asArray) { writer.WriteNull(); }
+            }
+            else
+            {
+                Enum e = (Enum)value;
+                List<string> values = new List<string>();
+                if (asArray)
+                {
+                    string[] flags = t.GetEnumNames();
+                    foreach (var flag in flags)
+                    {
+                        Enum flagEnum = (Enum)Enum.Parse(t, flag);
+                        MemberInfo[] flagInfo = t.GetMember(flag);
+                        bool ignore = Attribute.IsDefined(flagInfo[0], typeof(JsonIgnoreAttribute));
+                        if (!ignore && e.HasFlag(flagEnum))
+                        {
+                            values.Add(flag);
+                        }
+                    }
+                }
+                else
+                {
+                    values.Add(e.ToString());
+                }
+                foreach (string v in values)
+                {
+                    writer.WriteValue(SerializeValue(v, t));
+                }
             }
 
-            Enum e = (Enum)value;
+            if (asArray) { writer.WriteEndArray(); }
+        }
 
-            string v = e.ToString();
-            if (SplitWordsWith != null)
+        private static bool GetIsNullable(Type objectType)
+        {
+            return (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+        }
+
+        private Object DeserializeValue(string value, Type type)
+        {
+            string enumText = value;
+            // Check EnumMember Values first
+            string[] flags = type.GetEnumNames();
+            foreach (var flag in flags)
             {
-                v = v.CamelCaseToRegular(SplitWordsWith);
+                Enum flagEnum = (Enum)Enum.Parse(type, flag);
+                MemberInfo[] flagInfo = type.GetMember(flag);
+                EnumMemberAttribute att = (EnumMemberAttribute)Attribute.GetCustomAttribute(flagInfo[0], typeof(EnumMemberAttribute));
+                if (att != null && att.Value.Equals(enumText, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return flagEnum;
+                }
             }
 
-            if (PreDigits != null)
+            // Remove SplitWordsWith from value so they can be matched to CamelCase Enum values
+            if (OutputSplitWords != null)
             {
-                Regex regex = new Regex(@"(\d+)");
-                v = regex.Replace(v, $"{PreDigits}$1");
+                enumText = enumText.Replace(OutputSplitWords, "");
+            }
+
+            return (Enum)Enum.Parse(enumType: type, value: enumText, ignoreCase: true);
+        }
+
+        private string SerializeValue(string value, Type type)
+        {
+            string v = value;
+            MemberInfo[] enumInfo = type.GetMember(v);
+
+            if (enumInfo != null && enumInfo.Length == 1)
+            {
+                EnumMemberAttribute att = (EnumMemberAttribute)Attribute.GetCustomAttribute(enumInfo[0], typeof(EnumMemberAttribute));
+                if (att != null) { return att.Value; }
+            }
+
+            if (OutputSplitWords != null)
+            {
+                v = v.CamelCaseToRegular(OutputSplitWords);
             }
 
             switch (OutputCase)
@@ -237,12 +297,7 @@ namespace Koopman.CheckPoint.Json
                     break;
             }
 
-            writer.WriteValue(v);
-        }
-
-        private static bool GetIsNullable(Type objectType)
-        {
-            return (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+            return v;
         }
 
         #endregion Methods

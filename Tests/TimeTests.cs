@@ -92,12 +92,25 @@ namespace Tests
             a.Start = new System.DateTime(2018, 01, 01, 00, 00, 00);
             a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
             a.Recurrence.Pattern = Time.RecurrencePattern.Weekly;
-            a.Recurrence.Weekdays = Days.Mon | Days.Wed | Days.Fri;
+            a.Recurrence.Weekdays = Days.Monday | Days.Wednesday | Days.Friday;
             Assert.IsTrue(a.IsChanged);
             a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
-            Assert.AreEqual(Days.Mon | Days.Wed | Days.Fri, a.Recurrence.Weekdays);
+            Assert.AreEqual(Days.Monday | Days.Wednesday | Days.Friday, a.Recurrence.Weekdays);
+        }
+
+        [TestMethod]
+        public void Set2()
+        {
+            var a = Session.FindTime(SetName);
+            a.Recurrence.Pattern = Time.RecurrencePattern.Monthly;
+            a.Recurrence.Month = Months.May;
+            a.Recurrence.Days.Add("1");
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(Months.May, a.Recurrence.Month);
         }
 
         #endregion Methods

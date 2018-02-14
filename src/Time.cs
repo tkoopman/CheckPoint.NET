@@ -114,7 +114,7 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
-        [JsonConverter(typeof(EnumConverter), StringCases.NoChange)]
+        [JsonConverter(typeof(EnumConverter))]
         public enum RecurrencePattern
         {
             Daily,
@@ -136,7 +136,7 @@ namespace Koopman.CheckPoint
         {
             #region Fields
 
-            private string _month;
+            private Months _month;
             private RecurrencePattern _pattern;
             private Days _weekdays;
 
@@ -144,10 +144,12 @@ namespace Koopman.CheckPoint
 
             #region Properties
 
+            [JsonProperty(PropertyName = "days")]
             public SimpleListChangeTracking<string> Days { get; } = new SimpleListChangeTracking<string>();
 
             [JsonProperty(PropertyName = "month")]
-            public string Month
+            [JsonConverter(typeof(EnumConverter))]
+            public Months Month
             {
                 get => _month;
                 set
@@ -169,7 +171,6 @@ namespace Koopman.CheckPoint
             }
 
             [JsonProperty(PropertyName = "weekdays")]
-            [JsonConverter(typeof(FlagsConverter))]
             public Days Weekdays
             {
                 get => _weekdays;

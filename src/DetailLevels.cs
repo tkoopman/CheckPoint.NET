@@ -29,7 +29,7 @@ namespace Koopman.CheckPoint
     /// For standard Find methods Detail Level will be for related objects. Like groups and tags. For
     /// FindAll methods is is the actual Detail Level of the main objects returned.
     /// </remarks>
-    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase)]
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum DetailLevels
     {
         // Not currently allowing UID option

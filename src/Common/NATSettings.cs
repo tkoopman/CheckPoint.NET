@@ -47,14 +47,14 @@ namespace Koopman.CheckPoint.Common
 
         #region Enums
 
-        [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, "-")]
+        [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, "-")]
         public enum HideBehindValues
         {
             Gateway,
             IPAddress
         }
 
-        [JsonConverter(typeof(EnumConverter), StringCases.Lowercase)]
+        [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
         public enum NATMethods
         {
             Hide,

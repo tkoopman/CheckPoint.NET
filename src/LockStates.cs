@@ -26,7 +26,7 @@ namespace Koopman.CheckPoint
     /// Meta Info - Lock States
     /// </summary>
     /// <remarks>It's not allowed to edit objects locked by other session.</remarks>
-    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ")]
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
     public enum LockStates
     {
         Unlocked,

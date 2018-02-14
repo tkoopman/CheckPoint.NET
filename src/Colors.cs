@@ -25,7 +25,7 @@ namespace Koopman.CheckPoint
     /// <summary>
     /// List of valid Check Point object colors
     /// </summary>
-    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ")]
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
     public enum Colors
     {
         Aquamarine,
