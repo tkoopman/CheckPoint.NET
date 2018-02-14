@@ -60,6 +60,9 @@
     <Compile Include="AddressRangeTests.cs" />
     <Compile Include="BadSessionTests.cs" />
     <Compile Include="NetworkTests.cs" />
+    <Compile Include="TimeTests.cs" />
+    <Compile Include="TimeRangeTests.cs" />
+    <Compile Include="TimeOfDayTests.cs" />
     <Compile Include="SubnetMaskTest.cs" />
     <Compile Include="GroupWithExclusionTests.cs" />
     <Compile Include="SecurityZoneTests.cs" />

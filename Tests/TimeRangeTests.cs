@@ -18,55 +18,54 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
-using Newtonsoft.Json;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace Koopman.CheckPoint.SimpleGatewaySettings
+namespace Tests
 {
-    public class TopologySettings : SimpleChangeTracking
+    /// <summary>
+    /// Summary description for SubnetMaskTest
+    /// </summary>
+    [TestClass]
+    public class TimeRangeTests
     {
-        #region Fields
-
-        private bool _interfaceLeadsToDMZ;
-        private TopologyBehind _ipAddressBehindThisInterface;
-        private string _specificNetwork;
-
-        #endregion Fields
-
         #region Properties
 
-        [JsonProperty(PropertyName = "interface-leads-to-dmz")]
-        public bool InterfaceLeadsToDMZ
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
         {
-            get => _interfaceLeadsToDMZ;
-            set
-            {
-                _interfaceLeadsToDMZ = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [JsonProperty(PropertyName = "ip-address-behind-this-interface")]
-        public TopologyBehind IPAddressBehindThisInterface
-        {
-            get => _ipAddressBehindThisInterface;
-            set
-            {
-                _ipAddressBehindThisInterface = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [JsonProperty(PropertyName = "specific-network")]
-        public string SpecificNetwork
-        {
-            get => _specificNetwork;
-            set
-            {
-                _specificNetwork = value;
-                OnPropertyChanged();
-            }
+            get;
+            set;
         }
 
         #endregion Properties
+
+        #region Methods
+
+        [TestMethod]
+        public void TimeTest1()
+        {
+            var t = new TimeOfDay(1, 30);
+            var r = new TimeRange(t, t + 45);
+            Assert.AreEqual(45, r.Duration);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TimeTest2()
+        {
+            new TimeRange(1, 0);
+        }
+
+        [TestMethod]
+        public void TimeTest3()
+        {
+            new TimeRange(1, 1);
+        }
+
+        #endregion Methods
     }
 }

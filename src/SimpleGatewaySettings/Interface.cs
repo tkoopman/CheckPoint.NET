@@ -53,7 +53,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _antiSpoofing = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -64,7 +64,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _antiSpoofingSettings = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -78,7 +78,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _ipv4Address = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -91,7 +91,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _ipv4MaskLength = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -114,7 +114,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _ipv6Address = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -127,7 +127,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _ipv6MaskLength = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -138,7 +138,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _name = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -157,7 +157,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _securityZoneSettings = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -170,7 +170,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _topology = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 
@@ -183,7 +183,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set
             {
                 _topologySettings = value;
-                IsChanged = true;
+                OnPropertyChanged();
             }
         }
 

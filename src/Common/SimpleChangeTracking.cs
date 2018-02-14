@@ -20,6 +20,7 @@
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Common
@@ -29,7 +30,7 @@ namespace Koopman.CheckPoint.Common
         #region Properties
 
         [JsonIgnore]
-        public virtual bool IsChanged { get; protected set; }
+        public virtual bool IsChanged { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is new.
@@ -54,28 +55,41 @@ namespace Koopman.CheckPoint.Common
             throw new NotImplementedException("Use AcceptChanges from Parent Object.");
         }
 
+        [OnDeserialized]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            IsDeserializing = false;
+            IsNew = false;
+            IsChanged = false;
+            OnDeserialized();
+        }
+
+        [OnDeserializing]
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
+            IsDeserializing = true;
+            OnDeserializing();
+        }
+
         protected virtual void OnDeserialized()
         {
-            IsChanged = false;
         }
 
         protected virtual void OnDeserializing()
         {
         }
 
-        [OnDeserialized]
-        private void OnDeserializedMethod(StreamingContext context)
+        /// <summary>
+        /// Should be called, by the property setter, when any property value is updated. Does not
+        /// need to be called for properties that implement IChangeTracking.
+        /// </summary>
+        /// <param name="propertyName">Name of the property being updated.</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            IsDeserializing = false;
-            IsNew = false;
-            OnDeserialized();
-        }
-
-        [OnDeserializing]
-        private void OnDeserializingMethod(StreamingContext context)
-        {
-            IsDeserializing = true;
-            OnDeserializing();
+            if (!IsDeserializing)
+            {
+                IsChanged = true;
+            }
         }
 
         #endregion Methods

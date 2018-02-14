@@ -97,7 +97,7 @@ namespace Koopman.CheckPoint.Common
         /// need to be called for properties that implement IChangeTracking.
         /// </summary>
         /// <param name="propertyName">Name of the property being updated.</param>
-        protected void OnPropertyChanged([CallerMemberName] String propertyName = "")
+        protected override void OnPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (!IsDeserializing && !IsPropertyChanged(propertyName))
             {

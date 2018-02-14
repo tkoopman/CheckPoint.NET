@@ -17,43 +17,30 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
 using System.ComponentModel;
 
 namespace Koopman.CheckPoint.Common
 {
-    public class ListChangeTracking<T> : SimpleListChangeTracking<T> where T : IChangeTracking
+    [ImmutableObject(true)]
+    public class TimeRange
     {
+        #region Constructors
+
+        public TimeRange(TimeOfDay start, TimeOfDay end)
+        {
+            if (start > end) throw new ArgumentOutOfRangeException(nameof(end), "End must be greater than start");
+            Start = start;
+            End = end;
+        }
+
+        #endregion Constructors
+
         #region Properties
 
-        /// <summary>
-        /// Gets the object's changed status.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if any properties have been changed or if any contained
-        /// MembershipChangeTracking properties have had membership modifications.
-        /// </value>
-        public override bool IsChanged
-        {
-            get
-            {
-                if (base.IsChanged)
-                {
-                    return true;
-                }
-                else
-                {
-                    foreach (var i in this)
-                    {
-                        if (i.IsChanged)
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
-        }
+        public short Duration { get => (short)((short)End - (short)Start); }
+        public TimeOfDay End { get; }
+        public TimeOfDay Start { get; }
 
         #endregion Properties
     }

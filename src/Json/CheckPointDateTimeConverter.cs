@@ -29,11 +29,26 @@ namespace Koopman.CheckPoint.Json
     /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class CheckPointDateTimeConverter : JsonConverter
     {
+        #region Constructors
+
+        public CheckPointDateTimeConverter() : this(false)
+        {
+        }
+
+        public CheckPointDateTimeConverter(bool ignoreTimeZone)
+        {
+            IgnoreTimeZone = ignoreTimeZone;
+        }
+
+        #endregion Constructors
+
         #region Properties
 
         public override bool CanRead => true;
 
-        public override bool CanWrite => false;
+        public override bool CanWrite => true;
+
+        public bool IgnoreTimeZone { get; }
 
         #endregion Properties
 
@@ -48,14 +63,48 @@ namespace Koopman.CheckPoint.Json
         {
             JObject obj = serializer.Deserialize<JObject>(reader);
 
-            DateTime result = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            return result.AddMilliseconds((long)obj["posix"]).ToLocalTime();
+            if (IgnoreTimeZone)
+            {
+                DateTime result = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Unspecified);
+                return result.AddMilliseconds((long)obj["posix"]);
+            }
+            else
+            {
+                DateTime result = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                return result.AddMilliseconds((long)obj["posix"]).ToLocalTime();
+            }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            DateTime dt = (DateTime)value;
+
+            string format = (IgnoreTimeZone) ? "yyyy-MM-ddTHH:mm:ss" : "yyyy-MM-ddTHH:mm:sszzz";
+
+            writer.WriteStartObject();
+            writer.WritePropertyName("iso-8601");
+            writer.WriteValue(dt.ToString(format));
+            writer.WriteEndObject();
         }
+
+        /* Was going to use posix but found CheckPoint changed the values sometimes
+                public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+                {
+                    DateTime dt = (DateTime)value;
+
+                    if (!IgnoreTimeZone)
+                    {
+                        dt = dt.ToUniversalTime();
+                    }
+
+                    TimeSpan ts = dt - new DateTime(1970, 1, 1, 0, 0, 0, 0, dt.Kind);
+
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("posix");
+                    writer.WriteValue((long)ts.TotalMilliseconds);
+                    writer.WriteEndObject();
+                }
+        */
 
         #endregion Methods
     }

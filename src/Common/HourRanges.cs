@@ -17,56 +17,46 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 
-namespace Koopman.CheckPoint.SimpleGatewaySettings
+namespace Koopman.CheckPoint.Common
 {
-    public class TopologySettings : SimpleChangeTracking
+    [JsonConverter(typeof(HourRangesConverter))]
+    public class HourRanges : SimpleChangeTracking
     {
         #region Fields
 
-        private bool _interfaceLeadsToDMZ;
-        private TopologyBehind _ipAddressBehindThisInterface;
-        private string _specificNetwork;
+        public const int Size = 3;
+
+        private TimeRange[] items = new TimeRange[Size];
 
         #endregion Fields
 
-        #region Properties
+        #region Indexers
 
-        [JsonProperty(PropertyName = "interface-leads-to-dmz")]
-        public bool InterfaceLeadsToDMZ
+        public TimeRange this[int index]
         {
-            get => _interfaceLeadsToDMZ;
+            get => items[index];
             set
             {
-                _interfaceLeadsToDMZ = value;
+                items[index] = value;
                 OnPropertyChanged();
             }
         }
 
-        [JsonProperty(PropertyName = "ip-address-behind-this-interface")]
-        public TopologyBehind IPAddressBehindThisInterface
+        #endregion Indexers
+
+        #region Methods
+
+        protected override void OnDeserializing()
         {
-            get => _ipAddressBehindThisInterface;
-            set
+            for (int i = 0; i < Size; i++)
             {
-                _ipAddressBehindThisInterface = value;
-                OnPropertyChanged();
+                items[i] = null;
             }
         }
 
-        [JsonProperty(PropertyName = "specific-network")]
-        public string SpecificNetwork
-        {
-            get => _specificNetwork;
-            set
-            {
-                _specificNetwork = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion Properties
+        #endregion Methods
     }
 }
