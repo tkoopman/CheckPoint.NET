@@ -21,6 +21,7 @@ using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 
 namespace Koopman.CheckPoint
 {
@@ -28,12 +29,13 @@ namespace Koopman.CheckPoint
     {
         #region Constructors
 
-        public Time(Session session) : base(session, DetailLevels.Full)
+        public Time(Session session) : this(session, DetailLevels.Full)
         {
         }
 
         protected internal Time(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
+            _groups = new ObjectMembershipChangeTracking<TimeGroup>(this);
         }
 
         #endregion Constructors
@@ -42,6 +44,7 @@ namespace Koopman.CheckPoint
 
         private DateTime _end;
         private bool _endNever;
+        private ObjectMembershipChangeTracking<TimeGroup> _groups;
         private RecurrenceClass _recurrence;
         private DateTime _start;
         private bool _startNow;
@@ -71,6 +74,14 @@ namespace Koopman.CheckPoint
                 _endNever = value;
                 OnPropertyChanged();
             }
+        }
+
+        [JsonProperty(PropertyName = "groups")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public ObjectMembershipChangeTracking<TimeGroup> Groups
+        {
+            get => _groups;
+            internal set => _groups = value;
         }
 
         [JsonProperty(PropertyName = "hours-ranges")]

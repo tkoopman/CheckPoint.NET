@@ -1349,6 +1349,114 @@ namespace Koopman.CheckPoint
 
         #endregion Time Methods
 
+        #region TimeGroup Methods
+
+        /// <summary>
+        /// Deletes a time-group.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        public void DeleteTimeGroup
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-time-group",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all time-groups.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of TimeGroups</returns>
+        public NetworkObjectsPagingResults<TimeGroup> FindAllTimeGroups
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<TimeGroup>
+                (
+                    Session: this,
+                    Command: "show-time-groups",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all time-groups that match filter.
+        /// </summary>
+        /// <param name="session">The active session to management server.</param>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of TimeGroups</returns>
+        public NetworkObjectsPagingResults<TimeGroup> FindAllTimeGroups
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<TimeGroup>
+                (
+                    Session: this,
+                    Type: "time-group",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a time-group.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>TimeGroup object</returns>
+        public TimeGroup FindTimeGroup
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<TimeGroup>
+                (
+                    Session: this,
+                    Command: "show-time-group",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion TimeGroup Methods
+
         #endregion Object Methods
     }
 }

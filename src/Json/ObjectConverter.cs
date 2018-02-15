@@ -125,6 +125,10 @@ namespace Koopman.CheckPoint.Json
                     result = (existingValue == null) ? new Time(_Session, GetDetailLevel(reader)) : (Time)existingValue;
                     break;
 
+                case "time-group":
+                    result = (existingValue == null) ? new TimeGroup(_Session, GetDetailLevel(reader)) : (TimeGroup)existingValue;
+                    break;
+
                 case "":
                     // Not sure what to do with these like 'Trust_all_action' group returned with
                     // AddressRange 'LocalMachine_Loopback'

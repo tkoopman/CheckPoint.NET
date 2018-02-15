@@ -35,7 +35,7 @@ namespace Koopman.CheckPoint.Internal
                 { "details-level", DetailLevel.ToString() },
                 { "limit", Limit },
                 { "offset", Offset },
-                { "order", new IOrder[] { Order } }
+                { "order", (Order == null)? null:new IOrder[] { Order } }
             };
 
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);

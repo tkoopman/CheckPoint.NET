@@ -23,14 +23,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests
 {
     [TestClass]
-    public class TimeTests : StandardTestsBase
+    public class TimeGroupTests : StandardTestsBase
     {
         #region Fields
 
-        private static readonly string Filter = "Day";
-        private static readonly string GroupName = "TimeGroup";
-        private static readonly string Name = "Off_Work";
-        private static readonly string SetName = "Temp Access";
+        private static readonly string Add = "Weekend";
+        private static readonly string Name = "TimeGroup";
 
         #endregion Fields
 
@@ -39,14 +37,15 @@ namespace Tests
         [TestMethod]
         public void Find()
         {
-            var a = Session.FindTime(Name);
+            var a = Session.FindTimeGroup(Name);
             Assert.IsNotNull(a);
+            Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllTimes(limit: 5, order: Time.Order.NameAsc);
+            var a = Session.FindAllTimeGroups(limit: 5);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -54,7 +53,9 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllTimes(filter: Filter, limit: 5, order: Time.Order.NameAsc);
+            string filter = Name.Substring(0, 3);
+
+            var a = Session.FindAllTimeGroups(filter: filter, limit: 5);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -62,21 +63,13 @@ namespace Tests
         [TestMethod]
         public void New()
         {
-            string name = $"NoTime";
+            string name = $"{Name}2";
 
-            var a = new Time(Session)
+            var a = new TimeGroup(Session)
             {
                 Name = name,
                 Color = Colors.Red
             };
-
-            a.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange(new Koopman.CheckPoint.Common.TimeOfDay("03:00"), new Koopman.CheckPoint.Common.TimeOfDay("04:00"));
-            a.StartNow = true;
-            a.Start = new System.DateTime(2019, 01, 01, 00, 00, 00);
-            a.EndNever = false;
-            a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
-
-            a.Groups.Add(GroupName);
 
             Assert.IsTrue(a.IsNew);
             a.AcceptChanges();
@@ -87,34 +80,37 @@ namespace Tests
         [TestMethod]
         public void Set()
         {
-            string set = $"NoTime";
-            var a = Session.FindTime(SetName);
-            a.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange(new Koopman.CheckPoint.Common.TimeOfDay("03:00"), new Koopman.CheckPoint.Common.TimeOfDay("04:00"));
-            a.AcceptChanges();
+            string set = $"{Name}2";
+
+            var a = Session.FindTimeGroup(Name);
             a.Name = set;
-            a.Start = new System.DateTime(2018, 01, 01, 00, 00, 00);
-            a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
-            a.Recurrence.Pattern = Time.RecurrencePattern.Weekly;
-            a.Recurrence.Weekdays = Days.Monday | Days.Wednesday | Days.Friday;
             Assert.IsTrue(a.IsChanged);
             a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
-            Assert.AreEqual(Days.Monday | Days.Wednesday | Days.Friday, a.Recurrence.Weekdays);
         }
 
         [TestMethod]
-        public void Set2()
+        public void SetMembers()
         {
-            var a = Session.FindTime(SetName);
-            a.Recurrence.Pattern = Time.RecurrencePattern.Monthly;
-            a.Recurrence.Month = Months.May;
-            a.Recurrence.Days.Add("1");
-            a.Groups.Add(GroupName);
+            var a = Session.FindTimeGroup(Name);
+            a.Members.Clear();
             Assert.IsTrue(a.IsChanged);
             a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(Months.May, a.Recurrence.Month);
+            Assert.AreEqual(0, a.Members.Count);
+
+            a.Members.Add(Add);
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(1, a.Members.Count);
+
+            a.Members.Remove(a.Members[0]);
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(0, a.Members.Count);
         }
 
         #endregion Methods
