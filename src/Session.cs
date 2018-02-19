@@ -20,15 +20,20 @@
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Internal;
+using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Text;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -219,6 +224,18 @@ namespace Koopman.CheckPoint
 
         internal string Post(string command, string json)
         {
+            try
+            {
+                return PostAsync(command, json).Result;
+            }
+            catch (Exception e)
+            {
+                throw e.InnerException ?? e;
+            }
+        }
+
+        internal async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default(CancellationToken))
+        {
             if (_isDisposed)
             {
                 throw new ObjectDisposedException("Session", "This session has already been disposed!");
@@ -227,8 +244,8 @@ namespace Koopman.CheckPoint
 
             if (DebugWriter != null)
             {
-                DebugWriter.WriteLine($" Posting Command: {command} ".CenterString(60, '-'));
-                DebugWriter.WriteLine(json);
+                DebugWriter.WriteLine($@"{$" Posting Command: {command} ".CenterString(60, '-')}
+{json}");
             }
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -237,21 +254,30 @@ namespace Koopman.CheckPoint
                 content.Headers.Add("X-chkp-sid", SID);
             }
 
-            using (HttpResponseMessage response = GetHttpClient().PostAsync(command, content).Result)
+            HttpResponseMessage response = await GetHttpClient().PostAsync(command, content, cancellationToken);
+
+            try
             {
-                result = response.Content.ReadAsStringAsync().Result;
+                result = await response.Content.ReadAsStringAsync();
 
                 if (DebugWriter != null)
                 {
-                    DebugWriter.WriteLine($" HTTP response {response.StatusCode} ".CenterString(60, '-'));
-                    DebugWriter.WriteLine(result);
-                    DebugWriter.WriteLine("".CenterString(60, '-'));
+                    DebugWriter.WriteLine(
+                        $@"{$" HTTP response {response.StatusCode} ".CenterString(60, '-')}
+{result}
+{"".CenterString(60, '-')}"
+
+                    );
                 }
 
                 if (!response.IsSuccessStatusCode)
                 {
                     throw CheckPointError.CreateException(result, response.StatusCode);
                 }
+            }
+            finally
+            {
+                response.Dispose();
             }
 
             return result;
@@ -1458,5 +1484,96 @@ namespace Koopman.CheckPoint
         #endregion TimeGroup Methods
 
         #endregion Object Methods
+
+        #region Misc. Methods
+
+        #region Task Methods
+
+        /// <summary>
+        /// Finds task.
+        /// </summary>
+        /// <param name="taskID">The task identifier.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <returns>Task Array</returns>
+        public Task FindTask
+            (
+                string taskID
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "task-id", taskID },
+                { "details-level", DetailLevels.Full }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+
+            string result = this.Post("show-task", jsonData);
+
+            JObject results = JsonConvert.DeserializeObject<JObject>(result);
+            JArray array = (JArray)results.GetValue("tasks");
+
+            Task[] tasks = JsonConvert.DeserializeObject<Task[]>(array.ToString(), new JsonSerializerSettings() { Converters = { new SessionConstructorConverter(this) } });
+
+            return tasks?[0];
+        }
+
+        public IReadOnlyDictionary<string, string> RunScript(
+                string scriptName,
+                string script,
+                string args,
+                string[] targets,
+                string comments = null
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "script-name", scriptName },
+                { "script", script },
+                { "args", args },
+                { "targets", targets },
+                { "comments", comments }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+
+            string result = this.Post("run-script", jsonData);
+
+            JObject results = JsonConvert.DeserializeObject<JObject>(result);
+            JArray array = (JArray)results.GetValue("tasks");
+
+            Dictionary<string, string> dicResults = new Dictionary<string, string>();
+
+            foreach (var r in array)
+            {
+                JObject j = r as JObject;
+                dicResults.Add(j.GetValue("target").ToString(), j.GetValue("task-id").ToString());
+            }
+
+            return new ReadOnlyDictionary<string, string>(dicResults);
+        }
+
+        public string RunScript(
+                string scriptName,
+                string script,
+                string args,
+                string target,
+                string comments = null
+            )
+        {
+            IReadOnlyDictionary<string, string> results = RunScript(
+                    scriptName,
+                    script,
+                    args,
+                    new string[] { target },
+                    comments
+                );
+
+            return results?.Values.First();
+        }
+
+        #endregion Task Methods
+
+        #endregion Misc. Methods
     }
 }
