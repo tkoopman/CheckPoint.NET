@@ -144,15 +144,17 @@ namespace Koopman.CheckPoint
 
         #region Session Methods
 
-        public void ContinueSessionInSmartconsole()
+        public void ContinueSessionInSmartconsole(string uid = null)
         {
-            Post("continue-session-in-smartconsole", "{}");
-            Dispose();
+            string jsonData = UIDToJson(uid);
+            Post("continue-session-in-smartconsole", jsonData);
+            if (uid == null || uid.Equals(UID)) { Dispose(); }
         }
 
-        public void Discard()
+        public void Discard(string uid = null)
         {
-            Post("discard", "{}");
+            string jsonData = UIDToJson(uid);
+            Post("discard", jsonData);
         }
 
         public void Dispose()
@@ -172,9 +174,10 @@ namespace Koopman.CheckPoint
             Dispose();
         }
 
-        public void Publish()
+        public void Publish(string uid = null)
         {
-            Post("publish", "{}");
+            string jsonData = UIDToJson(uid);
+            Post("publish", jsonData);
         }
 
         public void SendKeepAlive()
@@ -286,6 +289,14 @@ namespace Koopman.CheckPoint
         internal void WriteDebug(string message)
         {
             DebugWriter?.WriteLine(message);
+        }
+
+        private string UIDToJson(string uid)
+        {
+            JObject jObject = new JObject();
+            if (uid != null) { jObject.Add("uid", uid); }
+            string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting); ;
+            return jsonData;
         }
 
         #endregion Session Methods
