@@ -1585,6 +1585,55 @@ namespace Koopman.CheckPoint
 
         #endregion Task Methods
 
+        #region Policy Methods
+
+        public string InstallPolicy(
+            string policy,
+            string[] targets,
+            bool access,
+            bool threatPrevention,
+            bool installOnAllClusterMembersOrFail = true,
+            bool prepareOnly = false,
+            string revision = null)
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "policy-package", policy },
+                { "targets", targets },
+                { "access", access },
+                { "threat-prevention", threatPrevention },
+                { "install-on-all-cluster-members-or-fail", installOnAllClusterMembersOrFail },
+                { "prepare-only", prepareOnly },
+                { "revision", revision }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+
+            string result = this.Post("install-policy", jsonData);
+
+            JObject taskID = JsonConvert.DeserializeObject<JObject>(result);
+
+            return taskID.GetValue("task-id")?.ToString();
+        }
+
+        public string VerifyPolicy(string policy)
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "policy-package", policy }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+
+            string result = this.Post("verify-policy", jsonData);
+
+            JObject taskID = JsonConvert.DeserializeObject<JObject>(result);
+
+            return taskID.GetValue("task-id")?.ToString();
+        }
+
+        #endregion Policy Methods
+
         #endregion Misc. Methods
     }
 }
