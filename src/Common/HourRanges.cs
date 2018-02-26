@@ -22,11 +22,18 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Contains the Hour Ranges of a Time object
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.SimpleChangeTracking" />
     [JsonConverter(typeof(HourRangesConverter))]
     public class HourRanges : SimpleChangeTracking
     {
         #region Fields
 
+        /// <summary>
+        /// The number of hour ranges allowed
+        /// </summary>
         public const int Size = 3;
 
         private TimeRange[] items = new TimeRange[Size];
@@ -35,6 +42,12 @@ namespace Koopman.CheckPoint.Common
 
         #region Indexers
 
+        /// <summary>
+        /// Gets or sets the <see cref="TimeRange" /> at the specified index.
+        /// </summary>
+        /// <value>The <see cref="TimeRange" />.</value>
+        /// <param name="index">The index.</param>
+        /// <returns>The <see cref="TimeRange" /></returns>
         public TimeRange this[int index]
         {
             get => items[index];
@@ -49,8 +62,12 @@ namespace Koopman.CheckPoint.Common
 
         #region Methods
 
+        /// <summary>
+        /// Called when deserializing.
+        /// </summary>
         protected override void OnDeserializing()
         {
+            // Clear existing TimeRanges before Deserializing
             for (int i = 0; i < Size; i++)
             {
                 items[i] = null;

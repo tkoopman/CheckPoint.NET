@@ -40,12 +40,8 @@ namespace Koopman.CheckPoint.Common
         #region Properties
 
         /// <summary>
-        /// Gets the object's changed status.
+        /// Gets the object's changed status. Includes checking status of all IChangeTracking properties.
         /// </summary>
-        /// <value>
-        /// <c>true</c> if any properties have been changed or if any contained
-        /// MembershipChangeTracking properties have had membership modifications.
-        /// </value>
         public override bool IsChanged
         {
             get
@@ -77,24 +73,35 @@ namespace Koopman.CheckPoint.Common
 
         #region Methods
 
+        /// <summary>
+        /// Gets array of properties that have been changed.
+        /// </summary>
+        /// <returns>Array of property names</returns>
         protected internal string[] getChangedProperties()
         {
             return ChangedProperties.ToArray();
         }
 
+        /// <summary>
+        /// Determines whether a specific property has been changed.
+        /// </summary>
+        /// <param name="propertyName">Name of the property to check.</param>
+        /// <returns><c>true</c> if the property has been changed; otherwise, <c>false</c>.</returns>
         protected internal bool IsPropertyChanged(string propertyName)
         {
             return ChangedProperties.Contains(propertyName);
         }
 
+        /// <summary>
+        /// Called when deserialized.
+        /// </summary>
         protected override void OnDeserialized()
         {
             ChangedProperties.Clear();
         }
 
         /// <summary>
-        /// Should be called, by the property setter, when any property value is updated. Does not
-        /// need to be called for properties that implement IChangeTracking.
+        /// Should be called, by the property setter, when any property value is updated.
         /// </summary>
         /// <param name="propertyName">Name of the property being updated.</param>
         protected override void OnPropertyChanged([CallerMemberName] String propertyName = "")

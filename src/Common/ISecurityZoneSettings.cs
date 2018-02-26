@@ -22,6 +22,9 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Empty Interface to identify Security Zone settings classes
+    /// </summary>
     [JsonConverter(typeof(ISecurityZoneSettingsConverter))]
     public interface ISecurityZoneSettings { }
 }

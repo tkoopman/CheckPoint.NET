@@ -22,6 +22,11 @@ using System.Collections.Generic;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Result from methods that return multiple Network Objects.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectsPagingResults{T}" />
     public class NetworkObjectsPagingResults<T> : ObjectsPagingResults<T>
     {
         #region Properties

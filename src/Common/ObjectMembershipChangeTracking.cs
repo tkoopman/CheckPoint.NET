@@ -19,6 +19,12 @@
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Track adds and removes of membership objects when members are of type ObjectSummary. Used
+    /// when Check Point API supports these methods.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="Koopman.CheckPoint.Common.MembershipChangeTracking{T}" />
     public class ObjectMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : ObjectSummary
     {
         #region Constructors
@@ -31,6 +37,10 @@ namespace Koopman.CheckPoint.Common
 
         #region Methods
 
+        /// <summary>
+        /// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// </summary>
+        /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         public override void Add(T item)
         {
             if (IsDeserializing)
@@ -44,6 +54,16 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// </summary>
+        /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
+        /// <returns>
+        /// true if <paramref name="item">item</paramref> was successfully removed from the <see
+        /// cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This method
+        /// also returns false if <paramref name="item">item</paramref> is not found in the original
+        /// <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// </returns>
         public override bool Remove(T item)
         {
             if (item == null) { return false; }

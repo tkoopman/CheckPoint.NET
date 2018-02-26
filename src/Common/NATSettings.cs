@@ -23,6 +23,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Network Object's NAT Settings
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
     [JsonConverter(typeof(NATSettingsConverter))]
     public class NATSettings : ChangeTracking
     {
@@ -47,6 +51,9 @@ namespace Koopman.CheckPoint.Common
 
         #region Enums
 
+        /// <summary>
+        /// Hide Behind Gateway or IP
+        /// </summary>
         [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, "-")]
         public enum HideBehindValues
         {
@@ -54,6 +61,9 @@ namespace Koopman.CheckPoint.Common
             IPAddress
         }
 
+        /// <summary>
+        /// NAT Method to use
+        /// </summary>
         [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
         public enum NATMethods
         {
@@ -65,6 +75,9 @@ namespace Koopman.CheckPoint.Common
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets whether to add automatic address translation rules
+        /// </summary>
         [JsonProperty(PropertyName = "auto-rule")]
         public bool AutoRule
         {
@@ -76,6 +89,9 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hide behind method.
+        /// </summary>
         [JsonProperty(PropertyName = "hide-behind")]
         public HideBehindValues HideBehind
         {
@@ -87,6 +103,9 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
+        /// <summary>
+        /// Gets or sets which gateway should apply the NAT translation.
+        /// </summary>
         [JsonProperty(PropertyName = "install-on")]
         public string InstallOn
         {
@@ -98,6 +117,9 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv4 address.
+        /// </summary>
         [JsonProperty(PropertyName = "ipv4-address")]
         [JsonConverter(typeof(IPAddressConverter))]
         public IPAddress IPv4Address
@@ -110,6 +132,9 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPV6 address.
+        /// </summary>
         [JsonProperty(PropertyName = "ipv6-address")]
         [JsonConverter(typeof(IPAddressConverter))]
         public IPAddress IPv6Address
@@ -122,6 +147,9 @@ namespace Koopman.CheckPoint.Common
             }
         }
 
+        /// <summary>
+        /// Gets or sets the NAT translation method.
+        /// </summary>
         [JsonProperty(PropertyName = "method")]
         public NATMethods Method
         {
@@ -134,14 +162,5 @@ namespace Koopman.CheckPoint.Common
         }
 
         #endregion Properties
-
-        #region Methods
-
-        public override void AcceptChanges()
-        {
-            throw new System.NotImplementedException("Use AcceptChanges from Parent Object.");
-        }
-
-        #endregion Methods
     }
 }

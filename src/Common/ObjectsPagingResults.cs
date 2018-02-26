@@ -65,6 +65,12 @@ namespace Koopman.CheckPoint.Common
 
         #region Indexers
 
+        /// <summary>
+        /// Gets the <see cref="T" /> at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public T this[int index] { get => ((IList<T>)_Objects)[index]; set { throw new System.NotImplementedException($"Read-Only"); } }
 
         #endregion Indexers
@@ -89,6 +95,9 @@ namespace Koopman.CheckPoint.Common
             return ((IEnumerable<T>)_Objects).GetEnumerator();
         }
 
+        /// <summary>
+        /// Gets the next page of results from management server.
+        /// </summary>
         public NetworkObjectsPagingResults<T> NextPage()
         {
             if (Next == null) { return null; }

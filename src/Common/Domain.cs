@@ -23,11 +23,21 @@ using System.ComponentModel;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Check Point Domain Information
+    /// </summary>
     public class Domain
     {
         #region Fields
 
+        /// <summary>
+        /// The Check Point Data domain
+        /// </summary>
         public readonly static Domain DataDomain = new Domain("Check Point Data", "a0bbbc99-adef-4ef8-bb6d-defdefdefdef", "data domain");
+
+        /// <summary>
+        /// The default Check Point SMC domain
+        /// </summary>
         public readonly static Domain Default = new Domain("SMC User", "41e821a0-3720-11e3-aa6e-0800200c9fde", "domain");
 
         #endregion Fields
@@ -57,7 +67,7 @@ namespace Koopman.CheckPoint.Common
         public string DomainType { get; private set; }
 
         /// <summary>
-        /// <para type="description">Object name. Should be unique in the domain.</para>
+        /// <para type="description">Domain Name.</para>
         /// </summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore, Order = 1)]
         [DefaultValue("SMC User")]

@@ -22,6 +22,10 @@ using System;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Ascending Order by provided property name
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.IOrder" />
     public class OrderAscending : IOrder
     {
         #region Constructors

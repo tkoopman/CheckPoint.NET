@@ -19,6 +19,9 @@
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Empty interface used to identify Classes that serialize the Order field
+    /// </summary>
     public interface IOrder
     {
     }

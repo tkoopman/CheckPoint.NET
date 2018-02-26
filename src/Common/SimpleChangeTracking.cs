@@ -25,10 +25,18 @@ using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Used to keep track if any properties have been changed. Does not track which properties have
+    /// changed, just that some have changed.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.IChangeTracking" />
     public abstract class SimpleChangeTracking : IChangeTracking
     {
         #region Properties
 
+        /// <summary>
+        /// Gets the object's changed status.
+        /// </summary>
         [JsonIgnore]
         public virtual bool IsChanged { get; private set; }
 
@@ -50,11 +58,18 @@ namespace Koopman.CheckPoint.Common
 
         #region Methods
 
+        /// <summary>
+        /// Resets the object’s state to unchanged by accepting the modifications.
+        /// </summary>
         public virtual void AcceptChanges()
         {
             throw new NotImplementedException("Use AcceptChanges from Parent Object.");
         }
 
+        /// <summary>
+        /// Called when deserialized.
+        /// </summary>
+        /// <param name="context">The context.</param>
         [OnDeserialized]
         internal void OnDeserializedMethod(StreamingContext context)
         {
@@ -64,6 +79,10 @@ namespace Koopman.CheckPoint.Common
             OnDeserialized();
         }
 
+        /// <summary>
+        /// Called when deserializing.
+        /// </summary>
+        /// <param name="context">The context.</param>
         [OnDeserializing]
         internal void OnDeserializingMethod(StreamingContext context)
         {
@@ -71,17 +90,22 @@ namespace Koopman.CheckPoint.Common
             OnDeserializing();
         }
 
+        /// <summary>
+        /// Called when deserialized.
+        /// </summary>
         protected virtual void OnDeserialized()
         {
         }
 
+        /// <summary>
+        /// Called when deserializing.
+        /// </summary>
         protected virtual void OnDeserializing()
         {
         }
 
         /// <summary>
-        /// Should be called, by the property setter, when any property value is updated. Does not
-        /// need to be called for properties that implement IChangeTracking.
+        /// Should be called, by the property setter, when any property value is updated.
         /// </summary>
         /// <param name="propertyName">Name of the property being updated.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = "")

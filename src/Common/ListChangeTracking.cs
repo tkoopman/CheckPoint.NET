@@ -21,6 +21,11 @@ using System.ComponentModel;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Used to keep track of changes to a List of IChangeTracking objects
+    /// </summary>
+    /// <typeparam name="T">Object of type IChangeTracking stored in List</typeparam>
+    /// <seealso cref="Koopman.CheckPoint.Common.SimpleListChangeTracking{T}" />
     public class ListChangeTracking<T> : SimpleListChangeTracking<T> where T : IChangeTracking
     {
         #region Properties

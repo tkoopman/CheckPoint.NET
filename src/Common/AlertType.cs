@@ -24,6 +24,9 @@ using static Koopman.CheckPoint.Json.EnumConverter;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Type of Check Point Alert to raise
+    /// </summary>
     [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ")]
     public enum AlertType
     {

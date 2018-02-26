@@ -22,11 +22,20 @@ using System.ComponentModel;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Time range between two TimeOfDay objects. Doesn't allow for Start being after End.
+    /// </summary>
     [ImmutableObject(true)]
     public class TimeRange
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimeRange" /> class.
+        /// </summary>
+        /// <param name="start">The start TimeOfDay.</param>
+        /// <param name="end">The end TimeOfDay.</param>
+        /// <exception cref="ArgumentOutOfRangeException">end - End must be greater than start</exception>
         public TimeRange(TimeOfDay start, TimeOfDay end)
         {
             if (start > end) throw new ArgumentOutOfRangeException(nameof(end), "End must be greater than start");
@@ -38,8 +47,19 @@ namespace Koopman.CheckPoint.Common
 
         #region Properties
 
+        /// <summary>
+        /// Gets the duration.
+        /// </summary>
         public short Duration { get => (short)((short)End - (short)Start); }
+
+        /// <summary>
+        /// Gets the end TimeOfDay.
+        /// </summary>
         public TimeOfDay End { get; }
+
+        /// <summary>
+        /// Gets the start TimeOfDay.
+        /// </summary>
         public TimeOfDay Start { get; }
 
         #endregion Properties

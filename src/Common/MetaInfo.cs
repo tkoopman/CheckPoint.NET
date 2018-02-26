@@ -23,27 +23,54 @@ using System;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Check Point Meta Information
+    /// </summary>
     public class MetaInfo
     {
         #region Properties
 
+        /// <summary>
+        /// Gets the creation time.
+        /// </summary>
+        /// <value>The creation time.</value>
         [JsonProperty(PropertyName = "creation-time")]
         [JsonConverter(typeof(CheckPointDateTimeConverter))]
         public DateTime CreationTime { get; private set; }
 
+        /// <summary>
+        /// Gets the creator.
+        /// </summary>
+        /// <value>The creator.</value>
         [JsonProperty(PropertyName = "creator")]
         public string Creator { get; private set; }
 
+        /// <summary>
+        /// Gets the last modifier.
+        /// </summary>
+        /// <value>The last modifier.</value>
         [JsonProperty(PropertyName = "last-modifier")]
         public string LastModifier { get; private set; }
 
+        /// <summary>
+        /// Gets the last modify time.
+        /// </summary>
+        /// <value>The last modify time.</value>
         [JsonProperty(PropertyName = "last-modify-time")]
         [JsonConverter(typeof(CheckPointDateTimeConverter))]
         public DateTime LastModifyTime { get; private set; }
 
+        /// <summary>
+        /// Gets the lock state.
+        /// </summary>
+        /// <value>The lock state.</value>
         [JsonProperty(PropertyName = "lock")]
         public LockStates Lock { get; private set; }
 
+        /// <summary>
+        /// Gets the state of the validation.
+        /// </summary>
+        /// <value>The state of the validation.</value>
         [JsonProperty(PropertyName = "validation-state")]
         public ValidationStates ValidationState { get; private set; }
 
