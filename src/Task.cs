@@ -111,7 +111,7 @@ namespace Koopman.CheckPoint
             /// <summary>
             /// <para type="description">Information about the domain the object belongs to..</para>
             /// </summary>
-            [JsonProperty(PropertyName = "domain")]
+            [JsonProperty(PropertyName = "domain", ObjectCreationHandling = ObjectCreationHandling.Replace)]
             public Domain Domain
             {
                 get; private set;

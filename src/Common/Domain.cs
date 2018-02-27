@@ -64,21 +64,21 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         [JsonProperty(PropertyName = "domain-type", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore, Order = 3)]
         [DefaultValue("domain")]
-        public string DomainType { get; private set; }
+        public string DomainType { get; }
 
         /// <summary>
         /// <para type="description">Domain Name.</para>
         /// </summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore, Order = 1)]
         [DefaultValue("SMC User")]
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// <para type="description">Object unique identifier.</para>
         /// </summary>
         [JsonProperty(PropertyName = "uid", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore, Order = 2)]
         [DefaultValue("41e821a0-3720-11e3-aa6e-0800200c9fde")]
-        public string UID { get; private set; }
+        public string UID { get; }
 
         #endregion Properties
 

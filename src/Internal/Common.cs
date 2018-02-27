@@ -23,6 +23,9 @@ using System.Text.RegularExpressions;
 
 namespace Koopman.CheckPoint.Internal
 {
+    /// <summary>
+    /// Common internal static methods
+    /// </summary>
     internal static class Common
     {
         #region Methods
@@ -69,6 +72,11 @@ namespace Koopman.CheckPoint.Internal
             return String.Join(separator, s);
         }
 
+        /// <summary>
+        /// Centers the string with spaces as padding.
+        /// </summary>
+        /// <param name="stringToCenter">The string to center.</param>
+        /// <param name="totalLength">The total length of result string.</param>
         internal static string CenterString(this string stringToCenter, int totalLength)
         {
             return stringToCenter.PadLeft(
@@ -76,6 +84,12 @@ namespace Koopman.CheckPoint.Internal
                   + stringToCenter.Length).PadRight(totalLength);
         }
 
+        /// <summary>
+        /// Centers the string.
+        /// </summary>
+        /// <param name="stringToCenter">The string to center.</param>
+        /// <param name="totalLength">The total length of result string.</param>
+        /// <param name="paddingCharacter">The padding character.</param>
         internal static string CenterString(this string stringToCenter,
                                                int totalLength,
                                                char paddingCharacter)

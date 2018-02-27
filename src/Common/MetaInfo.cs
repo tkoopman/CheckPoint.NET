@@ -28,6 +28,21 @@ namespace Koopman.CheckPoint.Common
     /// </summary>
     public class MetaInfo
     {
+        #region Constructors
+
+        [JsonConstructor]
+        private MetaInfo(DateTime creationTime, string creator, string lastModifier, DateTime lastModifyTime, LockStates @lock, ValidationStates validationState)
+        {
+            CreationTime = creationTime;
+            Creator = creator;
+            LastModifier = lastModifier;
+            LastModifyTime = lastModifyTime;
+            Lock = @lock;
+            ValidationState = validationState;
+        }
+
+        #endregion Constructors
+
         #region Properties
 
         /// <summary>
@@ -36,21 +51,21 @@ namespace Koopman.CheckPoint.Common
         /// <value>The creation time.</value>
         [JsonProperty(PropertyName = "creation-time")]
         [JsonConverter(typeof(CheckPointDateTimeConverter))]
-        public DateTime CreationTime { get; private set; }
+        public DateTime CreationTime { get; }
 
         /// <summary>
         /// Gets the creator.
         /// </summary>
         /// <value>The creator.</value>
         [JsonProperty(PropertyName = "creator")]
-        public string Creator { get; private set; }
+        public string Creator { get; }
 
         /// <summary>
         /// Gets the last modifier.
         /// </summary>
         /// <value>The last modifier.</value>
         [JsonProperty(PropertyName = "last-modifier")]
-        public string LastModifier { get; private set; }
+        public string LastModifier { get; }
 
         /// <summary>
         /// Gets the last modify time.
@@ -58,21 +73,21 @@ namespace Koopman.CheckPoint.Common
         /// <value>The last modify time.</value>
         [JsonProperty(PropertyName = "last-modify-time")]
         [JsonConverter(typeof(CheckPointDateTimeConverter))]
-        public DateTime LastModifyTime { get; private set; }
+        public DateTime LastModifyTime { get; }
 
         /// <summary>
         /// Gets the lock state.
         /// </summary>
         /// <value>The lock state.</value>
         [JsonProperty(PropertyName = "lock")]
-        public LockStates Lock { get; private set; }
+        public LockStates Lock { get; }
 
         /// <summary>
         /// Gets the state of the validation.
         /// </summary>
         /// <value>The state of the validation.</value>
         [JsonProperty(PropertyName = "validation-state")]
-        public ValidationStates ValidationState { get; private set; }
+        public ValidationStates ValidationState { get; }
 
         #endregion Properties
     }

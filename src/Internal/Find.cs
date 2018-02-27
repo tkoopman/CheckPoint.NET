@@ -23,10 +23,21 @@ using System.Collections.Generic;
 
 namespace Koopman.CheckPoint.Internal
 {
+    /// <summary>
+    /// Standard method called to find objects
+    /// </summary>
     internal static class Find
     {
         #region Methods
 
+        /// <summary>
+        /// Invokes the Find command.
+        /// </summary>
+        /// <typeparam name="T">Object type that should be returned</typeparam>
+        /// <param name="Session">The session.</param>
+        /// <param name="Command">The find command.</param>
+        /// <param name="Value">The name or UID of the object to find.</param>
+        /// <param name="DetailLevel">The detail level to be returned.</param>
         internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
         {
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
@@ -46,6 +57,9 @@ namespace Koopman.CheckPoint.Internal
 
         #region Classes
 
+        /// <summary>
+        /// Default values that should be used whereever Find class is used.
+        /// </summary>
         internal static class Defaults
         {
             #region Fields

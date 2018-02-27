@@ -90,7 +90,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// <para type="description">Object icon.</para>
         /// </summary>
-        [JsonProperty(PropertyName = "meta-info")]
+        [JsonProperty(PropertyName = "meta-info", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public MetaInfo MetaInfo
         {

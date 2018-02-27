@@ -42,24 +42,24 @@ namespace Koopman.CheckPoint.Exceptions
         /// <summary>
         /// <para type="description">Validation blocking-errors.</para>
         /// </summary>
-        public CheckPointErrorDetails[] BlockingErrors { get; private set; }
+        public CheckPointErrorDetails[] BlockingErrors { get; }
 
         /// <summary>
         /// <para type="description">Validation errors.</para>
         /// </summary>
-        public CheckPointErrorDetails[] Errors { get; private set; }
+        public CheckPointErrorDetails[] Errors { get; }
 
-        public HttpStatusCode HTTPStatusCode { get; private set; }
+        public HttpStatusCode HTTPStatusCode { get; }
 
         /// <summary>
         /// <para type="description">Validation warnings.</para>
         /// </summary>
-        public CheckPointErrorDetails[] Warnings { get; private set; }
+        public CheckPointErrorDetails[] Warnings { get; }
 
         /// <summary>
         /// <para type="description">Error code.</para>
         /// </summary>
-        internal CheckPointErrorCodes Code { get; set; }
+        internal CheckPointErrorCodes Code { get; }
 
         #endregion Properties
 

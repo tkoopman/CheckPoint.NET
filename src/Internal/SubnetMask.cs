@@ -22,10 +22,19 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Internal
 {
+    /// <summary>
+    /// Static subnet mask operations
+    /// </summary>
     internal static class SubnetMask
     {
         #region Methods
 
+        /// <summary>
+        /// Converts Mask Length to Subnet Mask.
+        /// </summary>
+        /// <param name="maskLength">Mask Length</param>
+        /// <returns>Subnet Mask</returns>
+        /// <exception cref="ArgumentException">Valid values 0 - 32 - maskLength</exception>
         internal static IPAddress MaskLengthToSubnetMask(int maskLength)
         {
             if (maskLength < 0 || maskLength > 32)
@@ -50,6 +59,12 @@ namespace Koopman.CheckPoint.Internal
             return new IPAddress(binaryMask);
         }
 
+        /// <summary>
+        /// Converts Subnet Mask to Mask Length
+        /// </summary>
+        /// <param name="subnetMask">The subnet mask.</param>
+        /// <returns>Mask Length</returns>
+        /// <exception cref="ArgumentException">Invalid subnet mask. - subnetMask</exception>
         internal static int SubnetMaskToMaskLength(IPAddress subnetMask)
         {
             try

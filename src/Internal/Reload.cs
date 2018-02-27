@@ -24,10 +24,23 @@ using System.Collections.Generic;
 
 namespace Koopman.CheckPoint.Internal
 {
+    /// <summary>
+    /// Standard method called to reload objects
+    /// </summary>
     internal static class Reload
     {
         #region Methods
 
+        /// <summary>
+        /// Invokes the reload.
+        /// </summary>
+        /// <param name="command">The show command to use to get refreshed data.</param>
+        /// <param name="obj">The object to be reloaded.</param>
+        /// <param name="OnlyIfPartial">
+        /// if set to <c>true</c> if reload should only be run if current DetailLevel is not Full.
+        /// </param>
+        /// <param name="detailLevel">The detail level to be returned.</param>
+        /// <exception cref="Exception">Cannot reload a new object.</exception>
         internal static void Invoke(string command, ObjectSummary obj, bool OnlyIfPartial, DetailLevels detailLevel)
         {
             if (obj.IsNew) { throw new Exception("Cannot reload a new object."); }
@@ -52,6 +65,9 @@ namespace Koopman.CheckPoint.Internal
 
         #region Classes
 
+        /// <summary>
+        /// Default values that should be used whereever Reload class is used.
+        /// </summary>
         internal static class Defaults
         {
             #region Fields

@@ -22,10 +22,20 @@ using Newtonsoft.Json.Linq;
 
 namespace Koopman.CheckPoint.Internal
 {
+    /// <summary>
+    /// Standard method called to delete objects
+    /// </summary>
     internal static class Delete
     {
         #region Methods
 
+        /// <summary>
+        /// Invokes the Delete.
+        /// </summary>
+        /// <param name="Session">The session.</param>
+        /// <param name="Command">The delete command.</param>
+        /// <param name="Value">The object name or UID.</param>
+        /// <param name="Ignore">The ignore setting.</param>
         internal static void Invoke(Session Session, string Command, string Value, Ignore Ignore)
         {
             JObject jo = new JObject
@@ -44,6 +54,9 @@ namespace Koopman.CheckPoint.Internal
 
         #region Classes
 
+        /// <summary>
+        /// Default values that should be used whereever Delete class is used.
+        /// </summary>
         internal static class Defaults
         {
             #region Fields

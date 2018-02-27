@@ -21,6 +21,10 @@ using System;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Thrown when current detail level of object is not high enough to complete current operation.
+    /// </summary>
+    /// <seealso cref="System.Exception" />
     public class DetailLevelException : Exception
     {
         #region Constructors
@@ -36,9 +40,9 @@ namespace Koopman.CheckPoint.Exceptions
 
         #region Properties
 
-        public DetailLevels Actual { get; private set; }
+        public DetailLevels Actual { get; }
 
-        public DetailLevels Required { get; private set; }
+        public DetailLevels Required { get; }
 
         #endregion Properties
     }

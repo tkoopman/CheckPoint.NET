@@ -24,10 +24,23 @@ using System.Collections.Generic;
 
 namespace Koopman.CheckPoint.Internal
 {
+    /// <summary>
+    /// Standard method called to find all objects of certain type
+    /// </summary>
     internal static class FindAll
     {
         #region Methods
 
+        /// <summary>
+        /// Invokes the FindAll command. This is the API commands like show-hosts
+        /// </summary>
+        /// <typeparam name="T">Object type that should be returned</typeparam>
+        /// <param name="Session">The session.</param>
+        /// <param name="Command">The FindAll command.</param>
+        /// <param name="DetailLevel">The detail level to be returned.</param>
+        /// <param name="Limit">The number of objects to be returned.</param>
+        /// <param name="Offset">The offset.</param>
+        /// <param name="Order">The sort order.</param>
         internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
         {
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
@@ -56,6 +69,19 @@ namespace Koopman.CheckPoint.Internal
             return results;
         }
 
+        /// <summary>
+        /// Invokes the FindAll using the show-objects API command.
+        /// </summary>
+        /// <typeparam name="T">Object type that should be returned</typeparam>
+        /// <param name="Session">The session.</param>
+        /// <param name="Type">The type of objects to return.</param>
+        /// <param name="Filter">The filter to be applied to search.</param>
+        /// <param name="IPOnly">if set to <c>true</c> ip only option will be sent.</param>
+        /// <param name="DetailLevel">The detail level to return.</param>
+        /// <param name="Limit">The number of objects to be returned.</param>
+        /// <param name="Offset">The offset.</param>
+        /// <param name="Order">The sort order.</param>
+        /// <returns></returns>
         internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
         {
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
@@ -91,6 +117,9 @@ namespace Koopman.CheckPoint.Internal
 
         #region Classes
 
+        /// <summary>
+        /// Default values that should be used whereever FindAll class is used.
+        /// </summary>
         internal static class Defaults
         {
             #region Fields

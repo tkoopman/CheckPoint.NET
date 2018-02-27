@@ -22,10 +22,18 @@ using System.Text.RegularExpressions;
 
 namespace Koopman.CheckPoint.Internal
 {
+    /// <summary>
+    /// Static internal Check Point related methods
+    /// </summary>
     internal static class CheckPoint
     {
         #region Methods
 
+        /// <summary>
+        /// Adds the ignore values to a request.
+        /// </summary>
+        /// <param name="jo">The request.</param>
+        /// <param name="ignore">The ignore setting.</param>
         internal static void AddIgnore(this JObject jo, Ignore ignore)
         {
             switch (ignore)
