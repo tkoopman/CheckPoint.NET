@@ -13,6 +13,9 @@ dotnet_csproj:
   file: '**\*.csproj'
   version: '{version}'
   package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 configuration: Release
 platform: Any CPU
 before_build:
@@ -31,4 +34,4 @@ test:
     only:
       - Tests.dll
 artifacts:
-  - path: '**\*.nupkg'
+  - path: 'src\**\*.nupkg'
