@@ -35,27 +35,6 @@ namespace Tests
 
         #region Methods
 
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-        }
-
-        [ClassInitialize]
-        public static void TestClassinitialize(TestContext context)
-        {
-            context.Properties.Remove("Password");
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-        }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-        }
-
         /// <summary>
         /// While one would expect this to throw LoginFailedWrongUsernameOrPasswordException
         /// Currently API only returns LoginFailedException
@@ -67,7 +46,7 @@ namespace Tests
             using (var session = new Session(
                 new SessionOptions()
                 {
-                    ManagementServer = TestContext.Properties["ManagementServer"].ToString(),
+                    ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer"),
                     User = "dummy",
                     Password = "***",
                     CertificateValidation = false

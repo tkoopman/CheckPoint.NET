@@ -48,9 +48,9 @@ namespace Tests
         [TestInitialize]
         public void InitializeTest()
         {
-            string ManagementServer = TestContext.Properties["ManagementServer"].ToString();
-            string User = TestContext.Properties["User"].ToString();
-            string Password = TestContext.Properties["Password"].ToString();
+            string ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
+            string User = TestContext.Properties["User"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtUser");
+            string Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
 
             Session = new Session(
                 new SessionOptions()

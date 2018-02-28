@@ -1,0 +1,32 @@
+version: 0.1.{build}
+skip_tags: true
+skip_commits:
+  message: /!build/
+image: Visual Studio 2017
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+configuration: Release
+platform: Any CPU
+before_build:
+- cmd: nuget restore
+build:
+  verbosity: minimal
+environment:
+  TestMgmtServer:
+    secure: UCJ1RE6XfDNrlnauuyM7wQ==
+  TestMgmtUser:
+    secure: G+bmyM6HBj6hQg0noejtiQ==
+  TestMgmtPassword:
+    secure: j5oFpdeVkXe0izAo73pe6Q==
+test:
+  assemblies:
+    only:
+      - Tests.dll
