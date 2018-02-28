@@ -21,10 +21,17 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// Simple Gateway Interface Anti Spoofing Settings
+    /// </summary>
     public class AntiSpoofing
     {
         #region Properties
 
+        /// <summary>
+        /// Gets or sets if packets will be rejected (the Prevent option) or whether the packets will
+        /// be monitored (the Detect option).
+        /// </summary>
         [JsonProperty(PropertyName = "action")]
         public AntiSpoofingAction Action { get; set; }
 

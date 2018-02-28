@@ -25,6 +25,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// Simple Gateway Interface Settings
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.SimpleChangeTracking" />
     public class Interface : SimpleChangeTracking
     {
         #region Fields
@@ -44,6 +48,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether anti spoofing is enabled.
+        /// </summary>
+        /// <value><c>true</c> if anti spoofing enabled; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "anti-spoofing")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AntiSpoofing
@@ -57,6 +65,9 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Anti spoofing settings.
+        /// </summary>
         [JsonProperty(PropertyName = "anti-spoofing-settings")]
         public AntiSpoofing AntiSpoofingSettings
         {
@@ -68,6 +79,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv4 address.
+        /// </summary>
+        /// <value>The IPv4 address.</value>
         [JsonProperty(PropertyName = "ipv4-address", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -82,6 +97,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv4 Mask Length.
+        /// </summary>
+        /// <value>The IPV4 mask length.</value>
         [JsonProperty(PropertyName = "ipv4-mask-length", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int IPv4MaskLength
@@ -95,6 +114,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv4 network mask.
+        /// </summary>
+        /// <value>The IPv4 network mask.</value>
         [JsonIgnore]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IPAddress IPv4NetworkMask
@@ -104,6 +127,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             set { IPv4MaskLength = Internal.SubnetMask.SubnetMaskToMaskLength(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv6 address.
+        /// </summary>
+        /// <value>The IPv6 address.</value>
         [JsonProperty(PropertyName = "ipv6-address", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -118,6 +145,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv6 network mask.
+        /// </summary>
+        /// <value>The IPv6 network mask.</value>
         [JsonProperty(PropertyName = "ipv6-mask-length", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int IPv6MaskLength
@@ -131,6 +162,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the interface name.
+        /// </summary>
+        /// <value>The interface name.</value>
         [JsonProperty(PropertyName = "name")]
         public string Name
         {
@@ -142,12 +177,20 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether interface is assigned to a security zone.
+        /// </summary>
+        /// <value><c>true</c> if security zone assigned; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "security-zone")]
         public bool SecurityZone
         {
             get => _securityZoneSettings != null;
         }
 
+        /// <summary>
+        /// Gets or sets the security zone settings.
+        /// </summary>
+        /// <value>The security zone settings.</value>
         [JsonProperty(PropertyName = "security-zone-settings", NullValueHandling = NullValueHandling.Ignore)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ISecurityZoneSettings SecurityZoneSettings
@@ -161,6 +204,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the topology.
+        /// </summary>
+        /// <value>The topology.</value>
         [JsonProperty(PropertyName = "topology")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Topology Topology
@@ -174,6 +221,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the topology settings.
+        /// </summary>
+        /// <value>The topology settings.</value>
         [JsonProperty(PropertyName = "topology-settings")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TopologySettings TopologySettings
@@ -191,6 +242,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #region Methods
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
             return Name;

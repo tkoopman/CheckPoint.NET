@@ -23,6 +23,10 @@ using System;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// Simple Gateway Firewall Settings
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
     public class Firewall : ChangeTracking
     {
         #region Fields
@@ -36,16 +40,16 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #endregion Fields
 
-        #region Constructors
-
-        public Firewall()
-        {
-        }
-
-        #endregion Constructors
-
         #region Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether automatic calculate connections hash table size
+        /// and memory pool setting is enabled or not.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if automatic calculate connections hash table size and memory pool is
+        /// enabled; otherwise, <c>false</c>.
+        /// </value>
         [JsonProperty(PropertyName = "auto-calculate-connections-hash-table-size-and-memory-pool")]
         public bool AutoCalculateConnectionsHashTableSizeAndMemoryPool
         {
@@ -57,6 +61,13 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether automatic maximum limit for concurrent
+        /// connections is enabled.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if automatic maximum limit for concurrent connections enabled; otherwise, <c>false</c>.
+        /// </value>
         [JsonProperty(PropertyName = "auto-maximum-limit-for-concurrent-connections")]
         public bool AutoMaximumLimitForConcurrentConnections
         {
@@ -68,6 +79,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the connections hash.
+        /// </summary>
+        /// <value>The size of the connections hash.</value>
         [JsonProperty(PropertyName = "connections-hash-size")]
         public int ConnectionsHashSize
         {
@@ -79,6 +94,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum limit for concurrent connections.
+        /// </summary>
+        /// <value>The maximum limit for concurrent connections.</value>
         [JsonProperty(PropertyName = "maximum-limit-for-concurrent-connections")]
         public int MaximumLimitForConcurrentConnections
         {
@@ -90,6 +109,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum size of the memory pool.
+        /// </summary>
+        /// <value>The maximum size of the memory pool.</value>
         [JsonProperty(PropertyName = "maximum-memory-pool-size")]
         public int MaximumMemoryPoolSize
         {
@@ -101,6 +124,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the memory pool.
+        /// </summary>
+        /// <value>The size of the memory pool.</value>
         [JsonProperty(PropertyName = "memory-pool-size")]
         public int MemoryPoolSize
         {
@@ -116,6 +143,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #region Methods
 
+        /// <summary>
+        /// Resets the object’s state to unchanged by accepting the modifications.
+        /// </summary>
+        /// <exception cref="NotImplementedException">Use AcceptChanges from Parent Object.</exception>
         public override void AcceptChanges()
         {
             throw new NotImplementedException("Use AcceptChanges from Parent Object.");

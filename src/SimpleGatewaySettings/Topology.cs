@@ -22,6 +22,9 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// Interface Topologies
+    /// </summary>
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum Topology
     {

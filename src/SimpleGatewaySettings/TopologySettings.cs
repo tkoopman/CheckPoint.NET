@@ -22,6 +22,10 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// Simple Gateway Interface Topology Settings
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.SimpleChangeTracking" />
     public class TopologySettings : SimpleChangeTracking
     {
         #region Fields
@@ -34,6 +38,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether interface leads to DMZ.
+        /// </summary>
+        /// <value><c>true</c> if interface leads to DMZ; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "interface-leads-to-dmz")]
         public bool InterfaceLeadsToDMZ
         {
@@ -45,6 +53,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the ip address behind this interface.
+        /// </summary>
+        /// <value>The ip address behind this interface.</value>
         [JsonProperty(PropertyName = "ip-address-behind-this-interface")]
         public TopologyBehind IPAddressBehindThisInterface
         {
@@ -56,6 +68,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the specific network behind this interface.
+        /// </summary>
+        /// <value>The specific network.</value>
         [JsonProperty(PropertyName = "specific-network")]
         public string SpecificNetwork
         {

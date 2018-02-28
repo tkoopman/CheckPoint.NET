@@ -64,14 +64,6 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #endregion Fields
 
-        #region Constructors
-
-        public Logs()
-        {
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         [JsonProperty(PropertyName = "alert-when-free-disk-space-below")]

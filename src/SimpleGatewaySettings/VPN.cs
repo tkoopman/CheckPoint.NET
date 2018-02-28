@@ -23,6 +23,10 @@ using System;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// Simple Gateway VPN Settings
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
     public class VPN : ChangeTracking
     {
         #region Fields
@@ -34,6 +38,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the maximum concurrent ike negotiations.
+        /// </summary>
+        /// <value>The maximum concurrent ike negotiations.</value>
         [JsonProperty(PropertyName = "maximum-concurrent-ike-negotiations")]
         public int MaximumConcurrentIKENegotiations
         {
@@ -45,6 +53,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum concurrent tunnels.
+        /// </summary>
+        /// <value>The maximum concurrent tunnels.</value>
         [JsonProperty(PropertyName = "maximum-concurrent-tunnels")]
         public int MaximumConcurrentTunnels
         {
@@ -60,6 +72,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #region Methods
 
+        /// <summary>
+        /// Resets the object’s state to unchanged by accepting the modifications.
+        /// </summary>
+        /// <exception cref="NotImplementedException">Use AcceptChanges from Parent Object.</exception>
         public override void AcceptChanges()
         {
             throw new NotImplementedException("Use AcceptChanges from Parent Object.");

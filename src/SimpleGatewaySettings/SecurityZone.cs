@@ -22,10 +22,17 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// Simple Gateway Interface Security Zone Settings
+    /// </summary>
     public static class SecurityZone
     {
         #region Classes
 
+        /// <summary>
+        /// Used when Security Zone is calculated according to where the interface leads to.
+        /// </summary>
+        /// <seealso cref="Koopman.CheckPoint.Common.ISecurityZoneSettings" />
         public class AutoCalculated : ISecurityZoneSettings
         {
             #region Properties
@@ -36,10 +43,18 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             #endregion Properties
         }
 
+        /// <summary>
+        /// Used when Security Zone specified manually
+        /// </summary>
+        /// <seealso cref="Koopman.CheckPoint.Common.ISecurityZoneSettings" />
         public class SpecificZone : ISecurityZoneSettings
         {
             #region Properties
 
+            /// <summary>
+            /// Gets or sets the name of the Security Zone.
+            /// </summary>
+            /// <value>The Security Zone name.</value>
             [JsonProperty(PropertyName = "specific-zone")]
             public string Name { get; set; }
 
@@ -47,6 +62,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
             #region Methods
 
+            /// <summary>
+            /// Returns a <see cref="System.String" /> that represents this instance.
+            /// </summary>
+            /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
             public override string ToString()
             {
                 return Name;

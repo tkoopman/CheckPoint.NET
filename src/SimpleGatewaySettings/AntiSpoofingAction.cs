@@ -22,6 +22,10 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// If packets will be rejected (the Prevent option) or whether the packets will be monitored
+    /// (the Detect option)
+    /// </summary>
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum AntiSpoofingAction
     {

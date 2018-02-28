@@ -22,6 +22,9 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
+    /// <summary>
+    /// IP Address behind interface options
+    /// </summary>
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
     public enum TopologyBehind
     {
