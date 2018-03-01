@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/38sg7mkx3gi6mahl/branch/master?svg=true)](https://ci.appveyor.com/project/tkoopman/checkpoint-net/branch/master)
+
 # CheckPoint.NET
 This is a .NET Library for communicating to a Check Point management server via the Web API.
 
