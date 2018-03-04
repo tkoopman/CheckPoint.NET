@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="2e78551a-b063-449a-a8a7-b85463277bdb" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Version 0.1.1 was released on 1st March 2018.
+      </para>
+    </introduction>
+
+    <section>
+      <title>First Release</title>
+      <content>
+
+        <list class="bullet">
+          <listItem>
+            <para>Most Network Object classes exist and session methods.</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
+    <relatedTopics>
+      <link xlink:href="b60a19c5-fe3b-4cb5-848d-5323c0b695be" />
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

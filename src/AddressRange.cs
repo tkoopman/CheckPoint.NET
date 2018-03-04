@@ -25,6 +25,25 @@ using System.Net;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Address Range Class.
+    /// </summary>
+    /// <example>
+    /// Add new address range using <see cref="AddressRange.AddressRange(Session)" />
+    /// <code>
+    /// var ar = new AddressRange(Session) {
+    ///     Name = "MyAddressRange",
+    ///     IPv4AddressFirst = IPAddress.Parse("10.1.1.1"),
+    ///     IPv4AddressLast = IPAddress.Parse("10.1.1.10")
+    /// };
+    /// ar.AcceptChanges();
+    /// </code>
+    /// Find address range using <see cref="Session.FindAddressRange(string, DetailLevels)" />
+    /// <code>
+    /// var ar = Session.FindAddressRange("MyAddressRange");
+    /// </code>
+    /// </example>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class AddressRange : ObjectBase
     {
         #region Fields
@@ -40,6 +59,20 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
+        /// <summary>
+        /// Create a new <see cref="AddressRange" />.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <example>
+        /// <code>
+        /// var ar = new AddressRange(Session) {
+        ///     Name = "MyAddressRange",
+        ///     IPv4AddressFirst = IPAddress.Parse("10.1.1.1"),
+        ///     IPv4AddressLast = IPAddress.Parse("10.1.1.10")
+        /// };
+        /// ar.AcceptChanges();
+        /// </code>
+        /// </example>
         public AddressRange(Session session) : this(session, DetailLevels.Full)
         {
         }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="f4927271-44e3-4f70-8967-24b39d1a8b02" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>This is a .NET Library for communicating to a Check Point management server via the Web API.</para>
+    </introduction>
+
+    <relatedTopics>
+      <link xlink:href="b60a19c5-fe3b-4cb5-848d-5323c0b695be" />
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

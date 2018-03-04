@@ -26,7 +26,7 @@ namespace Koopman.CheckPoint.Json
     /// Used to output the ObjectSummary.Name or of that is empty the ObjectSummary.UID
     /// </summary>
     /// <seealso cref="Newtonsoft.Json.JsonConverter" />
-    public class NameOrUIDConverter : JsonConverter
+    internal class NameOrUIDConverter : JsonConverter
     {
         #region Properties
 

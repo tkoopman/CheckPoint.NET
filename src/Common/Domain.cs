@@ -60,8 +60,9 @@ namespace Koopman.CheckPoint.Common
         #region Properties
 
         /// <summary>
-        /// <para type="description">Domain type.</para>
+        /// Domain type.
         /// </summary>
+        /// <value>The type of the domain.</value>
         [JsonProperty(PropertyName = "domain-type", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore, Order = 3)]
         [DefaultValue("domain")]
         public string DomainType { get; }
