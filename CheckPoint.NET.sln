@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckPoint.NET", "src\CheckPoint.NET.csproj", "{A551F6A1-8A34-4684-9A50-9C447DE62CF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9286C0D3-BE17-41A8-A126-AFBCDF638F0B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A551F6A1-8A34-4684-9A50-9C447DE62CF6} = {A551F6A1-8A34-4684-9A50-9C447DE62CF6}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D8A329AF-74EF-4026-BE29-C67951D4050B}"
 	ProjectSection(SolutionItems) = preProject
