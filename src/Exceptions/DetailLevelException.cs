@@ -40,8 +40,16 @@ namespace Koopman.CheckPoint.Exceptions
 
         #region Properties
 
+        /// <summary>
+        /// Gets the current detail level of the object.
+        /// </summary>
+        /// <value>The actual detail level currently</value>
         public DetailLevels Actual { get; }
 
+        /// <summary>
+        /// Gets the required detail level for the call to be successful.
+        /// </summary>
+        /// <value>The required detail level.</value>
         public DetailLevels Required { get; }
 
         #endregion Properties

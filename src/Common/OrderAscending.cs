@@ -39,6 +39,10 @@ namespace Koopman.CheckPoint.Common
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the name of the property to sort on.
+        /// </summary>
+        /// <value>The name of the property.</value>
         [JsonProperty(PropertyName = "ASC")]
         public string PropertyName { get; set; }
 

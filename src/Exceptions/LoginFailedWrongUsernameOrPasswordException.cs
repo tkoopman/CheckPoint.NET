@@ -21,6 +21,14 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Login failed, wrong username or password
+    /// </summary>
+    /// <remarks>
+    /// While this is a failed Check Point error code, the current API doesn't seem to use it.
+    /// Instead just throws <see cref="LoginFailedException" /> currently.
+    /// </remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.LoginFailedException" />
     public class LoginFailedWrongUsernameOrPasswordException : LoginFailedException
     {
         #region Constructors

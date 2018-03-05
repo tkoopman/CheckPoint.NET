@@ -42,23 +42,26 @@ namespace Koopman.CheckPoint.Common
         #region Properties
 
         /// <summary>
-        /// <para type="description">From which element number the query was done.</para>
+        /// From which element number the query was done.
         /// </summary>
         [JsonProperty(PropertyName = "from")]
         public int From { get; set; }
 
         /// <summary>
-        /// <para type="description">To which element number the query was done.</para>
+        /// To which element number the query was done.
         /// </summary>
         [JsonProperty(PropertyName = "to")]
         public int To { get; set; }
 
         /// <summary>
-        /// <para type="description">Total number of elements returned by the query.</para>
+        /// Total number of elements found by the query.
         /// </summary>
         [JsonProperty(PropertyName = "total")]
         public int Total { get; set; }
 
+        /// <summary>
+        /// Gets or sets the function used to move to the next page of results.
+        /// </summary>
         protected internal Func<NetworkObjectsPagingResults<T>> Next { get; set; }
 
         #endregion Properties
@@ -69,7 +72,6 @@ namespace Koopman.CheckPoint.Common
         /// Gets the <see cref="T" /> at the specified index.
         /// </summary>
         /// <param name="index">The index.</param>
-        /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
         public T this[int index] { get => ((IList<T>)_Objects)[index]; set { throw new System.NotImplementedException($"Read-Only"); } }
 

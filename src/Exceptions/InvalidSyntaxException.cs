@@ -21,6 +21,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Invalid syntax
+    /// </summary>
+    /// <remarks>Should not be thrown normally.</remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class InvalidSyntaxException : GenericException
     {
         #region Constructors

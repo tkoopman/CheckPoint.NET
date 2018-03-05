@@ -22,6 +22,10 @@ using System.Diagnostics;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Common properties all objects contain when full detail level returned
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.ObjectSummary" />
     public abstract class ObjectBase : ObjectSummary
     {
         #region Fields
@@ -47,8 +51,9 @@ namespace Koopman.CheckPoint.Common
         #region Properties
 
         /// <summary>
-        /// <para type="description">Color of the object.</para>
+        /// Color of the object
         /// </summary>
+        /// <exception cref="System.ArgumentNullException">Color</exception>
         [JsonProperty(PropertyName = "color")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Colors? Color
@@ -62,7 +67,7 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// <para type="description">Comments string.</para>
+        /// Comments string
         /// </summary>
         [JsonProperty(PropertyName = "comments")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -77,7 +82,7 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// <para type="description">Object icon.</para>
+        /// Object icon
         /// </summary>
         [JsonProperty(PropertyName = "icon")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -88,7 +93,7 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// <para type="description">Object icon.</para>
+        /// Meta Information
         /// </summary>
         [JsonProperty(PropertyName = "meta-info", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -99,8 +104,9 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// <para type="description">Indicates whether the object is read-only.</para>
+        /// Indicates whether the object is read-only
         /// </summary>
+        /// <exception cref="System.ArgumentNullException">ReadOnly</exception>
         [JsonProperty(PropertyName = "read-only")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool? ReadOnly
@@ -109,6 +115,9 @@ namespace Koopman.CheckPoint.Common
             set => _readOnly = value ?? throw new System.ArgumentNullException(nameof(ReadOnly));
         }
 
+        /// <summary>
+        /// Tags assigned to object
+        /// </summary>
         [JsonProperty(PropertyName = "tags")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<Tag> Tags

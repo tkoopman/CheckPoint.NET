@@ -21,6 +21,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Invalid parameter name
+    /// </summary>
+    /// <remarks>Should not be thrown normally as API control properties sent.</remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class InvalidParameterNameException : GenericException
     {
         #region Constructors

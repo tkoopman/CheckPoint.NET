@@ -21,6 +21,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Invalid header
+    /// </summary>
+    /// <remarks>Should not be thrown normally as API controls header.</remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class InvalidHeaderException : GenericException
     {
         #region Constructors

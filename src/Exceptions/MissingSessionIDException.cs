@@ -21,6 +21,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Missing session ID
+    /// </summary>
+    /// <remarks>Should not be thrown normally as this API controls sending the session ID.</remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class MissingSessionIDException : GenericException
     {
         #region Constructors

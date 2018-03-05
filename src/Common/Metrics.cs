@@ -23,12 +23,19 @@ using Newtonsoft.Json;
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// Metrics used to measure threasholds
+    /// Metrics used to measure thresholds
     /// </summary>
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum Metrics
     {
+        /// <summary>
+        /// Threshold entered as a percentage
+        /// </summary>
         Percent,
+
+        /// <summary>
+        /// Threshold entered in megabytes
+        /// </summary>
         MBytes
     }
 }
