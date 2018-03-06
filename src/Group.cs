@@ -23,6 +23,26 @@ using System.Diagnostics;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Network Object Group Class.
+    /// </summary>
+    /// <example>
+    /// Add new group using <see cref="Group.Group(Session)" />
+    /// <code>
+    /// var group = new Group(Session) {
+    ///     Name = "MyGroup"
+    /// };
+    /// group.Members.Add("MyHost1");
+    /// group.Members.Add("MyHost2");
+    /// group.Groups.Add("AnotherGroup");
+    /// group.AcceptChanges();
+    /// </code>
+    /// Find group using <see cref="Session.FindGroup(string, DetailLevels)" />
+    /// <code>
+    /// var group = Session.FindGroup("MyGroup");
+    /// </code>
+    /// </example>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class Group : ObjectBase
     {
         #region Fields
@@ -34,10 +54,31 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
+        /// <summary>
+        /// Create a new <see cref="Group" />.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var group = new Group(Session) {
+        ///     Name = "MyGroup"
+        /// };
+        /// group.Members.Add("MyHost1");
+        /// group.Members.Add("MyHost2");
+        /// group.Groups.Add("AnotherGroup");
+        /// group.AcceptChanges();
+        /// </code>
+        /// </example>
+        /// <param name="session">The current session.</param>
         public Group(Session session) : this(session, DetailLevels.Full)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Group" /> class ready to be populated with
+        /// current data.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Group(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new ObjectMembershipChangeTracking<ObjectSummary>(this);
@@ -48,6 +89,9 @@ namespace Koopman.CheckPoint
 
         #region Properties
 
+        /// <summary>
+        /// Group memberships.
+        /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<ObjectSummary> Groups
@@ -56,6 +100,9 @@ namespace Koopman.CheckPoint
             internal set => _groups = value;
         }
 
+        /// <summary>
+        /// Members of this group.
+        /// </summary>
         [JsonProperty(PropertyName = "members")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<ObjectSummary> Members
@@ -68,11 +115,21 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Valid sort orders for Groups
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields

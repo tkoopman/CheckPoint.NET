@@ -19,6 +19,9 @@
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Indicates if warnings or errors should be ignored when performing changes.
+    /// </summary>
     public enum Ignore
     {
         /// <summary>

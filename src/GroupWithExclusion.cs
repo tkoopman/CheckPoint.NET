@@ -24,6 +24,26 @@ using Newtonsoft.Json.Serialization;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Group with Exclusion Class
+    /// </summary>
+    /// <example>
+    /// Add new group with exclusion using <see cref="GroupWithExclusion.GroupWithExclusion(Session)" />
+    /// <code>
+    /// var gwe = new GroupWithExclusion(Session) {
+    ///     Name = "MyGroupWithExclusion",
+    ///     Include = ObjectSummary.Any,
+    ///     Except = Session.FindGroup("ExcludeGroup")
+    /// };
+    /// gwe.AcceptChanges();
+    /// </code>
+    /// Find group with exclusion using <see cref="Session.FindGroupWithExclusion(string,
+    /// DetailLevels)" />
+    /// <code>
+    /// var gwe = Session.FindGroupWithExclusion("MyGroupWithExclusion");
+    /// </code>
+    /// </example>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class GroupWithExclusion : ObjectBase
     {
         #region Fields
@@ -35,10 +55,30 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
+        /// <summary>
+        /// Add new group with exclusion using <see cref="GroupWithExclusion" />.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var gwe = new GroupWithExclusion(Session) {
+        ///     Name = "MyGroupWithExclusion",
+        ///     Include = ObjectSummary.Any,
+        ///     Except = Session.FindGroup("ExcludeGroup")
+        /// };
+        /// gwe.AcceptChanges();
+        /// </code>
+        /// </example>
+        /// <param name="session">The current session.</param>
         public GroupWithExclusion(Session session) : base(session, DetailLevels.Full)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupWithExclusion" /> class ready to be
+        /// populated with current data.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal GroupWithExclusion(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
         }
@@ -47,6 +87,9 @@ namespace Koopman.CheckPoint
 
         #region Properties
 
+        /// <summary>
+        /// Get or sets the object this group excludes.
+        /// </summary>
         [JsonProperty(PropertyName = "except")]
         public ObjectSummary Except
         {
@@ -61,6 +104,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the object this group includes.
+        /// </summary>
         [JsonProperty(PropertyName = "include")]
         public ObjectSummary Include
         {
@@ -82,11 +128,21 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Valid sort orders for group with exclusions
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields
