@@ -21,12 +21,14 @@ dotnet_csproj:
   informational_version: '{version}'
 configuration: Release
 platform: Any CPU
+install:
+- ps: .\AppVeyor_Install.ps1
 before_build:
 - cmd: nuget restore
-- ps: .\AppVeyorBeforeBuild.ps1
 build:
   verbosity: minimal
 environment:
+  SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
   TestMgmtServer:
     secure: UCJ1RE6XfDNrlnauuyM7wQ==
   TestMgmtUser:
