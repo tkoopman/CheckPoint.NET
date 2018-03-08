@@ -1,10 +1,5 @@
 version: 0.1.{build}
-skip_tags: true
-skip_commits:
-  message: /!build/
-only_commits:
-  files:
-  - src/
+skip_non_tags: true
 image: Visual Studio 2017
 assembly_info:
   patch: true
@@ -29,6 +24,8 @@ build:
   verbosity: minimal
 environment:
   SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
+  GitToken:
+    secure: Pz30C2oGEq4jlsrbFSRBWxPkmDMdQ0uRxZpKwLZ4yVgBZvrHWxRnnT4WFEI7KVyC
   TestMgmtServer:
     secure: UCJ1RE6XfDNrlnauuyM7wQ==
   TestMgmtUser:
@@ -41,7 +38,25 @@ test:
       - Tests.dll
 artifacts:
   - path: 'src\**\*.nupkg'
-  - path: 'src\bin\Release'
+    name: NuGetPackage
+  - path: src\bin\$(configuration)
+    name: CheckPoint.NET
     type: zip
   - path: 'docs'
+    name: Documentation
     type: zip
+deploy:
+- provider: NuGet
+  api_key:
+    secure: 7t1digdSmIqoH3Fl+QikPfgNn1IyFiFBNZxla2qmk0fQCH1pRqd3J6AQ4iJboUDV
+  artifact: NuGetPackage
+  on:
+    branch: master
+- provider: GitHub
+  auth_token:
+    secure: Pz30C2oGEq4jlsrbFSRBWxPkmDMdQ0uRxZpKwLZ4yVgBZvrHWxRnnT4WFEI7KVyC
+  artifact: CheckPoint.NET
+  draft: true
+  force_update: true
+  on:
+    branch: master
