@@ -268,3 +268,4 @@ Documentation/**/Help/
 Documentation/WebHelp/
 **/Doc/Help/
 *.shfbproj_*
+/docs
