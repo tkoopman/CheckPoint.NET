@@ -48,6 +48,7 @@ namespace Tests
         [TestMethod]
         public void TimeTest1()
         {
+            // 01:30 - 02:15
             var t = new TimeOfDay(1, 30);
             var r = new TimeRange(t, t + 45);
             Assert.AreEqual(45, r.Duration);
@@ -57,13 +58,21 @@ namespace Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TimeTest2()
         {
+            // 00:01 - 00:00
             new TimeRange(1, 0);
         }
 
         [TestMethod]
         public void TimeTest3()
         {
+            // 00:01 - 00:01
             new TimeRange(1, 1);
+        }
+
+        [TestMethod]
+        public void TimeTest4()
+        {
+            new TimeRange("01:00", "11:00");
         }
 
         #endregion Methods

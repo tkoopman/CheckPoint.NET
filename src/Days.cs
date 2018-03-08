@@ -58,6 +58,18 @@ namespace Koopman.CheckPoint
         /// Saturday
         /// </summary>
         [EnumMember(Value = "Sat")]
-        Saturday = 64
+        Saturday = 64,
+
+        /// <summary>
+        /// All Weekdays. Monday - Friday
+        /// </summary>
+        [JsonIgnore]
+        Weekdays = 62,
+
+        /// <summary>
+        /// All Weekend. Saturday and Sunday
+        /// </summary>
+        [JsonIgnore]
+        Weekend = 65
     }
 }

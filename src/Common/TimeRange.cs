@@ -43,6 +43,21 @@ namespace Koopman.CheckPoint.Common
             End = end;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimeRange" /> class.
+        /// </summary>
+        /// <param name="start">The start TimeOfDay.</param>
+        /// <param name="end">The end TimeOfDay.</param>
+        /// <exception cref="ArgumentOutOfRangeException">end - End must be greater than start</exception>
+        public TimeRange(string start, string end)
+        {
+            TimeOfDay s = new TimeOfDay(start);
+            TimeOfDay e = new TimeOfDay(end);
+            if (s > e) throw new ArgumentOutOfRangeException(nameof(end), "End must be greater than start");
+            Start = s;
+            End = e;
+        }
+
         #endregion Constructors
 
         #region Properties
