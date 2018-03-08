@@ -60,3 +60,5 @@ deploy:
   force_update: true
   on:
     branch: master
+after_deploy:
+- ps: .\AppVeyor_Deploy_gh-pages.ps1
