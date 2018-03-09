@@ -2,14 +2,14 @@
 <HelpTOC>
 
   <HelpTOCNode Title="Welcome to CheckPoint.NET" Url="html/f4927271-44e3-4f70-8967-24b39d1a8b02.htm" />
-  <HelpTOCNode Id="5a80e294-a1d1-4ec7-8f5a-86a131a5b2f8" Title="Version History" Url="html/b60a19c5-fe3b-4cb5-848d-5323c0b695be.htm">
+  <HelpTOCNode Id="17551f43-c10c-4c06-a76d-9c901d43cdb2" Title="Version History" Url="html/b60a19c5-fe3b-4cb5-848d-5323c0b695be.htm">
     <HelpTOCNode Title="Version 0.1.1" Url="html/2e78551a-b063-449a-a8a7-b85463277bdb.htm" />
   </HelpTOCNode>
-  <HelpTOCNode Id="fef7cf7f-a665-4efa-a3c2-7e1d4af5bbb8" Title="API Reference" Url="html/R_Project_SHFB.htm">
-    <HelpTOCNode Id="a0203da6-2b7d-4a8e-8acd-d490201ad83b" Title="Koopman.CheckPoint" Url="html/N_Koopman_CheckPoint.htm">
-      <HelpTOCNode Id="11fb755c-9410-4d42-98c5-878b22c23bd6" Title="AddressRange Class" Url="html/T_Koopman_CheckPoint_AddressRange.htm">
+  <HelpTOCNode Id="6087eb22-4b5c-46d9-8f85-d4457f0f35bd" Title="API Reference" Url="html/R_Project_SHFB.htm">
+    <HelpTOCNode Id="4abf23e0-f859-4a55-a1f8-5a5cfdd78616" Title="Koopman.CheckPoint" Url="html/N_Koopman_CheckPoint.htm">
+      <HelpTOCNode Id="02974927-5fd5-442a-9786-7724e692a554" Title="AddressRange Class" Url="html/T_Koopman_CheckPoint_AddressRange.htm">
         <HelpTOCNode Title="AddressRange Constructor " Url="html/M_Koopman_CheckPoint_AddressRange__ctor.htm" />
-        <HelpTOCNode Id="0329810b-db65-47ee-91c9-1adc6f997838" Title="AddressRange Properties" Url="html/Properties_T_Koopman_CheckPoint_AddressRange.htm">
+        <HelpTOCNode Id="3ddf92e4-d1e0-4533-aebf-4a7a101beef9" Title="AddressRange Properties" Url="html/Properties_T_Koopman_CheckPoint_AddressRange.htm">
           <HelpTOCNode Title="Groups Property " Url="html/P_Koopman_CheckPoint_AddressRange_Groups.htm" />
           <HelpTOCNode Title="IPv4AddressFirst Property " Url="html/P_Koopman_CheckPoint_AddressRange_IPv4AddressFirst.htm" />
           <HelpTOCNode Title="IPv4AddressLast Property " Url="html/P_Koopman_CheckPoint_AddressRange_IPv4AddressLast.htm" />
@@ -19,8 +19,8 @@
         </HelpTOCNode>
         <HelpTOCNode Title="AddressRange Methods" Url="html/Methods_T_Koopman_CheckPoint_AddressRange.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="07608413-ff20-44d8-8328-1da821cdf5c6" Title="AddressRange.Order Class" Url="html/T_Koopman_CheckPoint_AddressRange_Order.htm">
-        <HelpTOCNode Id="ec6bfad4-b156-44a3-804d-e378db9a5d09" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_AddressRange_Order.htm">
+      <HelpTOCNode Id="a60e9b64-928c-4785-930e-7fda77797e62" Title="AddressRange.Order Class" Url="html/T_Koopman_CheckPoint_AddressRange_Order.htm">
+        <HelpTOCNode Id="485c9ff3-7a29-4944-abcb-de66f9d93397" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_AddressRange_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_AddressRange_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_AddressRange_Order_NameDesc.htm" />
         </HelpTOCNode>
@@ -29,37 +29,37 @@
       <HelpTOCNode Title="Days Enumeration" Url="html/T_Koopman_CheckPoint_Days.htm" />
       <HelpTOCNode Title="DetailLevelActions Enumeration" Url="html/T_Koopman_CheckPoint_DetailLevelActions.htm" />
       <HelpTOCNode Title="DetailLevels Enumeration" Url="html/T_Koopman_CheckPoint_DetailLevels.htm" />
-      <HelpTOCNode Id="8281d218-48b8-4dcf-9279-0a6824589821" Title="Group Class" Url="html/T_Koopman_CheckPoint_Group.htm">
+      <HelpTOCNode Id="3f091698-4960-4c15-88f3-cb3284e842d4" Title="Group Class" Url="html/T_Koopman_CheckPoint_Group.htm">
         <HelpTOCNode Title="Group Constructor " Url="html/M_Koopman_CheckPoint_Group__ctor.htm" />
-        <HelpTOCNode Id="1c5fcd8a-814a-4753-84d3-8735ef4e8270" Title="Group Properties" Url="html/Properties_T_Koopman_CheckPoint_Group.htm">
+        <HelpTOCNode Id="c54d18e9-aefd-42c8-ab7f-8c49bcca1f57" Title="Group Properties" Url="html/Properties_T_Koopman_CheckPoint_Group.htm">
           <HelpTOCNode Title="Groups Property " Url="html/P_Koopman_CheckPoint_Group_Groups.htm" />
           <HelpTOCNode Title="Members Property " Url="html/P_Koopman_CheckPoint_Group_Members.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="Group Methods" Url="html/Methods_T_Koopman_CheckPoint_Group.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="f3efe62a-32f8-44fa-b662-9baf7753c067" Title="Group.Order Class" Url="html/T_Koopman_CheckPoint_Group_Order.htm">
-        <HelpTOCNode Id="c76b13da-e8a2-423e-a56b-14e2ad76540b" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm">
+      <HelpTOCNode Id="16f7d8b3-d5b0-4007-bb4a-9143d2bae400" Title="Group.Order Class" Url="html/T_Koopman_CheckPoint_Group_Order.htm">
+        <HelpTOCNode Id="9c0f0a74-b6a8-40ec-999a-51f596b04e23" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_Group_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_Group_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="a4a47988-12e4-4dc1-a04d-5843eaaf72b1" Title="GroupWithExclusion Class" Url="html/T_Koopman_CheckPoint_GroupWithExclusion.htm">
+      <HelpTOCNode Id="79932994-5449-4d86-8a0c-c30764a76b0b" Title="GroupWithExclusion Class" Url="html/T_Koopman_CheckPoint_GroupWithExclusion.htm">
         <HelpTOCNode Title="GroupWithExclusion Constructor " Url="html/M_Koopman_CheckPoint_GroupWithExclusion__ctor.htm" />
-        <HelpTOCNode Id="b37e2a57-8991-4e1f-9116-541fb580cc3a" Title="GroupWithExclusion Properties" Url="html/Properties_T_Koopman_CheckPoint_GroupWithExclusion.htm">
+        <HelpTOCNode Id="333ed44a-4c5b-4571-a831-8fc0704737cd" Title="GroupWithExclusion Properties" Url="html/Properties_T_Koopman_CheckPoint_GroupWithExclusion.htm">
           <HelpTOCNode Title="Except Property " Url="html/P_Koopman_CheckPoint_GroupWithExclusion_Except.htm" />
           <HelpTOCNode Title="Include Property " Url="html/P_Koopman_CheckPoint_GroupWithExclusion_Include.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="GroupWithExclusion Methods" Url="html/Methods_T_Koopman_CheckPoint_GroupWithExclusion.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="b6f02941-620c-4c6f-8263-944a1d82a5ed" Title="GroupWithExclusion.Order Class" Url="html/T_Koopman_CheckPoint_GroupWithExclusion_Order.htm">
-        <HelpTOCNode Id="af494f3a-8896-48cf-9535-24a6180f5017" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm">
+      <HelpTOCNode Id="415e6896-c78f-40ba-9128-a6c104742ba4" Title="GroupWithExclusion.Order Class" Url="html/T_Koopman_CheckPoint_GroupWithExclusion_Order.htm">
+        <HelpTOCNode Id="fe648864-9260-458c-bc78-3b812dd8540b" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_GroupWithExclusion_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_GroupWithExclusion_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="3551b010-8142-4ff3-93f7-f6cda56fafe6" Title="Host Class" Url="html/T_Koopman_CheckPoint_Host.htm">
+      <HelpTOCNode Id="a234275b-d56a-4aa9-b568-3333402df5b5" Title="Host Class" Url="html/T_Koopman_CheckPoint_Host.htm">
         <HelpTOCNode Title="Host Constructor " Url="html/M_Koopman_CheckPoint_Host__ctor.htm" />
-        <HelpTOCNode Id="24ee7a60-6a6f-48e2-adf4-d276b9c06d04" Title="Host Properties" Url="html/Properties_T_Koopman_CheckPoint_Host.htm">
+        <HelpTOCNode Id="6d2e57fd-3e91-4925-b77e-bb520a55ff50" Title="Host Properties" Url="html/Properties_T_Koopman_CheckPoint_Host.htm">
           <HelpTOCNode Title="Groups Property " Url="html/P_Koopman_CheckPoint_Host_Groups.htm" />
           <HelpTOCNode Title="IPv4Address Property " Url="html/P_Koopman_CheckPoint_Host_IPv4Address.htm" />
           <HelpTOCNode Title="IPv6Address Property " Url="html/P_Koopman_CheckPoint_Host_IPv6Address.htm" />
@@ -67,8 +67,8 @@
         </HelpTOCNode>
         <HelpTOCNode Title="Host Methods" Url="html/Methods_T_Koopman_CheckPoint_Host.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="3d2907f9-48fa-44bd-bf9b-d2d7152231f4" Title="Host.Order Class" Url="html/T_Koopman_CheckPoint_Host_Order.htm">
-        <HelpTOCNode Id="6b72b21b-4c89-4b95-bd51-02ed45ecd843" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm">
+      <HelpTOCNode Id="78bce030-9561-4347-9d9d-f65fcc56547c" Title="Host.Order Class" Url="html/T_Koopman_CheckPoint_Host_Order.htm">
+        <HelpTOCNode Id="a02dae03-75cc-46c4-8bab-c7f28ca39c62" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_Host_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_Host_Order_NameDesc.htm" />
         </HelpTOCNode>
@@ -76,9 +76,9 @@
       <HelpTOCNode Title="Ignore Enumeration" Url="html/T_Koopman_CheckPoint_Ignore.htm" />
       <HelpTOCNode Title="LockStates Enumeration" Url="html/T_Koopman_CheckPoint_LockStates.htm" />
       <HelpTOCNode Title="Months Enumeration" Url="html/T_Koopman_CheckPoint_Months.htm" />
-      <HelpTOCNode Id="f846b34b-5272-45c5-8835-245b29deaab8" Title="MulticastAddressRange Class" Url="html/T_Koopman_CheckPoint_MulticastAddressRange.htm">
+      <HelpTOCNode Id="48cc7a21-f6c1-469f-9718-52cc5eccffb8" Title="MulticastAddressRange Class" Url="html/T_Koopman_CheckPoint_MulticastAddressRange.htm">
         <HelpTOCNode Title="MulticastAddressRange Constructor " Url="html/M_Koopman_CheckPoint_MulticastAddressRange__ctor.htm" />
-        <HelpTOCNode Id="eae5459d-0065-489e-9462-b0ae2492cdaf" Title="MulticastAddressRange Properties" Url="html/Properties_T_Koopman_CheckPoint_MulticastAddressRange.htm">
+        <HelpTOCNode Id="10befec8-3b38-4194-b2f4-9dcc1da1c553" Title="MulticastAddressRange Properties" Url="html/Properties_T_Koopman_CheckPoint_MulticastAddressRange.htm">
           <HelpTOCNode Title="Groups Property " Url="html/P_Koopman_CheckPoint_MulticastAddressRange_Groups.htm" />
           <HelpTOCNode Title="IPv4AddressFirst Property " Url="html/P_Koopman_CheckPoint_MulticastAddressRange_IPv4AddressFirst.htm" />
           <HelpTOCNode Title="IPv4AddressLast Property " Url="html/P_Koopman_CheckPoint_MulticastAddressRange_IPv4AddressLast.htm" />
@@ -87,15 +87,15 @@
         </HelpTOCNode>
         <HelpTOCNode Title="MulticastAddressRange Methods" Url="html/Methods_T_Koopman_CheckPoint_MulticastAddressRange.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="fd666951-df26-4e47-9e2b-3d159e8eeb19" Title="MulticastAddressRange.Order Class" Url="html/T_Koopman_CheckPoint_MulticastAddressRange_Order.htm">
-        <HelpTOCNode Id="7e4f1668-d47e-4df3-9451-815b19add485" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_MulticastAddressRange_Order.htm">
+      <HelpTOCNode Id="bd3db7d6-ef86-4a24-b165-5d6080917fe3" Title="MulticastAddressRange.Order Class" Url="html/T_Koopman_CheckPoint_MulticastAddressRange_Order.htm">
+        <HelpTOCNode Id="ea67042a-13ca-475e-86b7-f913470ef23e" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_MulticastAddressRange_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_MulticastAddressRange_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_MulticastAddressRange_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="38972370-6374-4782-a7d9-bf2bc722ade5" Title="Network Class" Url="html/T_Koopman_CheckPoint_Network.htm">
+      <HelpTOCNode Id="1c0a3a60-eb48-4d08-b62f-5dfaed5534e6" Title="Network Class" Url="html/T_Koopman_CheckPoint_Network.htm">
         <HelpTOCNode Title="Network Constructor " Url="html/M_Koopman_CheckPoint_Network__ctor.htm" />
-        <HelpTOCNode Id="5119ac39-9839-4d7e-8957-3abc429aeb7e" Title="Network Properties" Url="html/Properties_T_Koopman_CheckPoint_Network.htm">
+        <HelpTOCNode Id="e813ee4e-20c2-4303-b94b-1e07a658d779" Title="Network Properties" Url="html/Properties_T_Koopman_CheckPoint_Network.htm">
           <HelpTOCNode Title="BroadcastInclusion Property " Url="html/P_Koopman_CheckPoint_Network_BroadcastInclusion.htm" />
           <HelpTOCNode Title="Groups Property " Url="html/P_Koopman_CheckPoint_Network_Groups.htm" />
           <HelpTOCNode Title="MaskLength4 Property " Url="html/P_Koopman_CheckPoint_Network_MaskLength4.htm" />
@@ -107,22 +107,22 @@
         </HelpTOCNode>
         <HelpTOCNode Title="Network Methods" Url="html/Methods_T_Koopman_CheckPoint_Network.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="5ea33caa-659d-47b6-af85-368b87252ba6" Title="Network.Order Class" Url="html/T_Koopman_CheckPoint_Network_Order.htm">
-        <HelpTOCNode Id="aecfe619-00e6-4998-bb66-c69da285d68e" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Network_Order.htm">
+      <HelpTOCNode Id="ae025ca2-4cbf-4c1a-8c2f-3739c68523b9" Title="Network.Order Class" Url="html/T_Koopman_CheckPoint_Network_Order.htm">
+        <HelpTOCNode Id="0749f3a0-1545-49a1-8e0f-5fd7efdd44dc" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Network_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_Network_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_Network_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="34d9f424-e998-49cd-b22e-55a430f2aaae" Title="ObjectSummary Class" Url="html/T_Koopman_CheckPoint_ObjectSummary.htm">
-        <HelpTOCNode Id="75d65498-4102-47cd-a45a-d263e65e36cc" Title="ObjectSummary Properties" Url="html/Properties_T_Koopman_CheckPoint_ObjectSummary.htm">
+      <HelpTOCNode Id="cc7273b3-f210-45e5-baf9-423a99f8dd99" Title="ObjectSummary Class" Url="html/T_Koopman_CheckPoint_ObjectSummary.htm">
+        <HelpTOCNode Id="a900393a-aeb3-42ab-98ea-5327eb46cf74" Title="ObjectSummary Properties" Url="html/Properties_T_Koopman_CheckPoint_ObjectSummary.htm">
           <HelpTOCNode Title="DetailLevel Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_DetailLevel.htm" />
           <HelpTOCNode Title="Domain Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_Domain.htm" />
           <HelpTOCNode Title="Name Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_Name.htm" />
           <HelpTOCNode Title="Type Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_Type.htm" />
           <HelpTOCNode Title="UID Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_UID.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="9ec9966c-73bf-4f7c-a2b9-91b9c08815bc" Title="ObjectSummary Methods" Url="html/Methods_T_Koopman_CheckPoint_ObjectSummary.htm">
-          <HelpTOCNode Id="3406d65a-bd12-4bfb-837e-67ef38623f29" Title="AcceptChanges Method " Url="html/Overload_Koopman_CheckPoint_ObjectSummary_AcceptChanges.htm">
+        <HelpTOCNode Id="26322afb-d3ce-46d5-a55f-78fdcb229cf5" Title="ObjectSummary Methods" Url="html/Methods_T_Koopman_CheckPoint_ObjectSummary.htm">
+          <HelpTOCNode Id="839e017e-da12-4746-a440-f4f407050528" Title="AcceptChanges Method " Url="html/Overload_Koopman_CheckPoint_ObjectSummary_AcceptChanges.htm">
             <HelpTOCNode Title="AcceptChanges Method " Url="html/M_Koopman_CheckPoint_ObjectSummary_AcceptChanges.htm" />
             <HelpTOCNode Title="AcceptChanges Method (Ignore)" Url="html/M_Koopman_CheckPoint_ObjectSummary_AcceptChanges_1.htm" />
           </HelpTOCNode>
@@ -131,18 +131,18 @@
           <HelpTOCNode Title="ShouldSerializeDomain Method " Url="html/M_Koopman_CheckPoint_ObjectSummary_ShouldSerializeDomain.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/M_Koopman_CheckPoint_ObjectSummary_ToString.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="125ff8d8-baf9-4554-b6e7-e19e663af19f" Title="ObjectSummary Fields" Url="html/Fields_T_Koopman_CheckPoint_ObjectSummary.htm">
+        <HelpTOCNode Id="bc03ed9b-9711-4ffd-819f-94849bb85b0c" Title="ObjectSummary Fields" Url="html/Fields_T_Koopman_CheckPoint_ObjectSummary.htm">
           <HelpTOCNode Title="Any Field" Url="html/F_Koopman_CheckPoint_ObjectSummary_Any.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="4ab8ba5c-8366-41de-8394-32df937d474a" Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SecurityZone.htm">
+      <HelpTOCNode Id="37f5a269-4a16-4d16-8738-832ea77adcc5" Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SecurityZone.htm">
         <HelpTOCNode Title="SecurityZone Constructor " Url="html/M_Koopman_CheckPoint_SecurityZone__ctor.htm" />
         <HelpTOCNode Title="SecurityZone Properties" Url="html/Properties_T_Koopman_CheckPoint_SecurityZone.htm" />
         <HelpTOCNode Title="SecurityZone Methods" Url="html/Methods_T_Koopman_CheckPoint_SecurityZone.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="a16df671-5d82-4146-9bb2-7aa848eda712" Title="Session Class" Url="html/T_Koopman_CheckPoint_Session.htm">
+      <HelpTOCNode Id="bc8c429c-d804-42df-9a29-1d908b706456" Title="Session Class" Url="html/T_Koopman_CheckPoint_Session.htm">
         <HelpTOCNode Title="Session Constructor " Url="html/M_Koopman_CheckPoint_Session__ctor.htm" />
-        <HelpTOCNode Id="ed303ca0-ba53-429b-936b-74bdefa169b8" Title="Session Properties" Url="html/Properties_T_Koopman_CheckPoint_Session.htm">
+        <HelpTOCNode Id="7604af24-db3c-464f-b17f-c8e27019dfb4" Title="Session Properties" Url="html/Properties_T_Koopman_CheckPoint_Session.htm">
           <HelpTOCNode Title="APIServerVersion Property " Url="html/P_Koopman_CheckPoint_Session_APIServerVersion.htm" />
           <HelpTOCNode Title="DebugWriter Property " Url="html/P_Koopman_CheckPoint_Session_DebugWriter.htm" />
           <HelpTOCNode Title="DiskSpaceMessage Property " Url="html/P_Koopman_CheckPoint_Session_DiskSpaceMessage.htm" />
@@ -154,7 +154,7 @@
           <HelpTOCNode Title="UID Property " Url="html/P_Koopman_CheckPoint_Session_UID.htm" />
           <HelpTOCNode Title="URL Property " Url="html/P_Koopman_CheckPoint_Session_URL.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="6329d963-5a08-4146-a9cf-0d33a6af6808" Title="Session Methods" Url="html/Methods_T_Koopman_CheckPoint_Session.htm">
+        <HelpTOCNode Id="f90bcf25-59ed-46fb-94a3-d89a08ae38b3" Title="Session Methods" Url="html/Methods_T_Koopman_CheckPoint_Session.htm">
           <HelpTOCNode Title="ContinueSessionInSmartconsole Method " Url="html/M_Koopman_CheckPoint_Session_ContinueSessionInSmartconsole.htm" />
           <HelpTOCNode Title="DeleteAddressRange Method " Url="html/M_Koopman_CheckPoint_Session_DeleteAddressRange.htm" />
           <HelpTOCNode Title="DeleteGroup Method " Url="html/M_Koopman_CheckPoint_Session_DeleteGroup.htm" />
@@ -170,47 +170,47 @@
           <HelpTOCNode Title="Discard Method " Url="html/M_Koopman_CheckPoint_Session_Discard.htm" />
           <HelpTOCNode Title="Dispose Method " Url="html/M_Koopman_CheckPoint_Session_Dispose.htm" />
           <HelpTOCNode Title="FindAddressRange Method " Url="html/M_Koopman_CheckPoint_Session_FindAddressRange.htm" />
-          <HelpTOCNode Id="d3029e84-33a2-4553-bd72-e082ab26feb0" Title="FindAllAddressRanges Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllAddressRanges.htm">
+          <HelpTOCNode Id="2a16d8eb-b974-4a59-9576-0a130e799fc9" Title="FindAllAddressRanges Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllAddressRanges.htm">
             <HelpTOCNode Title="FindAllAddressRanges Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllAddressRanges.htm" />
             <HelpTOCNode Title="FindAllAddressRanges Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllAddressRanges_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="3fe171e6-1f84-48ea-a601-c218cde68c22" Title="FindAllGroups Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllGroups.htm">
+          <HelpTOCNode Id="9d06e6a4-906e-464f-aab8-abd293122e5f" Title="FindAllGroups Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllGroups.htm">
             <HelpTOCNode Title="FindAllGroups Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllGroups.htm" />
             <HelpTOCNode Title="FindAllGroups Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllGroups_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="f339162a-a9f8-4ee6-b2e7-e1afdeac2169" Title="FindAllGroupsWithExclusion Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllGroupsWithExclusion.htm">
+          <HelpTOCNode Id="4371b333-b7bb-4a0a-a1f8-c2156132f43f" Title="FindAllGroupsWithExclusion Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllGroupsWithExclusion.htm">
             <HelpTOCNode Title="FindAllGroupsWithExclusion Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllGroupsWithExclusion.htm" />
             <HelpTOCNode Title="FindAllGroupsWithExclusion Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllGroupsWithExclusion_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="883174d7-eef5-4b67-8dd4-af9c2082150d" Title="FindAllHosts Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllHosts.htm">
+          <HelpTOCNode Id="580b6111-8b2b-48cb-9666-856c6f829407" Title="FindAllHosts Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllHosts.htm">
             <HelpTOCNode Title="FindAllHosts Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllHosts.htm" />
             <HelpTOCNode Title="FindAllHosts Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllHosts_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="51a4e3e1-e1f7-41ec-b7c4-f4deed9d7534" Title="FindAllMulticastAddressRanges Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllMulticastAddressRanges.htm">
+          <HelpTOCNode Id="0e633fff-2dda-47c4-a6b4-f69d42a23d5f" Title="FindAllMulticastAddressRanges Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllMulticastAddressRanges.htm">
             <HelpTOCNode Title="FindAllMulticastAddressRanges Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllMulticastAddressRanges.htm" />
             <HelpTOCNode Title="FindAllMulticastAddressRanges Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllMulticastAddressRanges_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="ef94f904-0e2d-4caf-848a-abff061f5007" Title="FindAllNetworks Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllNetworks.htm">
+          <HelpTOCNode Id="d2075ab7-24ae-4b32-b65e-cfbea7703600" Title="FindAllNetworks Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllNetworks.htm">
             <HelpTOCNode Title="FindAllNetworks Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllNetworks.htm" />
             <HelpTOCNode Title="FindAllNetworks Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllNetworks_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="f351a907-d431-4e76-a26e-babccf86be06" Title="FindAllSecurityZones Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllSecurityZones.htm">
+          <HelpTOCNode Id="e2c04567-f6d3-4586-9704-d714f3b4e65f" Title="FindAllSecurityZones Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllSecurityZones.htm">
             <HelpTOCNode Title="FindAllSecurityZones Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllSecurityZones.htm" />
             <HelpTOCNode Title="FindAllSecurityZones Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllSecurityZones_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="1767bce5-6004-4bfa-b03f-64ab9bb0bddb" Title="FindAllSimpleGateways Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllSimpleGateways.htm">
+          <HelpTOCNode Id="c9c5caf9-0df7-49ea-9bb6-d328bcdc5ab3" Title="FindAllSimpleGateways Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllSimpleGateways.htm">
             <HelpTOCNode Title="FindAllSimpleGateways Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllSimpleGateways.htm" />
             <HelpTOCNode Title="FindAllSimpleGateways Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllSimpleGateways_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="62bf6928-758e-4553-8da0-a708d883495f" Title="FindAllTags Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllTags.htm">
+          <HelpTOCNode Id="8ba8d66e-6585-45a2-92d6-1078d194790f" Title="FindAllTags Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllTags.htm">
             <HelpTOCNode Title="FindAllTags Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllTags.htm" />
             <HelpTOCNode Title="FindAllTags Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllTags_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="ff2cc1d7-ded0-4353-8330-596a058c62d2" Title="FindAllTimeGroups Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimeGroups.htm">
+          <HelpTOCNode Id="773a9b6f-1ea9-42fa-b353-e1b95850ab8b" Title="FindAllTimeGroups Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimeGroups.htm">
             <HelpTOCNode Title="FindAllTimeGroups Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllTimeGroups.htm" />
             <HelpTOCNode Title="FindAllTimeGroups Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllTimeGroups_1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="f9061573-ca7d-475a-935e-addd176db139" Title="FindAllTimes Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimes.htm">
+          <HelpTOCNode Id="8fa1775f-232b-4587-b049-0d93228374f1" Title="FindAllTimes Method " Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimes.htm">
             <HelpTOCNode Title="FindAllTimes Method (DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllTimes.htm" />
             <HelpTOCNode Title="FindAllTimes Method (String, Boolean, DetailLevels, Int32, Int32, IOrder)" Url="html/M_Koopman_CheckPoint_Session_FindAllTimes_1.htm" />
           </HelpTOCNode>
@@ -230,7 +230,7 @@
           <HelpTOCNode Title="Post Method " Url="html/M_Koopman_CheckPoint_Session_Post.htm" />
           <HelpTOCNode Title="PostAsync Method " Url="html/M_Koopman_CheckPoint_Session_PostAsync.htm" />
           <HelpTOCNode Title="Publish Method " Url="html/M_Koopman_CheckPoint_Session_Publish.htm" />
-          <HelpTOCNode Id="0366294a-b7cb-4d12-a83f-a83e3db04d65" Title="RunScript Method " Url="html/Overload_Koopman_CheckPoint_Session_RunScript.htm">
+          <HelpTOCNode Id="2a2ecae6-6c81-41e5-8313-f84aa92ed0b9" Title="RunScript Method " Url="html/Overload_Koopman_CheckPoint_Session_RunScript.htm">
             <HelpTOCNode Title="RunScript Method (String, String, String, String, String)" Url="html/M_Koopman_CheckPoint_Session_RunScript.htm" />
             <HelpTOCNode Title="RunScript Method (String, String, String, String[], String)" Url="html/M_Koopman_CheckPoint_Session_RunScript_1.htm" />
           </HelpTOCNode>
@@ -238,9 +238,9 @@
           <HelpTOCNode Title="VerifyPolicy Method " Url="html/M_Koopman_CheckPoint_Session_VerifyPolicy.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="f0947959-efd1-4fe5-8560-b5dbce3eebe0" Title="SessionOptions Class" Url="html/T_Koopman_CheckPoint_SessionOptions.htm">
+      <HelpTOCNode Id="2c3e7102-558a-45b6-a138-5fca1cae82f3" Title="SessionOptions Class" Url="html/T_Koopman_CheckPoint_SessionOptions.htm">
         <HelpTOCNode Title="SessionOptions Constructor " Url="html/M_Koopman_CheckPoint_SessionOptions__ctor.htm" />
-        <HelpTOCNode Id="a63c5bbd-b456-4cec-b1e7-34e023d736b6" Title="SessionOptions Properties" Url="html/Properties_T_Koopman_CheckPoint_SessionOptions.htm">
+        <HelpTOCNode Id="523d79ee-276f-494e-a61b-e19e9a57a32f" Title="SessionOptions Properties" Url="html/Properties_T_Koopman_CheckPoint_SessionOptions.htm">
           <HelpTOCNode Title="CertificateValidation Property " Url="html/P_Koopman_CheckPoint_SessionOptions_CertificateValidation.htm" />
           <HelpTOCNode Title="DetailLevelAction Property " Url="html/P_Koopman_CheckPoint_SessionOptions_DetailLevelAction.htm" />
           <HelpTOCNode Title="IndentJson Property " Url="html/P_Koopman_CheckPoint_SessionOptions_IndentJson.htm" />
@@ -251,9 +251,9 @@
           <HelpTOCNode Title="User Property " Url="html/P_Koopman_CheckPoint_SessionOptions_User.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="24ddb1ab-72e3-4df4-b74c-a808c8379e98" Title="SimpleGateway Class" Url="html/T_Koopman_CheckPoint_SimpleGateway.htm">
+      <HelpTOCNode Id="24b557ed-e62a-41af-a184-2d1a1e8f7c99" Title="SimpleGateway Class" Url="html/T_Koopman_CheckPoint_SimpleGateway.htm">
         <HelpTOCNode Title="SimpleGateway Constructor " Url="html/M_Koopman_CheckPoint_SimpleGateway__ctor.htm" />
-        <HelpTOCNode Id="bc7263d9-c8cc-4574-b553-33395bacc7fc" Title="SimpleGateway Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGateway.htm">
+        <HelpTOCNode Id="5e338f7e-518b-4e17-8949-2d56c8bcd247" Title="SimpleGateway Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGateway.htm">
           <HelpTOCNode Title="AntiBot Property " Url="html/P_Koopman_CheckPoint_SimpleGateway_AntiBot.htm" />
           <HelpTOCNode Title="AntiVirus Property " Url="html/P_Koopman_CheckPoint_SimpleGateway_AntiVirus.htm" />
           <HelpTOCNode Title="ApplicationControl Property " Url="html/P_Koopman_CheckPoint_SimpleGateway_ApplicationControl.htm" />
@@ -281,46 +281,46 @@
         </HelpTOCNode>
         <HelpTOCNode Title="SimpleGateway Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGateway.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="ba24d310-ff25-46c3-a7e9-a23620254ace" Title="SimpleGateway.Order Class" Url="html/T_Koopman_CheckPoint_SimpleGateway_Order.htm">
-        <HelpTOCNode Id="1e81a706-5cd9-4a13-80dc-c97bc8fcf2f6" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm">
+      <HelpTOCNode Id="29a940bd-f783-4d9b-a154-95634749aa2d" Title="SimpleGateway.Order Class" Url="html/T_Koopman_CheckPoint_SimpleGateway_Order.htm">
+        <HelpTOCNode Id="ea24cfd5-d7e7-4284-9f94-3995cca2acf3" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_SimpleGateway_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_SimpleGateway_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="94dfeb0d-f8d5-47b2-99be-60c34251c4ac" Title="Tag Class" Url="html/T_Koopman_CheckPoint_Tag.htm">
+      <HelpTOCNode Id="26789c5e-19b5-49e6-978b-e2f2249d017b" Title="Tag Class" Url="html/T_Koopman_CheckPoint_Tag.htm">
         <HelpTOCNode Title="Tag Constructor " Url="html/M_Koopman_CheckPoint_Tag__ctor.htm" />
         <HelpTOCNode Title="Tag Properties" Url="html/Properties_T_Koopman_CheckPoint_Tag.htm" />
         <HelpTOCNode Title="Tag Methods" Url="html/Methods_T_Koopman_CheckPoint_Tag.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="78001fe9-0c92-4e78-b4a9-0e3c13061f68" Title="Tag.Order Class" Url="html/T_Koopman_CheckPoint_Tag_Order.htm">
-        <HelpTOCNode Id="e6c16132-d740-4dec-ba73-8a62223f52ca" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm">
+      <HelpTOCNode Id="b6452f32-b52b-42c6-a7c7-7ea41667234a" Title="Tag.Order Class" Url="html/T_Koopman_CheckPoint_Tag_Order.htm">
+        <HelpTOCNode Id="02327e5b-ec61-4f0e-a46e-80752aabebca" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_Tag_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_Tag_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="9b2db284-4d7f-42bb-8c62-2a02761ff70f" Title="Task Class" Url="html/T_Koopman_CheckPoint_Task.htm">
-        <HelpTOCNode Id="275ea342-e28a-4234-9ff1-90119602d2fe" Title="Task Properties" Url="html/Properties_T_Koopman_CheckPoint_Task.htm">
+      <HelpTOCNode Id="fca82aa0-46ac-4ae9-9170-0333c1ef411a" Title="Task Class" Url="html/T_Koopman_CheckPoint_Task.htm">
+        <HelpTOCNode Id="e448109b-d110-4621-a047-d86aa34ea36e" Title="Task Properties" Url="html/Properties_T_Koopman_CheckPoint_Task.htm">
           <HelpTOCNode Title="ProgressPercentage Property " Url="html/P_Koopman_CheckPoint_Task_ProgressPercentage.htm" />
           <HelpTOCNode Title="Status Property " Url="html/P_Koopman_CheckPoint_Task_Status.htm" />
           <HelpTOCNode Title="TaskDetails Property " Url="html/P_Koopman_CheckPoint_Task_TaskDetails.htm" />
           <HelpTOCNode Title="TaskID Property " Url="html/P_Koopman_CheckPoint_Task_TaskID.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="34a593ee-54ab-4a7a-9f25-8133ce7e7f8a" Title="Task Methods" Url="html/Methods_T_Koopman_CheckPoint_Task.htm">
+        <HelpTOCNode Id="9c841c6d-3d7f-44c8-89bf-107ac04c7a9f" Title="Task Methods" Url="html/Methods_T_Koopman_CheckPoint_Task.htm">
           <HelpTOCNode Title="WaitAsync Method " Url="html/M_Koopman_CheckPoint_Task_WaitAsync.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="6db4dcb1-65ff-462c-9d6c-b5394ae38833" Title="Task.Details Class" Url="html/T_Koopman_CheckPoint_Task_Details.htm">
+      <HelpTOCNode Id="b613d1de-b98a-4601-a0d2-6ffa199cd81b" Title="Task.Details Class" Url="html/T_Koopman_CheckPoint_Task_Details.htm">
         <HelpTOCNode Title="Task.Details Constructor " Url="html/M_Koopman_CheckPoint_Task_Details__ctor.htm" />
-        <HelpTOCNode Id="e3ebe5e9-5fa8-45d1-be21-d3af7358c778" Title="Details Properties" Url="html/Properties_T_Koopman_CheckPoint_Task_Details.htm">
+        <HelpTOCNode Id="8f32e296-a2aa-4f19-8294-c8a06a955894" Title="Details Properties" Url="html/Properties_T_Koopman_CheckPoint_Task_Details.htm">
           <HelpTOCNode Title="Domain Property " Url="html/P_Koopman_CheckPoint_Task_Details_Domain.htm" />
           <HelpTOCNode Title="ResponseMessage Property " Url="html/P_Koopman_CheckPoint_Task_Details_ResponseMessage.htm" />
           <HelpTOCNode Title="UID Property " Url="html/P_Koopman_CheckPoint_Task_Details_UID.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Task.TaskStatus Enumeration" Url="html/T_Koopman_CheckPoint_Task_TaskStatus.htm" />
-      <HelpTOCNode Id="a5ce1245-dd9d-49d1-9d16-d893f9fa2464" Title="Time Class" Url="html/T_Koopman_CheckPoint_Time.htm">
+      <HelpTOCNode Id="632a6cbb-8e63-4446-b451-585f5567946e" Title="Time Class" Url="html/T_Koopman_CheckPoint_Time.htm">
         <HelpTOCNode Title="Time Constructor " Url="html/M_Koopman_CheckPoint_Time__ctor.htm" />
-        <HelpTOCNode Id="7ba07406-4a6c-4001-bc9e-a4ade722f07d" Title="Time Properties" Url="html/Properties_T_Koopman_CheckPoint_Time.htm">
+        <HelpTOCNode Id="e10201ac-090b-4537-bd3b-e9a0af1d0adf" Title="Time Properties" Url="html/Properties_T_Koopman_CheckPoint_Time.htm">
           <HelpTOCNode Title="End Property " Url="html/P_Koopman_CheckPoint_Time_End.htm" />
           <HelpTOCNode Title="EndNever Property " Url="html/P_Koopman_CheckPoint_Time_EndNever.htm" />
           <HelpTOCNode Title="Groups Property " Url="html/P_Koopman_CheckPoint_Time_Groups.htm" />
@@ -331,15 +331,15 @@
         </HelpTOCNode>
         <HelpTOCNode Title="Time Methods" Url="html/Methods_T_Koopman_CheckPoint_Time.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="21748e35-d1d6-4b22-8d89-852b25100cbf" Title="Time.Order Class" Url="html/T_Koopman_CheckPoint_Time_Order.htm">
-        <HelpTOCNode Id="8289d311-07bd-4a1b-b12d-47200e2ca8d2" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm">
+      <HelpTOCNode Id="3afed51b-beef-4680-a401-344ce85292c1" Title="Time.Order Class" Url="html/T_Koopman_CheckPoint_Time_Order.htm">
+        <HelpTOCNode Id="011a1e90-b514-490f-a9b9-d88d6d4dd52f" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_Time_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_Time_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="773a916a-fbd4-4f26-a522-1a7dc7733310" Title="Time.RecurrenceClass Class" Url="html/T_Koopman_CheckPoint_Time_RecurrenceClass.htm">
+      <HelpTOCNode Id="5556df46-f2af-417c-836d-dd49ab8e1873" Title="Time.RecurrenceClass Class" Url="html/T_Koopman_CheckPoint_Time_RecurrenceClass.htm">
         <HelpTOCNode Title="Time.RecurrenceClass Constructor " Url="html/M_Koopman_CheckPoint_Time_RecurrenceClass__ctor.htm" />
-        <HelpTOCNode Id="4ccf73ef-9001-46eb-b16d-b518d151384c" Title="RecurrenceClass Properties" Url="html/Properties_T_Koopman_CheckPoint_Time_RecurrenceClass.htm">
+        <HelpTOCNode Id="62b8097a-46b4-46fa-a62e-3f5c9c6618bb" Title="RecurrenceClass Properties" Url="html/Properties_T_Koopman_CheckPoint_Time_RecurrenceClass.htm">
           <HelpTOCNode Title="Days Property " Url="html/P_Koopman_CheckPoint_Time_RecurrenceClass_Days.htm" />
           <HelpTOCNode Title="Month Property " Url="html/P_Koopman_CheckPoint_Time_RecurrenceClass_Month.htm" />
           <HelpTOCNode Title="Pattern Property " Url="html/P_Koopman_CheckPoint_Time_RecurrenceClass_Pattern.htm" />
@@ -348,75 +348,75 @@
         <HelpTOCNode Title="RecurrenceClass Methods" Url="html/Methods_T_Koopman_CheckPoint_Time_RecurrenceClass.htm" />
       </HelpTOCNode>
       <HelpTOCNode Title="Time.RecurrencePattern Enumeration" Url="html/T_Koopman_CheckPoint_Time_RecurrencePattern.htm" />
-      <HelpTOCNode Id="81bce365-ccb9-4311-b9d8-9b0d9c9d59fe" Title="TimeGroup Class" Url="html/T_Koopman_CheckPoint_TimeGroup.htm">
+      <HelpTOCNode Id="e15568e0-6ae2-4726-96e2-a06e65c5651c" Title="TimeGroup Class" Url="html/T_Koopman_CheckPoint_TimeGroup.htm">
         <HelpTOCNode Title="TimeGroup Constructor " Url="html/M_Koopman_CheckPoint_TimeGroup__ctor.htm" />
-        <HelpTOCNode Id="05345ee9-cae8-4c1b-80e7-7001e5fd7316" Title="TimeGroup Properties" Url="html/Properties_T_Koopman_CheckPoint_TimeGroup.htm">
+        <HelpTOCNode Id="c57ce3e3-258c-46ae-b841-b628f8523beb" Title="TimeGroup Properties" Url="html/Properties_T_Koopman_CheckPoint_TimeGroup.htm">
           <HelpTOCNode Title="Groups Property " Url="html/P_Koopman_CheckPoint_TimeGroup_Groups.htm" />
           <HelpTOCNode Title="Members Property " Url="html/P_Koopman_CheckPoint_TimeGroup_Members.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="TimeGroup Methods" Url="html/Methods_T_Koopman_CheckPoint_TimeGroup.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="2bd17e4b-5187-4b58-b4f4-fed299ff242c" Title="TimeGroup.Order Class" Url="html/T_Koopman_CheckPoint_TimeGroup_Order.htm">
-        <HelpTOCNode Id="a724ec7e-1cd2-4635-b0be-4511e37ecb5c" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_TimeGroup_Order.htm">
+      <HelpTOCNode Id="7f858927-c9d5-450c-a369-6f852981f381" Title="TimeGroup.Order Class" Url="html/T_Koopman_CheckPoint_TimeGroup_Order.htm">
+        <HelpTOCNode Id="8db64d98-ee48-43ce-bfa1-931f021b6125" Title="Order Fields" Url="html/Fields_T_Koopman_CheckPoint_TimeGroup_Order.htm">
           <HelpTOCNode Title="NameAsc Field" Url="html/F_Koopman_CheckPoint_TimeGroup_Order_NameAsc.htm" />
           <HelpTOCNode Title="NameDesc Field" Url="html/F_Koopman_CheckPoint_TimeGroup_Order_NameDesc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="ValidationStates Enumeration" Url="html/T_Koopman_CheckPoint_ValidationStates.htm" />
     </HelpTOCNode>
-    <HelpTOCNode Id="a7c5fb32-50a2-4715-9697-b11d89df3453" Title="Koopman.CheckPoint.Common" Url="html/N_Koopman_CheckPoint_Common.htm">
+    <HelpTOCNode Id="2d7c6d94-d650-403b-8d7e-5cd1638514a3" Title="Koopman.CheckPoint.Common" Url="html/N_Koopman_CheckPoint_Common.htm">
       <HelpTOCNode Title="AlertType Enumeration" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
       <HelpTOCNode Title="ChangeAction Enumeration" Url="html/T_Koopman_CheckPoint_Common_ChangeAction.htm" />
-      <HelpTOCNode Id="d7f2e411-991f-43c7-8077-d8bbf90759f6" Title="ChangeTracking Class" Url="html/T_Koopman_CheckPoint_Common_ChangeTracking.htm">
-        <HelpTOCNode Id="f972af0b-7842-4f38-968b-f15441bc2967" Title="ChangeTracking Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ChangeTracking.htm">
+      <HelpTOCNode Id="8d65320a-8f4a-4e31-8475-203a26e2cd0e" Title="ChangeTracking Class" Url="html/T_Koopman_CheckPoint_Common_ChangeTracking.htm">
+        <HelpTOCNode Id="ca1ada0b-1561-4e35-92b6-f0a9d01f1ca2" Title="ChangeTracking Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ChangeTracking.htm">
           <HelpTOCNode Title="IsChanged Property " Url="html/P_Koopman_CheckPoint_Common_ChangeTracking_IsChanged.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="ChangeTracking Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ChangeTracking.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="6ee487f0-47f2-49db-8ea2-8f31146cc279" Title="Domain Class" Url="html/T_Koopman_CheckPoint_Common_Domain.htm">
-        <HelpTOCNode Id="8bf5a5fa-ceea-4d00-b9e3-58f4348af82f" Title="Domain Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_Domain.htm">
+      <HelpTOCNode Id="e6968a81-0cf6-47a8-9a70-520a8a79e16c" Title="Domain Class" Url="html/T_Koopman_CheckPoint_Common_Domain.htm">
+        <HelpTOCNode Id="1f74979f-a0a6-4068-a109-f7380749ccc9" Title="Domain Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_Domain.htm">
           <HelpTOCNode Title="DomainType Property " Url="html/P_Koopman_CheckPoint_Common_Domain_DomainType.htm" />
           <HelpTOCNode Title="Name Property " Url="html/P_Koopman_CheckPoint_Common_Domain_Name.htm" />
           <HelpTOCNode Title="UID Property " Url="html/P_Koopman_CheckPoint_Common_Domain_UID.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="fc046d55-e403-4248-9326-41b4c1b21404" Title="Domain Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_Domain.htm">
+        <HelpTOCNode Id="e167c689-2a55-42be-9c0d-ccca36f40476" Title="Domain Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_Domain.htm">
           <HelpTOCNode Title="Equals Method " Url="html/M_Koopman_CheckPoint_Common_Domain_Equals.htm" />
           <HelpTOCNode Title="GetHashCode Method " Url="html/M_Koopman_CheckPoint_Common_Domain_GetHashCode.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/M_Koopman_CheckPoint_Common_Domain_ToString.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="38a9360d-5852-4d7c-844c-c3d5585b4ce5" Title="Domain Fields" Url="html/Fields_T_Koopman_CheckPoint_Common_Domain.htm">
+        <HelpTOCNode Id="14f3a8af-f039-4f2b-9bef-50298ee3d653" Title="Domain Fields" Url="html/Fields_T_Koopman_CheckPoint_Common_Domain.htm">
           <HelpTOCNode Title="DataDomain Field" Url="html/F_Koopman_CheckPoint_Common_Domain_DataDomain.htm" />
           <HelpTOCNode Title="Default Field" Url="html/F_Koopman_CheckPoint_Common_Domain_Default.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="e2274396-bda2-4a3b-beca-eb52639896bb" Title="HourRanges Class" Url="html/T_Koopman_CheckPoint_Common_HourRanges.htm">
+      <HelpTOCNode Id="43f776f8-76ba-4d43-bbfc-953e91307806" Title="HourRanges Class" Url="html/T_Koopman_CheckPoint_Common_HourRanges.htm">
         <HelpTOCNode Title="HourRanges Constructor " Url="html/M_Koopman_CheckPoint_Common_HourRanges__ctor.htm" />
-        <HelpTOCNode Id="3f9d1ecd-1a86-4bf2-85cd-a632e8d627ff" Title="HourRanges Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_HourRanges.htm">
+        <HelpTOCNode Id="bc373820-a27d-42cd-9b65-25ee5eacd8b9" Title="HourRanges Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_HourRanges.htm">
           <HelpTOCNode Title="Item Property " Url="html/P_Koopman_CheckPoint_Common_HourRanges_Item.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="HourRanges Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_HourRanges.htm" />
-        <HelpTOCNode Id="7e19a911-84e8-4dca-afb6-a4da7a9c8cc9" Title="HourRanges Fields" Url="html/Fields_T_Koopman_CheckPoint_Common_HourRanges.htm">
+        <HelpTOCNode Id="2c6526cd-9a29-4a88-b01d-c8d8678789bf" Title="HourRanges Fields" Url="html/Fields_T_Koopman_CheckPoint_Common_HourRanges.htm">
           <HelpTOCNode Title="Size Field" Url="html/F_Koopman_CheckPoint_Common_HourRanges_Size.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="IOrder Interface" Url="html/T_Koopman_CheckPoint_Common_IOrder.htm" />
       <HelpTOCNode Title="ISecurityZoneSettings Interface" Url="html/T_Koopman_CheckPoint_Common_ISecurityZoneSettings.htm" />
-      <HelpTOCNode Id="8dbc84ac-b014-454a-8c7f-7a77f228c397" Title="ListChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_ListChangeTracking_1.htm">
+      <HelpTOCNode Id="6e7effda-903a-431d-bd73-783448a6d6d6" Title="ListChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_ListChangeTracking_1.htm">
         <HelpTOCNode Title="ListChangeTracking(T) Constructor " Url="html/M_Koopman_CheckPoint_Common_ListChangeTracking_1__ctor.htm" />
-        <HelpTOCNode Id="2c8caa74-273d-49f2-b0a5-f545b8f5df8b" Title="ListChangeTracking(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ListChangeTracking_1.htm">
+        <HelpTOCNode Id="ae409150-fa85-4ed9-88de-f9ba6635c4b8" Title="ListChangeTracking(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ListChangeTracking_1.htm">
           <HelpTOCNode Title="IsChanged Property " Url="html/P_Koopman_CheckPoint_Common_ListChangeTracking_1_IsChanged.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="ListChangeTracking(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ListChangeTracking_1.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="b2915818-f0cf-46db-8bf2-460da6efb219" Title="MembershipChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_MembershipChangeTracking_1.htm">
-        <HelpTOCNode Id="c8afa9ad-4ca9-4dc4-b6c0-dc6a2b76b9f7" Title="MembershipChangeTracking(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_MembershipChangeTracking_1.htm">
+      <HelpTOCNode Id="5ed71ac9-154c-43e7-b43a-eb8e3aaf9eb9" Title="MembershipChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_MembershipChangeTracking_1.htm">
+        <HelpTOCNode Id="cff49fb8-32e5-4388-857a-0d2a7691dd66" Title="MembershipChangeTracking(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_MembershipChangeTracking_1.htm">
           <HelpTOCNode Title="Count Property " Url="html/P_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Count.htm" />
           <HelpTOCNode Title="IsChanged Property " Url="html/P_Koopman_CheckPoint_Common_MembershipChangeTracking_1_IsChanged.htm" />
           <HelpTOCNode Title="IsReadOnly Property " Url="html/P_Koopman_CheckPoint_Common_MembershipChangeTracking_1_IsReadOnly.htm" />
           <HelpTOCNode Title="Item Property " Url="html/P_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Item.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="00b13852-b68f-46ff-87a1-47e09d15c1d4" Title="MembershipChangeTracking(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_MembershipChangeTracking_1.htm">
-          <HelpTOCNode Id="fbfb8211-c0f1-4eae-8678-c7569519b8ce" Title="Add Method " Url="html/Overload_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Add.htm">
+        <HelpTOCNode Id="c69fde81-c028-4e39-928f-608e863b4648" Title="MembershipChangeTracking(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_MembershipChangeTracking_1.htm">
+          <HelpTOCNode Id="4ab587fe-af8c-43d2-a7cd-8b0b5ba85e24" Title="Add Method " Url="html/Overload_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Add.htm">
             <HelpTOCNode Title="Add Method (String)" Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Add.htm" />
             <HelpTOCNode Title="Add Method (T)" Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Add_1.htm" />
           </HelpTOCNode>
@@ -426,15 +426,15 @@
           <HelpTOCNode Title="GetEnumerator Method " Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_GetEnumerator.htm" />
           <HelpTOCNode Title="IndexOf Method " Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_IndexOf.htm" />
           <HelpTOCNode Title="Insert Method " Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Insert.htm" />
-          <HelpTOCNode Id="a147a2d8-8db1-4604-b4c6-89ccecde648d" Title="Remove Method " Url="html/Overload_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Remove.htm">
+          <HelpTOCNode Id="f49a596d-34e0-43bd-b9ec-c638816d5c83" Title="Remove Method " Url="html/Overload_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Remove.htm">
             <HelpTOCNode Title="Remove Method (String)" Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Remove.htm" />
             <HelpTOCNode Title="Remove Method (T)" Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_Remove_1.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="RemoveAt Method " Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_RemoveAt.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="64b0ccd1-02a0-4b8f-b3ba-3a29c66d4aa0" Title="MetaInfo Class" Url="html/T_Koopman_CheckPoint_Common_MetaInfo.htm">
-        <HelpTOCNode Id="35cd9854-91b5-4ed9-8a8c-cccf6237834d" Title="MetaInfo Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_MetaInfo.htm">
+      <HelpTOCNode Id="8b03c25f-e1f2-4a44-990c-15fe2f60c12b" Title="MetaInfo Class" Url="html/T_Koopman_CheckPoint_Common_MetaInfo.htm">
+        <HelpTOCNode Id="b9b90094-0f53-489d-be8a-579592ef883c" Title="MetaInfo Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_MetaInfo.htm">
           <HelpTOCNode Title="CreationTime Property " Url="html/P_Koopman_CheckPoint_Common_MetaInfo_CreationTime.htm" />
           <HelpTOCNode Title="Creator Property " Url="html/P_Koopman_CheckPoint_Common_MetaInfo_Creator.htm" />
           <HelpTOCNode Title="LastModifier Property " Url="html/P_Koopman_CheckPoint_Common_MetaInfo_LastModifier.htm" />
@@ -444,9 +444,9 @@
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Metrics Enumeration" Url="html/T_Koopman_CheckPoint_Common_Metrics.htm" />
-      <HelpTOCNode Id="784ed91e-2a27-40bb-bf7a-d1ab8e9e68e6" Title="NATSettings Class" Url="html/T_Koopman_CheckPoint_Common_NATSettings.htm">
+      <HelpTOCNode Id="84528aaf-3dae-448e-af93-c4ea07583af9" Title="NATSettings Class" Url="html/T_Koopman_CheckPoint_Common_NATSettings.htm">
         <HelpTOCNode Title="NATSettings Constructor " Url="html/M_Koopman_CheckPoint_Common_NATSettings__ctor.htm" />
-        <HelpTOCNode Id="8ec34dff-1348-4a3f-8061-72f27432c7b8" Title="NATSettings Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_NATSettings.htm">
+        <HelpTOCNode Id="db4229b5-c6ff-4d15-8b6e-6a45ebfb8bd5" Title="NATSettings Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_NATSettings.htm">
           <HelpTOCNode Title="AutoRule Property " Url="html/P_Koopman_CheckPoint_Common_NATSettings_AutoRule.htm" />
           <HelpTOCNode Title="HideBehind Property " Url="html/P_Koopman_CheckPoint_Common_NATSettings_HideBehind.htm" />
           <HelpTOCNode Title="InstallOn Property " Url="html/P_Koopman_CheckPoint_Common_NATSettings_InstallOn.htm" />
@@ -458,15 +458,15 @@
       </HelpTOCNode>
       <HelpTOCNode Title="NATSettings.HideBehindValues Enumeration" Url="html/T_Koopman_CheckPoint_Common_NATSettings_HideBehindValues.htm" />
       <HelpTOCNode Title="NATSettings.NATMethods Enumeration" Url="html/T_Koopman_CheckPoint_Common_NATSettings_NATMethods.htm" />
-      <HelpTOCNode Id="1f6bd48f-e27d-41e8-82e9-8971e76d5f10" Title="NetworkObjectsPagingResults(T) Class" Url="html/T_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1.htm">
+      <HelpTOCNode Id="6a2c298d-c175-4567-bf3e-9c6f16d77078" Title="NetworkObjectsPagingResults(T) Class" Url="html/T_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1.htm">
         <HelpTOCNode Title="NetworkObjectsPagingResults(T) Constructor " Url="html/M_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1__ctor.htm" />
-        <HelpTOCNode Id="43d20c02-bc55-40ea-9a86-12d8b96e7ffa" Title="NetworkObjectsPagingResults(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1.htm">
+        <HelpTOCNode Id="a93f1acb-4e9b-41bc-b3f9-6886613f6b9a" Title="NetworkObjectsPagingResults(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1.htm">
           <HelpTOCNode Title="Objects Property " Url="html/P_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1_Objects.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="NetworkObjectsPagingResults(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="0a7e0173-c446-4433-86c2-428bb9f3f063" Title="ObjectBase Class" Url="html/T_Koopman_CheckPoint_Common_ObjectBase.htm">
-        <HelpTOCNode Id="dbae78c0-4c74-4a35-9017-6cc4fb8d9834" Title="ObjectBase Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ObjectBase.htm">
+      <HelpTOCNode Id="6b4c7f72-f634-40c7-8f5f-4e1394b95c92" Title="ObjectBase Class" Url="html/T_Koopman_CheckPoint_Common_ObjectBase.htm">
+        <HelpTOCNode Id="710b1004-e12a-40ee-9448-8ac2db55be46" Title="ObjectBase Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ObjectBase.htm">
           <HelpTOCNode Title="Color Property " Url="html/P_Koopman_CheckPoint_Common_ObjectBase_Color.htm" />
           <HelpTOCNode Title="Comments Property " Url="html/P_Koopman_CheckPoint_Common_ObjectBase_Comments.htm" />
           <HelpTOCNode Title="Icon Property " Url="html/P_Koopman_CheckPoint_Common_ObjectBase_Icon.htm" />
@@ -476,59 +476,59 @@
         </HelpTOCNode>
         <HelpTOCNode Title="ObjectBase Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ObjectBase.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="9c733684-9f24-42e1-bb12-7edc446317eb" Title="ObjectMembershipChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1.htm">
+      <HelpTOCNode Id="49c43327-7a4c-4c8e-8109-26e59da9823e" Title="ObjectMembershipChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1.htm">
         <HelpTOCNode Title="ObjectMembershipChangeTracking(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1.htm" />
-        <HelpTOCNode Id="fd2a69aa-3625-49f0-8dbb-16405213757e" Title="ObjectMembershipChangeTracking(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1.htm">
-          <HelpTOCNode Id="1fee476b-b1a0-4e88-a3e8-527dbab6155b" Title="Add Method " Url="html/Overload_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1_Add.htm">
+        <HelpTOCNode Id="6b0154b8-1f06-4b31-acf7-ddb1470d2f38" Title="ObjectMembershipChangeTracking(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1.htm">
+          <HelpTOCNode Id="d6cafc48-a080-4b1a-8a53-8e3e6981669d" Title="Add Method " Url="html/Overload_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1_Add.htm">
             <HelpTOCNode Title="Add Method (T)" Url="html/M_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1_Add.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="278397ee-5698-4341-bc17-18117ee96f07" Title="Remove Method " Url="html/Overload_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1_Remove.htm">
+          <HelpTOCNode Id="bf2bc7e4-881d-4f9b-bb79-4e06d0e5b9b3" Title="Remove Method " Url="html/Overload_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1_Remove.htm">
             <HelpTOCNode Title="Remove Method (T)" Url="html/M_Koopman_CheckPoint_Common_ObjectMembershipChangeTracking_1_Remove.htm" />
           </HelpTOCNode>
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="070a51e7-ca4a-4591-9023-53820ee6602d" Title="ObjectsPagingResults(T) Class" Url="html/T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm">
-        <HelpTOCNode Id="40258c34-a0c1-416d-8e2d-48d8e4b680da" Title="ObjectsPagingResults(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm">
+      <HelpTOCNode Id="88e1ce00-ee1e-434c-9563-04ca64ecda90" Title="ObjectsPagingResults(T) Class" Url="html/T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm">
+        <HelpTOCNode Id="70e96cfe-5a8a-452e-9a27-03e02926b324" Title="ObjectsPagingResults(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm">
           <HelpTOCNode Title="From Property " Url="html/P_Koopman_CheckPoint_Common_ObjectsPagingResults_1_From.htm" />
           <HelpTOCNode Title="Item Property " Url="html/P_Koopman_CheckPoint_Common_ObjectsPagingResults_1_Item.htm" />
           <HelpTOCNode Title="To Property " Url="html/P_Koopman_CheckPoint_Common_ObjectsPagingResults_1_To.htm" />
           <HelpTOCNode Title="Total Property " Url="html/P_Koopman_CheckPoint_Common_ObjectsPagingResults_1_Total.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="92f44828-9a2c-4f75-9868-150045b39d3f" Title="ObjectsPagingResults(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm">
+        <HelpTOCNode Id="58abaed3-57db-4610-a937-51347e57b879" Title="ObjectsPagingResults(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm">
           <HelpTOCNode Title="GetEnumerator Method " Url="html/M_Koopman_CheckPoint_Common_ObjectsPagingResults_1_GetEnumerator.htm" />
           <HelpTOCNode Title="NextPage Method " Url="html/M_Koopman_CheckPoint_Common_ObjectsPagingResults_1_NextPage.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="879c4b87-f8d5-4965-a186-b94f41c5bd8e" Title="OrderAscending Class" Url="html/T_Koopman_CheckPoint_Common_OrderAscending.htm">
-        <HelpTOCNode Id="a96f9b8d-2d09-43d9-a969-b1fdc409c8d8" Title="OrderAscending Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_OrderAscending.htm">
+      <HelpTOCNode Id="c95976d2-ca80-403e-bc7c-22119fc1dc51" Title="OrderAscending Class" Url="html/T_Koopman_CheckPoint_Common_OrderAscending.htm">
+        <HelpTOCNode Id="5ec4eb74-6c63-4c05-8737-09ec5c282e3f" Title="OrderAscending Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_OrderAscending.htm">
           <HelpTOCNode Title="PropertyName Property " Url="html/P_Koopman_CheckPoint_Common_OrderAscending_PropertyName.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="a2ad6ac8-e133-4104-8ecc-f147970d9b74" Title="OrderDescending Class" Url="html/T_Koopman_CheckPoint_Common_OrderDescending.htm">
-        <HelpTOCNode Id="bb6704d5-929d-452c-8a40-bf9cdc559984" Title="OrderDescending Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_OrderDescending.htm">
+      <HelpTOCNode Id="283c92e4-94f6-4c53-bc71-23e7974d01e8" Title="OrderDescending Class" Url="html/T_Koopman_CheckPoint_Common_OrderDescending.htm">
+        <HelpTOCNode Id="d88aec12-4096-45fc-a33f-62a92b95e187" Title="OrderDescending Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_OrderDescending.htm">
           <HelpTOCNode Title="PropertyName Property " Url="html/P_Koopman_CheckPoint_Common_OrderDescending_PropertyName.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="5f83ca74-ee97-4105-9f1c-6b9ed9b14f20" Title="SimpleChangeTracking Class" Url="html/T_Koopman_CheckPoint_Common_SimpleChangeTracking.htm">
-        <HelpTOCNode Id="ea9c046c-4ad5-4e94-af65-18a7e99d1a78" Title="SimpleChangeTracking Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_SimpleChangeTracking.htm">
+      <HelpTOCNode Id="6344795f-0bfc-4d51-8c2f-62d574465f09" Title="SimpleChangeTracking Class" Url="html/T_Koopman_CheckPoint_Common_SimpleChangeTracking.htm">
+        <HelpTOCNode Id="20ffcd4b-326f-42d1-8b76-18bf67a4f4cd" Title="SimpleChangeTracking Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_SimpleChangeTracking.htm">
           <HelpTOCNode Title="IsChanged Property " Url="html/P_Koopman_CheckPoint_Common_SimpleChangeTracking_IsChanged.htm" />
           <HelpTOCNode Title="IsNew Property " Url="html/P_Koopman_CheckPoint_Common_SimpleChangeTracking_IsNew.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="f3300fa9-d9fa-48f8-9297-7203f0bd552c" Title="SimpleChangeTracking Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_SimpleChangeTracking.htm">
+        <HelpTOCNode Id="83a62abe-65cf-48a9-ba11-729040662984" Title="SimpleChangeTracking Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_SimpleChangeTracking.htm">
           <HelpTOCNode Title="AcceptChanges Method " Url="html/M_Koopman_CheckPoint_Common_SimpleChangeTracking_AcceptChanges.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="3b20a54a-7cd5-498f-a147-e96fd8adac92" Title="SimpleListChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_SimpleListChangeTracking_1.htm">
+      <HelpTOCNode Id="baf19784-40b8-48b4-8124-19f7616bbc31" Title="SimpleListChangeTracking(T) Class" Url="html/T_Koopman_CheckPoint_Common_SimpleListChangeTracking_1.htm">
         <HelpTOCNode Title="SimpleListChangeTracking(T) Constructor " Url="html/M_Koopman_CheckPoint_Common_SimpleListChangeTracking_1__ctor.htm" />
-        <HelpTOCNode Id="cf42792d-e4b3-4dc1-9b8b-92b719759def" Title="SimpleListChangeTracking(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_SimpleListChangeTracking_1.htm">
+        <HelpTOCNode Id="0d7673aa-03b1-4734-8c33-ec2eb008aa46" Title="SimpleListChangeTracking(T) Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_SimpleListChangeTracking_1.htm">
           <HelpTOCNode Title="Count Property " Url="html/P_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Count.htm" />
           <HelpTOCNode Title="IsReadOnly Property " Url="html/P_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_IsReadOnly.htm" />
-          <HelpTOCNode Id="43a7b669-b185-4371-bdec-77ff880eebf4" Title="Item Property " Url="html/Overload_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Item.htm">
+          <HelpTOCNode Id="f74ab26e-c5df-4233-90ed-762ed5d11a77" Title="Item Property " Url="html/Overload_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Item.htm">
             <HelpTOCNode Title="Item Property (Int32)" Url="html/P_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Item.htm" />
             <HelpTOCNode Title="Item Property (String)" Url="html/P_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Item_1.htm" />
           </HelpTOCNode>
         </HelpTOCNode>
-        <HelpTOCNode Id="54b7c3d7-828e-49e4-ae2d-2dd9c582247d" Title="SimpleListChangeTracking(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_SimpleListChangeTracking_1.htm">
+        <HelpTOCNode Id="f2c7b68d-df06-4e86-be91-f154dcdbbe8d" Title="SimpleListChangeTracking(T) Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_SimpleListChangeTracking_1.htm">
           <HelpTOCNode Title="Add Method " Url="html/M_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Add.htm" />
           <HelpTOCNode Title="Clear Method " Url="html/M_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Clear.htm" />
           <HelpTOCNode Title="Contains Method " Url="html/M_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_Contains.htm" />
@@ -540,28 +540,28 @@
           <HelpTOCNode Title="RemoveAt Method " Url="html/M_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_RemoveAt.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="5bc1a801-326a-450f-ba68-fc7082078b7e" Title="TimeOfDay Class" Url="html/T_Koopman_CheckPoint_Common_TimeOfDay.htm">
-        <HelpTOCNode Id="5337e3e2-fffc-4d05-b996-d01e9a881787" Title="TimeOfDay Constructor " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay__ctor.htm">
+      <HelpTOCNode Id="ccfb44a4-2121-4f35-9341-1e7eb5c07ddb" Title="TimeOfDay Class" Url="html/T_Koopman_CheckPoint_Common_TimeOfDay.htm">
+        <HelpTOCNode Id="0a34f6f7-7154-4a87-b9ce-209cc4ff7401" Title="TimeOfDay Constructor " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay__ctor.htm">
           <HelpTOCNode Title="TimeOfDay Constructor (Int32)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay__ctor.htm" />
           <HelpTOCNode Title="TimeOfDay Constructor (String)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay__ctor_2.htm" />
           <HelpTOCNode Title="TimeOfDay Constructor (Int32, Int32)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay__ctor_1.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="b82595df-87e4-413b-a084-88f3106cee90" Title="TimeOfDay Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_TimeOfDay.htm">
+        <HelpTOCNode Id="118762dc-abb2-43bb-b831-a1806b2858e7" Title="TimeOfDay Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_TimeOfDay.htm">
           <HelpTOCNode Title="Hour Property " Url="html/P_Koopman_CheckPoint_Common_TimeOfDay_Hour.htm" />
           <HelpTOCNode Title="Minute Property " Url="html/P_Koopman_CheckPoint_Common_TimeOfDay_Minute.htm" />
           <HelpTOCNode Title="Minutes Property " Url="html/P_Koopman_CheckPoint_Common_TimeOfDay_Minutes.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="38b1cc6f-76c2-4e83-88d3-0723cb22f1c8" Title="TimeOfDay Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_TimeOfDay.htm">
+        <HelpTOCNode Id="b7fb1cb1-27e6-4951-b34c-1e604affedaa" Title="TimeOfDay Methods" Url="html/Methods_T_Koopman_CheckPoint_Common_TimeOfDay.htm">
           <HelpTOCNode Title="CompareTo Method " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_CompareTo.htm" />
-          <HelpTOCNode Id="800d22f0-e6d0-438c-ba48-8fec861e0c1e" Title="Equals Method " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_Equals.htm">
+          <HelpTOCNode Id="1931197d-5e8c-44a3-91dd-341fe1f01310" Title="Equals Method " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_Equals.htm">
             <HelpTOCNode Title="Equals Method (Object)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_Equals_1.htm" />
             <HelpTOCNode Title="Equals Method (TimeOfDay)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_Equals.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="GetHashCode Method " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_GetHashCode.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_ToString.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="e1388d30-e0be-4935-9f52-13d523e8703e" Title="TimeOfDay Operators and Type Conversions" Url="html/Operators_T_Koopman_CheckPoint_Common_TimeOfDay.htm">
-          <HelpTOCNode Id="86bda531-1d04-4d8b-be41-b53ad9b42b93" Title="Addition Operator " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_op_Addition.htm">
+        <HelpTOCNode Id="d3d1e977-faf1-4bd6-9dab-9e581604eddf" Title="TimeOfDay Operators and Type Conversions" Url="html/Operators_T_Koopman_CheckPoint_Common_TimeOfDay.htm">
+          <HelpTOCNode Id="46c94db5-ae8f-4311-9fe3-2c13a5f709f3" Title="Addition Operator " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_op_Addition.htm">
             <HelpTOCNode Title="Addition Operator (TimeOfDay, TimeOfDay)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Addition.htm" />
             <HelpTOCNode Title="Addition Operator (TimeOfDay, Int16)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Addition_1.htm" />
             <HelpTOCNode Title="Addition Operator (TimeOfDay, Int32)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Addition_2.htm" />
@@ -570,7 +570,7 @@
           <HelpTOCNode Title="Equality Operator " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Equality.htm" />
           <HelpTOCNode Title="GreaterThan Operator " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_GreaterThan.htm" />
           <HelpTOCNode Title="GreaterThanOrEqual Operator " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_GreaterThanOrEqual.htm" />
-          <HelpTOCNode Id="eb3876de-7b36-4197-889e-9581b3160fd0" Title="Implicit Conversion Operators" Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_op_Implicit.htm">
+          <HelpTOCNode Id="00cb1087-137f-460f-b9f1-3a3ac071c544" Title="Implicit Conversion Operators" Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_op_Implicit.htm">
             <HelpTOCNode Title="Implicit Conversion (Int32 to TimeOfDay)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Implicit_1.htm" />
             <HelpTOCNode Title="Implicit Conversion (TimeOfDay to Int16)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Implicit.htm" />
           </HelpTOCNode>
@@ -578,226 +578,226 @@
           <HelpTOCNode Title="Inequality Operator " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Inequality.htm" />
           <HelpTOCNode Title="LessThan Operator " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_LessThan.htm" />
           <HelpTOCNode Title="LessThanOrEqual Operator " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_LessThanOrEqual.htm" />
-          <HelpTOCNode Id="befb771e-ce26-443f-8839-dda3d1d49733" Title="Subtraction Operator " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_op_Subtraction.htm">
+          <HelpTOCNode Id="2292e7c6-6d53-451c-9389-a38e9991ae09" Title="Subtraction Operator " Url="html/Overload_Koopman_CheckPoint_Common_TimeOfDay_op_Subtraction.htm">
             <HelpTOCNode Title="Subtraction Operator (TimeOfDay, TimeOfDay)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Subtraction.htm" />
             <HelpTOCNode Title="Subtraction Operator (TimeOfDay, Int16)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Subtraction_1.htm" />
             <HelpTOCNode Title="Subtraction Operator (TimeOfDay, Int32)" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Subtraction_2.htm" />
           </HelpTOCNode>
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="dbc80936-9ae6-40dc-b3f7-c05457c76558" Title="TimeRange Class" Url="html/T_Koopman_CheckPoint_Common_TimeRange.htm">
-        <HelpTOCNode Id="92ec179a-978e-4dd5-8de2-b3d1048efcea" Title="TimeRange Constructor " Url="html/Overload_Koopman_CheckPoint_Common_TimeRange__ctor.htm">
+      <HelpTOCNode Id="40b83887-1cda-42e7-8db5-eca6c630f15a" Title="TimeRange Class" Url="html/T_Koopman_CheckPoint_Common_TimeRange.htm">
+        <HelpTOCNode Id="a603b1b6-e272-4fb6-8d68-3954348ec257" Title="TimeRange Constructor " Url="html/Overload_Koopman_CheckPoint_Common_TimeRange__ctor.htm">
           <HelpTOCNode Title="TimeRange Constructor (String, String)" Url="html/M_Koopman_CheckPoint_Common_TimeRange__ctor_1.htm" />
           <HelpTOCNode Title="TimeRange Constructor (TimeOfDay, TimeOfDay)" Url="html/M_Koopman_CheckPoint_Common_TimeRange__ctor.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="3d571fa6-d8b4-4bdb-84be-ee2fbd765d2b" Title="TimeRange Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_TimeRange.htm">
+        <HelpTOCNode Id="baf33f2e-4c50-4f4e-a678-bbe65a0fc9e9" Title="TimeRange Properties" Url="html/Properties_T_Koopman_CheckPoint_Common_TimeRange.htm">
           <HelpTOCNode Title="Duration Property " Url="html/P_Koopman_CheckPoint_Common_TimeRange_Duration.htm" />
           <HelpTOCNode Title="End Property " Url="html/P_Koopman_CheckPoint_Common_TimeRange_End.htm" />
           <HelpTOCNode Title="Start Property " Url="html/P_Koopman_CheckPoint_Common_TimeRange_Start.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="6d585dad-7810-4dd8-b2cb-6565b33a4555" Title="Koopman.CheckPoint.Exceptions" Url="html/N_Koopman_CheckPoint_Exceptions.htm">
-      <HelpTOCNode Id="0c1ee1b6-7d09-4298-a17b-07f231d5aa2c" Title="BadURLException Class" Url="html/T_Koopman_CheckPoint_Exceptions_BadURLException.htm">
+    <HelpTOCNode Id="c2523278-460b-4727-af23-9485ad8aef76" Title="Koopman.CheckPoint.Exceptions" Url="html/N_Koopman_CheckPoint_Exceptions.htm">
+      <HelpTOCNode Id="362ddf70-5458-4f43-8f87-71f6d689efa7" Title="BadURLException Class" Url="html/T_Koopman_CheckPoint_Exceptions_BadURLException.htm">
         <HelpTOCNode Title="BadURLException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_BadURLException.htm" />
         <HelpTOCNode Title="BadURLException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_BadURLException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="2968397f-fd94-4623-bb6a-d8732561c3d4" Title="CheckPointError Class" Url="html/T_Koopman_CheckPoint_Exceptions_CheckPointError.htm">
-        <HelpTOCNode Id="6a0adf27-e9c4-4aaf-b7a5-d35b30a035ae" Title="CheckPointError Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_CheckPointError.htm">
+      <HelpTOCNode Id="65099573-180e-4ab5-a0af-11f918a66bc1" Title="CheckPointError Class" Url="html/T_Koopman_CheckPoint_Exceptions_CheckPointError.htm">
+        <HelpTOCNode Id="ac875f7f-8c06-43c9-8e4b-be1977d88eca" Title="CheckPointError Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_CheckPointError.htm">
           <HelpTOCNode Title="BlockingErrors Property " Url="html/P_Koopman_CheckPoint_Exceptions_CheckPointError_BlockingErrors.htm" />
           <HelpTOCNode Title="Errors Property " Url="html/P_Koopman_CheckPoint_Exceptions_CheckPointError_Errors.htm" />
           <HelpTOCNode Title="Message Property " Url="html/P_Koopman_CheckPoint_Exceptions_CheckPointError_Message.htm" />
           <HelpTOCNode Title="Warnings Property " Url="html/P_Koopman_CheckPoint_Exceptions_CheckPointError_Warnings.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="3ddbbcfa-3d8f-40cf-b130-a0a3bf352f12" Title="CheckPointErrorDetails Class" Url="html/T_Koopman_CheckPoint_Exceptions_CheckPointErrorDetails.htm">
-        <HelpTOCNode Id="823a0046-2c15-47ed-a3dc-39868a8d38a4" Title="CheckPointErrorDetails Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_CheckPointErrorDetails.htm">
+      <HelpTOCNode Id="f9bf24dc-32de-49e0-924c-4536acf213d0" Title="CheckPointErrorDetails Class" Url="html/T_Koopman_CheckPoint_Exceptions_CheckPointErrorDetails.htm">
+        <HelpTOCNode Id="ec69a432-ef8e-4d1a-b34a-03b4b4e590fe" Title="CheckPointErrorDetails Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_CheckPointErrorDetails.htm">
           <HelpTOCNode Title="CurrentSession Property " Url="html/P_Koopman_CheckPoint_Exceptions_CheckPointErrorDetails_CurrentSession.htm" />
           <HelpTOCNode Title="Message Property " Url="html/P_Koopman_CheckPoint_Exceptions_CheckPointErrorDetails_Message.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="1a9b5d2b-1a0b-419f-acbe-af74b282c798" Title="CommandNotFoundException Class" Url="html/T_Koopman_CheckPoint_Exceptions_CommandNotFoundException.htm">
+      <HelpTOCNode Id="e4162f82-83ef-475f-b237-7a238960b0c6" Title="CommandNotFoundException Class" Url="html/T_Koopman_CheckPoint_Exceptions_CommandNotFoundException.htm">
         <HelpTOCNode Title="CommandNotFoundException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_CommandNotFoundException.htm" />
         <HelpTOCNode Title="CommandNotFoundException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_CommandNotFoundException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="9a4c0253-f9ba-48bd-96f8-23af49f1919e" Title="CommandVersionNotFoundException Class" Url="html/T_Koopman_CheckPoint_Exceptions_CommandVersionNotFoundException.htm">
+      <HelpTOCNode Id="c53f0c58-0a26-4f82-bca5-0c8683b3284d" Title="CommandVersionNotFoundException Class" Url="html/T_Koopman_CheckPoint_Exceptions_CommandVersionNotFoundException.htm">
         <HelpTOCNode Title="CommandVersionNotFoundException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_CommandVersionNotFoundException.htm" />
         <HelpTOCNode Title="CommandVersionNotFoundException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_CommandVersionNotFoundException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="45a4204f-401f-4198-8aaa-539d93a17253" Title="DetailLevelException Class" Url="html/T_Koopman_CheckPoint_Exceptions_DetailLevelException.htm">
+      <HelpTOCNode Id="72bbbf90-bb5b-4308-aedd-1e4dc8c5f37f" Title="DetailLevelException Class" Url="html/T_Koopman_CheckPoint_Exceptions_DetailLevelException.htm">
         <HelpTOCNode Title="DetailLevelException Constructor " Url="html/M_Koopman_CheckPoint_Exceptions_DetailLevelException__ctor.htm" />
-        <HelpTOCNode Id="fe194356-9307-4ba1-8d8f-d4d91b345aa5" Title="DetailLevelException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_DetailLevelException.htm">
+        <HelpTOCNode Id="c11daf44-c893-4ca6-8edb-ee4566a606fc" Title="DetailLevelException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_DetailLevelException.htm">
           <HelpTOCNode Title="Actual Property " Url="html/P_Koopman_CheckPoint_Exceptions_DetailLevelException_Actual.htm" />
           <HelpTOCNode Title="Required Property " Url="html/P_Koopman_CheckPoint_Exceptions_DetailLevelException_Required.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="c5635cc6-4c8b-498d-a4f2-42993f7aa9bc" Title="ForbiddenException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ForbiddenException.htm">
+      <HelpTOCNode Id="616b8ba0-31b0-40fa-887a-4d0d11cebf43" Title="ForbiddenException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ForbiddenException.htm">
         <HelpTOCNode Title="ForbiddenException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ForbiddenException.htm" />
         <HelpTOCNode Title="ForbiddenException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ForbiddenException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="9042ba87-5d59-4b25-a165-3af4c84394e8" Title="GenericException Class" Url="html/T_Koopman_CheckPoint_Exceptions_GenericException.htm">
-        <HelpTOCNode Id="d66e9aa4-3179-4f67-9b34-70cc5916132d" Title="GenericException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_GenericException.htm">
+      <HelpTOCNode Id="01cac13d-5a64-4547-9bb2-3470f5a4533c" Title="GenericException Class" Url="html/T_Koopman_CheckPoint_Exceptions_GenericException.htm">
+        <HelpTOCNode Id="c08e3b38-eeab-4d13-bd02-b2c10eac1899" Title="GenericException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_GenericException.htm">
           <HelpTOCNode Title="BlockingErrors Property " Url="html/P_Koopman_CheckPoint_Exceptions_GenericException_BlockingErrors.htm" />
           <HelpTOCNode Title="Errors Property " Url="html/P_Koopman_CheckPoint_Exceptions_GenericException_Errors.htm" />
           <HelpTOCNode Title="HTTPStatusCode Property " Url="html/P_Koopman_CheckPoint_Exceptions_GenericException_HTTPStatusCode.htm" />
           <HelpTOCNode Title="Warnings Property " Url="html/P_Koopman_CheckPoint_Exceptions_GenericException_Warnings.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="53c9675c-6d78-4650-a90a-e9f7cf69ea80" Title="GenericException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_GenericException.htm">
+        <HelpTOCNode Id="1e8cb024-4ba5-4431-ae7b-04087435c2ef" Title="GenericException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_GenericException.htm">
           <HelpTOCNode Title="ToString Method " Url="html/M_Koopman_CheckPoint_Exceptions_GenericException_ToString.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="6ab836f5-7ec5-4dd9-8754-086bc7350c51" Title="InappropriateDomainTypeException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InappropriateDomainTypeException.htm">
+      <HelpTOCNode Id="e7e47948-9f32-4807-a4de-2906bb734366" Title="InappropriateDomainTypeException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InappropriateDomainTypeException.htm">
         <HelpTOCNode Title="InappropriateDomainTypeException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InappropriateDomainTypeException.htm" />
         <HelpTOCNode Title="InappropriateDomainTypeException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InappropriateDomainTypeException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="bae66186-9be5-4122-9b61-0d7888874b0e" Title="InternalErrorException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InternalErrorException.htm">
+      <HelpTOCNode Id="9a9b2ea3-c18b-4687-9560-4da1818abaea" Title="InternalErrorException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InternalErrorException.htm">
         <HelpTOCNode Title="InternalErrorException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InternalErrorException.htm" />
         <HelpTOCNode Title="InternalErrorException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InternalErrorException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="58336345-0da0-4b5c-a454-2a674638ee8a" Title="InvalidAPIObjectFeatureException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidAPIObjectFeatureException.htm">
+      <HelpTOCNode Id="84cb9ded-08d4-463c-ac14-bf8acfe89666" Title="InvalidAPIObjectFeatureException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidAPIObjectFeatureException.htm">
         <HelpTOCNode Title="InvalidAPIObjectFeatureException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InvalidAPIObjectFeatureException.htm" />
         <HelpTOCNode Title="InvalidAPIObjectFeatureException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InvalidAPIObjectFeatureException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="9f6cfa27-1e62-4128-962f-ba269cbd9b2d" Title="InvalidAPITypeException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidAPITypeException.htm">
+      <HelpTOCNode Id="b79f5b3a-9cef-4cb8-9f3d-d7ef3f27d0fc" Title="InvalidAPITypeException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidAPITypeException.htm">
         <HelpTOCNode Title="InvalidAPITypeException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InvalidAPITypeException.htm" />
         <HelpTOCNode Title="InvalidAPITypeException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InvalidAPITypeException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="c65b6f23-6cbb-4029-a738-fb36039d9fb8" Title="InvalidHeaderException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidHeaderException.htm">
+      <HelpTOCNode Id="03f5bd07-9857-4c99-9cd5-9bd43fb67968" Title="InvalidHeaderException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidHeaderException.htm">
         <HelpTOCNode Title="InvalidHeaderException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InvalidHeaderException.htm" />
         <HelpTOCNode Title="InvalidHeaderException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InvalidHeaderException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="e5fe110c-a13b-4456-8cdc-aa7388c7e5f7" Title="InvalidParameterException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidParameterException.htm">
+      <HelpTOCNode Id="445d22fa-7340-474d-af84-fdbb6d7dbcfc" Title="InvalidParameterException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidParameterException.htm">
         <HelpTOCNode Title="InvalidParameterException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InvalidParameterException.htm" />
         <HelpTOCNode Title="InvalidParameterException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InvalidParameterException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="6c6f9203-7545-41ed-8894-97cd2a59602b" Title="InvalidParameterNameException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidParameterNameException.htm">
+      <HelpTOCNode Id="dc063e42-9e7c-4e62-aa9b-0f13a3400c8f" Title="InvalidParameterNameException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidParameterNameException.htm">
         <HelpTOCNode Title="InvalidParameterNameException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InvalidParameterNameException.htm" />
         <HelpTOCNode Title="InvalidParameterNameException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InvalidParameterNameException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="17e0dce4-5f3c-4126-8829-baa00a90244e" Title="InvalidSyntaxException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidSyntaxException.htm">
+      <HelpTOCNode Id="40fb659d-c192-42e4-b715-c80953a0ac72" Title="InvalidSyntaxException Class" Url="html/T_Koopman_CheckPoint_Exceptions_InvalidSyntaxException.htm">
         <HelpTOCNode Title="InvalidSyntaxException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_InvalidSyntaxException.htm" />
         <HelpTOCNode Title="InvalidSyntaxException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_InvalidSyntaxException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="81ceb1cc-2909-41be-bc39-4df1a1a2945e" Title="LoginFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_LoginFailedException.htm">
+      <HelpTOCNode Id="cc9c0eec-8e6a-42ae-b857-24b92120cc83" Title="LoginFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_LoginFailedException.htm">
         <HelpTOCNode Title="LoginFailedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_LoginFailedException.htm" />
         <HelpTOCNode Title="LoginFailedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_LoginFailedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="4b9288ec-656a-4a5c-a7e6-d13e29fd5163" Title="LoginFailedMoreThanOneOpenedSessionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_LoginFailedMoreThanOneOpenedSessionException.htm">
+      <HelpTOCNode Id="31bf003a-04a7-4caf-bb28-411871a09d3c" Title="LoginFailedMoreThanOneOpenedSessionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_LoginFailedMoreThanOneOpenedSessionException.htm">
         <HelpTOCNode Title="LoginFailedMoreThanOneOpenedSessionException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_LoginFailedMoreThanOneOpenedSessionException.htm" />
         <HelpTOCNode Title="LoginFailedMoreThanOneOpenedSessionException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_LoginFailedMoreThanOneOpenedSessionException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="7059ccd1-37e1-49b8-ae35-2db19702d1cb" Title="LoginFailedWrongUsernameOrPasswordException Class" Url="html/T_Koopman_CheckPoint_Exceptions_LoginFailedWrongUsernameOrPasswordException.htm">
+      <HelpTOCNode Id="1a0880a5-cf97-42d1-8f6e-f3c3201384e5" Title="LoginFailedWrongUsernameOrPasswordException Class" Url="html/T_Koopman_CheckPoint_Exceptions_LoginFailedWrongUsernameOrPasswordException.htm">
         <HelpTOCNode Title="LoginFailedWrongUsernameOrPasswordException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_LoginFailedWrongUsernameOrPasswordException.htm" />
         <HelpTOCNode Title="LoginFailedWrongUsernameOrPasswordException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_LoginFailedWrongUsernameOrPasswordException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="791f67c7-2e65-4e18-a110-ed467b37d3d7" Title="MissingRequiredHeaderException Class" Url="html/T_Koopman_CheckPoint_Exceptions_MissingRequiredHeaderException.htm">
+      <HelpTOCNode Id="7e409fb5-9a21-4871-845f-7ab1b41a37e7" Title="MissingRequiredHeaderException Class" Url="html/T_Koopman_CheckPoint_Exceptions_MissingRequiredHeaderException.htm">
         <HelpTOCNode Title="MissingRequiredHeaderException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_MissingRequiredHeaderException.htm" />
         <HelpTOCNode Title="MissingRequiredHeaderException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_MissingRequiredHeaderException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="5cb9cf4f-babb-47ee-af89-00c73058831f" Title="MissingRequiredParametersException Class" Url="html/T_Koopman_CheckPoint_Exceptions_MissingRequiredParametersException.htm">
+      <HelpTOCNode Id="401507da-b32d-43f9-b0c0-458d1f63583b" Title="MissingRequiredParametersException Class" Url="html/T_Koopman_CheckPoint_Exceptions_MissingRequiredParametersException.htm">
         <HelpTOCNode Title="MissingRequiredParametersException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_MissingRequiredParametersException.htm" />
         <HelpTOCNode Title="MissingRequiredParametersException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_MissingRequiredParametersException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="a1ca5ad3-63ce-48af-b548-f43087830257" Title="MissingSessionIDException Class" Url="html/T_Koopman_CheckPoint_Exceptions_MissingSessionIDException.htm">
+      <HelpTOCNode Id="54df677f-722a-4762-9a73-7c4328f85f72" Title="MissingSessionIDException Class" Url="html/T_Koopman_CheckPoint_Exceptions_MissingSessionIDException.htm">
         <HelpTOCNode Title="MissingSessionIDException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_MissingSessionIDException.htm" />
         <HelpTOCNode Title="MissingSessionIDException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_MissingSessionIDException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="52a94953-fc54-4644-ac77-87cb2ed5dc99" Title="NoPermissionsException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NoPermissionsException.htm">
+      <HelpTOCNode Id="7595a77f-432f-4526-8af7-5ee503df78d7" Title="NoPermissionsException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NoPermissionsException.htm">
         <HelpTOCNode Title="NoPermissionsException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_NoPermissionsException.htm" />
         <HelpTOCNode Title="NoPermissionsException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_NoPermissionsException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="6ca01f39-2826-4bfe-9bf5-cef6cb0e09af" Title="NormalizationFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NormalizationFailedException.htm">
+      <HelpTOCNode Id="6054a478-ead5-4749-a12b-3479a5b4148c" Title="NormalizationFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NormalizationFailedException.htm">
         <HelpTOCNode Title="NormalizationFailedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_NormalizationFailedException.htm" />
         <HelpTOCNode Title="NormalizationFailedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_NormalizationFailedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="d442f2dc-76ea-4fc2-964f-163f3b9bc5cd" Title="NormalizeException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NormalizeException.htm">
+      <HelpTOCNode Id="947943ec-e9c0-4e2d-9830-2d0ccc8e0c51" Title="NormalizeException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NormalizeException.htm">
         <HelpTOCNode Title="NormalizeException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_NormalizeException.htm" />
         <HelpTOCNode Title="NormalizeException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_NormalizeException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="3f87da69-c7b9-42b6-b6c2-3db03903603e" Title="NotASystemDomainSessionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NotASystemDomainSessionException.htm">
+      <HelpTOCNode Id="3109b581-53ee-435a-abe6-e95971e92b21" Title="NotASystemDomainSessionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NotASystemDomainSessionException.htm">
         <HelpTOCNode Title="NotASystemDomainSessionException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_NotASystemDomainSessionException.htm" />
         <HelpTOCNode Title="NotASystemDomainSessionException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_NotASystemDomainSessionException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="0b40638e-4cd1-46b2-99de-6a5aa1bfd63f" Title="NotImplementedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NotImplementedException.htm">
+      <HelpTOCNode Id="68d66f37-39b4-4205-a8e7-0a5adadfef49" Title="NotImplementedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_NotImplementedException.htm">
         <HelpTOCNode Title="NotImplementedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_NotImplementedException.htm" />
         <HelpTOCNode Title="NotImplementedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_NotImplementedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="67b60f57-d997-4ab5-97b8-60479b74003f" Title="ObjectDeletionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectDeletionException.htm">
+      <HelpTOCNode Id="f9c13d54-cbbe-4a3f-89df-da23a4d42a30" Title="ObjectDeletionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectDeletionException.htm">
         <HelpTOCNode Title="ObjectDeletionException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ObjectDeletionException.htm" />
         <HelpTOCNode Title="ObjectDeletionException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ObjectDeletionException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="419ed551-eab4-41ef-9aa8-c92fa630d286" Title="ObjectFieldNotUniqueException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectFieldNotUniqueException.htm">
+      <HelpTOCNode Id="ea98231c-6116-4fe5-8599-e894f3295334" Title="ObjectFieldNotUniqueException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectFieldNotUniqueException.htm">
         <HelpTOCNode Title="ObjectFieldNotUniqueException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ObjectFieldNotUniqueException.htm" />
         <HelpTOCNode Title="ObjectFieldNotUniqueException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ObjectFieldNotUniqueException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="844f5a76-fd73-4fbe-b8b1-f75c843cd7be" Title="ObjectLockedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectLockedException.htm">
+      <HelpTOCNode Id="a36113a9-924b-4d41-8fe9-577fb91f32ca" Title="ObjectLockedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectLockedException.htm">
         <HelpTOCNode Title="ObjectLockedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ObjectLockedException.htm" />
         <HelpTOCNode Title="ObjectLockedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ObjectLockedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="52132f9f-1321-4dd8-b7f9-dfc434d85d4d" Title="ObjectNotFoundException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectNotFoundException.htm">
+      <HelpTOCNode Id="18a52d4e-140c-496f-8640-d67d22aa48cc" Title="ObjectNotFoundException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectNotFoundException.htm">
         <HelpTOCNode Title="ObjectNotFoundException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ObjectNotFoundException.htm" />
         <HelpTOCNode Title="ObjectNotFoundException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ObjectNotFoundException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="570b3e21-0428-4fd4-8e8f-0839abfb0cca" Title="ObjectTypeWrongException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectTypeWrongException.htm">
+      <HelpTOCNode Id="66e013a2-bf4b-4be8-bf8d-f6f560b9c63f" Title="ObjectTypeWrongException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ObjectTypeWrongException.htm">
         <HelpTOCNode Title="ObjectTypeWrongException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ObjectTypeWrongException.htm" />
         <HelpTOCNode Title="ObjectTypeWrongException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ObjectTypeWrongException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="e5354d30-b84f-4374-8b7b-817f51b8873c" Title="PolicyInstallationFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_PolicyInstallationFailedException.htm">
+      <HelpTOCNode Id="76efbfa0-eac6-4cbd-9688-3f7620b5eff5" Title="PolicyInstallationFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_PolicyInstallationFailedException.htm">
         <HelpTOCNode Title="PolicyInstallationFailedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_PolicyInstallationFailedException.htm" />
         <HelpTOCNode Title="PolicyInstallationFailedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_PolicyInstallationFailedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="4b69b32e-4a5c-4ecd-930b-60e184806d04" Title="PublishFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_PublishFailedException.htm">
+      <HelpTOCNode Id="cdb1d3f8-68de-49a2-8544-2f901035aafc" Title="PublishFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_PublishFailedException.htm">
         <HelpTOCNode Title="PublishFailedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_PublishFailedException.htm" />
         <HelpTOCNode Title="PublishFailedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_PublishFailedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="04e33a1f-756a-4695-baf7-c17f848a46eb" Title="RulebaseInvalidOperationException Class" Url="html/T_Koopman_CheckPoint_Exceptions_RulebaseInvalidOperationException.htm">
+      <HelpTOCNode Id="5fe90e7b-7f57-4caf-867d-cdd67d6edf00" Title="RulebaseInvalidOperationException Class" Url="html/T_Koopman_CheckPoint_Exceptions_RulebaseInvalidOperationException.htm">
         <HelpTOCNode Title="RulebaseInvalidOperationException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_RulebaseInvalidOperationException.htm" />
         <HelpTOCNode Title="RulebaseInvalidOperationException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_RulebaseInvalidOperationException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="a254aae6-a1d2-4167-af8a-b49cf0f3ab3d" Title="ServerErrorException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ServerErrorException.htm">
+      <HelpTOCNode Id="63ff4578-150e-4413-bf07-379b9a7d4ce2" Title="ServerErrorException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ServerErrorException.htm">
         <HelpTOCNode Title="ServerErrorException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ServerErrorException.htm" />
         <HelpTOCNode Title="ServerErrorException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ServerErrorException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="88faf252-5447-400a-a5f6-604297eb027e" Title="ServerInitializingException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ServerInitializingException.htm">
+      <HelpTOCNode Id="4556f90b-3611-44b7-8fef-c83d3e31ddee" Title="ServerInitializingException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ServerInitializingException.htm">
         <HelpTOCNode Title="ServerInitializingException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ServerInitializingException.htm" />
         <HelpTOCNode Title="ServerInitializingException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ServerInitializingException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="c14f3523-8feb-460b-b8be-1531d4008b87" Title="SessionExpiredException Class" Url="html/T_Koopman_CheckPoint_Exceptions_SessionExpiredException.htm">
+      <HelpTOCNode Id="508b01ca-1459-498e-bd7d-5b133909bc29" Title="SessionExpiredException Class" Url="html/T_Koopman_CheckPoint_Exceptions_SessionExpiredException.htm">
         <HelpTOCNode Title="SessionExpiredException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_SessionExpiredException.htm" />
         <HelpTOCNode Title="SessionExpiredException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_SessionExpiredException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="3bf5fb5f-f564-4d92-b3d1-2147fd8e1fa1" Title="SessionInUseException Class" Url="html/T_Koopman_CheckPoint_Exceptions_SessionInUseException.htm">
+      <HelpTOCNode Id="af4baad1-7768-40b0-98a5-93c3c106eaec" Title="SessionInUseException Class" Url="html/T_Koopman_CheckPoint_Exceptions_SessionInUseException.htm">
         <HelpTOCNode Title="SessionInUseException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_SessionInUseException.htm" />
         <HelpTOCNode Title="SessionInUseException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_SessionInUseException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="c8775422-0022-4f1c-bed1-587bca4db416" Title="SwitchSessionFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_SwitchSessionFailedException.htm">
+      <HelpTOCNode Id="bb289422-8a8f-4aa8-9839-3c9d64ed197f" Title="SwitchSessionFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_SwitchSessionFailedException.htm">
         <HelpTOCNode Title="SwitchSessionFailedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_SwitchSessionFailedException.htm" />
         <HelpTOCNode Title="SwitchSessionFailedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_SwitchSessionFailedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="c961b2f7-af6b-4396-868d-2a5851c1d96f" Title="UnknownAPIVersionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_UnknownAPIVersionException.htm">
+      <HelpTOCNode Id="20453822-0aa8-4329-89bf-2f26d3abc066" Title="UnknownAPIVersionException Class" Url="html/T_Koopman_CheckPoint_Exceptions_UnknownAPIVersionException.htm">
         <HelpTOCNode Title="UnknownAPIVersionException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_UnknownAPIVersionException.htm" />
         <HelpTOCNode Title="UnknownAPIVersionException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_UnknownAPIVersionException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="2180ae7a-c2f2-44bf-94e7-ab6cd7a88cb7" Title="ValidationFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ValidationFailedException.htm">
+      <HelpTOCNode Id="6cb3db6f-a264-4d7b-b93c-f439949e85e9" Title="ValidationFailedException Class" Url="html/T_Koopman_CheckPoint_Exceptions_ValidationFailedException.htm">
         <HelpTOCNode Title="ValidationFailedException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ValidationFailedException.htm" />
         <HelpTOCNode Title="ValidationFailedException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ValidationFailedException.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="92e83cfc-45ac-41cc-9e3d-333a28cf0378" Title="WrongSessionIDException Class" Url="html/T_Koopman_CheckPoint_Exceptions_WrongSessionIDException.htm">
+      <HelpTOCNode Id="dcfef8b7-1ef7-456f-8732-0f6db85d10fd" Title="WrongSessionIDException Class" Url="html/T_Koopman_CheckPoint_Exceptions_WrongSessionIDException.htm">
         <HelpTOCNode Title="WrongSessionIDException Properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_WrongSessionIDException.htm" />
         <HelpTOCNode Title="WrongSessionIDException Methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_WrongSessionIDException.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="925d41f7-1bb6-4850-817f-22f1cd0435d7" Title="Koopman.CheckPoint.SimpleGatewaySettings" Url="html/N_Koopman_CheckPoint_SimpleGatewaySettings.htm">
-      <HelpTOCNode Id="50d169a9-3790-48c4-a28e-b41e82144f9f" Title="AntiSpoofing Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofing.htm">
+    <HelpTOCNode Id="9b039ca5-f5e8-4171-af27-b0679ea6098a" Title="Koopman.CheckPoint.SimpleGatewaySettings" Url="html/N_Koopman_CheckPoint_SimpleGatewaySettings.htm">
+      <HelpTOCNode Id="4322d867-8a12-4bb9-9340-58f3fd65ce38" Title="AntiSpoofing Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofing.htm">
         <HelpTOCNode Title="AntiSpoofing Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofing__ctor.htm" />
-        <HelpTOCNode Id="efa6bfd1-8e16-47f3-90d1-ab47548af460" Title="AntiSpoofing Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofing.htm">
+        <HelpTOCNode Id="f3b43a50-3be7-4d55-ad68-0b1477eedd84" Title="AntiSpoofing Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofing.htm">
           <HelpTOCNode Title="Action Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofing_Action.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="AntiSpoofingAction Enumeration" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofingAction.htm" />
-      <HelpTOCNode Id="e117fcc2-81d0-4b69-b137-f2144b9d0b37" Title="Firewall Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm">
+      <HelpTOCNode Id="c685f683-43e4-4660-86fe-c4dce234dd18" Title="Firewall Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm">
         <HelpTOCNode Title="Firewall Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Firewall__ctor.htm" />
-        <HelpTOCNode Id="785c596d-95a4-42b5-b791-bf7dcaf2406e" Title="Firewall Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm">
+        <HelpTOCNode Id="1a8f947c-7dfa-4dce-999c-62da2605d3b4" Title="Firewall Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm">
           <HelpTOCNode Title="AutoCalculateConnectionsHashTableSizeAndMemoryPool Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_AutoCalculateConnectionsHashTableSizeAndMemoryPool.htm" />
           <HelpTOCNode Title="AutoMaximumLimitForConcurrentConnections Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_AutoMaximumLimitForConcurrentConnections.htm" />
           <HelpTOCNode Title="ConnectionsHashSize Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_ConnectionsHashSize.htm" />
@@ -805,13 +805,13 @@
           <HelpTOCNode Title="MaximumMemoryPoolSize Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_MaximumMemoryPoolSize.htm" />
           <HelpTOCNode Title="MemoryPoolSize Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_MemoryPoolSize.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="34a61744-9296-4692-b9ba-f1ea20f26fa1" Title="Firewall Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm">
+        <HelpTOCNode Id="29fa12ae-0439-4a99-922e-9b01143266b7" Title="Firewall Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm">
           <HelpTOCNode Title="AcceptChanges Method " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_AcceptChanges.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="a3eb8cbf-d5cc-4bca-bc4f-3b9cfb87a7d3" Title="Interface Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Interface.htm">
+      <HelpTOCNode Id="53b11069-17c6-4edc-9237-6f0592c8299d" Title="Interface Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Interface.htm">
         <HelpTOCNode Title="Interface Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Interface__ctor.htm" />
-        <HelpTOCNode Id="723b471f-979f-43e1-8e29-eaf35a78981e" Title="Interface Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_Interface.htm">
+        <HelpTOCNode Id="23140a20-c2e8-47a7-9fb1-f982e8017a57" Title="Interface Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_Interface.htm">
           <HelpTOCNode Title="AntiSpoofing Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Interface_AntiSpoofing.htm" />
           <HelpTOCNode Title="AntiSpoofingSettings Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Interface_AntiSpoofingSettings.htm" />
           <HelpTOCNode Title="IPv4Address Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Interface_IPv4Address.htm" />
@@ -825,13 +825,13 @@
           <HelpTOCNode Title="Topology Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Interface_Topology.htm" />
           <HelpTOCNode Title="TopologySettings Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Interface_TopologySettings.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="4bfee33e-4b40-4d0a-b2b7-42915e6503e5" Title="Interface Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_Interface.htm">
+        <HelpTOCNode Id="caaf8bff-6985-46da-8ddc-6eb4119eda9e" Title="Interface Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_Interface.htm">
           <HelpTOCNode Title="ToString Method " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Interface_ToString.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="f0e3b239-6c18-4d77-a476-5f0356f4951b" Title="Logs Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Logs.htm">
+      <HelpTOCNode Id="4f5e1c82-a4b9-4d50-b51a-547f4003d637" Title="Logs Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Logs.htm">
         <HelpTOCNode Title="Logs Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Logs__ctor.htm" />
-        <HelpTOCNode Id="b80e05aa-5edf-4a2d-b01c-f8b4f21332e7" Title="Logs Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_Logs.htm">
+        <HelpTOCNode Id="3cd1da0a-cd6f-435e-8844-4213b5ed9342" Title="Logs Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_Logs.htm">
           <HelpTOCNode Title="AlertWhenFreeDiskSpaceBelow Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_AlertWhenFreeDiskSpaceBelow.htm" />
           <HelpTOCNode Title="AlertWhenFreeDiskSpaceBelowMetrics Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_AlertWhenFreeDiskSpaceBelowMetrics.htm" />
           <HelpTOCNode Title="AlertWhenFreeDiskSpaceBelowThreshold Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_AlertWhenFreeDiskSpaceBelowThreshold.htm" />
@@ -867,41 +867,41 @@
           <HelpTOCNode Title="TurnOnQOSLogging Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_TurnOnQOSLogging.htm" />
           <HelpTOCNode Title="UpdateAccountLogEvery Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_UpdateAccountLogEvery.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="d3dccd66-ce6a-46a6-80af-e34543b01e87" Title="Logs Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_Logs.htm">
+        <HelpTOCNode Id="82bab762-eb54-4170-bc38-70accfc65f5b" Title="Logs Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_Logs.htm">
           <HelpTOCNode Title="AcceptChanges Method " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Logs_AcceptChanges.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone.htm" />
-      <HelpTOCNode Id="15365803-b33b-4c43-a0f2-25445d770d61" Title="SecurityZone.AutoCalculated Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_AutoCalculated.htm">
+      <HelpTOCNode Id="2d5f4c79-fb20-4b51-86ce-ed55d3c5f036" Title="SecurityZone.AutoCalculated Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_AutoCalculated.htm">
         <HelpTOCNode Title="SecurityZone.AutoCalculated Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_AutoCalculated__ctor.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="45f5ebf1-01c5-4f39-8da0-8e558a0d532f" Title="SecurityZone.SpecificZone Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone.htm">
+      <HelpTOCNode Id="39321778-63c0-4601-bfb4-471d4ac1ee31" Title="SecurityZone.SpecificZone Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone.htm">
         <HelpTOCNode Title="SecurityZone.SpecificZone Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone__ctor.htm" />
-        <HelpTOCNode Id="1fb19fb8-e22c-4b30-b81d-875785490fd7" Title="SpecificZone Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone.htm">
+        <HelpTOCNode Id="624e20e9-ff75-48cf-add4-ef4fe155632f" Title="SpecificZone Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone.htm">
           <HelpTOCNode Title="Name Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone_Name.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="22b7e61d-5323-4776-b786-f23dd6363dc9" Title="SpecificZone Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone.htm">
+        <HelpTOCNode Id="56095e8c-1919-4009-b7b8-26fd4725ffce" Title="SpecificZone Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone.htm">
           <HelpTOCNode Title="ToString Method " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone_SpecificZone_ToString.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Topology Enumeration" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Topology.htm" />
       <HelpTOCNode Title="TopologyBehind Enumeration" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_TopologyBehind.htm" />
-      <HelpTOCNode Id="27574fc0-887d-47b9-95d2-a0b4eb2dd0a0" Title="TopologySettings Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings.htm">
+      <HelpTOCNode Id="cf39b3d9-86a5-4318-9aa9-b8d509bb795a" Title="TopologySettings Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings.htm">
         <HelpTOCNode Title="TopologySettings Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings__ctor.htm" />
-        <HelpTOCNode Id="7ef60cd6-fc8e-47e7-aed6-1607421c0eb0" Title="TopologySettings Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings.htm">
+        <HelpTOCNode Id="001406f7-a8f9-413b-afc3-baf50df9d6c2" Title="TopologySettings Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings.htm">
           <HelpTOCNode Title="InterfaceLeadsToDMZ Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings_InterfaceLeadsToDMZ.htm" />
           <HelpTOCNode Title="IPAddressBehindThisInterface Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings_IPAddressBehindThisInterface.htm" />
           <HelpTOCNode Title="SpecificNetwork Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings_SpecificNetwork.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="TopologySettings Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_TopologySettings.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="1dbe7a91-2de9-44a3-992d-56855fb7b38a" Title="VPN Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_VPN.htm">
+      <HelpTOCNode Id="3933dfb8-c9c6-4f87-9247-eb03b9d163f7" Title="VPN Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_VPN.htm">
         <HelpTOCNode Title="VPN Constructor " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_VPN__ctor.htm" />
-        <HelpTOCNode Id="833938dd-afb5-4db1-acbb-ccbb4299b7a9" Title="VPN Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_VPN.htm">
+        <HelpTOCNode Id="73686167-4eeb-41dc-8dc1-0d46013b526d" Title="VPN Properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_VPN.htm">
           <HelpTOCNode Title="MaximumConcurrentIKENegotiations Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_VPN_MaximumConcurrentIKENegotiations.htm" />
           <HelpTOCNode Title="MaximumConcurrentTunnels Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_VPN_MaximumConcurrentTunnels.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="730a0e80-b434-4689-b0ca-49cdb43da8c4" Title="VPN Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_VPN.htm">
+        <HelpTOCNode Id="4014aad4-e41c-4ea8-84f9-556b4c09b1ba" Title="VPN Methods" Url="html/Methods_T_Koopman_CheckPoint_SimpleGatewaySettings_VPN.htm">
           <HelpTOCNode Title="AcceptChanges Method " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_VPN_AcceptChanges.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
