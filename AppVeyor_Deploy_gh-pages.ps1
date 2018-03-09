@@ -6,7 +6,7 @@ git config --global core.autocrlf true
 
 git clone --single-branch --branch gh-pages https://github.com/tkoopman/CheckPoint.NET.git C:\projects\gh-pages
 cd C:\projects\gh-pages\
-git rm -r *
+git rm -r --quiet *
 Get-ChildItem -Path C:\projects\checkpoint-net\docs\* | Move-Item -Destination C:\projects\gh-pages\
 
 git add --all
