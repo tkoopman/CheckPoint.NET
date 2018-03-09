@@ -24,6 +24,7 @@ build:
   verbosity: minimal
 environment:
   SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
+  APPVEYOR_RDP_PASSWORD: debugMe1
   GitToken:
     secure: Pz30C2oGEq4jlsrbFSRBWxPkmDMdQ0uRxZpKwLZ4yVgBZvrHWxRnnT4WFEI7KVyC
   TestMgmtServer:
@@ -62,3 +63,5 @@ deploy:
     branch: master
 after_deploy:
 - ps: .\AppVeyor_Deploy_gh-pages.ps1
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
