@@ -6,8 +6,8 @@ git config --global user.name "Tim Koopman"
 git clone --single-branch --branch gh-pages https://github.com/tkoopman/CheckPoint.NET.git C:\projects\gh-pages
 cd C:\projects\gh-pages\
 git rm -r *
-Get-ChildItem -Path C:\projects\checkpoint-net\docs\* -Recurse -File | Move-Item -Destination C:\projects\gh-pages\
+Get-ChildItem -Path C:\projects\checkpoint-net\docs\* | Move-Item -Destination C:\projects\gh-pages\
 
 git add --all
-git commit --message="Version $($env:VERSION)"
+git commit --message="Version $($env:APPVEYOR_BUILD_VERSION)"
 git push origin gh-pages
