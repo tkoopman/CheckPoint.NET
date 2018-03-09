@@ -21,6 +21,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Invalid parameter
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class InvalidParameterException : GenericException
     {
         #region Constructors

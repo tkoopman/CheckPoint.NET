@@ -21,6 +21,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Missing required header
+    /// </summary>
+    /// <remarks>Should not be thrown normally as API controls headers.</remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class MissingRequiredHeaderException : GenericException
     {
         #region Constructors

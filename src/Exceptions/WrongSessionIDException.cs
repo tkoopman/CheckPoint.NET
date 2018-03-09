@@ -21,6 +21,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Wrong session ID
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class WrongSessionIDException : GenericException
     {
         #region Constructors

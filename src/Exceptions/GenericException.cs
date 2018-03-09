@@ -22,6 +22,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Generic exception when an unknown error code or invalid JSON data is returned
+    /// </summary>
+    /// <remarks>Should not be thrown normally.</remarks>
+    /// <seealso cref="System.Exception" />
     public class GenericException : Exception
     {
         #region Constructors
@@ -65,6 +70,10 @@ namespace Koopman.CheckPoint.Exceptions
 
         #region Methods
 
+        /// <summary>
+        /// Returns the Message property when converted to a string.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
             return Message;

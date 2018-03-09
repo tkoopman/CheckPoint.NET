@@ -21,6 +21,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Object deletion failed
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class ObjectDeletionException : GenericException
     {
         #region Constructors

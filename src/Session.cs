@@ -37,6 +37,20 @@ using System.Threading;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// An active management session. This class handles all communications to the Management server.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var session = new Session( new SessionOptions() {
+    ///     ManagementServer = 192.168.1.1,
+    ///     User = "admin",
+    ///     Password = "***",
+    ///     CertificateValidation = false }
+    /// );
+    /// </code>
+    /// </example>
+    /// <seealso cref="System.IDisposable" />
     public class Session : IDisposable
     {
         #region Fields
@@ -48,6 +62,16 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
+        /// <summary>
+        /// Establishes and logs in to new management session.
+        /// </summary>
+        /// <param name="options">The session options.</param>
+        /// <param name="debugWriter">
+        /// The debug writer. WARNING: If set here the debug output WILL include your password in the
+        /// clear! Should only set here if trying to debug the login calls. Use <see
+        /// cref="Session.DebugWriter" /> to set after the login has completed to avoid including
+        /// your password.
+        /// </param>
         public Session(SessionOptions options, TextWriter debugWriter = null)
         {
             Options = options;
@@ -76,74 +100,93 @@ namespace Koopman.CheckPoint
         #region Properties
 
         /// <summary>
-        /// <para type="description">API Server version.</para>
+        /// API Server version.
         /// </summary>
+        /// <value>The API server version.</value>
         [JsonProperty(PropertyName = "api-server-version")]
         public string APIServerVersion { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the debug writer. All API posts and responses will be sent to this writer.
+        /// They are sent in the RAW JSON format as sent and recived to/from the server.
+        /// </summary>
+        /// <value>The text writer to send all debug output to.</value>
         public TextWriter DebugWriter { get; set; }
 
         /// <summary>
-        /// <para type="description">
         /// Information about the available disk space on the management server.
-        /// </para>
         /// </summary>
+        /// <value>The disk space message.</value>
         [JsonProperty(PropertyName = "disk-space-message")]
         public string DiskSpaceMessage { get; private set; }
 
         /// <summary>
-        /// <para type="description">True if this session is read only.</para>
+        /// Timestamp when administrator last accessed the management server.
         /// </summary>
+        /// <value>The last login was at.</value>
+        [JsonProperty(PropertyName = "last-login-was-at")]
+        [JsonConverter(typeof(CheckPointDateTimeConverter))]
+        public DateTime LastLoginWasAt { get; private set; }
+
+        /// <summary>
+        /// Session is read only status.
+        /// </summary>
+        /// <value><c>true</c> if read only; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "read-only")]
         public bool ReadOnly { get; private set; }
 
         //TODO login-message
         /// <summary>
-        /// <para type="description">Session expiration timeout in seconds.</para>
+        /// Session expiration timeout in seconds.
         /// </summary>
+        /// <value>The session timeout.</value>
         [JsonProperty(PropertyName = "session-timeout")]
         public int SessionTimeout { get; private set; }
 
         /// <summary>
-        /// <para type="description">Session unique identifier.</para>
+        /// Session unique identifier.
         /// </summary>
+        /// <value>The SID.</value>
         [JsonProperty(PropertyName = "sid")]
         public string SID { get; private set; }
 
         /// <summary>
-        /// <para type="description">Timestamp when administrator last accessed the management server.</para>
+        /// True if this management server is in standby mode.
         /// </summary>
-        //[JsonProperty(PropertyName = "last-login-was-at")]
-        // TODO public CheckPointTime LastLoginWasAt { get; private set; }
-        /// <summary>
-        /// <para type="description">True if this management server is in the standby mode.</para>
-        /// </summary>
+        /// <value><c>true</c> if standby; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "standby")]
         public bool Standby { get; private set; }
 
         /// <summary>
-        /// <para type="description">
-        /// Session object unique identifier. This identifier may be used in the discard API to
-        /// discard changes that were made in this session, when administrator is working from
-        /// another session, or in the 'switch-session' API.
-        /// </para>
+        /// Session object unique identifier.
         /// </summary>
+        /// <value>The UID.</value>
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; private set; }
 
         /// <summary>
-        /// <para type="description">URL that was used to reach the API server.</para>
+        /// URL that was used to reach the API server.
         /// </summary>
+        /// <value>The URL.</value>
         [JsonProperty(PropertyName = "url")]
         public string URL { get; private set; }
 
         internal SessionOptions Options { get; private set; }
+
+        /// <summary>
+        /// Gets the JSON formatting setting.
+        /// </summary>
+        /// <value>The JSON formatting.</value>
         protected internal Formatting JsonFormatting => (Options.IndentJson) ? Formatting.Indented : Formatting.None;
 
         #endregion Properties
 
         #region Session Methods
 
+        /// <summary>
+        /// Logout of session and continue the session in smartconsole.
+        /// </summary>
+        /// <param name="uid">The session uid. <c>null</c> for current session.</param>
         public void ContinueSessionInSmartconsole(string uid = null)
         {
             string jsonData = UIDToJson(uid);
@@ -151,12 +194,20 @@ namespace Koopman.CheckPoint
             if (uid == null || uid.Equals(UID)) { Dispose(); }
         }
 
+        /// <summary>
+        /// Discard changes made in session.
+        /// </summary>
+        /// <param name="uid">The session uid. <c>null</c> for current session.</param>
         public void Discard(string uid = null)
         {
             string jsonData = UIDToJson(uid);
             Post("discard", jsonData);
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (_httpClient != null)
@@ -168,64 +219,33 @@ namespace Koopman.CheckPoint
             _isDisposed = true;
         }
 
+        /// <summary>
+        /// Logout of this instance.
+        /// </summary>
         public void Logout()
         {
             Post("logout", "{}");
             Dispose();
         }
 
-        public void Publish(string uid = null)
-        {
-            string jsonData = UIDToJson(uid);
-            Post("publish", jsonData);
-        }
-
-        public void SendKeepAlive()
-        {
-            Post("keepalive", "{}");
-        }
-
-        internal HttpClient GetHttpClient()
-        {
-            if (_isDisposed)
-            {
-                throw new ObjectDisposedException("Session", "This session has already been disposed!");
-            }
-            if (_httpClient == null)
-            {
-                HttpClientHandler handler = new HttpClientHandler();
-                if (handler.SupportsAutomaticDecompression && Options.Compression)
-                {
-                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                }
-
-#if NETSTANDARD2_0
-                if (!Options.CertificateValidation)
-                {
-                    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                }
-#elif NET45
-                if (!Options.CertificateValidation)
-                {
-                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
-                }
-                else
-                {
-                    ServicePointManager.ServerCertificateValidationCallback = null;
-                }
-#endif
-
-                _httpClient = new HttpClient(handler)
-                {
-                    BaseAddress = new Uri($"{URL}/")
-                };
-                _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }
-
-            return _httpClient;
-        }
-
-        internal string Post(string command, string json)
+        /// <summary>
+        /// Posts the specified command with the JSON data supplied. This can be used to send any
+        /// commands this .NET package doesn't implement yet.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="json">The json.</param>
+        /// <returns>JSON Response Data</returns>
+        /// <exception cref="Exceptions.GenericException">
+        /// This or one of the Exceptions that inherit this will be thrown if the management server
+        /// returns an error.
+        /// </exception>
+        /// <exception cref="ObjectDisposedException">
+        /// Session - This session has already been disposed!
+        /// </exception>
+        /// <seealso href="https://sc1.checkpoint.com/documents/latest/APIs/index.html#web/introduction~v1.1%20" target="_blank" alt="Check Point Management API">
+        /// Check Point Management API
+        /// </seealso>
+        public string Post(string command, string json)
         {
             try
             {
@@ -237,7 +257,16 @@ namespace Koopman.CheckPoint
             }
         }
 
-        internal async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default(CancellationToken))
+        /// <summary>
+        /// Async posts the specified command with the JSON data supplied. This can be used to send
+        /// any commands this .NET package doesn't implement yet.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="json">The json.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>JSON Response Data</returns>
+        /// <inheritdoc cref="Post(string, string)" select="exception|seealso" />
+        public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_isDisposed)
             {
@@ -284,6 +313,64 @@ namespace Koopman.CheckPoint
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Publishes the session.
+        /// </summary>
+        /// <param name="uid">The session uid. <c>null</c> for current session.</param>
+        public void Publish(string uid = null)
+        {
+            string jsonData = UIDToJson(uid);
+            Post("publish", jsonData);
+        }
+
+        /// <summary>
+        /// Sends the keep alive.
+        /// </summary>
+        public void SendKeepAlive()
+        {
+            Post("keepalive", "{}");
+        }
+
+        internal HttpClient GetHttpClient()
+        {
+            if (_isDisposed)
+            {
+                throw new ObjectDisposedException("Session", "This session has already been disposed!");
+            }
+            if (_httpClient == null)
+            {
+                HttpClientHandler handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression && Options.Compression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+
+#if NETSTANDARD2_0
+                if (!Options.CertificateValidation)
+                {
+                    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                }
+#elif NET45
+                if (!Options.CertificateValidation)
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
+                }
+                else
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = null;
+                }
+#endif
+
+                _httpClient = new HttpClient(handler)
+                {
+                    BaseAddress = new Uri($"{URL}/")
+                };
+                _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+
+            return _httpClient;
         }
 
         internal void WriteDebug(string message)

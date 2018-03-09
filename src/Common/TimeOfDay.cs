@@ -5,10 +5,10 @@ using System.Text.RegularExpressions;
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// Hours and Minutes of day. Not linked to any date or timezone.
+    /// Hours and Minutes of day. Not linked to any date or time-zone.
     /// </summary>
-    /// <seealso cref="System.IEquatable{Koopman.CheckPoint.Common.TimeOfDay}" />
-    /// <seealso cref="System.IComparable{Koopman.CheckPoint.Common.TimeOfDay}" />
+    /// <seealso cref="System.IEquatable{T}" />
+    /// <seealso cref="System.IComparable{T}" />
     [ImmutableObject(true)]
     public class TimeOfDay : IEquatable<TimeOfDay>, IComparable<TimeOfDay>
     {

@@ -29,6 +29,9 @@ namespace Koopman.CheckPoint.Common
     /// </summary>
     public enum ChangeAction
     {
+        /// <summary>
+        /// No changes required
+        /// </summary>
         None,
 
         /// <summary>

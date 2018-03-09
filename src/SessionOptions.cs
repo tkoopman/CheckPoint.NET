@@ -19,6 +19,19 @@
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Connection / Session options used to esablish connection to Check Point Management server
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var session = new Session( new SessionOptions() {
+    ///     ManagementServer = 192.168.1.1,
+    ///     User = "admin",
+    ///     Password = "***",
+    ///     CertificateValidation = false }
+    /// );
+    /// </code>
+    /// </example>
     public class SessionOptions
     {
         #region Properties
@@ -35,6 +48,11 @@ namespace Koopman.CheckPoint
         /// <value>The detail level action to take.</value>
         public DetailLevelActions DetailLevelAction { get; set; } = DetailLevelActions.ThrowException;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether JSON data sent to server should be indented.
+        /// Useful for debugging.
+        /// </summary>
+        /// <value><c>true</c> to indent json; otherwise, <c>false</c>.</value>
         public bool IndentJson { get; set; } = false;
 
         /// <summary>
@@ -57,7 +75,7 @@ namespace Koopman.CheckPoint
         public int Port { get; set; } = 443;
 
         /// <summary>
-        /// Gets or sets a value indicating whether [read only] connection should be made.
+        /// Gets or sets a value indicating whether a read only connection should be made.
         /// </summary>
         /// <value><c>true</c> if read only otherwise, <c>false</c>.</value>
         public bool ReadOnly { get; set; } = false;

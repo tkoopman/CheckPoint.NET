@@ -21,6 +21,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Bad URL
+    /// </summary>
+    /// <remarks>Should not be thrown normally as this API controls the URLs.</remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class BadURLException : GenericException
     {
         #region Constructors

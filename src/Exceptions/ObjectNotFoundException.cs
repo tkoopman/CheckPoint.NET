@@ -21,6 +21,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Object not found
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class ObjectNotFoundException : GenericException
     {
         #region Constructors

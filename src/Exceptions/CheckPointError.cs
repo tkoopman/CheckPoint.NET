@@ -22,6 +22,9 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Provides extra details from Check Point when a Check Point related exception is thrown
+    /// </summary>
     public class CheckPointError
     {
         #region Constructors
@@ -74,6 +77,12 @@ namespace Koopman.CheckPoint.Exceptions
 
         #region Methods
 
+        /// <summary>
+        /// Creates the appropriate Check Point exception based on the error code returned.
+        /// </summary>
+        /// <param name="jsonResponse">The json error response.</param>
+        /// <param name="httpStatusCode">The HTTP status code returned.</param>
+        /// <returns><see cref="GenericException" /> of the type that matches the error code</returns>
         internal static GenericException CreateException(string jsonResponse, HttpStatusCode httpStatusCode)
         {
             try

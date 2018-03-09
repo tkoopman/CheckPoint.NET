@@ -75,12 +75,28 @@ namespace Tests
             a.Start = new System.DateTime(2019, 01, 01, 00, 00, 00);
             a.EndNever = false;
             a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
+            a.Recurrence = new Time.RecurrenceClass()
+            {
+                Pattern = Time.RecurrencePattern.Daily,
+                Weekdays = Days.Saturday | Days.Sunday
+            };
 
             a.Groups.Add(GroupName);
 
             Assert.IsTrue(a.IsNew);
             a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
+            Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Saturday));
+            Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Sunday));
+            Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Weekend));
+
+            Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Monday));
+            Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Tuesday));
+            Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Wednesday));
+            Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Thursday));
+            Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Friday));
+            Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Weekdays));
+
             Assert.IsNotNull(a.UID);
         }
 

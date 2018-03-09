@@ -23,6 +23,24 @@ using System.Diagnostics;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Time Group Class
+    /// </summary>
+    /// <example>
+    /// Add new time group using <see cref="TimeGroup.TimeGroup(Session)" />
+    /// <code>
+    /// var tg = new TimeGroup(Session) {
+    ///     Name = "MyTimeGroup"
+    /// };
+    /// tg.Members.Add("Weekend");
+    /// tg.AcceptChanges();
+    /// </code>
+    /// Find time group using <see cref="Session.FindTimeGroup(string, DetailLevels)" />
+    /// <code>
+    /// var tg = Session.FindTimeGroup("MyTimeGroup");
+    /// </code>
+    /// </example>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class TimeGroup : ObjectBase
     {
         #region Fields
@@ -34,10 +52,29 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
+        /// <summary>
+        /// Create new <see cref="TimeGroup" />.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var tg = new TimeGroup(Session) {
+        ///     Name = "MyTimeGroup"
+        /// };
+        /// tg.Members.Add("Weekend");
+        /// tg.AcceptChanges();
+        /// </code>
+        /// </example>
+        /// <param name="session">The current session.</param>
         public TimeGroup(Session session) : this(session, DetailLevels.Full)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimeGroup" /> class ready to be populated
+        /// with current data.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal TimeGroup(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new ObjectMembershipChangeTracking<TimeGroup>(this);
@@ -48,6 +85,9 @@ namespace Koopman.CheckPoint
 
         #region Properties
 
+        /// <summary>
+        /// Time group memberships.
+        /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<TimeGroup> Groups
@@ -56,6 +96,9 @@ namespace Koopman.CheckPoint
             internal set => _groups = value;
         }
 
+        /// <summary>
+        /// Members of time group.
+        /// </summary>
         [JsonProperty(PropertyName = "members")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<ObjectSummary> Members
@@ -68,11 +111,21 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Valid sort orders for Time Groups
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields

@@ -43,6 +43,9 @@ namespace Koopman.CheckPoint.Common
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NATSettings" /> class.
+        /// </summary>
         public NATSettings()
         {
         }
@@ -57,7 +60,14 @@ namespace Koopman.CheckPoint.Common
         [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, "-")]
         public enum HideBehindValues
         {
+            /// <summary>
+            /// Hide traffic behind the gateway's IP Address
+            /// </summary>
             Gateway,
+
+            /// <summary>
+            /// Hide or Static NAT traffic behind specific IP Address
+            /// </summary>
             IPAddress
         }
 
@@ -67,7 +77,14 @@ namespace Koopman.CheckPoint.Common
         [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
         public enum NATMethods
         {
+            /// <summary>
+            /// Hide NAT
+            /// </summary>
             Hide,
+
+            /// <summary>
+            /// Static NAT
+            /// </summary>
             Static
         }
 
@@ -118,7 +135,7 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// Gets or sets the IPv4 address.
+        /// Gets or sets the IPv4 address for static NATs.
         /// </summary>
         [JsonProperty(PropertyName = "ipv4-address")]
         [JsonConverter(typeof(IPAddressConverter))]
@@ -133,7 +150,7 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// Gets or sets the IPV6 address.
+        /// Gets or sets the IPV6 address for static NATs.
         /// </summary>
         [JsonProperty(PropertyName = "ipv6-address")]
         [JsonConverter(typeof(IPAddressConverter))]

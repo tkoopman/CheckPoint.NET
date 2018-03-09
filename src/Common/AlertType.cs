@@ -30,18 +30,46 @@ namespace Koopman.CheckPoint.Common
     [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ")]
     public enum AlertType
     {
+        /// <summary>
+        /// No alerts
+        /// </summary>
         None,
+
+        /// <summary>
+        /// Log alerts
+        /// </summary>
         Log,
+
+        /// <summary>
+        /// Pop-up alert
+        /// </summary>
         PopupAlert,
+
+        /// <summary>
+        /// E-mail alert
+        /// </summary>
         MailAlert,
+
+        /// <summary>
+        /// Send SNMP trap alert
+        /// </summary>
         SnmpTrapAlert,
 
+        /// <summary>
+        /// User defined alert No1
+        /// </summary>
         [EnumMember(Value = "user defined alert no.1")]
         UserDefinedAlertNo1,
 
+        /// <summary>
+        /// User defined alert No2
+        /// </summary>
         [EnumMember(Value = "user defined alert no.2")]
         UserDefinedAlertNo2,
 
+        /// <summary>
+        /// User defined alert No3
+        /// </summary>
         [EnumMember(Value = "user defined alert no.3")]
         UserDefinedAlertNo3
     }

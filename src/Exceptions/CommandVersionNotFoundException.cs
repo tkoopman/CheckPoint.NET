@@ -21,6 +21,11 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Command version not found
+    /// </summary>
+    /// <remarks>Should not be thrown normally as this API controls the commands called.</remarks>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class CommandVersionNotFoundException : GenericException
     {
         #region Constructors

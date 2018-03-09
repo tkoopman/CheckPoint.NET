@@ -28,41 +28,184 @@ namespace Koopman.CheckPoint
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
     public enum Colors
     {
+        /// <summary>
+        /// Aquamarine
+        /// </summary>
         Aquamarine,
+
+        /// <summary>
+        /// Black
+        /// </summary>
         Black,
+
+        /// <summary>
+        /// Blue
+        /// </summary>
         Blue,
+
+        /// <summary>
+        /// Brown
+        /// </summary>
         Brown,
+
+        /// <summary>
+        /// Burlywood
+        /// </summary>
         Burlywood,
+
+        /// <summary>
+        /// Coral
+        /// </summary>
         Coral,
+
+        /// <summary>
+        /// Crete Blue
+        /// </summary>
         CreteBlue,
+
+        /// <summary>
+        /// Cyan
+        /// </summary>
         Cyan,
+
+        /// <summary>
+        /// Dark Blue
+        /// </summary>
         DarkBlue,
+
+        /// <summary>
+        /// Dark Gold
+        /// </summary>
         DarkGold,
+
+        /// <summary>
+        /// Dark Gray
+        /// </summary>
         DarkGray,
+
+        /// <summary>
+        /// Dark Green
+        /// </summary>
         DarkGreen,
+
+        /// <summary>
+        /// Dark Orange
+        /// </summary>
         DarkOrange,
+
+        /// <summary>
+        /// Dark Sea Green
+        /// </summary>
         DarkSeaGreen,
+
+        /// <summary>
+        /// Firebrick
+        /// </summary>
         Firebrick,
+
+        /// <summary>
+        /// Forest Green
+        /// </summary>
         ForestGreen,
+
+        /// <summary>
+        /// Gold
+        /// </summary>
         Gold,
+
+        /// <summary>
+        /// Gray
+        /// </summary>
         Gray,
+
+        /// <summary>
+        /// Khaki
+        /// </summary>
         Khaki,
+
+        /// <summary>
+        /// Lemon Chiffon
+        /// </summary>
         LemonChiffon,
+
+        /// <summary>
+        /// Light Green
+        /// </summary>
         LightGreen,
+
+        /// <summary>
+        /// Magenta
+        /// </summary>
         Magenta,
+
+        /// <summary>
+        /// Navy Blue
+        /// </summary>
         NavyBlue,
+
+        /// <summary>
+        /// Olive
+        /// </summary>
         Olive,
+
+        /// <summary>
+        /// Orange
+        /// </summary>
         Orange,
+
+        /// <summary>
+        /// Orchid
+        /// </summary>
         Orchid,
+
+        /// <summary>
+        /// Pink
+        /// </summary>
         Pink,
+
+        /// <summary>
+        /// Purple
+        /// </summary>
         Purple,
+
+        /// <summary>
+        /// Red
+        /// </summary>
         Red,
+
+        /// <summary>
+        /// Sea Green
+        /// </summary>
         SeaGreen,
+
+        /// <summary>
+        /// Sienna
+        /// </summary>
         Sienna,
+
+        /// <summary>
+        /// Sky Blue
+        /// </summary>
         SkyBlue,
+
+        /// <summary>
+        /// Slate Blue
+        /// </summary>
         SlateBlue,
+
+        /// <summary>
+        /// Turquoise
+        /// </summary>
         Turquoise,
+
+        /// <summary>
+        /// Violet Red
+        /// </summary>
         VioletRed,
+
+        /// <summary>
+        /// Yellow
+        /// </summary>
         Yellow
     }
 }

@@ -21,6 +21,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Not a system domain session
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.GenericException" />
     public class NotASystemDomainSessionException : GenericException
     {
         #region Constructors

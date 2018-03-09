@@ -25,6 +25,27 @@ using System.Net;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Multicast Address Range Class
+    /// </summary>
+    /// <example>
+    /// Add new multicast address range using <see
+    /// cref="MulticastAddressRange.MulticastAddressRange(Session)" />
+    /// <code>
+    /// var mar = new MulticastAddressRange(Session) {
+    ///     Name = "MyMulticastAddressRange",
+    ///     IPv6AddressFirst = IPAddress.Parse("ff05::1:3"),
+    ///     IPv6AddressLast = IPAddress.Parse("ff05::1:3")
+    /// };
+    /// mar.AcceptChanges();
+    /// </code>
+    /// Find multicast address range using <see cref="Session.FindMulticastAddressRange(string,
+    /// DetailLevels)" />
+    /// <code>
+    /// var ar = Session.FindMulticastAddressRange("MyMulticastAddressRange");
+    /// </code>
+    /// </example>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class MulticastAddressRange : ObjectBase
     {
         #region Fields
@@ -39,10 +60,30 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
+        /// <summary>
+        /// Create a new <see cref="MulticastAddressRange" />.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var mar = new MulticastAddressRange(Session) {
+        ///     Name = "MyMulticastAddressRange",
+        ///     IPv6AddressFirst = IPAddress.Parse("ff05::1:3"),
+        ///     IPv6AddressLast = IPAddress.Parse("ff05::1:3")
+        /// };
+        /// mar.AcceptChanges();
+        /// </code>
+        /// </example>
+        /// <param name="session">The current session.</param>
         public MulticastAddressRange(Session session) : this(session, DetailLevels.Full)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MulticastAddressRange" /> class ready to be
+        /// populated with current data.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal MulticastAddressRange(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new ObjectMembershipChangeTracking<Group>(this);
@@ -52,6 +93,9 @@ namespace Koopman.CheckPoint
 
         #region Properties
 
+        /// <summary>
+        /// Group memberships.
+        /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<Group> Groups
@@ -60,6 +104,10 @@ namespace Koopman.CheckPoint
             internal set => _groups = value;
         }
 
+        /// <summary>
+        /// Gets or sets the first IPv4 address in the range.
+        /// </summary>
+        /// <value>The first IPv4 address.</value>
         [JsonProperty(PropertyName = "ipv4-address-first")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -74,6 +122,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the last IPv4 address in the range.
+        /// </summary>
+        /// <value>The last IPv4 address.</value>
         [JsonProperty(PropertyName = "ipv4-address-last")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -88,6 +140,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the first IPv6 address in the range.
+        /// </summary>
+        /// <value>The first IPv6 address.</value>
         [JsonProperty(PropertyName = "ipv6-address-first")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -102,6 +158,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the last IPv6 address in the range.
+        /// </summary>
+        /// <value>The last IPv6 address.</value>
         [JsonProperty(PropertyName = "ipv6-address-last")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -120,11 +180,21 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Valid sort orders for Multicast Address Ranges
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields

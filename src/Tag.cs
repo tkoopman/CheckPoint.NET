@@ -21,14 +21,28 @@ using Koopman.CheckPoint.Common;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Check Point Tag
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class Tag : ObjectBase
     {
         #region Constructors
 
+        /// <summary>
+        /// Create new <see cref="Tag" />.
+        /// </summary>
+        /// <param name="session">The current session.</param>
         public Tag(Session session) : base(session, DetailLevels.Full)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tag" /> class ready to be populated with
+        /// current data.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Tag(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
         }
@@ -37,11 +51,21 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Valid sort orders for Hosts
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields

@@ -19,6 +19,9 @@
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// All error codes Check Point can return on failed posts
+    /// </summary>
     internal enum CheckPointErrorCodes
     {
         generic_error,

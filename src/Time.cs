@@ -25,14 +25,71 @@ using System.Diagnostics;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Check Point Time Object class
+    /// </summary>
+    /// <example>
+    /// Add new time object using <see cref="Time.Time(Session)" />
+    /// <code>
+    /// var t = new Time(Session)
+    /// {
+    ///     Name = "MyTime",
+    ///     Color = Colors.Red
+    /// };
+    ///
+    /// t.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange("03:00", "04:00");
+    /// t.HourRanges[1] = new Koopman.CheckPoint.Common.TimeRange("15:00", "16:00");
+    ///
+    /// t.Recurrence = new Time.RecurrenceClass() {
+    ///     Pattern = Time.RecurrencePattern.Daily,
+    ///     Weekdays = Days.Saturday | Days.Sunday
+    /// };
+    ///
+    /// t.AcceptChanges();
+    /// </code>
+    /// Find time object using <see cref="Session.FindTime(string, DetailLevels)" />
+    /// <code>
+    /// var t = Session.FindTime("MyTime");
+    /// </code>
+    /// </example>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class Time : ObjectBase
     {
         #region Constructors
 
+        /// <summary>
+        /// Create new <see cref="Time" /> object.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var t = new Time(Session)
+        /// {
+        ///     Name = "MyTime",
+        ///     Color = Colors.Red
+        /// };
+        ///
+        /// t.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange("03:00", "04:00");
+        /// t.HourRanges[1] = new Koopman.CheckPoint.Common.TimeRange("15:00", "16:00");
+        ///
+        /// t.Recurrence = new Time.RecurrenceClass() {
+        ///     Pattern = Time.RecurrencePattern.Daily,
+        ///     Weekdays = Days.Weekend
+        /// };
+        ///
+        /// t.AcceptChanges();
+        /// </code>
+        /// </example>
+        /// <param name="session">The current session.</param>
         public Time(Session session) : this(session, DetailLevels.Full)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Time" /> class ready to be populated with
+        /// current data.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Time(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new ObjectMembershipChangeTracking<TimeGroup>(this);
@@ -53,6 +110,11 @@ namespace Koopman.CheckPoint
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the End time. Note: Each gateway may interpret this time differently
+        /// according to its time zone.
+        /// </summary>
+        /// <value>The end time.</value>
         [JsonProperty(PropertyName = "end")]
         [JsonConverter(typeof(CheckPointDateTimeConverter), true)]
         public DateTime End
@@ -65,6 +127,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this Time object should never end.
+        /// </summary>
+        /// <value><c>true</c> if end never; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "end-never")]
         public bool EndNever
         {
@@ -76,6 +142,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets the time groups.
+        /// </summary>
+        /// <value>The time groups.</value>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<TimeGroup> Groups
@@ -84,9 +154,18 @@ namespace Koopman.CheckPoint
             internal set => _groups = value;
         }
 
+        /// <summary>
+        /// Gets or sets the Hours recurrence. Note: Each gateway may interpret this time differently
+        /// according to its time zone.
+        /// </summary>
+        /// <value>The hour ranges.</value>
         [JsonProperty(PropertyName = "hours-ranges")]
         public HourRanges HourRanges { get; set; } = new HourRanges();
 
+        /// <summary>
+        /// Gets or sets the days recurrence.
+        /// </summary>
+        /// <value>The days recurrence.</value>
         [JsonProperty(PropertyName = "recurrence")]
         public RecurrenceClass Recurrence
         {
@@ -98,6 +177,11 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Starting time. Note: Each gateway may interpret this time differently
+        /// according to its time zone.
+        /// </summary>
+        /// <value>The starting time.</value>
         [JsonProperty(PropertyName = "start")]
         [JsonConverter(typeof(CheckPointDateTimeConverter), true)]
         public DateTime Start
@@ -110,6 +194,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to start now.
+        /// </summary>
+        /// <value><c>true</c> if start now; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "start-now")]
         public bool StartNow
         {
@@ -125,24 +213,52 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Days Recurrence Options
+        /// </summary>
         [JsonConverter(typeof(EnumConverter))]
         public enum RecurrencePattern
         {
+            /// <summary>
+            /// Repeat daily
+            /// </summary>
             Daily,
+
+            /// <summary>
+            /// Repeat weekly
+            /// </summary>
             Weekly,
+
+            /// <summary>
+            /// Repeat monthly
+            /// </summary>
             Monthly
         }
 
+        /// <summary>
+        /// Valid sort orders for Hosts
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields
         }
 
+        /// <summary>
+        /// Days recurrence details
+        /// </summary>
+        /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
         public class RecurrenceClass : ChangeTracking
         {
             #region Fields
@@ -155,9 +271,17 @@ namespace Koopman.CheckPoint
 
             #region Properties
 
+            /// <summary>
+            /// Gets the specific days it recurres on.
+            /// </summary>
+            /// <value>Single days, or range. "1", "3", "9-20"</value>
             [JsonProperty(PropertyName = "days")]
             public SimpleListChangeTracking<string> Days { get; } = new SimpleListChangeTracking<string>();
 
+            /// <summary>
+            /// Gets or sets the valid month.
+            /// </summary>
+            /// <value>The valid month.</value>
             [JsonProperty(PropertyName = "month")]
             [JsonConverter(typeof(EnumConverter))]
             public Months Month
@@ -170,6 +294,10 @@ namespace Koopman.CheckPoint
                 }
             }
 
+            /// <summary>
+            /// Gets or sets the recurrence pattern.
+            /// </summary>
+            /// <value>The recurrence pattern.</value>
             [JsonProperty(PropertyName = "pattern")]
             public RecurrencePattern Pattern
             {
@@ -181,6 +309,10 @@ namespace Koopman.CheckPoint
                 }
             }
 
+            /// <summary>
+            /// Gets or sets the valid weekdays.
+            /// </summary>
+            /// <value>The valid weekdays.</value>
             [JsonProperty(PropertyName = "weekdays")]
             public Days Weekdays
             {

@@ -21,6 +21,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint.Exceptions
 {
+    /// <summary>
+    /// Login failed, more than one opened session
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Exceptions.LoginFailedException" />
     public class LoginFailedMoreThanOneOpenedSessionException : LoginFailedException
     {
         #region Constructors

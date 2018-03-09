@@ -29,10 +29,29 @@ namespace Koopman.CheckPoint
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
     public enum LockStates
     {
+        /// <summary>
+        /// Unlocked
+        /// </summary>
         Unlocked,
+
+        /// <summary>
+        /// Locked by current session
+        /// </summary>
         LockedByCurrentSession,
+
+        /// <summary>
+        /// Locked by other session
+        /// </summary>
         LockedByOtherSession,
+
+        /// <summary>
+        /// Prevented by current session
+        /// </summary>
         PreventedByCurrentSession,
+
+        /// <summary>
+        /// Prevented by other session
+        /// </summary>
         PreventedByOtherSession
     }
 }

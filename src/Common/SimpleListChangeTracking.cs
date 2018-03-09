@@ -47,11 +47,9 @@ namespace Koopman.CheckPoint.Common
         #region Indexers
 
         /// <summary>
-        /// Gets or sets the <see cref="T" /> at the specified index.
+        /// Gets or sets the object at the specified index.
         /// </summary>
-        /// <value>The <see cref="T" />.</value>
         /// <param name="index">The index.</param>
-        /// <returns>The <see cref="T" />.</returns>
         public T this[int index]
         {
             get => ((IList<T>)items)[index];
