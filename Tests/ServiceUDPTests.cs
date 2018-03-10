@@ -66,7 +66,13 @@ namespace Tests
             {
                 Name = name,
                 Color = Colors.Red,
-                Port = "53"
+                Port = "53",
+                AggressiveAging = new Koopman.CheckPoint.Common.AggressiveAging()
+                {
+                    Enable = true,
+                    UseDefaultTimeout = false,
+                    Timeout = 5
+                }
             };
 
             Assert.IsTrue(a.IsNew);
