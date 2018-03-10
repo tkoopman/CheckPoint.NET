@@ -26,7 +26,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Convert NAT Settings object to JSON.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class NATSettingsConverter : JsonConverter
     {
         #region Methods

@@ -28,7 +28,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// For creating Check Point JSON request of add or removing items from lists like groups and tags.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class MembershipChangeTrackingConverter : JsonConverter
     {
         #region Properties

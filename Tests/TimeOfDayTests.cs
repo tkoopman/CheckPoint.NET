@@ -53,8 +53,6 @@ namespace Tests
             {
                 for (byte m = 0; m < 60; m++)
                 {
-                    Console.Out.WriteLine($"{t.ToString()}");
-
                     int mins = h * 60 + m;
                     var t1 = new TimeOfDay(h, m);
                     var t2 = new TimeOfDay(mins);

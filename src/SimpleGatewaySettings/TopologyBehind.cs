@@ -28,9 +28,24 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
     public enum TopologyBehind
     {
+        /// <summary>
+        /// Not defined
+        /// </summary>
         NotDefined,
+
+        /// <summary>
+        /// The network defined by the interface IP and net mask
+        /// </summary>
         NetworkDefinedByTheInterfaceIPAndNetMask,
+
+        /// <summary>
+        /// The network defined by routing
+        /// </summary>
         NetworkDefinedByRouting,
+
+        /// <summary>
+        /// To manually define topology
+        /// </summary>
         Specific
     }
 }

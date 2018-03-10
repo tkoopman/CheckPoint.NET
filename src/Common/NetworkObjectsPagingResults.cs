@@ -25,7 +25,7 @@ namespace Koopman.CheckPoint.Common
     /// <summary>
     /// Result from methods that return multiple Network Objects.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of object the results include</typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectsPagingResults{T}" />
     public class NetworkObjectsPagingResults<T> : ObjectsPagingResults<T>
     {

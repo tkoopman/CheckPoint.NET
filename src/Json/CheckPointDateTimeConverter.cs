@@ -26,7 +26,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Converts Check Point date and time objects to DateTime properties.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class CheckPointDateTimeConverter : JsonConverter
     {
         #region Constructors

@@ -28,8 +28,19 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum Topology
     {
+        /// <summary>
+        /// For automatic detection
+        /// </summary>
         Automatic,
+
+        /// <summary>
+        /// External
+        /// </summary>
         External,
+
+        /// <summary>
+        /// Internal
+        /// </summary>
         Internal
     }
 }

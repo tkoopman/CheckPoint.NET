@@ -68,9 +68,9 @@ namespace Koopman.CheckPoint
         /// <param name="options">The session options.</param>
         /// <param name="debugWriter">
         /// The debug writer. WARNING: If set here the debug output WILL include your password in the
-        /// clear! Should only set here if trying to debug the login calls. Use <see
-        /// cref="Session.DebugWriter" /> to set after the login has completed to avoid including
-        /// your password.
+        /// clear! Should only set here if trying to debug the login calls. Use
+        /// <see cref="Session.DebugWriter" /> to set after the login has completed to avoid
+        /// including your password.
         /// </param>
         public Session(SessionOptions options, TextWriter debugWriter = null)
         {
@@ -393,9 +393,10 @@ namespace Koopman.CheckPoint
         #region AddressRange Methods
 
         /// <summary>
-        /// Deletes a address-range.
+        /// Deletes an address range.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteAddressRange
             (
                 string value,
@@ -412,7 +413,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a address-range.
+        /// Finds an address range.
         /// </summary>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
@@ -433,7 +434,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all address-ranges.
+        /// Finds all address ranges.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
@@ -460,9 +461,8 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all address-ranges that match filter.
+        /// Finds all address ranges that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -503,8 +503,8 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Deletes a group.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteGroup
             (
                 string value,
@@ -523,7 +523,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds all groups.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
@@ -551,7 +550,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds all groups that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -588,7 +586,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds a group.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <returns>Group object</returns>
@@ -612,9 +609,10 @@ namespace Koopman.CheckPoint
         #region GroupWithExclusion Methods
 
         /// <summary>
-        /// Deletes a group-with-exclusion.
+        /// Deletes a group with exclusion.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteGroupWithExclusion
             (
                 string value,
@@ -631,7 +629,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all group-with-exclusions.
+        /// Finds all groups with exclusion.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
@@ -658,9 +656,8 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all group-with-exclusions that match filter.
+        /// Finds all groups with exclusion that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -695,7 +692,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a group-with-exclusion.
+        /// Finds a group with exclusion.
         /// </summary>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
@@ -723,6 +720,7 @@ namespace Koopman.CheckPoint
         /// Deletes a host.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteHost
             (
                 string value,
@@ -768,7 +766,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds all hosts that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -828,9 +825,10 @@ namespace Koopman.CheckPoint
         #region MulticastAddressRange Methods
 
         /// <summary>
-        /// Deletes a multicast-address-range.
+        /// Deletes a multicast address range.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteMulticastAddressRange
             (
                 string value,
@@ -847,7 +845,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all multicast-address-ranges.
+        /// Finds all multicast address ranges.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
@@ -874,9 +872,8 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all multicast-address-ranges that match filter.
+        /// Finds all multicast address ranges that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -911,7 +908,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a multicast-address-range.
+        /// Finds a multicast address range.
         /// </summary>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
@@ -939,6 +936,7 @@ namespace Koopman.CheckPoint
         /// Deletes a network.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteNetwork
             (
                 string value,
@@ -984,7 +982,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds all networks that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -1044,9 +1041,10 @@ namespace Koopman.CheckPoint
         #region SimpleGateway Methods
 
         /// <summary>
-        /// Deletes a simple-gateway.
+        /// Deletes a simple gateway.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteSimpleGateway
             (
                 string value,
@@ -1063,7 +1061,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all simple-gateways.
+        /// Finds all simple gateways.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
@@ -1090,9 +1088,8 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all simple-gateways that match filter.
+        /// Finds all simple gateways that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -1127,7 +1124,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a simple-gateway.
+        /// Finds a simple gateway.
         /// </summary>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
@@ -1152,9 +1149,10 @@ namespace Koopman.CheckPoint
         #region SecurityZone Methods
 
         /// <summary>
-        /// Deletes a security-zone.
+        /// Deletes a security zone.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteSecurityZone
             (
                 string value,
@@ -1171,7 +1169,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all security-zones.
+        /// Finds all security zones.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
@@ -1198,9 +1196,8 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all security-zones that match filter.
+        /// Finds all security zones that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -1235,7 +1232,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a security-zone.
+        /// Finds a security zone.
         /// </summary>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
@@ -1263,6 +1260,7 @@ namespace Koopman.CheckPoint
         /// Deletes a tag.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteTag
             (
                 string value,
@@ -1308,7 +1306,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds all tags that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -1368,9 +1365,10 @@ namespace Koopman.CheckPoint
         #region Time Methods
 
         /// <summary>
-        /// Deletes a time.
+        /// Deletes a time object.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteTime
             (
                 string value,
@@ -1387,7 +1385,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all times.
+        /// Finds all time objects.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
@@ -1414,9 +1412,8 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all times that match filter.
+        /// Finds all time objects that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -1451,7 +1448,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a time.
+        /// Finds a time object.
         /// </summary>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
@@ -1476,9 +1473,10 @@ namespace Koopman.CheckPoint
         #region TimeGroup Methods
 
         /// <summary>
-        /// Deletes a time-group.
+        /// Deletes a time group.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteTimeGroup
             (
                 string value,
@@ -1495,7 +1493,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all time-groups.
+        /// Finds all time groups.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
@@ -1522,9 +1520,8 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all time-groups that match filter.
+        /// Finds all time groups that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -1559,7 +1556,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a time-group.
+        /// Finds a time group.
         /// </summary>
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
@@ -1588,11 +1585,10 @@ namespace Koopman.CheckPoint
         #region Task Methods
 
         /// <summary>
-        /// Finds task.
+        /// Find a task.
         /// </summary>
         /// <param name="taskID">The task identifier.</param>
-        /// <param name="detailLevel">The detail level.</param>
-        /// <returns>Task Array</returns>
+        /// <returns>Task</returns>
         public Task FindTask
             (
                 string taskID
@@ -1616,6 +1612,15 @@ namespace Koopman.CheckPoint
             return tasks?[0];
         }
 
+        /// <summary>
+        /// Runs the script on multiple targets.
+        /// </summary>
+        /// <param name="scriptName">Name of the script.</param>
+        /// <param name="script">The script.</param>
+        /// <param name="args">The script arguments.</param>
+        /// <param name="targets">The targets.</param>
+        /// <param name="comments">Script comments.</param>
+        /// <returns>A read-only dictionary detailing the task ID for each target.</returns>
         public IReadOnlyDictionary<string, string> RunScript(
                 string scriptName,
                 string script,
@@ -1651,6 +1656,15 @@ namespace Koopman.CheckPoint
             return new ReadOnlyDictionary<string, string>(dicResults);
         }
 
+        /// <summary>
+        /// Runs the script on a single target.
+        /// </summary>
+        /// <param name="scriptName">Name of the script.</param>
+        /// <param name="script">The script.</param>
+        /// <param name="args">The arguments.</param>
+        /// <param name="target">The target.</param>
+        /// <param name="comments">The script comments.</param>
+        /// <returns>Task ID</returns>
         public string RunScript(
                 string scriptName,
                 string script,
@@ -1674,6 +1688,22 @@ namespace Koopman.CheckPoint
 
         #region Policy Methods
 
+        /// <summary>
+        /// Installs the policy to gateways.
+        /// </summary>
+        /// <param name="policy">The policy to install.</param>
+        /// <param name="targets">The target gateways.</param>
+        /// <param name="access">if set to <c>true</c> installs the access policy.</param>
+        /// <param name="threatPrevention">
+        /// if set to <c>true</c> installs the threat prevention policy.
+        /// </param>
+        /// <param name="installOnAllClusterMembersOrFail">
+        /// if set to <c>true</c> will fail if it cannot install policy to all cluster members. if
+        /// set to <c>false</c> can complete with partial success if not all cluster members available.
+        /// </param>
+        /// <param name="prepareOnly">if set to <c>true</c> will prepare only.</param>
+        /// <param name="revision">The revision of the policy to install.</param>
+        /// <returns>Task ID</returns>
         public string InstallPolicy(
             string policy,
             string[] targets,
@@ -1703,6 +1733,11 @@ namespace Koopman.CheckPoint
             return taskID.GetValue("task-id")?.ToString();
         }
 
+        /// <summary>
+        /// Verifies the policy.
+        /// </summary>
+        /// <param name="policy">The policy.</param>
+        /// <returns>Task ID</returns>
         public string VerifyPolicy(string policy)
         {
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>

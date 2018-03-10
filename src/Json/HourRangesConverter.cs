@@ -27,7 +27,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Converts HourRanges.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class HourRangesConverter : JsonConverter
     {
         #region Methods

@@ -26,6 +26,25 @@ using System.Net;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Check Point Network Object
+    /// </summary>
+    /// <example>
+    /// Add new network using <see cref="Network.Network(Session)" />
+    /// <code>
+    /// var n = new Network(Session) {
+    ///     Name = "MyNetwork",
+    ///     Subnet4 = IPAddress.Parse("10.0.0.0"),
+    ///     MaskLength4 = 24
+    /// };
+    /// n.AcceptChanges();
+    /// </code>
+    /// Find network using <see cref="Session.FindNetwork(string, DetailLevels)" />
+    /// <code>
+    /// var n = Session.FindHost("MyNetwork");
+    /// </code>
+    /// </example>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class Network : ObjectBase
     {
         #region Fields
@@ -42,10 +61,30 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
+        /// <summary>
+        /// Create new <see cref="Network" />.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var n = new Network(Session) {
+        ///     Name = "MyNetwork",
+        ///     Subnet4 = IPAddress.Parse("10.0.0.0"),
+        ///     MaskLength4 = 24
+        /// };
+        /// n.AcceptChanges();
+        /// </code>
+        /// </example>
+        /// <param name="session">The current session.</param>
         public Network(Session session) : this(session, DetailLevels.Full)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Network" /> class ready to be populated with
+        /// current data.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Network(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new ObjectMembershipChangeTracking<Group>(this);
@@ -55,6 +94,11 @@ namespace Koopman.CheckPoint
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets is broadcast address is included.
+        /// </summary>
+        /// <value>The broadcast inclusion.</value>
+        /// <exception cref="ArgumentNullException">BroadcastInclusion</exception>
         [JsonProperty(PropertyName = "broadcast")]
         [JsonConverter(typeof(CustomBoolConverter), "allow", "disallow")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -69,6 +113,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Group memberships.
+        /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectMembershipChangeTracking<Group> Groups
@@ -77,6 +124,10 @@ namespace Koopman.CheckPoint
             internal set => _groups = value;
         }
 
+        /// <summary>
+        /// Gets or sets the mask length for IPv4.
+        /// </summary>
+        /// <value>The mask length for IPv4.</value>
         [JsonProperty(PropertyName = "mask-length4")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int MaskLength4
@@ -90,6 +141,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the mask length for IPv6.
+        /// </summary>
+        /// <value>The mask length for IPv6.</value>
         [JsonProperty(PropertyName = "mask-length6")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int MaskLength6
@@ -103,6 +158,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the NAT settings.
+        /// </summary>
         [JsonProperty(PropertyName = "nat-settings")]
         public NATSettings NATSettings
         {
@@ -115,6 +173,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv4 network address.
+        /// </summary>
+        /// <value>The IPv4 network address.</value>
         [JsonProperty(PropertyName = "subnet4")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -129,6 +191,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv6 network address.
+        /// </summary>
+        /// <value>The IPv6 network address.</value>
         [JsonProperty(PropertyName = "subnet6")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -143,6 +209,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IPv4 subnet mask.
+        /// </summary>
+        /// <value>The subnet mask.</value>
         [JsonIgnore]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IPAddress SubnetMask
@@ -156,11 +226,21 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Valid sort orders for Networks
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields

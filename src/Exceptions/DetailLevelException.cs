@@ -29,6 +29,11 @@ namespace Koopman.CheckPoint.Exceptions
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DetailLevelException" /> class.
+        /// </summary>
+        /// <param name="actual">The actual detail level.</param>
+        /// <param name="required">The required detail level.</param>
         public DetailLevelException(DetailLevels actual, DetailLevels required) :
             base(message: $"Detail level of {actual.ToString()} does not meet requirement of {required.ToString()}")
         {

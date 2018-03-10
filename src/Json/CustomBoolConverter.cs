@@ -25,7 +25,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Converts bool values into and from custom string equivalent values.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class CustomBoolConverter : JsonConverter
     {
         #region Constructors

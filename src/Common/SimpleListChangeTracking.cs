@@ -38,8 +38,15 @@ namespace Koopman.CheckPoint.Common
 
         #region Properties
 
+        /// <summary>
+        /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// </summary>
         public int Count => ((IList<T>)items).Count;
 
+        /// <summary>
+        /// Gets a value indicating whether the
+        /// <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.
+        /// </summary>
         public bool IsReadOnly => ((IList<T>)items).IsReadOnly;
 
         #endregion Properties
@@ -61,10 +68,10 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// Gets the <see cref="T" /> with the specified string.
+        /// Gets the object with the specified string.
         /// </summary>
         /// <param name="str">The string to match to ToString() method of object.</param>
-        /// <returns>First <see cref="T" /> that's ToString() value equals str.</returns>
+        /// <returns>First object that's ToString() value equals <paramref name="str" />.</returns>
         public T this[string str]
         {
             get
@@ -107,8 +114,8 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         /// <returns>
-        /// true if <paramref name="item">item</paramref> is found in the <see
-        /// cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false.
+        /// true if <paramref name="item">item</paramref> is found in the
+        /// <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false.
         /// </returns>
         public bool Contains(T item)
         {
@@ -117,8 +124,8 @@ namespace Koopman.CheckPoint.Common
 
         /// <summary>
         /// Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1"></see>
-        /// to an <see cref="T:System.Array"></see>, starting at a particular <see
-        /// cref="T:System.Array"></see> index.
+        /// to an <see cref="T:System.Array"></see>, starting at a particular
+        /// <see cref="T:System.Array"></see> index.
         /// </summary>
         /// <param name="array">
         /// The one-dimensional <see cref="T:System.Array"></see> that is the destination of the
@@ -181,10 +188,10 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         /// <returns>
-        /// true if <paramref name="item">item</paramref> was successfully removed from the <see
-        /// cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This method
-        /// also returns false if <paramref name="item">item</paramref> is not found in the original
-        /// <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// true if <paramref name="item">item</paramref> was successfully removed from the
+        /// <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This
+        /// method also returns false if <paramref name="item">item</paramref> is not found in the
+        /// original <see cref="T:System.Collections.Generic.ICollection`1"></see>.
         /// </returns>
         public bool Remove(T item)
         {

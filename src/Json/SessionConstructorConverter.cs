@@ -4,17 +4,19 @@ using System.Reflection;
 
 namespace Koopman.CheckPoint.Json
 {
+    /// <summary>
+    /// Used to deserialize objects that require the <see cref="Session" /> object to be passed to
+    /// the constructor.
+    /// </summary>
     internal class SessionConstructorConverter : JsonConverter
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectConverter" /> class.
+        /// Initializes a new instance of the <see cref="SessionConstructorConverter" /> class.
         /// </summary>
-        /// <param name="Session">The current active session to management server.</param>
-        /// <param name="parentDetailLevel">Detail level returned for top level objects.</param>
-        /// <param name="childDetailLevel">Detail level returned for all child objects.</param>
-        public SessionConstructorConverter(Session session)
+        /// <param name="session">The current active session to management server.</param>
+        internal SessionConstructorConverter(Session session)
         {
             Session = session;
         }
@@ -23,8 +25,10 @@ namespace Koopman.CheckPoint.Json
 
         #region Properties
 
+        /// <inheritdoc />
         public override bool CanRead => true;
 
+        /// <inheritdoc />
         public override bool CanWrite => false;
 
         protected Session Session { get; }
@@ -33,12 +37,14 @@ namespace Koopman.CheckPoint.Json
 
         #region Methods
 
+        /// <inheritdoc />
         public override bool CanConvert(Type objectType)
         {
             ConstructorInfo ci = objectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(Session) }, null);
             return ci != null;
         }
 
+        /// <inheritdoc />
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             Object result = existingValue;
@@ -54,6 +60,7 @@ namespace Koopman.CheckPoint.Json
             return result;
         }
 
+        /// <inheritdoc />
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();

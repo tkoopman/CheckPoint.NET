@@ -28,7 +28,6 @@ namespace Koopman.CheckPoint.Json
     /// Used for reading Check Point objects in and creating them using the Class that matches the
     /// specified type.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class ISecurityZoneSettingsConverter : JsonConverter
     {
         #region Properties

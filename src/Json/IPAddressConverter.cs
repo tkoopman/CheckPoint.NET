@@ -26,7 +26,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Convert IP address string values to and from IPAddress properties.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
     internal class IPAddressConverter : JsonConverter
     {
         #region Methods

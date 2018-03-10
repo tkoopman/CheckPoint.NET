@@ -37,8 +37,7 @@ namespace Koopman.CheckPoint
     /// };
     /// gwe.AcceptChanges();
     /// </code>
-    /// Find group with exclusion using <see cref="Session.FindGroupWithExclusion(string,
-    /// DetailLevels)" />
+    /// Find group with exclusion using <see cref="Session.FindGroupWithExclusion(string, DetailLevels)" />
     /// <code>
     /// var gwe = Session.FindGroupWithExclusion("MyGroupWithExclusion");
     /// </code>
@@ -121,7 +120,10 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
         protected override IContractResolver AddContractResolver => GroupWithExclusionContractResolver.AddInstance;
+
+        /// <inheritdoc />
         protected override IContractResolver SetContractResolver => GroupWithExclusionContractResolver.SetInstance;
 
         #endregion Properties

@@ -53,45 +53,49 @@
     <CopyrightHref>https://raw.githubusercontent.com/tkoopman/CheckPoint.NET/master/LICENSE</CopyrightHref>
     <CopyrightText>Copyright %28c%29 2018 Tim Koopman</CopyrightText>
     <SdkLinkTarget>Blank</SdkLinkTarget>
-    <VisibleItems>Attributes, InheritedMembers, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
+    <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <RootNamespaceTitle>API Reference</RootNamespaceTitle>
     <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, Namespace, TypeParameter, AutoDocumentDispose</MissingTags>
     <ComponentConfigurations>
       <ComponentConfig id="Syntax Component" enabled="True">
         <component id="Syntax Component">
-  <syntax input="/document/reference" output="/document/syntax" renderReferenceLinks="true" />
-  <generators>
+          <syntax input="/document/reference" output="/document/syntax" renderReferenceLinks="true" />
+          <generators>
     {@SyntaxFilters}
 </generators>
-  <containerElement name="codeSnippetGroup" addNoExampleTabs="true" includeOnSingleSnippets="true" groupingEnabled="{@CodeSnippetGrouping}" />
-  <configurations>
-    <generator id="C#" />
-    <generator id="Visual Basic">
-      <includeLineContinuation value="false" />
-    </generator>
-    <generator id="Visual Basic Usage">
-      <includeLineContinuation value="false" />
-    </generator>
-    <generator id="Managed C++" />
-    <generator id="F#" />
-    <generator id="J#" />
-    <generator id="JScript" />
-    <generator id="JavaScript" />
-    <generator id="XAML Usage" />
-    <generator id="ASP.NET" />
-    <generator id="X#" />
-  </configurations>
-</component>
+          <containerElement name="codeSnippetGroup" addNoExampleTabs="true" includeOnSingleSnippets="true" groupingEnabled="{@CodeSnippetGrouping}" />
+          <configurations>
+            <generator id="C#" />
+            <generator id="Visual Basic">
+              <includeLineContinuation value="false" />
+            </generator>
+            <generator id="Visual Basic Usage">
+              <includeLineContinuation value="false" />
+            </generator>
+            <generator id="Managed C++" />
+            <generator id="F#" />
+            <generator id="J#" />
+            <generator id="JScript" />
+            <generator id="JavaScript" />
+            <generator id="XAML Usage" />
+            <generator id="ASP.NET" />
+            <generator id="X#" />
+          </configurations>
+        </component>
       </ComponentConfig>
-<ComponentConfig id="Code Block Component" enabled="True"><component id="Code Block Component">
-  <basePath value="{@HtmlEncProjectFolder}" />
-  <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
-  <allowMissingSource value="false" />
-  <removeRegionMarkers value="false" />
-  <colorizer syntaxFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xml" styleFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}PresentationStyles\Colorizer\highlight.css" scriptFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="4" numberLines="false" outlining="false" keepSeeTags="false" defaultTitle="true" />
-</component></ComponentConfig></ComponentConfigurations>
-    <PlugInConfigurations />
+      <ComponentConfig id="Code Block Component" enabled="True">
+        <component id="Code Block Component">
+          <basePath value="{@HtmlEncProjectFolder}" />
+          <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
+          <allowMissingSource value="false" />
+          <removeRegionMarkers value="false" />
+          <colorizer syntaxFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xml" styleFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}PresentationStyles\Colorizer\highlight.css" scriptFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="4" numberLines="false" outlining="false" keepSeeTags="false" defaultTitle="true" />
+        </component>
+      </ComponentConfig>
+    </ComponentConfigurations>
+    <PlugInConfigurations>
+    </PlugInConfigurations>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <BinaryTOC>True</BinaryTOC>
     <IncludeFavorites>False</IncludeFavorites>
@@ -99,10 +103,11 @@
     <AppendMarkdownFileExtensionsToUrls>False</AppendMarkdownFileExtensionsToUrls>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
-<NamespaceSummaryItem name="Koopman.CheckPoint" isDocumented="True">CheckPoint.NET Main Classes</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Koopman.CheckPoint.Common" isDocumented="True">CheckPoint.NET Shared Common Classes</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Koopman.CheckPoint.Exceptions" isDocumented="True">CheckPoint.NET Exceptions</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Koopman.CheckPoint.SimpleGatewaySettings" isDocumented="True">CheckPoint.NET Simple Gateway Settings Classes</NamespaceSummaryItem></NamespaceSummaries>
+      <NamespaceSummaryItem name="Koopman.CheckPoint" isDocumented="True">CheckPoint.NET Main Classes</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Koopman.CheckPoint.Common" isDocumented="True">CheckPoint.NET Shared Common Classes</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Koopman.CheckPoint.Exceptions" isDocumented="True">CheckPoint.NET Exceptions</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Koopman.CheckPoint.SimpleGatewaySettings" isDocumented="True">CheckPoint.NET Simple Gateway Settings Classes</NamespaceSummaryItem>
+    </NamespaceSummaries>
     <ProjectSummary>CheckPoint.NET Namespaces</ProjectSummary>
     <SourceCodeBasePath>..\src\</SourceCodeBasePath>
     <CatalogProductId>VS</CatalogProductId>

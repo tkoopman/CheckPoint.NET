@@ -21,6 +21,7 @@ using Koopman.CheckPoint;
 using Koopman.CheckPoint.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 
 namespace Tests
 {
@@ -30,10 +31,18 @@ namespace Tests
         #region Properties
 
         public TestContext TestContext { get; set; }
+        private TextWriter DebugWriter { get; } = new StringWriter();
 
         #endregion Properties
 
         #region Methods
+
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            TestContext.WriteLine(DebugWriter.ToString());
+            DebugWriter.Close();
+        }
 
         /// <summary>
         /// While one would expect this to throw LoginFailedWrongUsernameOrPasswordException
@@ -51,7 +60,7 @@ namespace Tests
                     Password = "***",
                     CertificateValidation = false
                 },
-                debugWriter: Console.Out
+                debugWriter: DebugWriter
                 ))
             {
             }

@@ -29,7 +29,14 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum AntiSpoofingAction
     {
+        /// <summary>
+        /// To prevent anti-spoofing by dropping the packets
+        /// </summary>
         Prevent,
+
+        /// <summary>
+        /// To only detect anti-spoofing
+        /// </summary>
         Detect
     }
 }

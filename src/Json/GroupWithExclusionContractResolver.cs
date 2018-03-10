@@ -26,7 +26,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Used to make sure Include and Except properties just output the name or UID of the object.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.Serialization.DefaultContractResolver" />
     internal class GroupWithExclusionContractResolver : ChangeTrackingContractResolver
     {
         #region Fields

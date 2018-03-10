@@ -15,6 +15,10 @@ namespace Koopman.CheckPoint
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Task" /> class.
+        /// </summary>
+        /// <param name="session">The current session.</param>
         protected internal Task(Session session)
         {
             Session = session;
@@ -76,7 +80,9 @@ namespace Koopman.CheckPoint
         /// <param name="delay">The delay between checking current task status.</param>
         /// <param name="cancellationToken">The cancellation token, to stop waiting when triggered.</param>
         /// <param name="progress">To track progress.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// <c>true</c> if task completed successfully; otherwise <c>false</c> if task failed
+        /// </returns>
         public async System.Threading.Tasks.Task<bool> WaitAsync(
                 int delay = 1000,
                 CancellationToken cancellationToken = default(CancellationToken),

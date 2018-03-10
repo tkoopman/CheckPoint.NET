@@ -69,7 +69,7 @@ namespace Koopman.CheckPoint.Common
         #region Indexers
 
         /// <summary>
-        /// Gets the <see cref="T" /> at the specified index.
+        /// Gets the object at the specified index.
         /// </summary>
         /// <param name="index">The index.</param>
         /// <exception cref="System.NotImplementedException"></exception>

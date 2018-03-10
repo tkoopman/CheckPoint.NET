@@ -26,6 +26,10 @@ using System.Net;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Check Point Simple Gateway Object
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
     public class SimpleGateway : ObjectBase
     {
         #region Fields
@@ -60,8 +64,7 @@ namespace Koopman.CheckPoint
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleGateway" /> class. This will create a
-        /// new Simple Gateway once AcceptChanges called.
+        /// Create new <see cref="SimpleGateway" />.
         /// </summary>
         /// <param name="session">The current session.</param>
         public SimpleGateway(Session session) : this(session, DetailLevels.Full)
@@ -69,10 +72,11 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Used by <see cref="ObjectConverter" /> class when creating instance of existing Simple Gateway
+        /// Initializes a new instance of the <see cref="SimpleGateway" /> class ready to be
+        /// populated with current data.
         /// </summary>
         /// <param name="session">The current session.</param>
-        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal SimpleGateway(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new ObjectMembershipChangeTracking<Group>(this);
@@ -468,11 +472,21 @@ namespace Koopman.CheckPoint
 
         #region Classes
 
+        /// <summary>
+        /// Valid sort orders for simple gateways
+        /// </summary>
         public static class Order
         {
             #region Fields
 
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
             public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields

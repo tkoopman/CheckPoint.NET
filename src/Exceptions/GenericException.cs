@@ -54,6 +54,10 @@ namespace Koopman.CheckPoint.Exceptions
         /// </summary>
         public CheckPointErrorDetails[] Errors { get; }
 
+        /// <summary>
+        /// Gets the HTTP status code returned by the management server.
+        /// </summary>
+        /// <value>The HTTP status code.</value>
         public HttpStatusCode HTTPStatusCode { get; }
 
         /// <summary>

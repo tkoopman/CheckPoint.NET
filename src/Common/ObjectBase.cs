@@ -41,6 +41,11 @@ namespace Koopman.CheckPoint.Common
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectBase" /> class.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level.</param>
         protected ObjectBase(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _tags = new ObjectMembershipChangeTracking<Tag>(this);

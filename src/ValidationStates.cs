@@ -28,9 +28,24 @@ namespace Koopman.CheckPoint
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum ValidationStates
     {
+        /// <summary>
+        /// OK
+        /// </summary>
         OK,
+
+        /// <summary>
+        /// Informational
+        /// </summary>
         Info,
+
+        /// <summary>
+        /// Warnings
+        /// </summary>
         Warning,
+
+        /// <summary>
+        /// Errors
+        /// </summary>
         Error
     }
 }

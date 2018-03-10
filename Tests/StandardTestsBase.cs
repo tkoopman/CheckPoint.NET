@@ -21,6 +21,7 @@ using Koopman.CheckPoint;
 using Koopman.CheckPoint.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 
 namespace Tests
 {
@@ -31,6 +32,7 @@ namespace Tests
 
         public Session Session { get; private set; }
         public TestContext TestContext { get; set; }
+        private TextWriter DebugWriter { get; } = new StringWriter();
 
         #endregion Properties
 
@@ -40,9 +42,11 @@ namespace Tests
         public void CleanupTest()
         {
             Session.DebugWriter = null;
-            Console.WriteLine($" Completed test {TestContext.TestName} ".CenterString(60, '#'));
+            DebugWriter.WriteLine($" Completed test {TestContext.TestName} ".CenterString(60, '#'));
             Session.Discard();
             Session.Logout();
+            TestContext.WriteLine(DebugWriter.ToString());
+            DebugWriter.Close();
         }
 
         [TestInitialize]
@@ -64,8 +68,8 @@ namespace Tests
                 }
                 );
 
-            Session.DebugWriter = Console.Out;
-            Console.WriteLine($" Starting test {TestContext.TestName} ".CenterString(60, '#'));
+            Session.DebugWriter = DebugWriter;
+            DebugWriter.WriteLine($" Starting test {TestContext.TestName} ".CenterString(60, '#'));
         }
 
         #endregion Methods

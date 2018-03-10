@@ -19,7 +19,6 @@
 
 using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
-using System;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
@@ -66,6 +65,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to alert when free disk space below value set in <see cref="AlertWhenFreeDiskSpaceBelowThreshold" />.
+        /// </summary>
+        /// <value><c>true</c> if [alert when free disk space below]; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "alert-when-free-disk-space-below")]
         public bool AlertWhenFreeDiskSpaceBelow
         {
@@ -77,6 +80,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets the alert when free disk space below threshold metrics.
+        /// </summary>
+        /// <value>The alert when free disk space below metrics.</value>
         [JsonProperty(PropertyName = "alert-when-free-disk-space-below-metrics")]
         public Metrics AlertWhenFreeDiskSpaceBelowMetrics
         {
@@ -84,6 +91,11 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             private set => _freeDiskSpaceMetrics = value;
         }
 
+        /// <summary>
+        /// Gets or sets the alert when free disk space below threshold. Use
+        /// <see cref="AlertWhenFreeDiskSpaceBelowMetrics" /> to control what metrics this property in.
+        /// </summary>
+        /// <value>The alert when free disk space below threshold.</value>
         [JsonProperty(PropertyName = "alert-when-free-disk-space-below-threshold")]
         public int AlertWhenFreeDiskSpaceBelowThreshold
         {
@@ -95,6 +107,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the alert type for when free disk space below threshold.
+        /// </summary>
+        /// <value>The alert type for when free disk space below threshold.</value>
         [JsonProperty(PropertyName = "alert-when-free-disk-space-below-type")]
         public AlertType AlertWhenFreeDiskSpaceBelowType
         {
@@ -106,6 +122,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to keep logs from the last days
+        /// <see cref="BeforeDeleteKeepLogsFromTheLastDaysThreshold" /> before deleting.
+        /// </summary>
         [JsonProperty(PropertyName = "before-delete-keep-logs-from-the-last-days")]
         public bool BeforeDeleteKeepLogsFromTheLastDays
         {
@@ -117,6 +137,9 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the days of logs to keep before deleting.
+        /// </summary>
         [JsonProperty(PropertyName = "before-delete-keep-logs-from-the-last-days-threshold")]
         public int BeforeDeleteKeepLogsFromTheLastDaysThreshold
         {
@@ -128,6 +151,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to run a script before deleting logs.
+        /// </summary>
+        /// <value><c>true</c> if to run a script first; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "before-delete-run-script")]
         public bool BeforeDeleteRunScript
         {
@@ -139,6 +166,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the script command to run before deleting logs.
+        /// </summary>
+        /// <value>The script command.</value>
         [JsonProperty(PropertyName = "before-delete-run-script-command")]
         public string BeforeDeleteRunScriptCommand
         {
@@ -150,6 +181,14 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to delete index files older than
+        /// <see cref="DeleteIndexFilesOlderThanDaysThreshold" /> days.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if to delete index files older than
+        /// <see cref="DeleteIndexFilesOlderThanDaysThreshold" /> days; otherwise, <c>false</c>.
+        /// </value>
         [JsonProperty(PropertyName = "delete-index-files-older-than-days")]
         public bool DeleteIndexFilesOlderThanDays
         {
@@ -161,6 +200,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of days that index older than should be deleted.
+        /// </summary>
+        /// <value>The delete index files older than days threshold.</value>
         [JsonProperty(PropertyName = "delete-index-files-older-than-days-threshold")]
         public int DeleteIndexFilesOlderThanDaysThreshold
         {
@@ -172,6 +215,12 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to delete index files when index size above <see cref="DeleteIndexFilesWhenIndexSizeAboveThreshold" />.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if to delete index files when index size above threshold; otherwise, <c>false</c>.
+        /// </value>
         [JsonProperty(PropertyName = "delete-index-files-when-index-size-above")]
         public bool DeleteIndexFilesWhenIndexSizeAbove
         {
@@ -183,6 +232,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets the metrics that <see cref="DeleteIndexFilesWhenIndexSizeAboveThreshold" /> is in.
+        /// </summary>
+        /// <value>The delete index files when index size above metrics.</value>
         [JsonProperty(PropertyName = "delete-index-files-when-index-size-above-metrics")]
         public Metrics DeleteIndexFilesWhenIndexSizeAboveMetrics
         {
@@ -190,6 +243,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             private set => _freeDiskSpaceMetrics = value;
         }
 
+        /// <summary>
+        /// Gets or sets the delete index files when index size above, threshold.
+        /// </summary>
+        /// <value>The delete index files when index size above, threshold.</value>
         [JsonProperty(PropertyName = "delete-index-files-when-index-size-above-threshold")]
         public int DeleteIndexFilesWhenIndexSizeAboveThreshold
         {
@@ -201,6 +258,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to delete logs when free disk space below <see cref="DeleteWhenFreeDiskSpaceBelowThreshold" />.
+        /// </summary>
+        /// <value><c>true</c> if to delete when free disk space below threshold; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "delete-when-free-disk-space-below")]
         public bool DeleteWhenFreeDiskSpaceBelow
         {
@@ -212,6 +273,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets the metrics <see cref="DeleteWhenFreeDiskSpaceBelowThreshold" /> is in.
+        /// </summary>
+        /// <value>The delete when free disk space below metrics.</value>
         [JsonProperty(PropertyName = "delete-when-free-disk-space-below-metrics")]
         public Metrics DeleteWhenFreeDiskSpaceBelowMetrics
         {
@@ -219,6 +284,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             private set => _freeDiskSpaceMetrics = value;
         }
 
+        /// <summary>
+        /// Gets or sets the threshold of free disk space when below to delete logs.
+        /// </summary>
+        /// <value>The delete when free disk space below threshold.</value>
         [JsonProperty(PropertyName = "delete-when-free-disk-space-below-threshold")]
         public int DeleteWhenFreeDiskSpaceBelowThreshold
         {
@@ -230,6 +299,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to detect new Citrix ICA application names.
+        /// </summary>
+        /// <value><c>true</c> if to detect new Citrix ICA application names; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "detect-new-citrix-ica-application-names")]
         public bool DetectNewCitrixIcaApplicationNames
         {
@@ -241,6 +314,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to forward local logs to log server.
+        /// </summary>
+        /// <value><c>true</c> if to forward logs to log server; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "forward-logs-to-log-server")]
         public bool ForwardLogsToLogServer
         {
@@ -252,6 +329,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the server to forward logs too.
+        /// </summary>
+        /// <value>The name of the forward logs to log server.</value>
         [JsonProperty(PropertyName = "forward-logs-to-log-server-name")]
         public string ForwardLogsToLogServerName
         {
@@ -263,6 +344,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the forward logs to log server schedule.
+        /// </summary>
+        /// <value>The name of the forward logs to log server schedule.</value>
         [JsonProperty(PropertyName = "forward-logs-to-log-server-schedule-name")]
         public string ForwardLogsToLogServerScheduleName
         {
@@ -274,6 +359,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the free disk space metrics.
+        /// </summary>
+        /// <value>The free disk space metrics.</value>
         [JsonProperty(PropertyName = "free-disk-space-metrics")]
         public Metrics FreeDiskSpaceMetrics
         {
@@ -285,6 +374,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to perform a log rotate before log forwarding.
+        /// </summary>
+        /// <value><c>true</c> if to perform a log rotate before log forwarding; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "perform-log-rotate-before-log-forwarding")]
         public bool PerformLogRotateBeforeLogForwarding
         {
@@ -296,6 +389,12 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to reject connections when free disk space below threshold.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if to reject connections when free disk space below threshold; otherwise, <c>false</c>.
+        /// </value>
         [JsonProperty(PropertyName = "reject-connections-when-free-disk-space-below-threshold")]
         public bool RejectConnectionsWhenFreeDiskSpaceBelowThreshold
         {
@@ -307,6 +406,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the metrics used by <see cref="ReserveForPacketCaptureThreshold" />.
+        /// </summary>
+        /// <value>The reserve for packet capture metrics.</value>
         [JsonProperty(PropertyName = "reserve-for-packet-capture-metrics")]
         public Metrics ReserveForPacketCaptureMetrics
         {
@@ -318,6 +421,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reserve for packet capture threshold.
+        /// </summary>
+        /// <value>The reserve for packet capture threshold.</value>
         [JsonProperty(PropertyName = "reserve-for-packet-capture-threshold")]
         public int ReserveForPacketCaptureThreshold
         {
@@ -329,6 +436,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to rotate logs by file size.
+        /// </summary>
+        /// <value><c>true</c> if to rotate logs by file size; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "rotate-log-by-file-size")]
         public bool RotateLogByFileSize
         {
@@ -340,6 +451,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the rotate log file size threshold.
+        /// </summary>
+        /// <value>The rotate log file size threshold.</value>
         [JsonProperty(PropertyName = "rotate-log-file-size-threshold")]
         public int RotateLogFileSizeThreshold
         {
@@ -351,6 +466,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to rotate logs on a schedule.
+        /// </summary>
+        /// <value><c>true</c> if to rotate logs on a schedule; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "rotate-log-on-schedule")]
         public bool RotateLogOnSchedule
         {
@@ -362,6 +481,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the schedule to rotate logs by.
+        /// </summary>
+        /// <value>The name of the rotate log schedule.</value>
         [JsonProperty(PropertyName = "rotate-log-schedule-name")]
         public string RotateLogScheduleName
         {
@@ -373,6 +496,12 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to stop logging when free disk space below <see cref="StopLoggingWhenFreeDiskSpaceBelowThreshold" />.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if to stop logging when free disk space below threshold; otherwise, <c>false</c>.
+        /// </value>
         [JsonProperty(PropertyName = "stop-logging-when-free-disk-space-below")]
         public bool StopLoggingWhenFreeDiskSpaceBelow
         {
@@ -384,11 +513,19 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets the stop logging when free disk space below metrics.
+        /// </summary>
+        /// <value>The stop logging when free disk space below metrics.</value>
         public Metrics StopLoggingWhenFreeDiskSpaceBelowMetrics
         {
             get => Metrics.MBytes;
         }
 
+        /// <summary>
+        /// Gets or sets the stop logging when free disk space below threshold.
+        /// </summary>
+        /// <value>The stop logging when free disk space below threshold.</value>
         [JsonProperty(PropertyName = "stop-logging-when-free-disk-space-below-threshold")]
         public int StopLoggingWhenFreeDiskSpaceBelowThreshold
         {
@@ -400,6 +537,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to turn on QOS logging.
+        /// </summary>
+        /// <value><c>true</c> to turn on QOS logging; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "turn-on-qos-logging")]
         public bool TurnOnQOSLogging
         {
@@ -411,6 +552,10 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             }
         }
 
+        /// <summary>
+        /// Gets or sets the frequency that accounting logs should be updated in seconds.
+        /// </summary>
+        /// <value>The update account log every.</value>
         [JsonProperty(PropertyName = "update-account-log-every")]
         public int UpdateAccountLogEvery
         {
@@ -423,14 +568,5 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
         }
 
         #endregion Properties
-
-        #region Methods
-
-        public override void AcceptChanges()
-        {
-            throw new NotImplementedException("Use AcceptChanges from Parent Object.");
-        }
-
-        #endregion Methods
     }
 }

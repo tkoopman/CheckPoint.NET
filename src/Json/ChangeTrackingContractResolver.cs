@@ -28,7 +28,6 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Used to set which properties should be serialised on objects that inherit ChangeTracking class.
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.Serialization.DefaultContractResolver" />
     internal class ChangeTrackingContractResolver : DefaultContractResolver
     {
         #region Fields
