@@ -86,8 +86,13 @@ namespace Koopman.CheckPoint.Common
         #region Methods
 
         /// <summary>
-        /// <para type="description">Returns true if object UIDs match</para>
+        /// Returns true if object UIDs match
         /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        /// <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance;
+        /// otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             try
@@ -102,16 +107,21 @@ namespace Koopman.CheckPoint.Common
         }
 
         /// <summary>
-        /// <para type="description">Returns Hashcode of object UID</para>
+        /// Returns Hashcode of object UID
         /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures
+        /// like a hash table.
+        /// </returns>
         public override int GetHashCode()
         {
             return this.UID.GetHashCode();
         }
 
         /// <summary>
-        /// <para type="description">Convert domain object to string. (Domain name)</para>
+        /// Convert domain object to string. (Domain name)
         /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
             return Name;

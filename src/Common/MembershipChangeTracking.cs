@@ -265,6 +265,8 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Use Add, Remove and Clear methods only to modify membership.
         /// </summary>
+        /// <param name="index">The zero-based index at which item should be inserted.</param>
+        /// <param name="item">The object to insert into the <see cref="T:System.Collections.Generic.IList`1"></see>.</param>
         /// <exception cref="System.NotImplementedException">
         /// Use Add, Remove and Clear methods only to modify membership..
         /// </exception>
@@ -277,7 +279,12 @@ namespace Koopman.CheckPoint.Common
         /// Removes the specified item.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// true if <paramref name="item">item</paramref> was successfully removed from the
+        /// <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This
+        /// method also returns false if <paramref name="item">item</paramref> is not found in the
+        /// original <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// </returns>
         /// <exception cref="DetailLevelException"></exception>
         public bool Remove(string item)
         {

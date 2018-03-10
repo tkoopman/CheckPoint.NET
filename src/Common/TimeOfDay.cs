@@ -271,7 +271,7 @@ namespace Koopman.CheckPoint.Common
         /// Compares to another TimeOfDay.
         /// </summary>
         /// <param name="other">The other TimeOfDay.</param>
-        /// <returns></returns>
+        /// <returns>A value that indicates the relative order of the objects being compared.</returns>
         public int CompareTo(TimeOfDay other)
         {
             return Minutes.CompareTo(other.Minutes);
@@ -325,6 +325,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance in format HH:mm.
         /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
             return string.Format("{0:D2}:{1:D2}", Hour, Minute);

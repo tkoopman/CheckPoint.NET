@@ -49,7 +49,7 @@
     <RootNamespaceContainer>True</RootNamespaceContainer>
     <NamespaceGrouping>False</NamespaceGrouping>
     <MaximumGroupParts>2</MaximumGroupParts>
-    <Preliminary>True</Preliminary>
+    <Preliminary>False</Preliminary>
     <CopyrightHref>https://raw.githubusercontent.com/tkoopman/CheckPoint.NET/master/LICENSE</CopyrightHref>
     <CopyrightText>Copyright %28c%29 2018 Tim Koopman</CopyrightText>
     <SdkLinkTarget>Blank</SdkLinkTarget>
@@ -95,6 +95,13 @@
       </ComponentConfig>
     </ComponentConfigurations>
     <PlugInConfigurations>
+      <PlugInConfig id="Additional Reference Links" enabled="True">
+        <configuration>
+          <targets>
+            <target htmlSdkLinkType="None" helpViewerSdkLinkType="Id" websiteSdkLinkType="None" helpFileProject=".\SHFB_Newtonsoft.shfbproj" />
+          </targets>
+        </configuration>
+      </PlugInConfig>
     </PlugInConfigurations>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <BinaryTOC>True</BinaryTOC>

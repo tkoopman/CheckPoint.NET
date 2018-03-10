@@ -28,7 +28,6 @@ namespace Koopman.CheckPoint.Common
     /// Allows for tracking of property changes, so only changed properties are posted.
     /// </summary>
     /// <seealso cref="System.ComponentModel.IChangeTracking" />
-    /// <seealso cref="Koopman.CheckPoint.Json.ChangeTrackingContractResolver" />
     public abstract class ChangeTracking : SimpleChangeTracking
     {
         #region Fields

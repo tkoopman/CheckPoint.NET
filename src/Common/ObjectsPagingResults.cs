@@ -25,8 +25,10 @@ using System.Collections.Generic;
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// <para type="description">Result from commands that return multiple objects.</para>
+    /// Result from commands that return multiple objects.
     /// </summary>
+    /// <typeparam name="T">Type of the result objects</typeparam>
+    /// <seealso cref="System.Collections.Generic.IEnumerable{T}" />
     [JsonObject]
     public abstract class ObjectsPagingResults<T> : IEnumerable<T>
     {
@@ -100,6 +102,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Gets the next page of results from management server.
         /// </summary>
+        /// <returns>Returns the next page of results. Null if no next page to return.</returns>
         public NetworkObjectsPagingResults<T> NextPage()
         {
             if (Next == null) { return null; }
