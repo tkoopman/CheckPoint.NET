@@ -44,7 +44,7 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <value>The name of the property.</value>
         [JsonProperty(PropertyName = "DESC")]
-        public string PropertyName { get; set; }
+        public string PropertyName { get; }
 
         #endregion Properties
     }
