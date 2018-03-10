@@ -58,6 +58,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Color of the object
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         /// <exception cref="System.ArgumentNullException">Color</exception>
         [JsonProperty(PropertyName = "color")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -74,6 +75,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Comments string
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "comments")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Comments
@@ -89,6 +91,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Object icon
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "icon")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Icon
@@ -100,6 +103,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Meta Information
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "meta-info", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public MetaInfo MetaInfo
@@ -111,6 +115,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Indicates whether the object is read-only
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         /// <exception cref="System.ArgumentNullException">ReadOnly</exception>
         [JsonProperty(PropertyName = "read-only")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

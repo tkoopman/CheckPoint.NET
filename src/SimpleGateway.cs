@@ -93,6 +93,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets a value indicating whether Anti-Bot blade is enabled.
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         /// <value><c>true</c> if anti-bot blade enabled; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "anti-bot")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -111,6 +112,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether Anti-Virus blade is enabled.
         /// </summary>
         /// <value><c>true</c> if anti-virus blade enabled; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "anti-virus")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AntiVirus
@@ -128,6 +130,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether Application Control blade is enabled.
         /// </summary>
         /// <value><c>true</c> if application control blade enabled; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "application-control")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool ApplicationControl
@@ -145,6 +148,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether Content Awareness blade is enabled.
         /// </summary>
         /// <value><c>true</c> if content awareness blade enabled; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "content-awareness")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool ContentAwareness
@@ -162,6 +166,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether dynamic ip used on this object.
         /// </summary>
         /// <value><c>true</c> if dynamic ip assigned; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "dynamic-ip")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool DynamicIP
@@ -179,6 +184,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether Firewall blade is enabled.
         /// </summary>
         /// <value><c>true</c> if firewall blade enabled; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "firewall")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Firewall
@@ -196,6 +202,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the firewall settings.
         /// </summary>
         /// <value>The firewall settings.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "firewall-settings")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Firewall FirewallSettings
@@ -225,6 +232,7 @@ namespace Koopman.CheckPoint
         /// Gets the interfaces.
         /// </summary>
         /// <value>The interfaces.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "interfaces")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ListChangeTracking<Interface> Interfaces
@@ -238,6 +246,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the IPv4 address.
         /// </summary>
         /// <value>The IPv4 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "ipv4-address")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -256,6 +265,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the IPv6 address.
         /// </summary>
         /// <value>The IPv6 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "ipv6-address")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -274,6 +284,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the logs settings.
         /// </summary>
         /// <value>The logs settings.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "logs-settings")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Logs LogsSettings
@@ -291,6 +302,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the gateway platform operating system.
         /// </summary>
         /// <value>The name of the os.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "os-name")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string OSName
@@ -308,6 +320,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether logs saved locally on the gateway.
         /// </summary>
         /// <value><c>true</c> if logs saved locally; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "save-logs-locally")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool SaveLogsLocally
@@ -361,6 +374,7 @@ namespace Koopman.CheckPoint
         /// Gets the Secure Internal Communication name.
         /// </summary>
         /// <value>The Secure Internal Communication name.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "sic-name")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string SICName
@@ -374,6 +388,7 @@ namespace Koopman.CheckPoint
         /// Gets the Secure Internal Communication state.
         /// </summary>
         /// <value>The Secure Internal Communication state.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "sic-state")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string SICState
@@ -387,6 +402,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether Threat Emulation blade is enabled.
         /// </summary>
         /// <value><c>true</c> if threat emulation blade enabled; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "threat-emulation")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool ThreatEmulation
@@ -404,6 +420,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether URL Filtering blade is enabled.
         /// </summary>
         /// <value><c>true</c> if URL filtering blade enabled; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "url-filtering")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool URLFiltering
@@ -421,6 +438,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the gateway platform version.
         /// </summary>
         /// <value>The gateway platform version.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "version")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Version
@@ -438,6 +456,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets a value indicating whether VPN blade is enabled.
         /// </summary>
         /// <value><c>true</c> if VPN blade enabled; otherwise, <c>false</c>.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "vpn")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool VPN
@@ -455,6 +474,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the VPN settings.
         /// </summary>
         /// <value>The VPN settings.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "vpn-settings")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public VPN VPNSettings

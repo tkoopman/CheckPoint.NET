@@ -89,6 +89,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Get or sets the object this group excludes.
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "except")]
         public ObjectSummary Except
         {
@@ -106,6 +107,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets the object this group includes.
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "include")]
         public ObjectSummary Include
         {
