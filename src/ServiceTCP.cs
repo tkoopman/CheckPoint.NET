@@ -53,7 +53,7 @@ namespace Koopman.CheckPoint
         /// Create new <see cref="ServiceTCP" />.
         /// </summary>
         /// <param name="session">The current session.</param>
-        public ServiceTCP(Session session) : base(session, DetailLevels.Full)
+        public ServiceTCP(Session session) : this(session, DetailLevels.Full)
         {
         }
 

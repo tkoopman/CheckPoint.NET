@@ -54,7 +54,7 @@ namespace Koopman.CheckPoint
         /// Create new <see cref="ServiceUDP" />.
         /// </summary>
         /// <param name="session">The current session.</param>
-        public ServiceUDP(Session session) : base(session, DetailLevels.Full)
+        public ServiceUDP(Session session) : this(session, DetailLevels.Full)
         {
         }
 
