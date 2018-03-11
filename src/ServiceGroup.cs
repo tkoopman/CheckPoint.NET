@@ -18,42 +18,79 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Koopman.CheckPoint
 {
     /// <summary>
-    /// Check Point Tag
+    /// Services Group Class.
     /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.IMember" />
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class Tag : ObjectBase, IMember
+    /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
+    public class ServiceGroup : ObjectBase, IServiceGroupMember
     {
+        #region Fields
+
+        private MemberMembershipChangeTracking<ServiceGroup> _groups;
+        private MemberMembershipChangeTracking<IServiceGroupMember> _members;
+
+        #endregion Fields
+
         #region Constructors
 
         /// <summary>
-        /// Create new <see cref="Tag" />.
+        /// Create a new <see cref="ServiceGroup" />.
         /// </summary>
         /// <param name="session">The current session.</param>
-        public Tag(Session session) : base(session, DetailLevels.Full)
+        public ServiceGroup(Session session) : this(session, DetailLevels.Full)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Tag" /> class ready to be populated with
-        /// current data.
+        /// Initializes a new instance of the <see cref="ServiceGroup" /> class ready to be populated
+        /// with current data.
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
-        protected internal Tag(Session session, DetailLevels detailLevel) : base(session, detailLevel)
+        protected internal ServiceGroup(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
+            _groups = new MemberMembershipChangeTracking<ServiceGroup>(this);
+            _members = new MemberMembershipChangeTracking<IServiceGroupMember>(this);
         }
 
         #endregion Constructors
 
+        #region Properties
+
+        /// <summary>
+        /// Group memberships.
+        /// </summary>
+        [JsonProperty(PropertyName = "groups")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MemberMembershipChangeTracking<ServiceGroup> Groups
+        {
+            get => _groups;
+            internal set => _groups = value;
+        }
+
+        /// <summary>
+        /// Members of this group.
+        /// </summary>
+        [JsonProperty(PropertyName = "members")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MemberMembershipChangeTracking<IServiceGroupMember> Members
+        {
+            get => _members;
+            internal set => _members = value;
+        }
+
+        #endregion Properties
+
         #region Classes
 
         /// <summary>
-        /// Valid sort orders for Hosts
+        /// Valid sort orders for Groups
         /// </summary>
         public static class Order
         {

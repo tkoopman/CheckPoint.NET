@@ -43,12 +43,13 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class Group : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class Group : ObjectBase, IGroupMember
     {
         #region Fields
 
-        private ObjectMembershipChangeTracking<ObjectSummary> _groups;
-        private ObjectMembershipChangeTracking<ObjectSummary> _members;
+        private MemberMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<IGroupMember> _members;
 
         #endregion Fields
 
@@ -81,8 +82,8 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Group(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<ObjectSummary>(this);
-            _members = new ObjectMembershipChangeTracking<ObjectSummary>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
+            _members = new MemberMembershipChangeTracking<IGroupMember>(this);
         }
 
         #endregion Constructors
@@ -94,7 +95,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<ObjectSummary> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;
@@ -105,7 +106,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "members")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<ObjectSummary> Members
+        public MemberMembershipChangeTracking<IGroupMember> Members
         {
             get => _members;
             internal set => _members = value;

@@ -44,7 +44,7 @@ namespace Koopman.CheckPoint.Json
         {
             return (objectType.IsGenericType) ?
                 typeof(MembershipChangeTracking<>) == objectType.GetGenericTypeDefinition() ||
-                typeof(ObjectMembershipChangeTracking<>) == objectType.GetGenericTypeDefinition()
+                typeof(MemberMembershipChangeTracking<>) == objectType.GetGenericTypeDefinition()
                 : false;
         }
 

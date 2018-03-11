@@ -17,35 +17,24 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Newtonsoft.Json;
+using Koopman.CheckPoint;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Koopman.CheckPoint.Common
+namespace Tests
 {
-    /// <summary>
-    /// Descending Order by provided property name
-    /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.IOrder" />
-    public class OrderDescending : IOrder
+    [TestClass]
+    public class ObjectSummaryTests
     {
-        #region Constructors
+        #region Methods
 
-        internal OrderDescending(string propertyName)
+        [TestMethod]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void IsReadOnly()
         {
-            PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
+            ObjectSummary.Any.Name = "Fail";
         }
 
-        #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the name of the property to sort on.
-        /// </summary>
-        /// <value>The name of the property.</value>
-        [JsonProperty(PropertyName = "DESC")]
-        public string PropertyName { get; }
-
-        #endregion Properties
+        #endregion Methods
     }
 }

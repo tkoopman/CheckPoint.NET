@@ -29,8 +29,7 @@ namespace Koopman.CheckPoint
     /// Multicast Address Range Class
     /// </summary>
     /// <example>
-    /// Add new multicast address range using <see
-    /// cref="MulticastAddressRange.MulticastAddressRange(Session)" />
+    /// Add new multicast address range using <see cref="MulticastAddressRange.MulticastAddressRange(Session)" />
     /// <code>
     /// var mar = new MulticastAddressRange(Session) {
     ///     Name = "MyMulticastAddressRange",
@@ -39,18 +38,18 @@ namespace Koopman.CheckPoint
     /// };
     /// mar.AcceptChanges();
     /// </code>
-    /// Find multicast address range using <see cref="Session.FindMulticastAddressRange(string,
-    /// DetailLevels)" />
+    /// Find multicast address range using <see cref="Session.FindMulticastAddressRange(string, DetailLevels)" />
     /// <code>
     /// var ar = Session.FindMulticastAddressRange("MyMulticastAddressRange");
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class MulticastAddressRange : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class MulticastAddressRange : ObjectBase, IGroupMember
     {
         #region Fields
 
-        private ObjectMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<Group> _groups;
         private IPAddress _ipv4AddressFirst;
         private IPAddress _ipv4AddressLast;
         private IPAddress _ipv6AddressFirst;
@@ -86,7 +85,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal MulticastAddressRange(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
         }
 
         #endregion Constructors
@@ -98,7 +97,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Group> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;
@@ -108,6 +107,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the first IPv4 address in the range.
         /// </summary>
         /// <value>The first IPv4 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv4-address-first")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -126,6 +126,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the last IPv4 address in the range.
         /// </summary>
         /// <value>The last IPv4 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv4-address-last")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -144,6 +145,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the first IPv6 address in the range.
         /// </summary>
         /// <value>The first IPv6 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv6-address-first")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -162,6 +164,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the last IPv6 address in the range.
         /// </summary>
         /// <value>The last IPv6 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv6-address-last")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

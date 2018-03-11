@@ -32,9 +32,9 @@ namespace Koopman.CheckPoint
     /// Add new address range using <see cref="AddressRange.AddressRange(Session)" />
     /// <code>
     /// var ar = new AddressRange(Session) {
-    ///     Name = "MyAddressRange",
-    ///     IPv4AddressFirst = IPAddress.Parse("10.1.1.1"),
-    ///     IPv4AddressLast = IPAddress.Parse("10.1.1.10")
+    /// Name = "MyAddressRange",
+    /// IPv4AddressFirst = IPAddress.Parse("10.1.1.1"),
+    /// IPv4AddressLast = IPAddress.Parse("10.1.1.10")
     /// };
     /// ar.AcceptChanges();
     /// </code>
@@ -44,11 +44,12 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class AddressRange : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class AddressRange : ObjectBase, IGroupMember
     {
         #region Fields
 
-        private ObjectMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<Group> _groups;
         private IPAddress _ipv4AddressFirst;
         private IPAddress _ipv4AddressLast;
         private IPAddress _ipv6AddressFirst;
@@ -85,7 +86,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal AddressRange(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
         }
 
         #endregion Constructors
@@ -97,7 +98,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Group> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;
@@ -107,6 +108,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the first IPv4 address in the range.
         /// </summary>
         /// <value>The first IPv4 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv4-address-first")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -125,6 +127,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the last IPv4 address in the range.
         /// </summary>
         /// <value>The last IPv4 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv4-address-last")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -143,6 +146,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the first IPv6 address in the range.
         /// </summary>
         /// <value>The first IPv6 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv6-address-first")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -161,6 +165,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the last IPv6 address in the range.
         /// </summary>
         /// <value>The last IPv6 address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv6-address-last")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -179,6 +184,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the nat settings.
         /// </summary>
         /// <value>The nat settings.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "nat-settings")]
         public NATSettings NATSettings
         {

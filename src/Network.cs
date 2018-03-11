@@ -45,12 +45,13 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class Network : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class Network : ObjectBase, IGroupMember
     {
         #region Fields
 
         private bool _broadcast;
-        private ObjectMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<Group> _groups;
         private int _maskLength4 = -1;
         private int _maskLength6 = -1;
         private NATSettings _natSettings;
@@ -87,7 +88,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Network(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
         }
 
         #endregion Constructors
@@ -98,6 +99,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets is broadcast address is included.
         /// </summary>
         /// <value>The broadcast inclusion.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         /// <exception cref="ArgumentNullException">BroadcastInclusion</exception>
         [JsonProperty(PropertyName = "broadcast")]
         [JsonConverter(typeof(CustomBoolConverter), "allow", "disallow")]
@@ -118,7 +120,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Group> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;
@@ -128,6 +130,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the mask length for IPv4.
         /// </summary>
         /// <value>The mask length for IPv4.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "mask-length4")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int MaskLength4
@@ -145,6 +148,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the mask length for IPv6.
         /// </summary>
         /// <value>The mask length for IPv6.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "mask-length6")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int MaskLength6
@@ -161,6 +165,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets the NAT settings.
         /// </summary>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "nat-settings")]
         public NATSettings NATSettings
         {
@@ -177,6 +182,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the IPv4 network address.
         /// </summary>
         /// <value>The IPv4 network address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "subnet4")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -195,6 +201,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the IPv6 network address.
         /// </summary>
         /// <value>The IPv6 network address.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "subnet6")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -213,6 +220,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the IPv4 subnet mask.
         /// </summary>
         /// <value>The subnet mask.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonIgnore]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IPAddress SubnetMask

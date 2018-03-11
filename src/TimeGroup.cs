@@ -30,7 +30,7 @@ namespace Koopman.CheckPoint
     /// Add new time group using <see cref="TimeGroup.TimeGroup(Session)" />
     /// <code>
     /// var tg = new TimeGroup(Session) {
-    ///     Name = "MyTimeGroup"
+    /// Name = "MyTimeGroup"
     /// };
     /// tg.Members.Add("Weekend");
     /// tg.AcceptChanges();
@@ -41,12 +41,13 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class TimeGroup : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.ITimeGroupMember" />
+    public class TimeGroup : ObjectBase, ITimeGroupMember
     {
         #region Fields
 
-        private ObjectMembershipChangeTracking<TimeGroup> _groups;
-        private ObjectMembershipChangeTracking<ObjectSummary> _members;
+        private MemberMembershipChangeTracking<TimeGroup> _groups;
+        private MemberMembershipChangeTracking<ITimeGroupMember> _members;
 
         #endregion Fields
 
@@ -77,8 +78,8 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal TimeGroup(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<TimeGroup>(this);
-            _members = new ObjectMembershipChangeTracking<ObjectSummary>(this);
+            _groups = new MemberMembershipChangeTracking<TimeGroup>(this);
+            _members = new MemberMembershipChangeTracking<ITimeGroupMember>(this);
         }
 
         #endregion Constructors
@@ -90,7 +91,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<TimeGroup> Groups
+        public MemberMembershipChangeTracking<TimeGroup> Groups
         {
             get => _groups;
             internal set => _groups = value;
@@ -101,7 +102,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "members")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<ObjectSummary> Members
+        public MemberMembershipChangeTracking<ITimeGroupMember> Members
         {
             get => _members;
             internal set => _members = value;

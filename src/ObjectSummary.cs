@@ -43,8 +43,28 @@ namespace Koopman.CheckPoint
         public static readonly ObjectSummary Any = new ObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
         {
             UID = "97aeb369-9aea-11d5-bd16-0090272ccb30",
-            Name = "Any",
+            _name = "Any",
             Domain = Domain.DataDomain
+        };
+
+        /// <summary>
+        /// The Trust_all_action object.
+        /// </summary>
+        internal static readonly ObjectSummary RestrictCommonProtocolsAction = new ObjectSummary(null, DetailLevels.Full, "")
+        {
+            UID = "ea3a425f-56b3-46de-98e7-bd88ce27a801",
+            _name = "Restrict_Common_Protocols_Action",
+            Domain = Domain.Default
+        };
+
+        /// <summary>
+        /// The Trust_all_action object.
+        /// </summary>
+        internal static readonly ObjectSummary TrustAllAction = new ObjectSummary(null, DetailLevels.Full, "")
+        {
+            UID = "226b5ee1-69ce-4bdb-a53f-3a01e68885b4",
+            _name = "Trust_all_action",
+            Domain = Domain.Default
         };
 
         #endregion Static Fields
@@ -74,7 +94,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectSummary" /> class.
+        /// Initializes a read-only new instance of the <see cref="ObjectSummary" /> class.
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level.</param>
@@ -85,8 +105,6 @@ namespace Koopman.CheckPoint
         {
             Session = session;
             DetailLevel = detailLevel;
-
-            // Set Type for New Objects.
             Type = type;
         }
 
@@ -103,8 +121,10 @@ namespace Koopman.CheckPoint
         public DetailLevels DetailLevel { get; protected internal set; }
 
         /// <summary>
-        /// <para type="description">Information about the domain the object belongs to..</para>
+        /// Information about the domain the object belongs to.
         /// </summary>
+        /// <value>The domain.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "domain", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Domain Domain
@@ -114,8 +134,11 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// <para type="description">Object name. Should be unique in the domain.</para>
+        /// Object name. Should be unique in the domain.
         /// </summary>
+        /// <value>The object's name.</value>
+        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
+        /// <exception cref="System.NotImplementedException"></exception>
         [JsonProperty(PropertyName = "name")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Name
@@ -124,6 +147,7 @@ namespace Koopman.CheckPoint
 
             set
             {
+                if (IsReadOnly) { throw new System.NotImplementedException($"Check Point type of {Type} is not fully implemented yet."); }
                 _name = value;
                 if (IsDeserializing)
                 {
@@ -134,14 +158,16 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// <para type="description">Type of the object.</para>
+        /// Type of the object.
         /// </summary>
+        /// <value>The type.</value>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; private set; }
 
         /// <summary>
-        /// <para type="description">Object unique identifier.</para>
+        /// Object unique identifier.
         /// </summary>
+        /// <value>The uid.</value>
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; private set; }
 
@@ -172,12 +198,14 @@ namespace Koopman.CheckPoint
         /// <value>The set contract resolver.</value>
         protected virtual IContractResolver SetContractResolver => ChangeTrackingContractResolver.SetInstance;
 
+        private bool IsReadOnly { get => GetType() == typeof(ObjectSummary); }
+
         /// <summary>
         /// Gets the identifier that is used when adding this object to a group.
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
         /// <exception cref="InvalidOperationException">Cannot add unsaved object.</exception>
-        protected internal string GetMembershipID()
+        public string GetMembershipID()
         {
             if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
 

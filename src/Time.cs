@@ -33,18 +33,15 @@ namespace Koopman.CheckPoint
     /// <code>
     /// var t = new Time(Session)
     /// {
-    ///     Name = "MyTime",
-    ///     Color = Colors.Red
+    /// Name = "MyTime",
+    /// Color = Colors.Red
     /// };
-    ///
     /// t.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange("03:00", "04:00");
     /// t.HourRanges[1] = new Koopman.CheckPoint.Common.TimeRange("15:00", "16:00");
-    ///
     /// t.Recurrence = new Time.RecurrenceClass() {
-    ///     Pattern = Time.RecurrencePattern.Daily,
-    ///     Weekdays = Days.Saturday | Days.Sunday
+    /// Pattern = Time.RecurrencePattern.Daily,
+    /// Weekdays = Days.Saturday | Days.Sunday
     /// };
-    ///
     /// t.AcceptChanges();
     /// </code>
     /// Find time object using <see cref="Session.FindTime(string, DetailLevels)" />
@@ -53,7 +50,8 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class Time : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.ITimeGroupMember" />
+    public class Time : ObjectBase, ITimeGroupMember
     {
         #region Constructors
 
@@ -92,7 +90,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Time(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<TimeGroup>(this);
+            _groups = new MemberMembershipChangeTracking<TimeGroup>(this);
         }
 
         #endregion Constructors
@@ -101,7 +99,7 @@ namespace Koopman.CheckPoint
 
         private DateTime _end;
         private bool _endNever;
-        private ObjectMembershipChangeTracking<TimeGroup> _groups;
+        private MemberMembershipChangeTracking<TimeGroup> _groups;
         private RecurrenceClass _recurrence;
         private DateTime _start;
         private bool _startNow;
@@ -148,7 +146,7 @@ namespace Koopman.CheckPoint
         /// <value>The time groups.</value>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<TimeGroup> Groups
+        public MemberMembershipChangeTracking<TimeGroup> Groups
         {
             get => _groups;
             internal set => _groups = value;

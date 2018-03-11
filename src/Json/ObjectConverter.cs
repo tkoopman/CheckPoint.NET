@@ -17,6 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -66,7 +67,7 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ObjectSummary).IsAssignableFrom(objectType);
+            return typeof(ObjectSummary).IsAssignableFrom(objectType) || typeof(IMember).IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -108,6 +109,18 @@ namespace Koopman.CheckPoint.Json
                     result = (existingValue == null) ? new Network(_Session, GetDetailLevel(reader)) : (Network)existingValue;
                     break;
 
+                case "service-tcp":
+                    result = (existingValue == null) ? new ServiceTCP(_Session, GetDetailLevel(reader)) : (ServiceTCP)existingValue;
+                    break;
+
+                case "service-udp":
+                    result = (existingValue == null) ? new ServiceUDP(_Session, GetDetailLevel(reader)) : (ServiceUDP)existingValue;
+                    break;
+
+                case "service-group":
+                    result = (existingValue == null) ? new ServiceGroup(_Session, GetDetailLevel(reader)) : (ServiceGroup)existingValue;
+                    break;
+
                 case "simple-gateway":
                     result = (existingValue == null) ? new SimpleGateway(_Session, GetDetailLevel(reader)) : (SimpleGateway)existingValue;
                     break;
@@ -129,9 +142,15 @@ namespace Koopman.CheckPoint.Json
                     break;
 
                 case "":
-                    // Not sure what to do with these like 'Trust_all_action' group returned with
-                    // AddressRange 'LocalMachine_Loopback'
-                    return null;
+                    // Not sure what to do with these. For now return null for known ones.
+                    if (
+                        obj.GetValue("uid").ToString().Equals(ObjectSummary.TrustAllAction.UID) ||
+                        obj.GetValue("uid").ToString().Equals(ObjectSummary.RestrictCommonProtocolsAction.UID)
+                        ) return null;
+                    throw new NotImplementedException("Empty type objects not implemented");
+
+                case "CpmiAnyObject":
+                    return ObjectSummary.Any;
 
                 default:
                     result = (existingValue == null) ? new ObjectSummary(_Session, GetDetailLevel(reader)) : (ObjectSummary)existingValue;

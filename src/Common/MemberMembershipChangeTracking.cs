@@ -25,11 +25,11 @@ namespace Koopman.CheckPoint.Common
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.MembershipChangeTracking{T}" />
-    public class ObjectMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : ObjectSummary
+    public class MemberMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : IMember
     {
         #region Constructors
 
-        internal ObjectMembershipChangeTracking(ObjectSummary parent) : base(parent)
+        internal MemberMembershipChangeTracking(ObjectSummary parent) : base(parent)
         {
         }
 
@@ -59,10 +59,10 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         /// <returns>
-        /// true if <paramref name="item">item</paramref> was successfully removed from the <see
-        /// cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This method
-        /// also returns false if <paramref name="item">item</paramref> is not found in the original
-        /// <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// true if <paramref name="item">item</paramref> was successfully removed from the
+        /// <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This
+        /// method also returns false if <paramref name="item">item</paramref> is not found in the
+        /// original <see cref="T:System.Collections.Generic.ICollection`1"></see>.
         /// </returns>
         public override bool Remove(T item)
         {
