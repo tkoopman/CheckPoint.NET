@@ -50,15 +50,11 @@ deploy:
   api_key:
     secure: 7t1digdSmIqoH3Fl+QikPfgNn1IyFiFBNZxla2qmk0fQCH1pRqd3J6AQ4iJboUDV
   artifact: NuGetPackage
-  on:
-    branch: master
 - provider: GitHub
   auth_token:
     secure: Pz30C2oGEq4jlsrbFSRBWxPkmDMdQ0uRxZpKwLZ4yVgBZvrHWxRnnT4WFEI7KVyC
   artifact: CheckPoint.NET
   draft: true
   force_update: true
-  on:
-    branch: master
 after_deploy:
 - ps: .\AppVeyor_Deploy_gh-pages.ps1
