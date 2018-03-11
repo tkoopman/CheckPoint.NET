@@ -45,12 +45,13 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class Network : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class Network : ObjectBase, IGroupMember
     {
         #region Fields
 
         private bool _broadcast;
-        private ObjectMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<Group> _groups;
         private int _maskLength4 = -1;
         private int _maskLength6 = -1;
         private NATSettings _natSettings;
@@ -87,7 +88,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Network(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
         }
 
         #endregion Constructors
@@ -119,7 +120,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Group> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;

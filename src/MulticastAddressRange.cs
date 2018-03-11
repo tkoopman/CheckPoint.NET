@@ -44,11 +44,12 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class MulticastAddressRange : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class MulticastAddressRange : ObjectBase, IGroupMember
     {
         #region Fields
 
-        private ObjectMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<Group> _groups;
         private IPAddress _ipv4AddressFirst;
         private IPAddress _ipv4AddressLast;
         private IPAddress _ipv6AddressFirst;
@@ -84,7 +85,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal MulticastAddressRange(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
         }
 
         #endregion Constructors
@@ -96,7 +97,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Group> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;

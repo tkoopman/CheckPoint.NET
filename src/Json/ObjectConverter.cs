@@ -17,6 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -66,7 +67,7 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ObjectSummary).IsAssignableFrom(objectType);
+            return typeof(ObjectSummary).IsAssignableFrom(objectType) || typeof(IMember).IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -114,6 +115,10 @@ namespace Koopman.CheckPoint.Json
 
                 case "service-udp":
                     result = (existingValue == null) ? new ServiceUDP(_Session, GetDetailLevel(reader)) : (ServiceUDP)existingValue;
+                    break;
+
+                case "service-group":
+                    result = (existingValue == null) ? new ServiceGroup(_Session, GetDetailLevel(reader)) : (ServiceGroup)existingValue;
                     break;
 
                 case "simple-gateway":

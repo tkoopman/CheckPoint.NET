@@ -30,7 +30,8 @@ namespace Koopman.CheckPoint
     /// Check Point Simple Gateway Object
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class SimpleGateway : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class SimpleGateway : ObjectBase, IGroupMember
     {
         #region Fields
 
@@ -41,7 +42,7 @@ namespace Koopman.CheckPoint
         private bool _dynamicIP;
         private bool _firewall;
         private Firewall _firewallSettings;
-        private ObjectMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<Group> _groups;
         private ListChangeTracking<Interface> _interfaces;
         private IPAddress _ipv4Address;
         private IPAddress _ipv6Address;
@@ -79,7 +80,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal SimpleGateway(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
             _sendAlertsToServer = new MembershipChangeTracking<string>(this);
             _sendLogsToBackupServer = new MembershipChangeTracking<string>(this);
             _sendLogsToServer = new MembershipChangeTracking<string>(this);
@@ -222,7 +223,7 @@ namespace Koopman.CheckPoint
         /// <value>The group membership.</value>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Group> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;

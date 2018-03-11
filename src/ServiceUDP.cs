@@ -27,12 +27,14 @@ namespace Koopman.CheckPoint
     /// Check Point UDP Service
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class ServiceUDP : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
+    public class ServiceUDP : ObjectBase, IServiceGroupMember
     {
         #region Fields
 
         private bool? _acceptReplies;
         private AggressiveAging _aggressiveAging;
+        private MemberMembershipChangeTracking<ServiceGroup> _groups;
         private bool? _keepConnectionsOpenAfterPolicyInstallation;
         private bool? _matchByProtocolSignature;
         private bool? _matchForAny;
@@ -64,6 +66,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal ServiceUDP(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
+            _groups = new MemberMembershipChangeTracking<ServiceGroup>(this);
         }
 
         #endregion Constructors
@@ -106,6 +109,21 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Group memberships.
+        /// </summary>
+        [JsonProperty(PropertyName = "groups")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MemberMembershipChangeTracking<ServiceGroup> Groups
+        {
+            get => _groups;
+            internal set => _groups = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the keep connections open after policy installation.
+        /// </summary>
+        /// <value>The keep connections open after policy installation.</value>
         /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "keep-connections-open-after-policy-installation")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

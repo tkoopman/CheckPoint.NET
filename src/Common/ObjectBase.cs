@@ -35,7 +35,7 @@ namespace Koopman.CheckPoint.Common
         private string _icon;
         private MetaInfo _metaInfo;
         private bool _readOnly;
-        private ObjectMembershipChangeTracking<Tag> _tags;
+        private MemberMembershipChangeTracking<Tag> _tags;
 
         #endregion Fields
 
@@ -48,7 +48,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="detailLevel">The detail level.</param>
         protected ObjectBase(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _tags = new ObjectMembershipChangeTracking<Tag>(this);
+            _tags = new MemberMembershipChangeTracking<Tag>(this);
         }
 
         #endregion Constructors
@@ -130,7 +130,7 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         [JsonProperty(PropertyName = "tags")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Tag> Tags
+        public MemberMembershipChangeTracking<Tag> Tags
         {
             get => _tags;
             internal set => _tags = value;

@@ -32,8 +32,8 @@ namespace Koopman.CheckPoint
     /// Add new host using <see cref="Host.Host(Session)" />
     /// <code>
     /// var h = new Host(Session) {
-    ///     Name = "MyHost",
-    ///     IPv4Address = IPAddress.Parse("10.1.1.1")
+    /// Name = "MyHost",
+    /// IPv4Address = IPAddress.Parse("10.1.1.1")
     /// };
     /// h.AcceptChanges();
     /// </code>
@@ -43,11 +43,12 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class Host : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    public class Host : ObjectBase, IGroupMember
     {
         #region Fields
 
-        private ObjectMembershipChangeTracking<Group> _groups;
+        private MemberMembershipChangeTracking<Group> _groups;
         private IPAddress _ipv4Address;
         private IPAddress _ipv6Address;
         private NATSettings _natSettings;
@@ -81,7 +82,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal Host(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
-            _groups = new ObjectMembershipChangeTracking<Group>(this);
+            _groups = new MemberMembershipChangeTracking<Group>(this);
         }
 
         #endregion Constructors
@@ -93,7 +94,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "groups")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public ObjectMembershipChangeTracking<Group> Groups
+        public MemberMembershipChangeTracking<Group> Groups
         {
             get => _groups;
             internal set => _groups = value;

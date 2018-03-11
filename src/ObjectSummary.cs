@@ -158,14 +158,16 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// <para type="description">Type of the object.</para>
+        /// Type of the object.
         /// </summary>
+        /// <value>The type.</value>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; private set; }
 
         /// <summary>
-        /// <para type="description">Object unique identifier.</para>
+        /// Object unique identifier.
         /// </summary>
+        /// <value>The uid.</value>
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; private set; }
 
@@ -203,7 +205,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
         /// <exception cref="InvalidOperationException">Cannot add unsaved object.</exception>
-        protected internal string GetMembershipID()
+        public string GetMembershipID()
         {
             if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
 

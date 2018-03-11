@@ -23,12 +23,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests
 {
     [TestClass]
-    public class ServiceTCPTests : StandardTestsBase
+    public class ServiceGroupTests : StandardTestsBase
     {
         #region Fields
 
-        private static readonly string Filter = "http";
-        private static readonly string Name = "http";
+        private static readonly string Name = "DAIP_Control_services";
 
         #endregion Fields
 
@@ -37,14 +36,16 @@ namespace Tests
         [TestMethod]
         public void Find()
         {
-            var a = Session.FindServiceTCP(Name);
+            var a = Session.FindServiceGroup(Name);
             Assert.IsNotNull(a);
+            Assert.IsTrue(a.Members.Count > 0);
+            Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllServicesTCP(limit: 5, order: ServiceTCP.Order.NameAsc);
+            var a = Session.FindAllServiceGroups(limit: 5, order: ServiceGroup.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -52,7 +53,9 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllServicesTCP(filter: Filter, limit: 5, order: ServiceTCP.Order.NameAsc);
+            string filter = Name.Substring(0, 3);
+
+            var a = Session.FindAllServiceGroups(filter: filter, limit: 5, order: ServiceGroup.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -60,35 +63,36 @@ namespace Tests
         [TestMethod]
         public void New()
         {
-            string name = $"New{Name}";
+            string name = $"New {Name}";
 
-            var a = new ServiceTCP(Session)
+            var a = new ServiceGroup(Session)
             {
                 Name = name,
-                Color = Colors.Red,
-                Port = "80",
-                AggressiveAging = new Koopman.CheckPoint.Common.AggressiveAging()
-                {
-                    Enable = true
-                }
+                Color = Colors.Red
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public void Set()
-        {
-            string set = $"Not{Name}";
-            var a = Session.FindServiceTCP(Name);
-            a.Name = set;
+            a.Members.Clear();
             Assert.IsTrue(a.IsChanged);
             a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
+            Assert.AreEqual(0, a.Members.Count);
+
+            a.Members.Add("domain-udp");
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(1, a.Members.Count);
+
+            a.Members.Remove(a.Members[0]);
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(0, a.Members.Count);
         }
 
         #endregion Methods
