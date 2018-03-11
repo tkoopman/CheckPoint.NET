@@ -1,18 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Topics>
-  <Topic id="f4927271-44e3-4f70-8967-24b39d1a8b02" visible="True" isDefault="true" title="Welcome to CheckPoint.NET">
+  <Topic id="f4927271-44e3-4f70-8967-24b39d1a8b02" visible="True" isDefault="true" isSelected="true" title="Welcome to CheckPoint.NET">
     <HelpKeywords>
       <HelpKeyword index="K" term="Welcome" />
     </HelpKeywords>
-  </Topic>
-  <Topic id="b60a19c5-fe3b-4cb5-848d-5323c0b695be" visible="True" isExpanded="true" title="Version History">
-    <HelpKeywords>
-      <HelpKeyword index="K" term="version, history" />
-    </HelpKeywords>
-    <Topic id="2e78551a-b063-449a-a8a7-b85463277bdb" visible="True" isSelected="true" title="Version 0.1.1">
-      <HelpKeywords>
-        <HelpKeyword index="K" term="version, 0.1.1" />
-      </HelpKeywords>
-    </Topic>
   </Topic>
 </Topics>

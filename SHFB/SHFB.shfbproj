@@ -126,9 +126,9 @@
     <MSHelpViewerSdkLinkType>Msdn</MSHelpViewerSdkLinkType>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Koopman.CheckPoint.Common" isExposed="True" xmlns="">
-  <Filter entryType="Class" fullName="Koopman.CheckPoint.Common.OrderAscending" filterName="OrderAscending" isExposed="False" />
-  <Filter entryType="Class" fullName="Koopman.CheckPoint.Common.OrderDescending" filterName="OrderDescending" isExposed="False" />
-</Filter>
+        <Filter entryType="Class" fullName="Koopman.CheckPoint.Common.OrderAscending" filterName="OrderAscending" isExposed="False" />
+        <Filter entryType="Class" fullName="Koopman.CheckPoint.Common.OrderDescending" filterName="OrderDescending" isExposed="False" />
+      </Filter>
     </ApiFilter>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
@@ -151,13 +151,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Content" />
-    <Folder Include="Content\VersionHistory" />
     <Folder Include="icons" />
     <Folder Include="media" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\VersionHistory\v0.1.1.aml" />
-    <None Include="Content\VersionHistory\VersionHistory.aml" />
     <None Include="Content\Welcome.aml" />
   </ItemGroup>
   <ItemGroup>

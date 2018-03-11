@@ -4,9 +4,5 @@
     <introduction>
       <para>This is a .NET Library for communicating to a Check Point management server via the Web API.</para>
     </introduction>
-
-    <relatedTopics>
-      <link xlink:href="b60a19c5-fe3b-4cb5-848d-5323c0b695be" />
-    </relatedTopics>
   </developerConceptualDocument>
 </topic>
