@@ -95,7 +95,7 @@
       </ComponentConfig>
     </ComponentConfigurations>
     <PlugInConfigurations>
-      <PlugInConfig id="Additional Reference Links" enabled="True">
+      <PlugInConfig id="Additional Reference Links" enabled="False">
         <configuration>
           <targets>
             <target htmlSdkLinkType="None" helpViewerSdkLinkType="Id" websiteSdkLinkType="None" helpFileProject=".\SHFB_Newtonsoft.shfbproj" />
