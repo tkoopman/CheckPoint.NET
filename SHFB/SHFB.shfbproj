@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Examples\Basic Connection.aml" />
+    <None Include="Content\Examples\New Host.aml" />
     <None Include="Content\Welcome.aml" />
   </ItemGroup>
   <ItemGroup>
