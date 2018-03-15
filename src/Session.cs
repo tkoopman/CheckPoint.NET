@@ -479,12 +479,12 @@ namespace Koopman.CheckPoint
         /// <returns>SessionInfo object</returns>
         public SessionInfo FindSession
             (
-                string value
+                string uid
             )
         {
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
             {
-                { "uid", value }
+                { "uid", uid }
             };
 
             string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
@@ -532,6 +532,32 @@ namespace Koopman.CheckPoint
             string result = Post("set-session", jsonData);
 
             return JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+        }
+
+        /// <summary>
+        /// Switch to another session.
+        /// </summary>
+        /// <param name="value">The UID to switch to.</param>
+        /// <returns>SessionInfo object</returns>
+        public SessionInfo SwitchSession
+            (
+                string uid
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "uid", uid }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("switch-session", jsonData);
+
+            SessionInfo si = JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+
+            UID = si.UID;
+
+            return si;
         }
 
         #endregion SessionInfo Methods
