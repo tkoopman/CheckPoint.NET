@@ -386,6 +386,114 @@ namespace Koopman.CheckPoint
             return jsonData;
         }
 
+        #region SessionInfo Methods
+
+        /// <summary>
+        /// Finds all sessions.
+        /// </summary>
+        /// <param name="viewPublishedSessions">if set to <c>true</c> returns published sessions.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SessionInfos</returns>
+        public NetworkObjectsPagingResults<SessionInfo> FindAllSessions
+            (
+                bool viewPublishedSessions = false,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "view-published-sessions", viewPublishedSessions },
+                { "limit", limit },
+                { "offset", offset },
+                { "order", (order == null)? null:new IOrder[] { order } }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-sessions", jsonData);
+
+            NetworkObjectsPagingResults<SessionInfo> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<SessionInfo>>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+
+            if (results != null)
+            {
+                results.Next = delegate ()
+                {
+                    if (results.To == results.Total) { return null; }
+                    return this.FindAllSessions(viewPublishedSessions, limit, results.To, order);
+                };
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// Finds a session.
+        /// </summary>
+        /// <param name="value">The UID to find.</param>
+        /// <returns>SessionInfo object</returns>
+        public SessionInfo FindSession
+            (
+                string value
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "uid", value }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-session", jsonData);
+
+            return JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+        }
+
+        /// <summary>
+        /// Finds the session information for the current session.
+        /// </summary>
+        /// <returns>SessionInfo object</returns>
+        public SessionInfo FindSession()
+        {
+            return FindSession(UID);
+        }
+
+        /// <summary>
+        /// Edit user's current session. All <c>null</c> values will not be changed.
+        /// </summary>
+        /// <param name="name">The session name.</param>
+        /// <param name="description">The session description.</param>
+        /// <param name="tags">The session tags.</param>
+        /// <param name="color">The session color.</param>
+        /// <param name="comments">The session comments.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        /// <returns>Updated SessionInfo</returns>
+        public SessionInfo SetSessionInfo(string name = null, string description = null, string[] tags = null, Colors? color = null, string comments = null, Ignore ignore = Ignore.No)
+        {
+            JObject data = new JObject()
+            {
+                { "new-name", name },
+                { "description", description },
+                { "comments", comments }
+            };
+
+            if (tags != null) data.Add("tags", new JArray(tags));
+            if (color != null) data.Add("color", JToken.FromObject(color));
+
+            data.AddIgnore(ignore);
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+            string result = Post("set-session", jsonData);
+
+            return JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+        }
+
+        #endregion SessionInfo Methods
+
         #endregion Session Methods
 
         #region Object Methods
@@ -398,10 +506,10 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteAddressRange
-            (
-                string value,
-                Ignore ignore = Delete.Defaults.ignore
-            )
+        (
+            string value,
+            Ignore ignore = Delete.Defaults.ignore
+        )
         {
             Delete.Invoke
                 (
