@@ -66,13 +66,22 @@ namespace Tests
         [ExpectedException(typeof(InternalErrorException))]
         public void HostSetGroupUsingUID()
         {
-            GlobalOptions.IdentifierForSetCalls = GlobalOptions.Identifier.UID;
-
             string Name = "Web Server";
+
+            // Fist do it the working way
+            var a = Session.FindHost(Name);
+            a.Groups.Clear();
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(0, a.Groups.Count);
+
+            GlobalOptions.IdentifierForSetCalls = GlobalOptions.Identifier.UID;
 
             try
             {
-                var a = Session.FindHost(Name);
+                // Now this way will fail
+                a = Session.FindHost(Name);
                 a.Groups.Clear();
                 Assert.IsTrue(a.IsChanged);
                 a.AcceptChanges();
@@ -91,15 +100,32 @@ namespace Tests
         [TestMethod]
         public void NewTimeUsingPosix()
         {
+            //First working way.
+            var a = new Time(Session)
+            {
+                Name = "ISOTest",
+                Color = Colors.Red
+            };
+
+            a.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange(new Koopman.CheckPoint.Common.TimeOfDay("03:00"), new Koopman.CheckPoint.Common.TimeOfDay("04:00"));
+            a.StartNow = true;
+            a.Start = new System.DateTime(2019, 01, 01, 00, 00, 00);
+            a.EndNever = false;
+            a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
+
+            Assert.IsTrue(a.IsNew);
+            a.AcceptChanges();
+
+            Assert.AreEqual(new System.DateTime(2018, 01, 01, 23, 50, 00), a.End);
+
+            // Now not working way
             GlobalOptions.WriteTimeAs = GlobalOptions.TimeField.Posix;
 
             try
             {
-                string name = $"NoTime";
-
-                var a = new Time(Session)
+                a = new Time(Session)
                 {
-                    Name = name,
+                    Name = "PosixTest",
                     Color = Colors.Red
                 };
 
