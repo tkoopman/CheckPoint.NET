@@ -36,6 +36,28 @@ namespace Tests
         #region Methods
 
         /// <summary>
+        /// Bug that shows no way to clear an IP address once one is set.
+        /// </summary>
+        [TestMethod]
+        public void ClearIPProperty()
+        {
+            var a = Session.FindHost("DNS Server");
+            a.IPv6Address = System.Net.IPAddress.Parse("fe80::1");
+            a.AcceptChanges();
+            a.IPv6Address = null;
+            a.AcceptChanges();
+
+            // Should be null
+            Assert.IsNotNull(a.IPv6Address);
+
+            // Maybe by using quotes and not null
+            Session.Post("set-host", "{\"ipv6-address\": \"\", \"name\": \"DNS Server\"}");
+            a = Session.FindHost("DNS Server");
+            // Should be null
+            Assert.IsNotNull(a.IPv6Address);
+        }
+
+        /// <summary>
         /// This is a copy of <see cref="HostTests.SetGroups" /> but because we are using the UID and
         /// not name it will fail. Once this has been fixed in an updated API this test should start
         /// to fail proving it is fixed.
