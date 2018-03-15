@@ -129,13 +129,19 @@ namespace Koopman.CheckPoint
         public DateTime LastLoginWasAt { get; private set; }
 
         /// <summary>
+        /// Gets the login message.
+        /// </summary>
+        /// <value>The login message.</value>
+        [JsonProperty(PropertyName = "login-message")]
+        public LoginMessage LoginMessage { get; private set; }
+
+        /// <summary>
         /// Session is read only status.
         /// </summary>
         /// <value><c>true</c> if read only; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "read-only")]
         public bool ReadOnly { get; private set; }
 
-        //TODO login-message
         /// <summary>
         /// Session expiration timeout in seconds.
         /// </summary>
@@ -217,6 +223,17 @@ namespace Koopman.CheckPoint
             }
 
             _isDisposed = true;
+        }
+
+        /// <summary>
+        /// Gets the login message.
+        /// </summary>
+        /// <returns>LoginMessageDetails</returns>
+        public LoginMessageDetails GetLoginMessage()
+        {
+            string result = Post("show-login-message", "{ }");
+
+            return JsonConvert.DeserializeObject<LoginMessageDetails>(result);
         }
 
         /// <summary>
@@ -331,6 +348,31 @@ namespace Koopman.CheckPoint
         public void SendKeepAlive()
         {
             Post("keepalive", "{}");
+        }
+
+        /// <summary>
+        /// Sets the login message. All <c>null</c> values will not be changed.
+        /// </summary>
+        /// <param name="header">The header.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="showMessage">Whether to show login message.</param>
+        /// <param name="warning">Add warning sign.</param>
+        /// <returns>LoginMessageDetails</returns>
+        public LoginMessageDetails SetLoginMessage(string header = null, string message = null, bool? showMessage = null, bool? warning = null)
+        {
+            JObject data = new JObject()
+            {
+                { "header", header },
+                { "message", message },
+                { "show-message", showMessage },
+                { "warning", warning }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+            string result = Post("set-login-message", jsonData);
+
+            return JsonConvert.DeserializeObject<LoginMessageDetails>(result);
         }
 
         internal HttpClient GetHttpClient()
