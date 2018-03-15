@@ -176,7 +176,7 @@ namespace Koopman.CheckPoint
         /// include a name change.
         /// </summary>
         /// <value>The old name of the object.</value>
-        [JsonProperty(PropertyName = "OldName", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "OldName")]
         protected internal string OldName { get; private set; }
 
         /// <summary>

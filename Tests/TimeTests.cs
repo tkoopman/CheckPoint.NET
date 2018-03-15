@@ -86,6 +86,7 @@ namespace Tests
             Assert.IsTrue(a.IsNew);
             a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
+            Assert.AreEqual(new System.DateTime(2018, 01, 01, 23, 50, 00), a.End);
             Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Saturday));
             Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Sunday));
             Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Weekend));

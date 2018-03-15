@@ -62,7 +62,28 @@ namespace Koopman.CheckPoint.Json
 
             if (typeof(ChangeTracking).IsAssignableFrom(property.DeclaringType))
             {
-                if (!property.UnderlyingName.Equals(nameof(ObjectSummary.UID)))
+                bool useUID = (GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID);
+                if (property.UnderlyingName.Equals(nameof(ObjectSummary.UID)))
+                {
+                    property.ShouldSerialize =
+                        instance =>
+                        {
+                            ObjectSummary o = (ObjectSummary)instance;
+                            return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID;
+                        };
+                }
+                else if (property.UnderlyingName.Equals(nameof(ObjectSummary.OldName)))
+                {
+                    property.ShouldSerialize =
+                            instance =>
+                            {
+                                ObjectSummary o = (ObjectSummary)instance;
+                                return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.Name;
+                            };
+                    if (SetMethod)
+                        property.PropertyName = "name";
+                }
+                else
                 {
                     if (SetMethod && property.UnderlyingName.Equals(nameof(ObjectSummary.Name)))
                     {
@@ -71,46 +92,31 @@ namespace Koopman.CheckPoint.Json
                         property.PropertyName = "new-name";
                     }
 
-                    if (SetMethod && property.UnderlyingName.Equals(nameof(ObjectSummary.OldName)))
+                    if (typeof(IChangeTracking).IsAssignableFrom(((PropertyInfo)member).PropertyType))
                     {
-                        // Make sure OldName is sent as name for updates OldName will not be sent for
-                        // add calls using NullValueHandling.Ignore attribute where property is defined.
-                        property.PropertyName = "name";
+                        // For properties that implement IChangeTracking check it's IsChanged value.
+                        property.ShouldSerialize =
+                        instance =>
+                        {
+                            ChangeTracking c = (ChangeTracking)instance;
+                            if (c.IsPropertyChanged(member.Name))
+                                return true;
+
+                            var ic = (IChangeTracking)((PropertyInfo)member).GetValue(instance);
+                            if (ic == null) { return false; }
+                            return ic.IsChanged;
+                        };
                     }
                     else
                     {
-                        if (typeof(IChangeTracking).IsAssignableFrom(((PropertyInfo)member).PropertyType))
+                        // For all other properties check if property was changed
+                        property.ShouldSerialize =
+                        instance =>
                         {
-                            // For properties that implement IChangeTracking check it's IsChanged value.
-                            property.ShouldSerialize =
-                            instance =>
-                            {
-                                ChangeTracking c = (ChangeTracking)instance;
-                                if (c.IsPropertyChanged(member.Name))
-                                    return true;
-
-                                var ic = (IChangeTracking)((PropertyInfo)member).GetValue(instance);
-                                if (ic == null) { return false; }
-                                return ic.IsChanged;
-                            };
-                        }
-                        else
-                        {
-                            // For all other properties check if property was changed
-                            property.ShouldSerialize =
-                            instance =>
-                            {
-                                ChangeTracking c = (ChangeTracking)instance;
-                                return c.IsPropertyChanged(member.Name);
-                            };
-                        }
+                            ChangeTracking c = (ChangeTracking)instance;
+                            return c.IsPropertyChanged(member.Name);
+                        };
                     }
-                }
-                else
-                {
-                    // Never send UID. While UID would be preferred over tracking OldName, found
-                    // Check Point bugs when using UID to set group membership in some cases.
-                    property.Ignored = true;
                 }
             }
 

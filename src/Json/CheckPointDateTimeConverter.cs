@@ -17,6 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -78,12 +79,28 @@ namespace Koopman.CheckPoint.Json
         {
             DateTime dt = (DateTime)value;
 
-            string format = (IgnoreTimeZone) ? "yyyy-MM-ddTHH:mm:ss" : "yyyy-MM-ddTHH:mm:sszzz";
+            if (GlobalOptions.WriteTimeAs == GlobalOptions.TimeField.ISO8601)
+            {
+                string format = (IgnoreTimeZone) ? "yyyy-MM-ddTHH:mm:ss" : "yyyy-MM-ddTHH:mm:sszzz";
 
-            writer.WriteStartObject();
-            writer.WritePropertyName("iso-8601");
-            writer.WriteValue(dt.ToString(format));
-            writer.WriteEndObject();
+                writer.WriteStartObject();
+                writer.WritePropertyName("iso-8601");
+                writer.WriteValue(dt.ToString(format));
+                writer.WriteEndObject();
+            }
+            else
+            {
+                DateTime baseTime = (IgnoreTimeZone) ?
+                    new DateTime(1970, 1, 1, 0, 0, 0, 0, dt.Kind) :
+                    new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                TimeSpan ts = dt - baseTime;
+                long posix = (long)ts.TotalMilliseconds;
+
+                writer.WriteStartObject();
+                writer.WritePropertyName("posix");
+                writer.WriteValue(posix);
+                writer.WriteEndObject();
+            }
         }
 
         /* Was going to use posix but found CheckPoint changed the values sometimes
