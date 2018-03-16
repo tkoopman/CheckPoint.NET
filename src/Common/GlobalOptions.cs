@@ -12,7 +12,14 @@
         /// </summary>
         public enum Identifier
         {
+            /// <summary>
+            /// Use UID
+            /// </summary>
             UID,
+
+            /// <summary>
+            /// Use name
+            /// </summary>
             Name
         }
 
@@ -21,7 +28,14 @@
         /// </summary>
         public enum TimeField
         {
+            /// <summary>
+            /// Use posix
+            /// </summary>
             Posix,
+
+            /// <summary>
+            /// Use ISO8601
+            /// </summary>
             ISO8601
         }
 

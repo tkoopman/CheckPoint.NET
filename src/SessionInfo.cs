@@ -6,6 +6,9 @@ using System.Net;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Detailed session information
+    /// </summary>
     public class SessionInfo
     {
         #region Constructors
@@ -215,19 +218,47 @@ namespace Koopman.CheckPoint
 
         #region Enums
 
+        /// <summary>
+        /// Session connection modes
+        /// </summary>
         [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
         public enum ConnectionModes
         {
+            /// <summary>
+            /// Read write
+            /// </summary>
             ReadWrite,
+
+            /// <summary>
+            /// Read only
+            /// </summary>
             ReadOnly,
+
+            /// <summary>
+            /// Read write with global lock
+            /// </summary>
             ReadWriteWithGlobalLock
         }
 
+        /// <summary>
+        /// Session states
+        /// </summary>
         [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, " ")]
         public enum States
         {
+            /// <summary>
+            /// Open
+            /// </summary>
             Open,
+
+            /// <summary>
+            /// Published
+            /// </summary>
             Published,
+
+            /// <summary>
+            /// Discarded
+            /// </summary>
             Discarded
         }
 

@@ -2,10 +2,21 @@
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Login Message Full Details
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.LoginMessage" />
     public class LoginMessageDetails : LoginMessage
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginMessageDetails" /> class.
+        /// </summary>
+        /// <param name="header">The header.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="showMessage">if set to <c>true</c> show message.</param>
+        /// <param name="warning">if set to <c>true</c> show warning.</param>
         [JsonConstructor]
         protected LoginMessageDetails(string header, string message, bool showMessage, bool warning) : base(header, message)
         {

@@ -9,6 +9,11 @@ namespace Koopman.CheckPoint.Common
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginMessage" /> class.
+        /// </summary>
+        /// <param name="header">The header.</param>
+        /// <param name="message">The message.</param>
         [JsonConstructor]
         protected LoginMessage(string header, string message)
         {

@@ -476,7 +476,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds a session.
         /// </summary>
-        /// <param name="value">The UID to find.</param>
+        /// <param name="uid">The UID to find.</param>
         /// <returns>SessionInfo object</returns>
         public SessionInfo FindSession
             (
@@ -538,7 +538,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Switch to another session.
         /// </summary>
-        /// <param name="value">The UID to switch to.</param>
+        /// <param name="uid">The UID to switch to.</param>
         /// <returns>SessionInfo object</returns>
         public SessionInfo SwitchSession
             (
@@ -1765,6 +1765,7 @@ namespace Koopman.CheckPoint
         /// Deletes a service-icmp.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteServiceICMP
             (
                 string value,
@@ -1810,7 +1811,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds all service-icmps that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
@@ -1873,6 +1873,7 @@ namespace Koopman.CheckPoint
         /// Deletes a service-icmp6.
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteServiceICMP6
             (
                 string value,
@@ -1918,7 +1919,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds all service-icmp6s that match filter.
         /// </summary>
-        /// <param name="session">The active session to management server.</param>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
         /// if set to <c>true</c> will search objects by their IP address only, without involving the
