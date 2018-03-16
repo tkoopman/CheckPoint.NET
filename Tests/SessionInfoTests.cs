@@ -32,12 +32,13 @@ namespace Tests
         {
             var a = Session.FindSession();
             Assert.IsNotNull(a);
+            Assert.AreEqual(Session.UID, a.UID);
         }
 
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllSessions(limit: 5);
+            var a = Session.FindAllSessions(limit: 5, viewPublishedSessions: true);
             Assert.IsNotNull(a);
         }
 

@@ -451,7 +451,8 @@ namespace Koopman.CheckPoint
                 { "view-published-sessions", viewPublishedSessions },
                 { "limit", limit },
                 { "offset", offset },
-                { "order", (order == null)? null:new IOrder[] { order } }
+                { "order", (order == null)? null:new IOrder[] { order } },
+                { "details-level", DetailLevels.Full }
             };
 
             string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
@@ -500,7 +501,7 @@ namespace Koopman.CheckPoint
         /// <returns>SessionInfo object</returns>
         public SessionInfo FindSession()
         {
-            return FindSession(UID);
+            return FindSession(null);
         }
 
         /// <summary>
