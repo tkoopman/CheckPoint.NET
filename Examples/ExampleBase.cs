@@ -39,9 +39,9 @@ namespace Examples
         [TestInitialize]
         public void InitializeTest()
         {
-            ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
-            Username = TestContext.Properties["User"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtUser");
-            Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
+            ManagementServer = (TestContext.Properties.ContainsKey("ManagementServer")) ? TestContext.Properties["ManagementServer"].ToString() : Environment.GetEnvironmentVariable("TestMgmtServer");
+            Username = (TestContext.Properties.ContainsKey("User")) ? TestContext.Properties["User"].ToString() : Environment.GetEnvironmentVariable("TestMgmtUser");
+            Password = (TestContext.Properties.ContainsKey("Password")) ? TestContext.Properties["Password"].ToString() : Environment.GetEnvironmentVariable("TestMgmtPassword");
         }
 
         #endregion Methods
