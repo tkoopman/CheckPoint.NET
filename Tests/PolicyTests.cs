@@ -45,6 +45,9 @@ namespace Tests
 
             var task = Session.FindTask(taskID);
             Assert.IsNotNull(task);
+
+            // Wait for task to finish
+            task.WaitAsync(delay: 2000).Wait();
         }
 
         #endregion Methods
