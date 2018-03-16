@@ -109,6 +109,14 @@ namespace Koopman.CheckPoint.Json
                     result = (existingValue == null) ? new Network(_Session, GetDetailLevel(reader)) : (Network)existingValue;
                     break;
 
+                case "service-icmp":
+                    result = (existingValue == null) ? new ServiceICMP(_Session, GetDetailLevel(reader)) : (ServiceICMP)existingValue;
+                    break;
+
+                case "service-icmp6":
+                    result = (existingValue == null) ? new ServiceICMP6(_Session, GetDetailLevel(reader)) : (ServiceICMP6)existingValue;
+                    break;
+
                 case "service-tcp":
                     result = (existingValue == null) ? new ServiceTCP(_Session, GetDetailLevel(reader)) : (ServiceTCP)existingValue;
                     break;

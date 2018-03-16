@@ -1759,6 +1759,222 @@ namespace Koopman.CheckPoint
 
         #region Service Methods
 
+        #region ICMP Methods
+
+        /// <summary>
+        /// Deletes a service-icmp.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        public void DeleteServiceICMP
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-icmp",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all services ICMP.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP> FindAllServicesICMP
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP>
+                (
+                    Session: this,
+                    Command: "show-services-icmp",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all service-icmps that match filter.
+        /// </summary>
+        /// <param name="session">The active session to management server.</param>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP> FindAllServicesICMP
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP>
+                (
+                    Session: this,
+                    Type: "service-icmp",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a service-icmp.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Object object</returns>
+        public ServiceICMP FindServiceICMP
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceICMP>
+                (
+                    Session: this,
+                    Command: "show-service-icmp",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion ICMP Methods
+
+        #region ICMP6 Methods
+
+        /// <summary>
+        /// Deletes a service-icmp6.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        public void DeleteServiceICMP6
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-icmp6",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all services ICMP6.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP6> FindAllServicesICMP6
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP6>
+                (
+                    Session: this,
+                    Command: "show-services-icmp6",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all service-icmp6s that match filter.
+        /// </summary>
+        /// <param name="session">The active session to management server.</param>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP6> FindAllServicesICMP6
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP6>
+                (
+                    Session: this,
+                    Type: "service-icmp6",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a service-icmp6.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Object object</returns>
+        public ServiceICMP6 FindServiceICMP6
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceICMP6>
+                (
+                    Session: this,
+                    Command: "show-service-icmp6",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion ICMP6 Methods
+
         #region ServiceTCP Methods
 
         /// <summary>
