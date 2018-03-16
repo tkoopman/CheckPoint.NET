@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="782d73af-af33-41b7-8151-d63b8d6c7cc2" revisionNumber="1">
+  <developerHowToDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        This example:
+        <list class="ordered">
+          <listItem>establishes a read-only connection to management,</listItem>
+          <listItem>prints the first 5 host names,</listItem>
+          <listItem>finially logs off, closing the connection to the server.</listItem>
+        </list>
+      </para>
+    </introduction>
+
+    <code source="..\Examples\BasicExamples.cs" region="Example: Basic Connection" title="C#" />
+
+    <relatedTopics>
+      <codeEntityReference>T:Koopman.CheckPoint.Session</codeEntityReference>
+      <codeEntityReference>T:Koopman.CheckPoint.SessionOptions</codeEntityReference>
+      <codeEntityReference>T:Koopman.CheckPoint.Host</codeEntityReference>
+      <codeEntityReference>T:Koopman.CheckPoint.Common.NetworkObjectsPagingResults`1</codeEntityReference>
+    </relatedTopics>
+  </developerHowToDocument>
+</topic>

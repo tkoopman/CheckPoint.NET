@@ -17,37 +17,53 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
 {
+    /// <summary>
+    /// Summary description for LoginMessageTests
+    /// </summary>
     [TestClass]
-    public class PolicyTests : StandardTestsBase
+    public class LoginMessageTests : StandardTestsBase
     {
         #region Methods
 
-        /// <summary>
-        /// Tests the install policy. Not great test as cannot install policy in Demo mode
-        /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(GenericException))]
-        public void TestInstallPolicy()
+        public void SetLoginMessage()
         {
-            var taskID = Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
+            string header = "Session header";
+            string message = "Should you be here?";
+            bool show = true;
+            bool warn = false;
+
+            var a = Session.SetLoginMessage(
+                    header: header,
+                    message: message,
+                    showMessage: show,
+                    warning: warn
+                );
+
+            Assert.IsNotNull(a);
+            Assert.AreEqual(header, a.Header);
+            Assert.AreEqual(message, a.Message);
+            Assert.AreEqual(show, a.ShowMessage);
+            Assert.AreEqual(warn, a.Warning);
+
+            // Confirm sending nulls doesn't change anything
+            a = Session.SetLoginMessage();
+            Assert.IsNotNull(a);
+            Assert.AreEqual(header, a.Header);
+            Assert.AreEqual(message, a.Message);
+            Assert.AreEqual(show, a.ShowMessage);
+            Assert.AreEqual(warn, a.Warning);
         }
 
         [TestMethod]
-        public void TestVerifyPolicy()
+        public void ShowLoginMessage()
         {
-            var taskID = Session.VerifyPolicy("Corporate_Policy");
-            Assert.IsNotNull(taskID);
-
-            var task = Session.FindTask(taskID);
-            Assert.IsNotNull(task);
-
-            // Wait for task to finish
-            task.WaitAsync(delay: 2000).Wait();
+            var a = Session.GetLoginMessage();
+            Assert.IsNotNull(a);
         }
 
         #endregion Methods

@@ -17,37 +17,31 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace Tests
+namespace Examples
 {
     [TestClass]
-    public class PolicyTests : StandardTestsBase
+    public abstract class ExampleBase
     {
+        #region Properties
+
+        public string ManagementServer { get; private set; }
+        public string Password { get; private set; }
+        public TestContext TestContext { get; set; }
+        public string Username { get; private set; }
+
+        #endregion Properties
+
         #region Methods
 
-        /// <summary>
-        /// Tests the install policy. Not great test as cannot install policy in Demo mode
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(GenericException))]
-        public void TestInstallPolicy()
+        [TestInitialize]
+        public void InitializeTest()
         {
-            var taskID = Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
-        }
-
-        [TestMethod]
-        public void TestVerifyPolicy()
-        {
-            var taskID = Session.VerifyPolicy("Corporate_Policy");
-            Assert.IsNotNull(taskID);
-
-            var task = Session.FindTask(taskID);
-            Assert.IsNotNull(task);
-
-            // Wait for task to finish
-            task.WaitAsync(delay: 2000).Wait();
+            ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
+            Username = TestContext.Properties["User"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtUser");
+            Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
         }
 
         #endregion Methods

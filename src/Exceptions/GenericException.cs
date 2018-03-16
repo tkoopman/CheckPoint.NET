@@ -19,6 +19,7 @@
 
 using System;
 using System.Net;
+using System.Text;
 
 namespace Koopman.CheckPoint.Exceptions
 {
@@ -35,9 +36,9 @@ namespace Koopman.CheckPoint.Exceptions
         {
             HTTPStatusCode = httpStatusCode;
             Code = code;
-            Warnings = warnings;
-            Errors = errors;
-            BlockingErrors = blockingErrors;
+            Warnings = warnings ?? new CheckPointErrorDetails[] { };
+            Errors = errors ?? new CheckPointErrorDetails[] { };
+            BlockingErrors = blockingErrors ?? new CheckPointErrorDetails[] { };
         }
 
         #endregion Constructors
@@ -75,12 +76,31 @@ namespace Koopman.CheckPoint.Exceptions
         #region Methods
 
         /// <summary>
-        /// Returns the Message property when converted to a string.
+        /// Returns the Message property and any Check Point error or warning details.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return Message;
+            return ToString(true);
+        }
+
+        /// <summary>
+        /// Returns the Message property and optionally any Check Point error or warning details.
+        /// </summary>
+        /// <param name="includeDetails">if set to <c>true</c> includes error and warning details.</param>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public string ToString(bool includeDetails)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(Message);
+            if (includeDetails)
+            {
+                foreach (var be in BlockingErrors) sb.AppendLine($"Blocking Error: {be}");
+                foreach (var e in Errors) sb.AppendLine($"Error: {e}");
+                foreach (var w in Warnings) sb.AppendLine($"Warning: {w}");
+            }
+
+            return sb.ToString().TrimEnd('\r', '\n');
         }
 
         #endregion Methods

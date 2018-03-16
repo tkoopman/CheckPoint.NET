@@ -30,21 +30,30 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        [ExpectedException(typeof(System.Threading.Tasks.TaskCanceledException))]
         public void RunCancel()
         {
-            string run = Session.RunScript("Sleep", "sleep 30", null, "mgmt");
-            Assert.IsNotNull(run);
+            string run = Session.RunScript("Sleep", "sleep 4", null, "mgmt");
 
             Task task = Session.FindTask(run);
-            Assert.IsNotNull(task);
 
             CancellationTokenSource cts = new CancellationTokenSource();
             Progress<int> p = new Progress<int>(i => Console.Out.WriteLine($"Progress: {i}%"));
+            bool caught = false;
+            try
+            {
+                System.Threading.Tasks.Task<bool> t = task.WaitAsync(cancellationToken: cts.Token, progress: p);
+                cts.CancelAfter(new TimeSpan(0, 0, 1));
+                t.Wait();
+            }
+            catch (Exception)
+            {
+                caught = true;
+            }
 
-            System.Threading.Tasks.Task<bool> t = task.WaitAsync(cancellationToken: cts.Token, progress: p);
-            cts.CancelAfter(new TimeSpan(0, 0, 5));
-            bool s = t.GetAwaiter().GetResult();
+            // Wait for task to finish
+            task.WaitAsync().Wait();
+
+            Assert.IsTrue(caught);
         }
 
         [TestMethod]

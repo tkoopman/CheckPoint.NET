@@ -129,13 +129,19 @@ namespace Koopman.CheckPoint
         public DateTime LastLoginWasAt { get; private set; }
 
         /// <summary>
+        /// Gets the login message.
+        /// </summary>
+        /// <value>The login message.</value>
+        [JsonProperty(PropertyName = "login-message")]
+        public LoginMessage LoginMessage { get; private set; }
+
+        /// <summary>
         /// Session is read only status.
         /// </summary>
         /// <value><c>true</c> if read only; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "read-only")]
         public bool ReadOnly { get; private set; }
 
-        //TODO login-message
         /// <summary>
         /// Session expiration timeout in seconds.
         /// </summary>
@@ -217,6 +223,17 @@ namespace Koopman.CheckPoint
             }
 
             _isDisposed = true;
+        }
+
+        /// <summary>
+        /// Gets the login message.
+        /// </summary>
+        /// <returns>LoginMessageDetails</returns>
+        public LoginMessageDetails GetLoginMessage()
+        {
+            string result = Post("show-login-message", "{ }");
+
+            return JsonConvert.DeserializeObject<LoginMessageDetails>(result);
         }
 
         /// <summary>
@@ -333,6 +350,31 @@ namespace Koopman.CheckPoint
             Post("keepalive", "{}");
         }
 
+        /// <summary>
+        /// Sets the login message. All <c>null</c> values will not be changed.
+        /// </summary>
+        /// <param name="header">The header.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="showMessage">Whether to show login message.</param>
+        /// <param name="warning">Add warning sign.</param>
+        /// <returns>LoginMessageDetails</returns>
+        public LoginMessageDetails SetLoginMessage(string header = null, string message = null, bool? showMessage = null, bool? warning = null)
+        {
+            JObject data = new JObject()
+            {
+                { "header", header },
+                { "message", message },
+                { "show-message", showMessage },
+                { "warning", warning }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+            string result = Post("set-login-message", jsonData);
+
+            return JsonConvert.DeserializeObject<LoginMessageDetails>(result);
+        }
+
         internal HttpClient GetHttpClient()
         {
             if (_isDisposed)
@@ -386,6 +428,141 @@ namespace Koopman.CheckPoint
             return jsonData;
         }
 
+        #region SessionInfo Methods
+
+        /// <summary>
+        /// Finds all sessions.
+        /// </summary>
+        /// <param name="viewPublishedSessions">if set to <c>true</c> returns published sessions.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SessionInfos</returns>
+        public NetworkObjectsPagingResults<SessionInfo> FindAllSessions
+            (
+                bool viewPublishedSessions = false,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "view-published-sessions", viewPublishedSessions },
+                { "limit", limit },
+                { "offset", offset },
+                { "order", (order == null)? null:new IOrder[] { order } },
+                { "details-level", DetailLevels.Full }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-sessions", jsonData);
+
+            NetworkObjectsPagingResults<SessionInfo> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<SessionInfo>>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+
+            if (results != null)
+            {
+                results.Next = delegate ()
+                {
+                    if (results.To == results.Total) { return null; }
+                    return this.FindAllSessions(viewPublishedSessions, limit, results.To, order);
+                };
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// Finds a session.
+        /// </summary>
+        /// <param name="uid">The UID to find.</param>
+        /// <returns>SessionInfo object</returns>
+        public SessionInfo FindSession
+            (
+                string uid
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "uid", uid }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-session", jsonData);
+
+            return JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+        }
+
+        /// <summary>
+        /// Finds the session information for the current session.
+        /// </summary>
+        /// <returns>SessionInfo object</returns>
+        public SessionInfo FindSession()
+        {
+            return FindSession(null);
+        }
+
+        /// <summary>
+        /// Edit user's current session. All <c>null</c> values will not be changed.
+        /// </summary>
+        /// <param name="name">The session name.</param>
+        /// <param name="description">The session description.</param>
+        /// <param name="tags">The session tags.</param>
+        /// <param name="color">The session color.</param>
+        /// <param name="comments">The session comments.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        /// <returns>Updated SessionInfo</returns>
+        public SessionInfo SetSessionInfo(string name = null, string description = null, string[] tags = null, Colors? color = null, string comments = null, Ignore ignore = Ignore.No)
+        {
+            JObject data = new JObject()
+            {
+                { "new-name", name },
+                { "description", description },
+                { "comments", comments }
+            };
+
+            if (tags != null) data.Add("tags", new JArray(tags));
+            if (color != null) data.Add("color", JToken.FromObject(color));
+
+            data.AddIgnore(ignore);
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+            string result = Post("set-session", jsonData);
+
+            return JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+        }
+
+        /// <summary>
+        /// Switch to another session.
+        /// </summary>
+        /// <param name="uid">The UID to switch to.</param>
+        /// <returns>SessionInfo object</returns>
+        public SessionInfo SwitchSession
+            (
+                string uid
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "uid", uid }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("switch-session", jsonData);
+
+            SessionInfo si = JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+
+            UID = si.UID;
+
+            return si;
+        }
+
+        #endregion SessionInfo Methods
+
         #endregion Session Methods
 
         #region Object Methods
@@ -398,10 +575,10 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         public void DeleteAddressRange
-            (
-                string value,
-                Ignore ignore = Delete.Defaults.ignore
-            )
+        (
+            string value,
+            Ignore ignore = Delete.Defaults.ignore
+        )
         {
             Delete.Invoke
                 (
@@ -1581,6 +1758,222 @@ namespace Koopman.CheckPoint
         #endregion Object Methods
 
         #region Service Methods
+
+        #region ICMP Methods
+
+        /// <summary>
+        /// Deletes a service-icmp.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteServiceICMP
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-icmp",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all services ICMP.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP> FindAllServicesICMP
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP>
+                (
+                    Session: this,
+                    Command: "show-services-icmp",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all service-icmps that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP> FindAllServicesICMP
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP>
+                (
+                    Session: this,
+                    Type: "service-icmp",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a service-icmp.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Object object</returns>
+        public ServiceICMP FindServiceICMP
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceICMP>
+                (
+                    Session: this,
+                    Command: "show-service-icmp",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion ICMP Methods
+
+        #region ICMP6 Methods
+
+        /// <summary>
+        /// Deletes a service-icmp6.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteServiceICMP6
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-icmp6",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all services ICMP6.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP6> FindAllServicesICMP6
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP6>
+                (
+                    Session: this,
+                    Command: "show-services-icmp6",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all service-icmp6s that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP6> FindAllServicesICMP6
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceICMP6>
+                (
+                    Session: this,
+                    Type: "service-icmp6",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a service-icmp6.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Object object</returns>
+        public ServiceICMP6 FindServiceICMP6
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceICMP6>
+                (
+                    Session: this,
+                    Command: "show-service-icmp6",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion ICMP6 Methods
 
         #region ServiceTCP Methods
 

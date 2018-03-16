@@ -54,6 +54,11 @@
     <Compile Include="..\src\Internal\SubnetMask.cs">
       <Link>SubnetMask.cs</Link>
     </Compile>
+    <Compile Include="Bugs.cs" />
+    <Compile Include="LoginMessageTests.cs" />
+    <Compile Include="ServiceICMP6Tests.cs" />
+    <Compile Include="ServiceICMPTests.cs" />
+    <Compile Include="SessionInfoTests.cs" />
     <Compile Include="ServiceGroupTests.cs" />
     <Compile Include="PolicyTests.cs" />
     <Compile Include="RunScriptTests.cs" />

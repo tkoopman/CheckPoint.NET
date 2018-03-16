@@ -17,37 +17,63 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
 {
     [TestClass]
-    public class PolicyTests : StandardTestsBase
+    public class ServiceICMP6Tests : StandardTestsBase
     {
+        #region Fields
+
+        private static readonly string Filter = "echo";
+        private static readonly string Name = "echo-request6";
+
+        #endregion Fields
+
         #region Methods
 
-        /// <summary>
-        /// Tests the install policy. Not great test as cannot install policy in Demo mode
-        /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(GenericException))]
-        public void TestInstallPolicy()
+        public void Find()
         {
-            var taskID = Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
+            var a = Session.FindServiceICMP6(Name);
+            Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void TestVerifyPolicy()
+        public void FindAll()
         {
-            var taskID = Session.VerifyPolicy("Corporate_Policy");
-            Assert.IsNotNull(taskID);
+            var a = Session.FindAllServicesICMP6(limit: 5, order: ServiceICMP.Order.NameAsc);
+            Assert.IsNotNull(a);
+            a = a.NextPage();
+        }
 
-            var task = Session.FindTask(taskID);
-            Assert.IsNotNull(task);
+        [TestMethod]
+        public void FindAllFiltered()
+        {
+            var a = Session.FindAllServicesICMP6(filter: Filter, limit: 5, order: ServiceICMP.Order.NameAsc);
+            Assert.IsNotNull(a);
+            a = a.NextPage();
+        }
 
-            // Wait for task to finish
-            task.WaitAsync(delay: 2000).Wait();
+        [TestMethod]
+        public void New()
+        {
+            string name = $"New{Name}";
+
+            var a = new ServiceICMP6(Session)
+            {
+                Name = name,
+                Color = Colors.Red,
+                ICMPCode = 0,
+                ICMPType = 8
+            };
+
+            Assert.IsTrue(a.IsNew);
+            a.AcceptChanges(Ignore.Warnings);
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
         }
 
         #endregion Methods

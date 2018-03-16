@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="53f42224-70ed-4923-b695-896eae271893" revisionNumber="1">
+  <developerHowToDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <introduction>
+      <para>
+        This example creates a new host, including adding it to an existing group. This also shows doing it with full error handling.
+      </para>
+    </introduction>
+
+    <code source="..\Examples\BasicExamples.cs" region="Example: New Host" title="C#" />
+
+    <relatedTopics>
+      <codeEntityReference>T:Koopman.CheckPoint.Host</codeEntityReference>
+      <codeEntityReference>T:Koopman.CheckPoint.Session</codeEntityReference>
+      <codeEntityReference>T:Koopman.CheckPoint.Exceptions.ValidationFailedException</codeEntityReference>
+      <codeEntityReference>T:Koopman.CheckPoint.Exceptions.ObjectNotFoundException</codeEntityReference>
+      <codeEntityReference>T:Koopman.CheckPoint.Exceptions.GenericException</codeEntityReference>
+    </relatedTopics>
+  </developerHowToDocument>
+</topic>

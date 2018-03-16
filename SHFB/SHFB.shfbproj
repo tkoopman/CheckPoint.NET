@@ -95,7 +95,7 @@
       </ComponentConfig>
     </ComponentConfigurations>
     <PlugInConfigurations>
-      <PlugInConfig id="Additional Reference Links" enabled="False">
+      <PlugInConfig id="Additional Reference Links" enabled="True">
         <configuration>
           <targets>
             <target htmlSdkLinkType="None" helpViewerSdkLinkType="Id" websiteSdkLinkType="None" helpFileProject=".\SHFB_Newtonsoft.shfbproj" />
@@ -151,10 +151,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Content" />
+    <Folder Include="Content\Examples" />
     <Folder Include="icons" />
     <Folder Include="media" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Examples\Basic Connection.aml" />
+    <None Include="Content\Examples\New Host.aml" />
     <None Include="Content\Welcome.aml" />
   </ItemGroup>
   <ItemGroup>

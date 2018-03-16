@@ -48,8 +48,8 @@
     <Preliminary>False</Preliminary>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\src\bin\$(Configuration)\net45\Newtonsoft.Json.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\src\bin\$(Configuration)\net45\Newtonsoft.Json.xml" xmlns="" />
     </DocumentationSources>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform

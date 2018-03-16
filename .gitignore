@@ -269,3 +269,4 @@ Documentation/WebHelp/
 **/Doc/Help/
 *.shfbproj_*
 /docs
+*.playlist
