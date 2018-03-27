@@ -57,16 +57,12 @@ namespace Tests
             string Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
 
             Session = new Session(
-                new SessionOptions()
-                {
-                    ManagementServer = ManagementServer,
-                    User = User,
-                    Password = Password,
-                    CertificateValidation = false,
-                    DetailLevelAction = DetailLevelActions.ThrowException,
-                    IndentJson = true
-                }
-                );
+                         managementServer: ManagementServer,
+                         userName: User,
+                         password: Password,
+                         certificateValidation: false,
+                         indentJson: true
+                     );
 
             Session.DebugWriter = DebugWriter;
             DebugWriter.WriteLine($" Starting test {TestContext.TestName} ".CenterString(60, '#'));

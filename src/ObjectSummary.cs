@@ -340,7 +340,7 @@ namespace Koopman.CheckPoint
             {
                 DetailLevelActions action =
                     (detailLevelAction == DetailLevelActions.SessionDefault) ?
-                        Session.Options.DetailLevelAction :
+                        Session.DetailLevelAction :
                         detailLevelAction;
 
                 switch (action)

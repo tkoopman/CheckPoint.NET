@@ -53,15 +53,12 @@ namespace Tests
         public void WrongCredentials()
         {
             using (var session = new Session(
-                new SessionOptions()
-                {
-                    ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer"),
-                    User = "dummy",
-                    Password = "***",
-                    CertificateValidation = false
-                },
-                debugWriter: DebugWriter
-                ))
+                         managementServer: TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer"),
+                         userName: "dummy",
+                         password: "***",
+                         certificateValidation: false,
+                         debugWriter: DebugWriter
+                     ))
             {
             }
         }

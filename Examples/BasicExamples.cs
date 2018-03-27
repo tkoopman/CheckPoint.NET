@@ -17,15 +17,11 @@ namespace Examples
 
             // Login to Check Point Management Web Service
             var session = new Session(
-                    new SessionOptions()
-                    {
-                        ManagementServer = ManagementServer,
-                        User = Username,
-                        Password = Password,
-                        ReadOnly = true,
-                        CertificateValidation = false
-                    }
-                );
+                         managementServer: ManagementServer,
+                         userName: Username,
+                         password: Password,
+                         certificateValidation: false
+                     );
 
             // Get first 5 hosts
             var hosts = session.FindAllHosts(limit: 5);
@@ -46,14 +42,11 @@ namespace Examples
         {
             // Login to Check Point Management Web Service
             var session = new Session(
-                    new SessionOptions()
-                    {
-                        ManagementServer = ManagementServer,
-                        User = Username,
-                        Password = Password,
-                        CertificateValidation = false
-                    }
-                );
+                         managementServer: ManagementServer,
+                         userName: Username,
+                         password: Password,
+                         certificateValidation: false
+                     );
 
             // Create group used for example
             new Group(session)

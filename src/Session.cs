@@ -42,11 +42,11 @@ namespace Koopman.CheckPoint
     /// </summary>
     /// <example>
     /// <code>
-    /// var session = new Session( new SessionOptions() {
-    ///     ManagementServer = 192.168.1.1,
-    ///     User = "admin",
-    ///     Password = "***",
-    ///     CertificateValidation = false }
+    /// var session = new Session(
+    ///     managementServer: "192.168.1.1",
+    ///     userName: "admin",
+    ///     password: "***",
+    ///     certificateValidation: false
     /// );
     /// </code>
     /// </example>
@@ -65,28 +65,55 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Establishes and logs in to new management session.
         /// </summary>
-        /// <param name="options">The session options.</param>
+        /// <param name="managementServer">The management server.</param>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="readOnly">if set to <c>true</c> a read only connection is made.</param>
+        /// <param name="sessionName">Name of the session.</param>
+        /// <param name="comments">The session comments.</param>
+        /// <param name="description">The session description.</param>
+        /// <param name="certificateValidation">
+        /// if set to <c>true</c> certificate validation is performed.
+        /// </param>
+        /// <param name="detailLevelAction">The detail level action.</param>
+        /// <param name="indentJson">if set to <c>true</c> json data sent to server will be indented.</param>
+        /// <param name="port">The management server port.</param>
+        /// <param name="timeout">The timeout.</param>
         /// <param name="debugWriter">
         /// The debug writer. WARNING: If set here the debug output WILL include your password in the
         /// clear! Should only set here if trying to debug the login calls. Use
         /// <see cref="Session.DebugWriter" /> to set after the login has completed to avoid
         /// including your password.
         /// </param>
-        public Session(SessionOptions options, TextWriter debugWriter = null)
+        public Session(string managementServer, string userName, string password,
+            bool readOnly = false,
+            string sessionName = null,
+            string comments = null,
+            string description = null,
+            bool certificateValidation = true,
+            DetailLevelActions detailLevelAction = DetailLevelActions.ThrowException,
+            bool indentJson = false,
+            int port = 443,
+            int timeout = 600,
+            TextWriter debugWriter = null)
         {
-            Options = options;
             DebugWriter = debugWriter;
+            CertificateValidation = certificateValidation;
+            DetailLevelAction = detailLevelAction;
+            IndentJson = indentJson;
 
-            URL = $"https://{Options.ManagementServer}:{Options.Port}/web_api/";
+            URL = $"https://{managementServer}:{port}/web_api/";
 
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
             {
-                { "user", Options.User },
-                { "password", Options.Password },
-                { "read-only", Options.ReadOnly }
+                { "user", userName },
+                { "password", password },
+                { "read-only", readOnly },
+                { "session-name", sessionName ?? "" },
+                { "session-comments", comments ?? "" },
+                { "session-description", description ?? "" },
+                { "session-timeout", timeout }
             };
-
-            Options.Password = null;
 
             string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
@@ -107,6 +134,12 @@ namespace Koopman.CheckPoint
         public string APIServerVersion { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether SSL certificate should be valid.
+        /// </summary>
+        /// <value><c>true</c> if certificate validation enabled otherwise, <c>false</c>.</value>
+        public bool CertificateValidation { get; }
+
+        /// <summary>
         /// Gets or sets the debug writer. All API posts and responses will be sent to this writer.
         /// They are sent in the RAW JSON format as sent and recived to/from the server.
         /// </summary>
@@ -114,11 +147,23 @@ namespace Koopman.CheckPoint
         public TextWriter DebugWriter { get; set; }
 
         /// <summary>
+        /// Gets the action to be taken when current detail level is too low.
+        /// </summary>
+        /// <value>The detail level action to take.</value>
+        public DetailLevelActions DetailLevelAction { get; }
+
+        /// <summary>
         /// Information about the available disk space on the management server.
         /// </summary>
         /// <value>The disk space message.</value>
         [JsonProperty(PropertyName = "disk-space-message")]
         public string DiskSpaceMessage { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether JSON data sent to server should be indented. Useful for debugging.
+        /// </summary>
+        /// <value><c>true</c> to indent json; otherwise, <c>false</c>.</value>
+        public bool IndentJson { get; }
 
         /// <summary>
         /// Timestamp when administrator last accessed the management server.
@@ -177,13 +222,11 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "url")]
         public string URL { get; private set; }
 
-        internal SessionOptions Options { get; private set; }
-
         /// <summary>
         /// Gets the JSON formatting setting.
         /// </summary>
         /// <value>The JSON formatting.</value>
-        protected internal Formatting JsonFormatting => (Options.IndentJson) ? Formatting.Indented : Formatting.None;
+        protected internal Formatting JsonFormatting => (IndentJson) ? Formatting.Indented : Formatting.None;
 
         #endregion Properties
 
@@ -384,18 +427,18 @@ namespace Koopman.CheckPoint
             if (_httpClient == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
-                if (handler.SupportsAutomaticDecompression && Options.Compression)
+                if (handler.SupportsAutomaticDecompression)
                 {
                     handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 }
 
 #if NETSTANDARD2_0
-                if (!Options.CertificateValidation)
+                if (!CertificateValidation)
                 {
                     handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
                 }
 #elif NET45
-                if (!Options.CertificateValidation)
+                if (!CertificateValidation)
                 {
                     ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
                 }

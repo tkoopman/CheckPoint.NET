@@ -19,7 +19,6 @@
 
     <relatedTopics>
       <codeEntityReference>T:Koopman.CheckPoint.Session</codeEntityReference>
-      <codeEntityReference>T:Koopman.CheckPoint.SessionOptions</codeEntityReference>
       <codeEntityReference>T:Koopman.CheckPoint.Host</codeEntityReference>
       <codeEntityReference>T:Koopman.CheckPoint.Common.NetworkObjectsPagingResults`1</codeEntityReference>
     </relatedTopics>
