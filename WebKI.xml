@@ -99,7 +99,7 @@
   <HelpKINode Title="BroadcastInclusion property" Url="html/P_Koopman_CheckPoint_Network_BroadcastInclusion.htm" />
   <HelpKINode Title="Brown enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Burlywood enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
-  <HelpKINode Title="CertificateValidation property" Url="html/P_Koopman_CheckPoint_SessionOptions_CertificateValidation.htm" />
+  <HelpKINode Title="CertificateValidation property" Url="html/P_Koopman_CheckPoint_Session_CertificateValidation.htm" />
   <HelpKINode Title="ChangeAction enumeration" Url="html/T_Koopman_CheckPoint_Common_ChangeAction.htm" />
   <HelpKINode Title="Changes property" Url="html/P_Koopman_CheckPoint_SessionInfo_Changes.htm" />
   <HelpKINode Title="ChangeTracking class">
@@ -216,7 +216,7 @@
     <HelpKINode Title="IMember.DetailLevel Property " Url="html/P_Koopman_CheckPoint_Common_IMember_DetailLevel.htm" />
     <HelpKINode Title="ObjectSummary.DetailLevel Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_DetailLevel.htm" />
   </HelpKINode>
-  <HelpKINode Title="DetailLevelAction property" Url="html/P_Koopman_CheckPoint_SessionOptions_DetailLevelAction.htm" />
+  <HelpKINode Title="DetailLevelAction property" Url="html/P_Koopman_CheckPoint_Session_DetailLevelAction.htm" />
   <HelpKINode Title="DetailLevelActions enumeration" Url="html/T_Koopman_CheckPoint_DetailLevelActions.htm" />
   <HelpKINode Title="DetailLevelException class">
     <HelpKINode Title="DetailLevelException Class" Url="html/T_Koopman_CheckPoint_Exceptions_DetailLevelException.htm" />
@@ -490,7 +490,7 @@
   </HelpKINode>
   <HelpKINode Title="Include property" Url="html/P_Koopman_CheckPoint_GroupWithExclusion_Include.htm" />
   <HelpKINode Title="Increment operator" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_Increment.htm" />
-  <HelpKINode Title="IndentJson property" Url="html/P_Koopman_CheckPoint_SessionOptions_IndentJson.htm" />
+  <HelpKINode Title="IndentJson property" Url="html/P_Koopman_CheckPoint_Session_IndentJson.htm" />
   <HelpKINode Title="IndexOf method">
     <HelpKINode Title="MembershipChangeTracking(T).IndexOf Method " Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_IndexOf.htm" />
     <HelpKINode Title="SimpleListChangeTracking(T).IndexOf Method " Url="html/M_Koopman_CheckPoint_Common_SimpleListChangeTracking_1_IndexOf.htm" />
@@ -759,7 +759,6 @@
   <HelpKINode Title="Koopman.CheckPoint.SessionInfo class" Url="html/T_Koopman_CheckPoint_SessionInfo.htm" />
   <HelpKINode Title="Koopman.CheckPoint.SessionInfo.ConnectionModes enumeration" Url="html/T_Koopman_CheckPoint_SessionInfo_ConnectionModes.htm" />
   <HelpKINode Title="Koopman.CheckPoint.SessionInfo.States enumeration" Url="html/T_Koopman_CheckPoint_SessionInfo_States.htm" />
-  <HelpKINode Title="Koopman.CheckPoint.SessionOptions class" Url="html/T_Koopman_CheckPoint_SessionOptions.htm" />
   <HelpKINode Title="Koopman.CheckPoint.SimpleGateway class" Url="html/T_Koopman_CheckPoint_SimpleGateway.htm" />
   <HelpKINode Title="Koopman.CheckPoint.SimpleGateway.Order class" Url="html/T_Koopman_CheckPoint_SimpleGateway_Order.htm" />
   <HelpKINode Title="Koopman.CheckPoint.SimpleGatewaySettings namespace" Url="html/N_Koopman_CheckPoint_SimpleGatewaySettings.htm" />
@@ -894,7 +893,6 @@
   <HelpKINode Title="LogsSettings property" Url="html/P_Koopman_CheckPoint_SimpleGateway_LogsSettings.htm" />
   <HelpKINode Title="Magenta enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="MailAlert enumeration member" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
-  <HelpKINode Title="ManagementServer property" Url="html/P_Koopman_CheckPoint_SessionOptions_ManagementServer.htm" />
   <HelpKINode Title="March enumeration member" Url="html/T_Koopman_CheckPoint_Months.htm" />
   <HelpKINode Title="MaskLength4 property" Url="html/P_Koopman_CheckPoint_Network_MaskLength4.htm" />
   <HelpKINode Title="MaskLength6 property" Url="html/P_Koopman_CheckPoint_Network_MaskLength6.htm" />
@@ -1243,22 +1241,22 @@
   <HelpKINode Title="Orange enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Orchid enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Order class">
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Network_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP6_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceUDP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_TimeGroup_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceGroup_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SecurityZone_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_MulticastAddressRange_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP6_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_AddressRange_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SecurityZone_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Network_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_TimeGroup_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_MulticastAddressRange_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceTCP_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceGroup_Order.htm" />
   </HelpKINode>
   <HelpKINode Title="OSName property" Url="html/P_Koopman_CheckPoint_SimpleGateway_OSName.htm" />
   <HelpKINode Title="OverrideDefaultSettings property">
@@ -1266,7 +1264,6 @@
     <HelpKINode Title="ServiceUDP.OverrideDefaultSettings Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_OverrideDefaultSettings.htm" />
   </HelpKINode>
   <HelpKINode Title="PartiallySucceeded enumeration member" Url="html/T_Koopman_CheckPoint_Task_TaskStatus.htm" />
-  <HelpKINode Title="Password property" Url="html/P_Koopman_CheckPoint_SessionOptions_Password.htm" />
   <HelpKINode Title="Pattern property" Url="html/P_Koopman_CheckPoint_Time_RecurrenceClass_Pattern.htm" />
   <HelpKINode Title="Percent enumeration member" Url="html/T_Koopman_CheckPoint_Common_Metrics.htm" />
   <HelpKINode Title="PerformLogRotateBeforeLogForwarding property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_PerformLogRotateBeforeLogForwarding.htm" />
@@ -1281,7 +1278,6 @@
   <HelpKINode Title="Port property">
     <HelpKINode Title="ServiceTCP.Port Property " Url="html/P_Koopman_CheckPoint_ServiceTCP_Port.htm" />
     <HelpKINode Title="ServiceUDP.Port Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_Port.htm" />
-    <HelpKINode Title="SessionOptions.Port Property " Url="html/P_Koopman_CheckPoint_SessionOptions_Port.htm" />
   </HelpKINode>
   <HelpKINode Title="Posix enumeration member" Url="html/T_Koopman_CheckPoint_Common_GlobalOptions_TimeField.htm" />
   <HelpKINode Title="Post method" Url="html/M_Koopman_CheckPoint_Session_Post.htm" />
@@ -1308,7 +1304,6 @@
     <HelpKINode Title="ObjectBase.ReadOnly Property " Url="html/P_Koopman_CheckPoint_Common_ObjectBase_ReadOnly.htm" />
     <HelpKINode Title="Session.ReadOnly Property " Url="html/P_Koopman_CheckPoint_Session_ReadOnly.htm" />
     <HelpKINode Title="SessionInfo.ReadOnly Property " Url="html/P_Koopman_CheckPoint_SessionInfo_ReadOnly.htm" />
-    <HelpKINode Title="SessionOptions.ReadOnly Property " Url="html/P_Koopman_CheckPoint_SessionOptions_ReadOnly.htm" />
   </HelpKINode>
   <HelpKINode Title="ReadWrite enumeration member" Url="html/T_Koopman_CheckPoint_SessionInfo_ConnectionModes.htm" />
   <HelpKINode Title="ReadWriteWithGlobalLock enumeration member" Url="html/T_Koopman_CheckPoint_SessionInfo_ConnectionModes.htm" />
@@ -1480,6 +1475,7 @@
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Session.htm" />
   </HelpKINode>
   <HelpKINode Title="Session.APIServerVersion property" Url="html/P_Koopman_CheckPoint_Session_APIServerVersion.htm" />
+  <HelpKINode Title="Session.CertificateValidation property" Url="html/P_Koopman_CheckPoint_Session_CertificateValidation.htm" />
   <HelpKINode Title="Session.ContinueSessionInSmartconsole method" Url="html/M_Koopman_CheckPoint_Session_ContinueSessionInSmartconsole.htm" />
   <HelpKINode Title="Session.DebugWriter property" Url="html/P_Koopman_CheckPoint_Session_DebugWriter.htm" />
   <HelpKINode Title="Session.DeleteAddressRange method" Url="html/M_Koopman_CheckPoint_Session_DeleteAddressRange.htm" />
@@ -1498,6 +1494,7 @@
   <HelpKINode Title="Session.DeleteTag method" Url="html/M_Koopman_CheckPoint_Session_DeleteTag.htm" />
   <HelpKINode Title="Session.DeleteTime method" Url="html/M_Koopman_CheckPoint_Session_DeleteTime.htm" />
   <HelpKINode Title="Session.DeleteTimeGroup method" Url="html/M_Koopman_CheckPoint_Session_DeleteTimeGroup.htm" />
+  <HelpKINode Title="Session.DetailLevelAction property" Url="html/P_Koopman_CheckPoint_Session_DetailLevelAction.htm" />
   <HelpKINode Title="Session.Discard method" Url="html/M_Koopman_CheckPoint_Session_Discard.htm" />
   <HelpKINode Title="Session.DiskSpaceMessage property" Url="html/P_Koopman_CheckPoint_Session_DiskSpaceMessage.htm" />
   <HelpKINode Title="Session.Dispose method" Url="html/M_Koopman_CheckPoint_Session_Dispose.htm" />
@@ -1537,6 +1534,7 @@
   <HelpKINode Title="Session.FindTime method" Url="html/M_Koopman_CheckPoint_Session_FindTime.htm" />
   <HelpKINode Title="Session.FindTimeGroup method" Url="html/M_Koopman_CheckPoint_Session_FindTimeGroup.htm" />
   <HelpKINode Title="Session.GetLoginMessage method" Url="html/M_Koopman_CheckPoint_Session_GetLoginMessage.htm" />
+  <HelpKINode Title="Session.IndentJson property" Url="html/P_Koopman_CheckPoint_Session_IndentJson.htm" />
   <HelpKINode Title="Session.InstallPolicy method" Url="html/M_Koopman_CheckPoint_Session_InstallPolicy.htm" />
   <HelpKINode Title="Session.LastLoginWasAt property" Url="html/P_Koopman_CheckPoint_Session_LastLoginWasAt.htm" />
   <HelpKINode Title="Session.LoginMessage property" Url="html/P_Koopman_CheckPoint_Session_LoginMessage.htm" />
@@ -1599,21 +1597,6 @@
     <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_SessionInUseException.htm" />
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_SessionInUseException.htm" />
   </HelpKINode>
-  <HelpKINode Title="SessionOptions class">
-    <HelpKINode Title="SessionOptions Class" Url="html/T_Koopman_CheckPoint_SessionOptions.htm" />
-    <HelpKINode Title="constructor" Url="html/M_Koopman_CheckPoint_SessionOptions__ctor.htm" />
-    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_SessionOptions.htm" />
-    <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_SessionOptions.htm" />
-  </HelpKINode>
-  <HelpKINode Title="SessionOptions.CertificateValidation property" Url="html/P_Koopman_CheckPoint_SessionOptions_CertificateValidation.htm" />
-  <HelpKINode Title="SessionOptions.DetailLevelAction property" Url="html/P_Koopman_CheckPoint_SessionOptions_DetailLevelAction.htm" />
-  <HelpKINode Title="SessionOptions.IndentJson property" Url="html/P_Koopman_CheckPoint_SessionOptions_IndentJson.htm" />
-  <HelpKINode Title="SessionOptions.ManagementServer property" Url="html/P_Koopman_CheckPoint_SessionOptions_ManagementServer.htm" />
-  <HelpKINode Title="SessionOptions.Password property" Url="html/P_Koopman_CheckPoint_SessionOptions_Password.htm" />
-  <HelpKINode Title="SessionOptions.Port property" Url="html/P_Koopman_CheckPoint_SessionOptions_Port.htm" />
-  <HelpKINode Title="SessionOptions.ReadOnly property" Url="html/P_Koopman_CheckPoint_SessionOptions_ReadOnly.htm" />
-  <HelpKINode Title="SessionOptions.SessionOptions constructor" Url="html/M_Koopman_CheckPoint_SessionOptions__ctor.htm" />
-  <HelpKINode Title="SessionOptions.User property" Url="html/P_Koopman_CheckPoint_SessionOptions_User.htm" />
   <HelpKINode Title="SessionTimeout property">
     <HelpKINode Title="ServiceTCP.SessionTimeout Property " Url="html/P_Koopman_CheckPoint_ServiceTCP_SessionTimeout.htm" />
     <HelpKINode Title="ServiceUDP.SessionTimeout Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_SessionTimeout.htm" />
@@ -1924,7 +1907,6 @@
     <HelpKINode Title="ServiceUDP.UseDefaultSessionTimeout Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_UseDefaultSessionTimeout.htm" />
   </HelpKINode>
   <HelpKINode Title="UseDefaultTimeout property" Url="html/P_Koopman_CheckPoint_Common_AggressiveAging_UseDefaultTimeout.htm" />
-  <HelpKINode Title="User property" Url="html/P_Koopman_CheckPoint_SessionOptions_User.htm" />
   <HelpKINode Title="UserDefinedAlertNo1 enumeration member" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
   <HelpKINode Title="UserDefinedAlertNo2 enumeration member" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
   <HelpKINode Title="UserDefinedAlertNo3 enumeration member" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
