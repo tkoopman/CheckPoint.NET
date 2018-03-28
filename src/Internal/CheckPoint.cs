@@ -48,6 +48,24 @@ namespace Koopman.CheckPoint.Internal
             }
         }
 
+        internal static void AddIfNotNull(this JObject jo, string name, string value)
+        {
+            if (value == null) return;
+            jo.Add(name, value);
+        }
+
+        internal static void AddIfNotNull(this JObject jo, string name, bool? value)
+        {
+            if (value == null) return;
+            jo.Add(name, value);
+        }
+
+        internal static void AddIfNotNull(this JObject jo, string name, int? value)
+        {
+            if (value == null) return;
+            jo.Add(name, value);
+        }
+
         /// <summary>
         /// Returns true if string is in the format of a Check Point UID
         /// </summary>

@@ -72,29 +72,31 @@ namespace Koopman.CheckPoint
         /// <param name="sessionName">Name of the session.</param>
         /// <param name="comments">The session comments.</param>
         /// <param name="description">The session description.</param>
-        /// <param name="certificateValidation">
-        /// if set to <c>true</c> certificate validation is performed.
-        /// </param>
+        /// <param name="domain">The domain.</param>
+        /// <param name="continueLastSession">When <c>true</c> the new session would continue where the last session was stopped. This option is available when the administrator has only one session that can be continued. If there is more than one session, see <see cref="Session.SwitchSession(string)"/></param>
+        /// <param name="enterLastPublishedSession">Login to the last published session. Such login is done with the Read Only permissions.</param>
+        /// <param name="certificateValidation">if set to <c>true</c> certificate validation is performed.</param>
         /// <param name="detailLevelAction">The detail level action.</param>
         /// <param name="indentJson">if set to <c>true</c> json data sent to server will be indented.</param>
         /// <param name="port">The management server port.</param>
         /// <param name="timeout">The timeout.</param>
-        /// <param name="debugWriter">
-        /// The debug writer. WARNING: If set here the debug output WILL include your password in the
+        /// <param name="debugWriter">The debug writer. WARNING: If set here the debug output WILL include your password in the
         /// clear! Should only set here if trying to debug the login calls. Use
         /// <see cref="Session.DebugWriter" /> to set after the login has completed to avoid
-        /// including your password.
-        /// </param>
+        /// including your password.</param>
         public Session(string managementServer, string userName, string password,
-            bool readOnly = false,
+            bool? readOnly = null,
             string sessionName = null,
             string comments = null,
             string description = null,
+            string domain = null,
+            bool? continueLastSession = null,
+            bool? enterLastPublishedSession = null,
             bool certificateValidation = true,
             DetailLevelActions detailLevelAction = DetailLevelActions.ThrowException,
             bool indentJson = false,
             int port = 443,
-            int timeout = 600,
+            int? timeout = null,
             TextWriter debugWriter = null)
         {
             DebugWriter = debugWriter;
@@ -104,16 +106,19 @@ namespace Koopman.CheckPoint
 
             URL = $"https://{managementServer}:{port}/web_api/";
 
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            JObject data = new JObject()
             {
                 { "user", userName },
-                { "password", password },
-                { "read-only", readOnly },
-                { "session-name", sessionName ?? "" },
-                { "session-comments", comments ?? "" },
-                { "session-description", description ?? "" },
-                { "session-timeout", timeout }
+                { "password", password }
             };
+            data.AddIfNotNull("read-only", readOnly);
+            data.AddIfNotNull("session-name", sessionName);
+            data.AddIfNotNull("session-comments", comments);
+            data.AddIfNotNull("session-description", description);
+            data.AddIfNotNull("session-timeout", timeout);
+            data.AddIfNotNull("domain", domain);
+            data.AddIfNotNull("continue-last-session", continueLastSession);
+            data.AddIfNotNull("enter-last-published-session", enterLastPublishedSession);
 
             string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
@@ -403,15 +408,14 @@ namespace Koopman.CheckPoint
         /// <returns>LoginMessageDetails</returns>
         public LoginMessageDetails SetLoginMessage(string header = null, string message = null, bool? showMessage = null, bool? warning = null)
         {
-            JObject data = new JObject()
-            {
-                { "header", header },
-                { "message", message },
-                { "show-message", showMessage },
-                { "warning", warning }
-            };
+            JObject data = new JObject();
 
-            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+            data.AddIfNotNull("header", header);
+            data.AddIfNotNull("message", message);
+            data.AddIfNotNull("show-message", showMessage);
+            data.AddIfNotNull("warning", warning);
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
             string result = Post("set-login-message", jsonData);
 
@@ -432,12 +436,7 @@ namespace Koopman.CheckPoint
                     handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 }
 
-#if NETSTANDARD
-                if (!CertificateValidation)
-                {
-                    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                }
-#elif NET45
+#if NET45
                 if (!CertificateValidation)
                 {
                     ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
@@ -447,7 +446,10 @@ namespace Koopman.CheckPoint
                     ServicePointManager.ServerCertificateValidationCallback = null;
                 }
 #else
-#error Should never hit this
+                if (!CertificateValidation)
+                {
+                    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                }
 #endif
 
                 _httpClient = new HttpClient(handler)
