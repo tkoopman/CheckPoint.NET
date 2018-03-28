@@ -432,7 +432,7 @@ namespace Koopman.CheckPoint
                     handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 }
 
-#if NETSTANDARD2_0
+#if NETSTANDARD
                 if (!CertificateValidation)
                 {
                     handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
@@ -446,6 +446,8 @@ namespace Koopman.CheckPoint
                 {
                     ServicePointManager.ServerCertificateValidationCallback = null;
                 }
+#else
+#error Should never hit this
 #endif
 
                 _httpClient = new HttpClient(handler)

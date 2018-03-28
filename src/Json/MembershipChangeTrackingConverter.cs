@@ -42,7 +42,7 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType.IsGenericType) ?
+            return (objectType.GetTypeInfo().IsGenericType) ?
                 typeof(MembershipChangeTracking<>) == objectType.GetGenericTypeDefinition() ||
                 typeof(MemberMembershipChangeTracking<>) == objectType.GetGenericTypeDefinition()
                 : false;
@@ -55,8 +55,8 @@ namespace Koopman.CheckPoint.Json
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            ChangeAction Action = (ChangeAction)value.GetType().GetProperty("Action", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
-            List<string> ChangedMembers = (List<string>)value.GetType().GetProperty("ChangedMembers", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
+            ChangeAction Action = (ChangeAction)value.GetType().GetTypeInfo().GetProperty("Action", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
+            List<string> ChangedMembers = (List<string>)value.GetType().GetTypeInfo().GetProperty("ChangedMembers", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
 
             if (Action == ChangeAction.Set)
             {

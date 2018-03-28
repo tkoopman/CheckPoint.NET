@@ -48,7 +48,7 @@ namespace Koopman.CheckPoint.Json
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);
 
-            if (typeof(GroupWithExclusion).IsAssignableFrom(property.DeclaringType))
+            if (typeof(GroupWithExclusion).GetTypeInfo().IsAssignableFrom(property.DeclaringType))
             {
                 if (property.UnderlyingName.Equals(nameof(GroupWithExclusion.Include)) || property.UnderlyingName.Equals(nameof(GroupWithExclusion.Except)))
                 {

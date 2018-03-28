@@ -19,6 +19,7 @@
 
 using Newtonsoft.Json;
 using System;
+using System.Reflection;
 
 namespace Koopman.CheckPoint.Json
 {
@@ -37,7 +38,7 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ObjectSummary).IsAssignableFrom(objectType);
+            return typeof(ObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

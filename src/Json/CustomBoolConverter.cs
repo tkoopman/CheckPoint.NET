@@ -19,6 +19,7 @@
 
 using Newtonsoft.Json;
 using System;
+using System.Reflection;
 
 namespace Koopman.CheckPoint.Json
 {
@@ -146,7 +147,7 @@ namespace Koopman.CheckPoint.Json
 
         private static bool GetIsNullable(Type objectType)
         {
-            return (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+            return (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
         #endregion Methods

@@ -60,7 +60,7 @@ namespace Koopman.CheckPoint.Json
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);
 
-            if (typeof(ChangeTracking).IsAssignableFrom(property.DeclaringType))
+            if (typeof(ChangeTracking).GetTypeInfo().IsAssignableFrom(property.DeclaringType))
             {
                 bool useUID = (GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID);
                 if (property.UnderlyingName.Equals(nameof(ObjectSummary.UID)))
@@ -92,7 +92,7 @@ namespace Koopman.CheckPoint.Json
                         property.PropertyName = "new-name";
                     }
 
-                    if (typeof(IChangeTracking).IsAssignableFrom(((PropertyInfo)member).PropertyType))
+                    if (typeof(IChangeTracking).GetTypeInfo().IsAssignableFrom(((PropertyInfo)member).PropertyType))
                     {
                         // For properties that implement IChangeTracking check it's IsChanged value.
                         property.ShouldSerialize =

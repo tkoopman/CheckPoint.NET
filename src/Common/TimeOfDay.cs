@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -300,7 +301,7 @@ namespace Koopman.CheckPoint.Common
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (typeof(int).IsAssignableFrom(obj.GetType()))
+            if (typeof(int).GetTypeInfo().IsAssignableFrom(obj.GetType()))
             {
                 return (int)obj == Minutes;
             }

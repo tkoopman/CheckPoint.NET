@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Reflection;
+using System.Linq;
 
 namespace Koopman.CheckPoint.Json
 {
@@ -40,7 +41,8 @@ namespace Koopman.CheckPoint.Json
         /// <inheritdoc />
         public override bool CanConvert(Type objectType)
         {
-            ConstructorInfo ci = objectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(Session) }, null);
+            //ConstructorInfo ci = objectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(Session) }, null);
+            ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.SingleOrDefault(c => (c.GetParameters().Length == 1 && c.GetParameters().First().ParameterType == typeof(Session)));
             return ci != null;
         }
 
@@ -51,7 +53,8 @@ namespace Koopman.CheckPoint.Json
 
             if (result == null)
             {
-                ConstructorInfo ci = objectType.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(Session) }, null);
+                //ConstructorInfo ci = objectType.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(Session) }, null);
+                ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.Single(c => c.GetParameters().Length == 1 && c.GetParameters().First().ParameterType == typeof(Session));
                 if (ci == null) { throw new Exception("Unable to find constructor that accepts Session parameter"); }
                 result = ci.Invoke(new object[] { Session });
             }

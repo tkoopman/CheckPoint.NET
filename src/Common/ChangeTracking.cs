@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -51,9 +52,9 @@ namespace Koopman.CheckPoint.Common
                 }
                 else
                 {
-                    foreach (var p in GetType().GetProperties())
+                    foreach (var p in GetType().GetTypeInfo().GetProperties())
                     {
-                        if (typeof(IChangeTracking).IsAssignableFrom(p.PropertyType))
+                        if (typeof(IChangeTracking).GetTypeInfo().IsAssignableFrom(p.PropertyType))
                         {
                             IChangeTracking v = (IChangeTracking)p.GetValue(this);
                             if (v != null && v.IsChanged)
