@@ -339,11 +339,8 @@ namespace Koopman.CheckPoint
             }
             string result = null;
 
-            if (DebugWriter != null)
-            {
-                DebugWriter.WriteLine($@"{$" Posting Command: {command} ".CenterString(60, '-')}
+            WriteDebug($@"{$" Posting Command: {command} ".CenterString(60, '-')}
 {json}");
-            }
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             if (command != "login")
@@ -357,15 +354,11 @@ namespace Koopman.CheckPoint
             {
                 result = await response.Content.ReadAsStringAsync();
 
-                if (DebugWriter != null)
-                {
-                    DebugWriter.WriteLine(
+                WriteDebug(
                         $@"{$" HTTP response {response.StatusCode} ".CenterString(60, '-')}
 {result}
 {"".CenterString(60, '-')}"
-
                     );
-                }
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -464,7 +457,11 @@ namespace Koopman.CheckPoint
 
         internal void WriteDebug(string message)
         {
-            DebugWriter?.WriteLine(message);
+            if (DebugWriter != null)
+            {
+                DebugWriter.WriteLine(message);
+                DebugWriter.Flush();
+            }
         }
 
         private string UIDToJson(string uid)
