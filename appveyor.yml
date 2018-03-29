@@ -71,6 +71,6 @@ deploy:
   force_update: true
 after_deploy:
   - ps: |
-    if (!$env:PreRelease) {
-      .\AppVeyor_Deploy_gh-pages.ps1
-    }
+      if (!$env:PreRelease) {
+        .\AppVeyor_Deploy_gh-pages.ps1
+      }
