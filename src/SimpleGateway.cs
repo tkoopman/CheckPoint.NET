@@ -68,8 +68,14 @@ namespace Koopman.CheckPoint
         /// Create new <see cref="SimpleGateway" />.
         /// </summary>
         /// <param name="session">The current session.</param>
-        public SimpleGateway(Session session) : this(session, DetailLevels.Full)
+        /// <param name="setIfExists">
+        /// if set to <c>true</c> if another object with the same name already exists, it will be
+        /// updated. Pay attention that original object's fields will be overwritten by the fields
+        /// provided in the request payload!.
+        /// </param>
+        public SimpleGateway(Session session, bool setIfExists = false) : this(session, DetailLevels.Full)
         {
+            SetIfExists = setIfExists;
         }
 
         /// <summary>

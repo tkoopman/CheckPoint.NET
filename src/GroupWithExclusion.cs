@@ -28,7 +28,7 @@ namespace Koopman.CheckPoint
     /// Group with Exclusion Class
     /// </summary>
     /// <example>
-    /// Add new group with exclusion using <see cref="GroupWithExclusion.GroupWithExclusion(Session)" />
+    /// Add new group with exclusion using <see cref="GroupWithExclusion.GroupWithExclusion(Session, bool)" />
     /// <code>
     /// var gwe = new GroupWithExclusion(Session) {
     ///     Name = "MyGroupWithExclusion",
@@ -68,8 +68,14 @@ namespace Koopman.CheckPoint
         /// </code>
         /// </example>
         /// <param name="session">The current session.</param>
-        public GroupWithExclusion(Session session) : base(session, DetailLevels.Full)
+        /// <param name="setIfExists">
+        /// if set to <c>true</c> if another object with the same name already exists, it will be
+        /// updated. Pay attention that original object's fields will be overwritten by the fields
+        /// provided in the request payload!.
+        /// </param>
+        public GroupWithExclusion(Session session, bool setIfExists = false) : base(session, DetailLevels.Full)
         {
+            SetIfExists = setIfExists;
         }
 
         /// <summary>

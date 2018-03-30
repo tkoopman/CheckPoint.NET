@@ -32,6 +32,7 @@ namespace Tests
 
         public Session Session { get; private set; }
         public TestContext TestContext { get; set; }
+        private bool DebugAll { get; set; }
         private TextWriter DebugWriter { get; } = new StringWriter();
 
         #endregion Properties
@@ -45,7 +46,8 @@ namespace Tests
             DebugWriter.WriteLine($" Completed test {TestContext.TestName} ".CenterString(60, '#'));
             Session.Discard();
             Session.Logout();
-            TestContext.WriteLine(DebugWriter.ToString());
+            if (DebugAll || TestContext.CurrentTestOutcome != UnitTestOutcome.Passed)
+                TestContext.WriteLine(DebugWriter.ToString());
             DebugWriter.Close();
         }
 
@@ -56,12 +58,16 @@ namespace Tests
             string User = TestContext.Properties["User"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtUser");
             string Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
 
+            DebugAll = Environment.GetEnvironmentVariable("APPVEYOR") == null;
+
             Session = new Session(
                          managementServer: ManagementServer,
                          userName: User,
                          password: Password,
                          certificateValidation: false,
-                         indentJson: true
+                         indentJson: true,
+                         sessionName: "CheckPoint.NET Test",
+                         description: TestContext.TestName
                      );
 
             Session.DebugWriter = DebugWriter;

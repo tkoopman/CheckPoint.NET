@@ -5,14 +5,8 @@ init:
   - ps: |
       $InfoVer = $env:APPVEYOR_REPO_TAG_NAME.TrimStart("v");
       $Ver = $InfoVer.Split("-")[0];
-      $Prerelease = $InfoVer.Contains("-")
-      if ($Prerelease) 
-      {
-        $Ver = "$($Ver).$($env:APPVEYOR_BUILD_NUMBER)"
-      }
       Set-AppveyorBuildVariable -Name "InfomationalVersion" -Value $InfoVer
       Set-AppveyorBuildVariable -Name "FileVersion" -Value $Ver
-      Set-AppveyorBuildVariable -Name "PreRelease" -Value $Prerelease
       Update-AppveyorBuild -Version $InfoVer
 assembly_info:
   patch: true
@@ -70,7 +64,4 @@ deploy:
   draft: true
   force_update: true
 after_deploy:
-  - ps: |
-      if (!$env:PreRelease) {
-        .\AppVeyor_Deploy_gh-pages.ps1
-      }
+  - ps: .\AppVeyor_Deploy_gh-pages.ps1

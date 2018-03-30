@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
@@ -43,6 +44,15 @@ namespace Tests
         public void Delete()
         {
             Session.DeleteAddressRange(v4Name);
+        }
+
+        [TestMethod]
+        public void FastUpdate()
+        {
+            var a = Session.UpdateAddressRange(v4Name);
+            a.Comments = "Blah";
+            a.AcceptChanges();
+            Assert.AreEqual("Blah", a.Comments);
         }
 
         [TestMethod]

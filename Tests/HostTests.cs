@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
@@ -43,6 +44,19 @@ namespace Tests
         public void Delete()
         {
             Session.DeleteHost(Name);
+        }
+
+        [TestMethod]
+        public void FastUpdate()
+        {
+            string set = $"Not {Name}";
+
+            var a = Session.UpdateHost(Name);
+            a.Name = set;
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
@@ -87,7 +101,7 @@ namespace Tests
         {
             string name = $"New {Name}";
 
-            var a = new Host(Session)
+            var a = new Host(Session, true)
             {
                 Name = name,
                 IPv4Address = IP

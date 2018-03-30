@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
@@ -35,6 +36,25 @@ namespace Tests
         #endregion Fields
 
         #region Methods
+
+        [TestMethod]
+        public void FastUpdate()
+        {
+            var a = Session.UpdateTime(SetName);
+            a.Recurrence = new Time.RecurrenceClass()
+            {
+                Pattern = Time.RecurrencePattern.Monthly,
+                Month = Months.May
+            };
+
+            a.Recurrence.Days.Add("1");
+
+            a.Groups.Add(GroupName);
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(Months.May, a.Recurrence.Month);
+        }
 
         [TestMethod]
         public void Find()
@@ -118,20 +138,6 @@ namespace Tests
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
             Assert.AreEqual(Days.Monday | Days.Wednesday | Days.Friday, a.Recurrence.Weekdays);
-        }
-
-        [TestMethod]
-        public void Set2()
-        {
-            var a = Session.FindTime(SetName);
-            a.Recurrence.Pattern = Time.RecurrencePattern.Monthly;
-            a.Recurrence.Month = Months.May;
-            a.Recurrence.Days.Add("1");
-            a.Groups.Add(GroupName);
-            Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(Months.May, a.Recurrence.Month);
         }
 
         #endregion Methods

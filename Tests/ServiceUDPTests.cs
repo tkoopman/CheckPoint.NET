@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
@@ -33,6 +34,18 @@ namespace Tests
         #endregion Fields
 
         #region Methods
+
+        [TestMethod]
+        public void FastUpdate()
+        {
+            string set = $"Not{Name}";
+            var a = Session.UpdateServiceUDP(Name);
+            a.Name = set;
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(set, a.Name);
+        }
 
         [TestMethod]
         public void Find()

@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
@@ -44,6 +45,19 @@ namespace Tests
         public void Delete()
         {
             Session.DeleteSimpleGateway(Name);
+        }
+
+        [TestMethod]
+        public void FastUpdate()
+        {
+            string set = $"Not_{Name}";
+
+            var a = Session.UpdateSimpleGateway(Name);
+            a.Name = set;
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
