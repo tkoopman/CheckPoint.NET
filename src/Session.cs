@@ -55,6 +55,7 @@ namespace Koopman.CheckPoint
     {
         #region Fields
 
+        private static Random random = new Random();
         private HttpClient _httpClient = null;
         private bool _isDisposed = false;
 
@@ -246,15 +247,6 @@ namespace Koopman.CheckPoint
         #endregion Properties
 
         #region Session Methods
-
-        private static Random random = new Random();
-
-        public static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
 
         /// <summary>
         /// Logout of session and continue the session in smartconsole.
@@ -476,6 +468,13 @@ namespace Koopman.CheckPoint
                 DebugWriter.WriteLine(message);
                 DebugWriter.Flush();
             }
+        }
+
+        private static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         private string UIDToJson(string uid)
