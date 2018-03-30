@@ -30,7 +30,7 @@ namespace Koopman.CheckPoint
     /// Check Point Network Object
     /// </summary>
     /// <example>
-    /// Add new network using <see cref="Network.Network(Session)" />
+    /// Add new network using <see cref="Network.Network(Session, bool)" />
     /// <code>
     /// var n = new Network(Session) {
     ///     Name = "MyNetwork",
@@ -76,8 +76,14 @@ namespace Koopman.CheckPoint
         /// </code>
         /// </example>
         /// <param name="session">The current session.</param>
-        public Network(Session session) : this(session, DetailLevels.Full)
+        /// <param name="setIfExists">
+        /// if set to <c>true</c> if another object with the same name already exists, it will be
+        /// updated. Pay attention that original object's fields will be overwritten by the fields
+        /// provided in the request payload!.
+        /// </param>
+        public Network(Session session, bool setIfExists = false) : this(session, DetailLevels.Full)
         {
+            SetIfExists = setIfExists;
         }
 
         /// <summary>

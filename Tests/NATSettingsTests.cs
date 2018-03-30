@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
@@ -38,7 +39,7 @@ namespace Tests
         [TestMethod]
         public void HideGateway()
         {
-            var a = Session.FindHost(Name);
+            var a = Session.UpdateHost(Name);
             a.NATSettings = new NATSettings()
             {
                 AutoRule = true,
@@ -51,7 +52,7 @@ namespace Tests
         [TestMethod]
         public void None()
         {
-            var a = Session.FindHost(Name);
+            var a = Session.UpdateHost(Name);
             a.NATSettings = new NATSettings();
             a.AcceptChanges();
         }
@@ -59,7 +60,7 @@ namespace Tests
         [TestMethod]
         public void StaticIP()
         {
-            var a = Session.FindHost(Name);
+            var a = Session.UpdateHost(Name);
             a.NATSettings = new NATSettings()
             {
                 AutoRule = true,

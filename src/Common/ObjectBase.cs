@@ -35,6 +35,7 @@ namespace Koopman.CheckPoint.Common
         private string _icon;
         private MetaInfo _metaInfo;
         private bool _readOnly;
+        private bool _setIfExists = false;
         private MemberMembershipChangeTracking<Tag> _tags;
 
         #endregion Fields
@@ -134,6 +135,22 @@ namespace Koopman.CheckPoint.Common
         {
             get => _tags;
             internal set => _tags = value;
+        }
+
+        /// <summary>
+        /// If another object with the same name already exists, it will be updated. Pay attention
+        /// that original object's fields will be overwritten by the fields provided in the request payload!
+        /// </summary>
+        [JsonProperty(PropertyName = "set-if-exists")]
+        protected bool SetIfExists
+        {
+            get => _setIfExists;
+            set
+            {
+                if (_setIfExists == value) return;
+                _setIfExists = value;
+                OnPropertyChanged();
+            }
         }
 
         #endregion Properties

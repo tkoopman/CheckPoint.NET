@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
@@ -46,6 +47,15 @@ namespace Tests
         public void Delete()
         {
             Session.DeleteNetwork(v4Name);
+        }
+
+        [TestMethod]
+        public void FastUpdate()
+        {
+            var a = Session.UpdateNetwork(v4Name);
+            a.Comments = "Blah";
+            a.AcceptChanges();
+            Assert.AreEqual("Blah", a.Comments);
         }
 
         [TestMethod]

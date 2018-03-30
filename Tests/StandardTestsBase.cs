@@ -61,7 +61,9 @@ namespace Tests
                          userName: User,
                          password: Password,
                          certificateValidation: false,
-                         indentJson: true
+                         indentJson: true,
+                         sessionName: "CheckPoint.NET Test",
+                         description: TestContext.TestName
                      );
 
             Session.DebugWriter = DebugWriter;

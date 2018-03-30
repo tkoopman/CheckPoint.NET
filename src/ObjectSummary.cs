@@ -169,7 +169,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <value>The uid.</value>
         [JsonProperty(PropertyName = "uid")]
-        public string UID { get; private set; }
+        public string UID { get; internal set; }
 
         /// <summary>
         /// Gets the name of the object before any changes. Used when sending updates that may

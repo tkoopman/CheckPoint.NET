@@ -29,7 +29,7 @@ namespace Koopman.CheckPoint
     /// Address Range Class.
     /// </summary>
     /// <example>
-    /// Add new address range using <see cref="AddressRange.AddressRange(Session)" />
+    /// Add new address range using <see cref="AddressRange.AddressRange(Session, bool)" />
     /// <code>
     /// var ar = new AddressRange(Session) {
     /// Name = "MyAddressRange",
@@ -64,6 +64,11 @@ namespace Koopman.CheckPoint
         /// Create a new <see cref="AddressRange" />.
         /// </summary>
         /// <param name="session">The current session.</param>
+        /// <param name="setIfExists">
+        /// if set to <c>true</c> if another object with the same name already exists, it will be
+        /// updated. Pay attention that original object's fields will be overwritten by the fields
+        /// provided in the request payload!.
+        /// </param>
         /// <example>
         /// <code>
         /// var ar = new AddressRange(Session) {
@@ -74,8 +79,9 @@ namespace Koopman.CheckPoint
         /// ar.AcceptChanges();
         /// </code>
         /// </example>
-        public AddressRange(Session session) : this(session, DetailLevels.Full)
+        public AddressRange(Session session, bool setIfExists = false) : this(session, DetailLevels.Full)
         {
+            SetIfExists = setIfExists;
         }
 
         /// <summary>

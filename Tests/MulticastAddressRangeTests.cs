@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
@@ -43,6 +44,16 @@ namespace Tests
         public void Delete()
         {
             Session.DeleteMulticastAddressRange(v6Name);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectLockedException))]
+        public void FastUpdate()
+        {
+            var a = Session.UpdateMulticastAddressRange(v6Name);
+            a.Comments = "Blah";
+            a.AcceptChanges();
+            Assert.AreEqual("Blah", a.Comments);
         }
 
         [TestMethod]

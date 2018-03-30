@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -37,7 +38,7 @@ namespace Tests
         [TestMethod]
         public void TestAllColors()
         {
-            var a = Session.FindHost(Name);
+            var a = Session.UpdateHost(Name);
             foreach (Colors c in Enum.GetValues(typeof(Colors)))
             {
                 a.Color = c;
