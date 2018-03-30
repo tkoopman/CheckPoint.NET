@@ -73,17 +73,27 @@ namespace Koopman.CheckPoint
         /// <param name="comments">The session comments.</param>
         /// <param name="description">The session description.</param>
         /// <param name="domain">The domain.</param>
-        /// <param name="continueLastSession">When <c>true</c> the new session would continue where the last session was stopped. This option is available when the administrator has only one session that can be continued. If there is more than one session, see <see cref="Session.SwitchSession(string)"/></param>
-        /// <param name="enterLastPublishedSession">Login to the last published session. Such login is done with the Read Only permissions.</param>
-        /// <param name="certificateValidation">if set to <c>true</c> certificate validation is performed.</param>
+        /// <param name="continueLastSession">
+        /// When <c>true</c> the new session would continue where the last session was stopped. This
+        /// option is available when the administrator has only one session that can be continued. If
+        /// there is more than one session, see <see cref="Session.SwitchSession(string)" />
+        /// </param>
+        /// <param name="enterLastPublishedSession">
+        /// Login to the last published session. Such login is done with the Read Only permissions.
+        /// </param>
+        /// <param name="certificateValidation">
+        /// if set to <c>true</c> certificate validation is performed.
+        /// </param>
         /// <param name="detailLevelAction">The detail level action.</param>
         /// <param name="indentJson">if set to <c>true</c> json data sent to server will be indented.</param>
         /// <param name="port">The management server port.</param>
         /// <param name="timeout">The timeout.</param>
-        /// <param name="debugWriter">The debug writer. WARNING: If set here the debug output WILL include your password in the
+        /// <param name="debugWriter">
+        /// The debug writer. WARNING: If set here the debug output WILL include your password in the
         /// clear! Should only set here if trying to debug the login calls. Use
         /// <see cref="Session.DebugWriter" /> to set after the login has completed to avoid
-        /// including your password.</param>
+        /// including your password.
+        /// </param>
         public Session(string managementServer, string userName, string password,
             bool? readOnly = null,
             string sessionName = null,
@@ -237,6 +247,15 @@ namespace Koopman.CheckPoint
 
         #region Session Methods
 
+        private static Random random = new Random();
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         /// <summary>
         /// Logout of session and continue the session in smartconsole.
         /// </summary>
@@ -339,8 +358,7 @@ namespace Koopman.CheckPoint
             }
             string result = null;
 
-            WriteDebug($@"{$" Posting Command: {command} ".CenterString(60, '-')}
-{json}");
+            string debugIP = WriteDebug(command, json);
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             if (command != "login")
@@ -354,11 +372,7 @@ namespace Koopman.CheckPoint
             {
                 result = await response.Content.ReadAsStringAsync();
 
-                WriteDebug(
-                        $@"{$" HTTP response {response.StatusCode} ".CenterString(60, '-')}
-{result}
-{"".CenterString(60, '-')}"
-                    );
+                WriteDebug(debugIP, response.StatusCode, result);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -470,6 +484,33 @@ namespace Koopman.CheckPoint
             if (uid != null) { jObject.Add("uid", uid); }
             string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting); ;
             return jsonData;
+        }
+
+        private string WriteDebug(string command, string data)
+        {
+            if (DebugWriter != null)
+            {
+                string id = RandomString(8);
+
+                DebugWriter.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
+{data}
+");
+                DebugWriter.Flush();
+
+                return id;
+            }
+            else return null;
+        }
+
+        private void WriteDebug(string id, HttpStatusCode code, string data)
+        {
+            if (DebugWriter != null)
+            {
+                DebugWriter.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
+{data}
+");
+                DebugWriter.Flush();
+            }
         }
 
         #region SessionInfo Methods
