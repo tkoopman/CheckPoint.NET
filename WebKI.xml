@@ -281,6 +281,26 @@
   <HelpKINode Title="Except property" Url="html/P_Koopman_CheckPoint_GroupWithExclusion_Except.htm" />
   <HelpKINode Title="External enumeration member" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Topology.htm" />
   <HelpKINode Title="Failed enumeration member" Url="html/T_Koopman_CheckPoint_Task_TaskStatus.htm" />
+  <HelpKINode Title="FastUpdate class">
+    <HelpKINode Title="FastUpdate Class" Url="html/T_Koopman_CheckPoint_FastUpdate_FastUpdate.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_FastUpdate_FastUpdate.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FastUpdate.UpdateAddressRange method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateAddressRange.htm" />
+  <HelpKINode Title="FastUpdate.UpdateGroup method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateGroup.htm" />
+  <HelpKINode Title="FastUpdate.UpdateGroupWithExclusion method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateGroupWithExclusion.htm" />
+  <HelpKINode Title="FastUpdate.UpdateHost method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateHost.htm" />
+  <HelpKINode Title="FastUpdate.UpdateMulticastAddressRange method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateMulticastAddressRange.htm" />
+  <HelpKINode Title="FastUpdate.UpdateNetwork method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateNetwork.htm" />
+  <HelpKINode Title="FastUpdate.UpdateSecurityZone method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateSecurityZone.htm" />
+  <HelpKINode Title="FastUpdate.UpdateServiceGroup method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceGroup.htm" />
+  <HelpKINode Title="FastUpdate.UpdateServiceICMP method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceICMP.htm" />
+  <HelpKINode Title="FastUpdate.UpdateServiceICMP6 method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceICMP6.htm" />
+  <HelpKINode Title="FastUpdate.UpdateServiceTCP method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceTCP.htm" />
+  <HelpKINode Title="FastUpdate.UpdateServiceUDP method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceUDP.htm" />
+  <HelpKINode Title="FastUpdate.UpdateSimpleGateway method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateSimpleGateway.htm" />
+  <HelpKINode Title="FastUpdate.UpdateTag method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateTag.htm" />
+  <HelpKINode Title="FastUpdate.UpdateTime method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateTime.htm" />
+  <HelpKINode Title="FastUpdate.UpdateTimeGroup method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateTimeGroup.htm" />
   <HelpKINode Title="February enumeration member" Url="html/T_Koopman_CheckPoint_Months.htm" />
   <HelpKINode Title="FindAddressRange method" Url="html/M_Koopman_CheckPoint_Session_FindAddressRange.htm" />
   <HelpKINode Title="FindAllAddressRanges method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllAddressRanges.htm" />
@@ -729,6 +749,8 @@
   <HelpKINode Title="Koopman.CheckPoint.Exceptions.UnknownAPIVersionException class" Url="html/T_Koopman_CheckPoint_Exceptions_UnknownAPIVersionException.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Exceptions.ValidationFailedException class" Url="html/T_Koopman_CheckPoint_Exceptions_ValidationFailedException.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Exceptions.WrongSessionIDException class" Url="html/T_Koopman_CheckPoint_Exceptions_WrongSessionIDException.htm" />
+  <HelpKINode Title="Koopman.CheckPoint.FastUpdate namespace" Url="html/N_Koopman_CheckPoint_FastUpdate.htm" />
+  <HelpKINode Title="Koopman.CheckPoint.FastUpdate.FastUpdate class" Url="html/T_Koopman_CheckPoint_FastUpdate_FastUpdate.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Group class" Url="html/T_Koopman_CheckPoint_Group.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Group.Order class" Url="html/T_Koopman_CheckPoint_Group_Order.htm" />
   <HelpKINode Title="Koopman.CheckPoint.GroupWithExclusion class" Url="html/T_Koopman_CheckPoint_GroupWithExclusion.htm" />
@@ -1241,22 +1263,22 @@
   <HelpKINode Title="Orange enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Orchid enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Order class">
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceTCP_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_TimeGroup_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_MulticastAddressRange_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Network_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SecurityZone_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceTCP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_TimeGroup_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_AddressRange_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceGroup_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceUDP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP6_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceGroup_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm" />
   </HelpKINode>
   <HelpKINode Title="OSName property" Url="html/P_Koopman_CheckPoint_SimpleGateway_OSName.htm" />
   <HelpKINode Title="OverrideDefaultSettings property">
@@ -1299,6 +1321,7 @@
   </HelpKINode>
   <HelpKINode Title="PublishTime property" Url="html/P_Koopman_CheckPoint_SessionInfo_PublishTime.htm" />
   <HelpKINode Title="Purple enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
+  <HelpKINode Title="RandomString method" Url="html/M_Koopman_CheckPoint_Session_RandomString.htm" />
   <HelpKINode Title="ReadOnly enumeration member" Url="html/T_Koopman_CheckPoint_SessionInfo_ConnectionModes.htm" />
   <HelpKINode Title="ReadOnly property">
     <HelpKINode Title="ObjectBase.ReadOnly Property " Url="html/P_Koopman_CheckPoint_Common_ObjectBase_ReadOnly.htm" />
@@ -1344,8 +1367,8 @@
   <HelpKINode Title="SaveLogsLocally property" Url="html/P_Koopman_CheckPoint_SimpleGateway_SaveLogsLocally.htm" />
   <HelpKINode Title="SeaGreen enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="SecurityZone class">
-    <HelpKINode Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SecurityZone.htm" />
     <HelpKINode Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone.htm" />
+    <HelpKINode Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SecurityZone.htm" />
     <HelpKINode Title="constructor" Url="html/M_Koopman_CheckPoint_SecurityZone__ctor.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_SecurityZone.htm" />
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_SecurityZone.htm" />
@@ -1542,6 +1565,7 @@
   <HelpKINode Title="Session.Post method" Url="html/M_Koopman_CheckPoint_Session_Post.htm" />
   <HelpKINode Title="Session.PostAsync method" Url="html/M_Koopman_CheckPoint_Session_PostAsync.htm" />
   <HelpKINode Title="Session.Publish method" Url="html/M_Koopman_CheckPoint_Session_Publish.htm" />
+  <HelpKINode Title="Session.RandomString method" Url="html/M_Koopman_CheckPoint_Session_RandomString.htm" />
   <HelpKINode Title="Session.ReadOnly property" Url="html/P_Koopman_CheckPoint_Session_ReadOnly.htm" />
   <HelpKINode Title="Session.RunScript method" Url="html/Overload_Koopman_CheckPoint_Session_RunScript.htm" />
   <HelpKINode Title="Session.SendKeepAlive method" Url="html/M_Koopman_CheckPoint_Session_SendKeepAlive.htm" />
@@ -1900,6 +1924,22 @@
   </HelpKINode>
   <HelpKINode Title="Unlocked enumeration member" Url="html/T_Koopman_CheckPoint_LockStates.htm" />
   <HelpKINode Title="UpdateAccountLogEvery property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_UpdateAccountLogEvery.htm" />
+  <HelpKINode Title="UpdateAddressRange method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateAddressRange.htm" />
+  <HelpKINode Title="UpdateGroup method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateGroup.htm" />
+  <HelpKINode Title="UpdateGroupWithExclusion method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateGroupWithExclusion.htm" />
+  <HelpKINode Title="UpdateHost method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateHost.htm" />
+  <HelpKINode Title="UpdateMulticastAddressRange method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateMulticastAddressRange.htm" />
+  <HelpKINode Title="UpdateNetwork method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateNetwork.htm" />
+  <HelpKINode Title="UpdateSecurityZone method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateSecurityZone.htm" />
+  <HelpKINode Title="UpdateServiceGroup method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceGroup.htm" />
+  <HelpKINode Title="UpdateServiceICMP method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceICMP.htm" />
+  <HelpKINode Title="UpdateServiceICMP6 method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceICMP6.htm" />
+  <HelpKINode Title="UpdateServiceTCP method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceTCP.htm" />
+  <HelpKINode Title="UpdateServiceUDP method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateServiceUDP.htm" />
+  <HelpKINode Title="UpdateSimpleGateway method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateSimpleGateway.htm" />
+  <HelpKINode Title="UpdateTag method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateTag.htm" />
+  <HelpKINode Title="UpdateTime method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateTime.htm" />
+  <HelpKINode Title="UpdateTimeGroup method" Url="html/M_Koopman_CheckPoint_FastUpdate_FastUpdate_UpdateTimeGroup.htm" />
   <HelpKINode Title="URL property" Url="html/P_Koopman_CheckPoint_Session_URL.htm" />
   <HelpKINode Title="URLFiltering property" Url="html/P_Koopman_CheckPoint_SimpleGateway_URLFiltering.htm" />
   <HelpKINode Title="UseDefaultSessionTimeout property">
