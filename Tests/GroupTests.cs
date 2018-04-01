@@ -126,6 +126,18 @@ namespace Tests
             a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
+
+            a.Members.Add(Add);
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(1, a.Members.Count);
+
+            a.Members.Clear();
+            Assert.IsTrue(a.IsChanged);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(0, a.Members.Count);
         }
 
         #endregion Methods

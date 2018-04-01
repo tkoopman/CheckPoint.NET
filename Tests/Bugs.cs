@@ -36,6 +36,23 @@ namespace Tests
         #region Methods
 
         /// <summary>
+        /// Bug that shows unable to clear all tags by sending empty array. Had also tried sending "" but that fails with errors. Also tried null but that did same as empty array.
+        /// </summary>
+        [TestMethod]
+        public void ClearTags()
+        {
+            var a = Session.FindHost("DNS Server");
+            a.Tags.Clear();
+            a.Tags.Add("TestTag");
+            a.AcceptChanges();
+
+            a.Tags.Clear();
+            a.AcceptChanges();
+            // Should equal 0
+            Assert.AreEqual(1, a.Tags.Count);
+        }
+
+        /// <summary>
         /// Bug that shows no way to clear an IP address once one is set.
         /// </summary>
         [TestMethod]
