@@ -32,8 +32,10 @@ namespace Koopman.CheckPoint
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum DetailLevels
     {
-        // Not currently allowing UID option
-        //UID,
+        /// <summary>
+        /// Only the UID of objects will be returned.
+        /// </summary>
+        UID,
 
         /// <summary>
         /// Check Point standard level of detail

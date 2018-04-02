@@ -90,6 +90,14 @@ namespace Tests
         }
 
         [TestMethod]
+        public void FindAllUIDs()
+        {
+            var a = Session.FindAllNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.UID);
+            Assert.IsNotNull(a);
+            a = a.NextPage();
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
         public void FindNotFound()
         {
