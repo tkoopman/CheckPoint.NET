@@ -98,7 +98,7 @@ namespace Tests
         [TestMethod]
         public void Finds()
         {
-            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc);
+            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.Full);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

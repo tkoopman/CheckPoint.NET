@@ -43,6 +43,8 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
         {
+            var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
+
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
             {
                 { "details-level", DetailLevel.ToString() },
@@ -55,10 +57,11 @@ namespace Koopman.CheckPoint.Internal
 
             string result = Session.Post(Command, jsonData);
 
-            NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevel, DetailLevel) } });
+            NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
             if (results != null)
             {
+                objectConverter.PostDeserilization(results);
                 results.Next = delegate ()
                 {
                     if (results.To == results.Total) { return null; }
@@ -84,6 +87,8 @@ namespace Koopman.CheckPoint.Internal
         /// <returns></returns>
         internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
         {
+            var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
+
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
             {
                 { "filter", Filter },
@@ -99,10 +104,11 @@ namespace Koopman.CheckPoint.Internal
 
             string result = Session.Post("show-objects", jsonData);
 
-            NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevel, DetailLevel) } });
+            NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
             if (results != null)
             {
+                objectConverter.PostDeserilization(results);
                 results.Next = delegate ()
                 {
                     if (results.To == results.Total) { return null; }
@@ -118,7 +124,7 @@ namespace Koopman.CheckPoint.Internal
         #region Classes
 
         /// <summary>
-        /// Default values that should be used whereever FindAll class is used.
+        /// Default values that should be used where ever FindAll class is used.
         /// </summary>
         internal static class Defaults
         {

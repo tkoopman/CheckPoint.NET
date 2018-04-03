@@ -1308,7 +1308,6 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Networks</returns>
         public Network[] FindAllNetworks

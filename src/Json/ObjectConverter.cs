@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -110,12 +111,13 @@ namespace Koopman.CheckPoint.Json
             }
             else
             {
-                PropertyInfo property = o.GetType().GetTypeInfo().DeclaredProperties.Single(
+                var type = o.GetType().GetTypeInfo();
+                PropertyInfo property = type.GetAllProperties().FirstOrDefault(
                             p => p.Name.Equals("HasUpdatedGenericMembers"));
 
                 if (property == null || property.GetValue(o).Equals(true)) return;
 
-                MethodInfo method = o.GetType().GetTypeInfo().DeclaredMethods.Single(
+                MethodInfo method = type.GetAllMethods().FirstOrDefault(
                             c => c.Name.Equals("UpdateGenericMembers") &&
                             c.GetParameters().Length == 1 &&
                             c.GetParameters().First().ParameterType == typeof(ObjectConverter));

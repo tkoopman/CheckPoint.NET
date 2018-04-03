@@ -82,6 +82,8 @@ namespace Koopman.CheckPoint.Common
                     if (summary != null)
                         Members[x] = (T)summary;
                 }
+                else
+                    objectConverter.PostDeserilization(Members[x]);
         }
 
         #endregion Methods
