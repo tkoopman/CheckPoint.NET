@@ -90,14 +90,13 @@ namespace Koopman.CheckPoint.Json
         }
 
         /// <summary>
-        /// Posts the deserilization. This will call UpdateGenericMembers(ObjectConverter) on each
-        /// returned object if HasUpdatedGenericMembers equals false. Each object can then do what
-        /// ever it needs to update things like groups with the cached version if one exists. This is
-        /// used in cases where the UID was used before the object matching the UID was details in
-        /// the JSON response.
+        /// This will call UpdateGenericMembers(ObjectConverter) on each returned object if
+        /// HasUpdatedGenericMembers equals false. Each object can then do what ever it needs to
+        /// update things like groups with the cached version if one exists. This is used in cases
+        /// where the UID was used before the object matching the UID was details in the JSON response.
         /// </summary>
         /// <remarks>
-        /// This needs to be called manually wherever ObjectConverter is used before returnign results.
+        /// This needs to be called manually wherever ObjectConverter is used before returning results.
         /// </remarks>
         public void PostDeserilization(object o)
         {
