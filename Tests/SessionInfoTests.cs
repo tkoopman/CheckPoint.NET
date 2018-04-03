@@ -43,6 +43,13 @@ namespace Tests
         }
 
         [TestMethod]
+        public void Finds()
+        {
+            var a = Session.FindSessions(limit: 5, viewPublishedSessions: true);
+            Assert.IsNotNull(a);
+        }
+
+        [TestMethod]
         public void SetInfo()
         {
             string name = "Session Name";
