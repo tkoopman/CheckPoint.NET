@@ -74,6 +74,7 @@ namespace Koopman.CheckPoint
     /// <summary>
     /// The basic summary information of a Check Point object
     /// </summary>
+    /// <typeparam name="T">Type from derived classes</typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
     public class ObjectSummary<T> : ChangeTracking, IObjectSummary where T : IObjectSummary
     {
@@ -297,13 +298,11 @@ namespace Koopman.CheckPoint
         /// Reloads the current object. Used to either reset changes made without saving, or to
         /// increased the <paramref name="detailLevel" /> to <see cref="DetailLevels.Full" />
         /// </summary>
-        /// <param name="OnlyIfPartial">
-        /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
-        /// </param>
+        /// <param name="OnlyIfPartial">Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" /></param>
         /// <param name="detailLevel">The detail level to retrieve.</param>
-        /// <exception cref="System.NotImplementedException">
-        /// Thrown when the objects of this Type have not been fully implemented yet.
-        /// </exception>
+        /// <returns><c>this</c></returns>
+        /// <exception cref="System.NotImplementedException">Thrown when the objects of this Type have not been fully implemented yet.</exception>
+        /// <exception cref="Exception">Cannot reload a new object.</exception>
         public T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
         {
             if (this.GetType().GetTypeInfo().IsGenericType) { throw new System.NotImplementedException(); }
@@ -328,6 +327,15 @@ namespace Koopman.CheckPoint
             return (T)(IObjectSummary)this;
         }
 
+        /// <summary>
+        /// Reloads the current object. Used to either reset changes made without saving, or to
+        /// increased the <paramref name="detailLevel" /> to <see cref="DetailLevels.Full" />
+        /// </summary>
+        /// <param name="OnlyIfPartial">Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" /></param>
+        /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
+        /// <returns>
+        /// IObjectSummary of reloaded object
+        /// </returns>
         IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel)
         {
             return Reload(OnlyIfPartial, detailLevel);

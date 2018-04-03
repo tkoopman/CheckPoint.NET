@@ -25,6 +25,7 @@ namespace Koopman.CheckPoint.Common
     /// <summary>
     /// Common properties all objects contain when full detail level returned
     /// </summary>
+    /// <typeparam name="T">Type from derived classes</typeparam>
     /// <seealso cref="Koopman.CheckPoint.ObjectSummary" />
     public abstract class ObjectBase<T> : ObjectSummary<T> where T : IObjectSummary
     {

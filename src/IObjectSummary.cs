@@ -65,13 +65,10 @@ namespace Koopman.CheckPoint
         /// Reloads the current object. Used to either reset changes made without saving, or to
         /// increased the <paramref name="detailLevel" /> to <see cref="DetailLevels.Full" />
         /// </summary>
-        /// <param name="OnlyIfPartial">
-        /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
-        /// </param>
+        /// <param name="OnlyIfPartial">Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" /></param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
-        /// <exception cref="System.NotImplementedException">
-        /// Thrown when the objects of this Type have not been fully implemented yet.
-        /// </exception>
+        /// <returns>IObjectSummary of reloaded object</returns>
+        /// <exception cref="System.NotImplementedException">Thrown when the objects of this Type have not been fully implemented yet.</exception>
         IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard);
 
         #endregion Methods

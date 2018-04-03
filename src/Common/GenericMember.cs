@@ -92,14 +92,13 @@ namespace Koopman.CheckPoint.Common
         public string GetMembershipID() => UID;
 
         /// <summary>
-        /// Reloads the current object. Used to either reset changes made without saving, or to
-        /// increased the <paramref name="detailLevel" /> to <see cref="DetailLevels.Full" />
+        /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
         /// </summary>
-        /// <param name="OnlyIfPartial">
-        /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
-        /// </param>
+        /// <param name="OnlyIfPartial">Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" /></param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// IObjectSummary of reloaded object
+        /// </returns>
         public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel)
         {
             if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)
