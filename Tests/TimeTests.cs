@@ -66,7 +66,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllTimes(limit: 5, order: Time.Order.NameAsc);
+            var a = Session.FindTimes(limit: 5, order: Time.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -74,7 +74,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllTimes(filter: Filter, limit: 5, order: Time.Order.NameAsc);
+            var a = Session.FindTimes(filter: Filter, limit: 5, order: Time.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

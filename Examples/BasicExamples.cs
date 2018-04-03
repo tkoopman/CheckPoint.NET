@@ -24,7 +24,7 @@ namespace Examples
                      );
 
             // Get first 5 hosts
-            var hosts = session.FindAllHosts(limit: 5);
+            var hosts = session.FindHosts(limit: 5);
 
             foreach (var host in hosts)
             {

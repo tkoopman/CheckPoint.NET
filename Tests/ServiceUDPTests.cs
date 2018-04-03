@@ -57,7 +57,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllServicesUDP(limit: 5, order: ServiceUDP.Order.NameAsc);
+            var a = Session.FindServicesUDP(limit: 5, order: ServiceUDP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -65,7 +65,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllServicesUDP(filter: Filter, limit: 5, order: ServiceUDP.Order.NameAsc);
+            var a = Session.FindServicesUDP(filter: Filter, limit: 5, order: ServiceUDP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

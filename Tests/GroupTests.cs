@@ -60,7 +60,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllGroups(limit: 5, order: Group.Order.NameAsc);
+            var a = Session.FindGroups(limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -70,7 +70,7 @@ namespace Tests
         {
             string filter = Name.Substring(0, 3);
 
-            var a = Session.FindAllGroups(filter: filter, limit: 5, order: Group.Order.NameAsc);
+            var a = Session.FindGroups(filter: filter, limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

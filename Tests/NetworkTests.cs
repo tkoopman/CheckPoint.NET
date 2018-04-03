@@ -76,7 +76,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllNetworks(limit: 5, order: Network.Order.NameDesc);
+            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -84,7 +84,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
+            var a = Session.FindNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
             Assert.IsNotNull(a);
             Network b = a[0].Reload();
             a = a.NextPage();
@@ -93,7 +93,7 @@ namespace Tests
         [TestMethod]
         public void FindAllUIDs()
         {
-            var a = Session.FindAllNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.UID);
+            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.UID);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

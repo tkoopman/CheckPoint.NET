@@ -57,7 +57,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllSecurityZones(limit: 5, order: Tag.Order.NameAsc);
+            var a = Session.FindSecurityZones(limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -65,7 +65,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllSecurityZones(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
+            var a = Session.FindSecurityZones(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

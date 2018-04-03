@@ -58,7 +58,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllTags(limit: 5, order: Tag.Order.NameAsc);
+            var a = Session.FindTags(limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -66,7 +66,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllTags(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
+            var a = Session.FindTags(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

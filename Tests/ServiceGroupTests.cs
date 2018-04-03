@@ -45,7 +45,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllServiceGroups(limit: 5, order: ServiceGroup.Order.NameAsc);
+            var a = Session.FindServiceGroups(limit: 5, order: ServiceGroup.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -55,7 +55,7 @@ namespace Tests
         {
             string filter = Name.Substring(0, 3);
 
-            var a = Session.FindAllServiceGroups(filter: filter, limit: 5, order: ServiceGroup.Order.NameAsc);
+            var a = Session.FindServiceGroups(filter: filter, limit: 5, order: ServiceGroup.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

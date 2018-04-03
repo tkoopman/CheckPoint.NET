@@ -71,7 +71,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllAddressRanges(limit: 5, order: AddressRange.Order.NameDesc);
+            var a = Session.FindAddressRanges(limit: 5, order: AddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -79,7 +79,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllAddressRanges(filter: v4Filter, ipOnly: true, limit: 5, order: AddressRange.Order.NameDesc);
+            var a = Session.FindAddressRanges(filter: v4Filter, ipOnly: true, limit: 5, order: AddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

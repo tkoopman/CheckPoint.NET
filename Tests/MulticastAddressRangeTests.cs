@@ -71,7 +71,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllMulticastAddressRanges(limit: 5, order: MulticastAddressRange.Order.NameDesc);
+            var a = Session.FindMulticastAddressRanges(limit: 5, order: MulticastAddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -79,7 +79,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllMulticastAddressRanges(filter: v6Filter, ipOnly: true, limit: 5, order: MulticastAddressRange.Order.NameDesc);
+            var a = Session.FindMulticastAddressRanges(filter: v6Filter, ipOnly: true, limit: 5, order: MulticastAddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

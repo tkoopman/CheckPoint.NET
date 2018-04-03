@@ -74,7 +74,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllHosts(limit: 5, order: Host.Order.NameDesc);
+            var a = Session.FindHosts(limit: 5, order: Host.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
             Assert.IsNotNull(a);
@@ -83,7 +83,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllHosts(filter: Filter, ipOnly: true, limit: 5, order: Host.Order.NameDesc);
+            var a = Session.FindHosts(filter: Filter, ipOnly: true, limit: 5, order: Host.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
             Assert.IsNotNull(a);

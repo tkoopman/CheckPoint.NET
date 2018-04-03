@@ -695,14 +695,14 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all address ranges.
+        /// Finds address ranges.
         /// </summary>
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of AddressRanges</returns>
-        public NetworkObjectsPagingResults<AddressRange> FindAllAddressRanges
+        public NetworkObjectsPagingResults<AddressRange> FindAddressRanges
             (
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
                 int limit = FindAll.Defaults.Limit,
@@ -722,7 +722,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all address ranges that match filter.
+        /// Finds address ranges that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -734,7 +734,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of AddressRanges</returns>
-        public NetworkObjectsPagingResults<AddressRange> FindAllAddressRanges
+        public NetworkObjectsPagingResults<AddressRange> FindAddressRanges
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -782,34 +782,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all groups.
+        /// Finds a group.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of Groups</returns>
-        public NetworkObjectsPagingResults<Group> FindAllGroups
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Group object</returns>
+        public Group FindGroup
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<Group>
+            return Find.Invoke<Group>
                 (
                     Session: this,
-                    Command: "show-groups",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-group",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all groups that match filter.
+        /// Finds groups that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -821,7 +815,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Groups</returns>
-        public NetworkObjectsPagingResults<Group> FindAllGroups
+        public NetworkObjectsPagingResults<Group> FindGroups
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -845,23 +839,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a group.
+        /// Finds groups.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>Group object</returns>
-        public Group FindGroup
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Groups</returns>
+        public NetworkObjectsPagingResults<Group> FindGroups
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<Group>
+            return FindAll.Invoke<Group>
                 (
                     Session: this,
-                    Command: "show-group",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-groups",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -890,34 +890,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all groups with exclusion.
-        /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of GroupWithExclusions</returns>
-        public NetworkObjectsPagingResults<GroupWithExclusion> FindAllGroupsWithExclusion
-            (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
-            )
-        {
-            return FindAll.Invoke<GroupWithExclusion>
-                (
-                    Session: this,
-                    Command: "show-groups-with-exclusion",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
-                );
-        }
-
-        /// <summary>
-        /// Finds all groups with exclusion that match filter.
+        /// Finds groups with exclusion that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -929,7 +902,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of GroupWithExclusions</returns>
-        public NetworkObjectsPagingResults<GroupWithExclusion> FindAllGroupsWithExclusion
+        public NetworkObjectsPagingResults<GroupWithExclusion> FindGroupsWithExclusion
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -945,6 +918,33 @@ namespace Koopman.CheckPoint
                     Type: "group-with-exclusion",
                     Filter: filter,
                     IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds groups with exclusion.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of GroupWithExclusions</returns>
+        public NetworkObjectsPagingResults<GroupWithExclusion> FindGroupsWithExclusion
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<GroupWithExclusion>
+                (
+                    Session: this,
+                    Command: "show-groups-with-exclusion",
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Offset: offset,
@@ -998,34 +998,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all hosts.
+        /// Finds a host.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of Hosts</returns>
-        public NetworkObjectsPagingResults<Host> FindAllHosts
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Host object</returns>
+        public Host FindHost
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<Host>
+            return Find.Invoke<Host>
                 (
                     Session: this,
-                    Command: "show-hosts",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-host",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all hosts that match filter.
+        /// Finds hosts that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1037,7 +1031,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Hosts</returns>
-        public NetworkObjectsPagingResults<Host> FindAllHosts
+        public NetworkObjectsPagingResults<Host> FindHosts
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1061,23 +1055,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a host.
+        /// Finds hosts.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>Host object</returns>
-        public Host FindHost
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Hosts</returns>
+        public NetworkObjectsPagingResults<Host> FindHosts
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<Host>
+            return FindAll.Invoke<Host>
                 (
                     Session: this,
-                    Command: "show-host",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-hosts",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1106,34 +1106,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all multicast address ranges.
+        /// Finds a multicast address range.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of MulticastAddressRanges</returns>
-        public NetworkObjectsPagingResults<MulticastAddressRange> FindAllMulticastAddressRanges
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>MulticastAddressRange object</returns>
+        public MulticastAddressRange FindMulticastAddressRange
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<MulticastAddressRange>
+            return Find.Invoke<MulticastAddressRange>
                 (
                     Session: this,
-                    Command: "show-multicast-address-ranges",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-multicast-address-range",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all multicast address ranges that match filter.
+        /// Finds multicast address ranges that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1145,7 +1139,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of MulticastAddressRanges</returns>
-        public NetworkObjectsPagingResults<MulticastAddressRange> FindAllMulticastAddressRanges
+        public NetworkObjectsPagingResults<MulticastAddressRange> FindMulticastAddressRanges
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1169,23 +1163,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a multicast address range.
+        /// Finds multicast address ranges.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>MulticastAddressRange object</returns>
-        public MulticastAddressRange FindMulticastAddressRange
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of MulticastAddressRanges</returns>
+        public NetworkObjectsPagingResults<MulticastAddressRange> FindMulticastAddressRanges
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<MulticastAddressRange>
+            return FindAll.Invoke<MulticastAddressRange>
                 (
                     Session: this,
-                    Command: "show-multicast-address-range",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-multicast-address-ranges",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1214,34 +1214,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all networks.
+        /// Finds a network.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of Networks</returns>
-        public NetworkObjectsPagingResults<Network> FindAllNetworks
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Network object</returns>
+        public Network FindNetwork
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<Network>
+            return Find.Invoke<Network>
                 (
                     Session: this,
-                    Command: "show-networks",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-network",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all networks that match filter.
+        /// Finds networks that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1253,7 +1247,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Networks</returns>
-        public NetworkObjectsPagingResults<Network> FindAllNetworks
+        public NetworkObjectsPagingResults<Network> FindNetworks
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1277,23 +1271,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a network.
+        /// Finds networks.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>Network object</returns>
-        public Network FindNetwork
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Networks</returns>
+        public NetworkObjectsPagingResults<Network> FindNetworks
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<Network>
+            return FindAll.Invoke<Network>
                 (
                     Session: this,
-                    Command: "show-network",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-networks",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1322,34 +1322,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all simple gateways.
+        /// Finds a simple gateway.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of SimpleGateways</returns>
-        public NetworkObjectsPagingResults<SimpleGateway> FindAllSimpleGateways
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>SimpleGateway object</returns>
+        public SimpleGateway FindSimpleGateway
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<SimpleGateway>
+            return Find.Invoke<SimpleGateway>
                 (
                     Session: this,
-                    Command: "show-simple-gateways",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-simple-gateway",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all simple gateways that match filter.
+        /// Finds simple gateways that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1361,7 +1355,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of SimpleGateways</returns>
-        public NetworkObjectsPagingResults<SimpleGateway> FindAllSimpleGateways
+        public NetworkObjectsPagingResults<SimpleGateway> FindSimpleGateways
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1385,23 +1379,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a simple gateway.
+        /// Finds simple gateways.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>SimpleGateway object</returns>
-        public SimpleGateway FindSimpleGateway
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SimpleGateways</returns>
+        public NetworkObjectsPagingResults<SimpleGateway> FindSimpleGateways
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<SimpleGateway>
+            return FindAll.Invoke<SimpleGateway>
                 (
                     Session: this,
-                    Command: "show-simple-gateway",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-simple-gateways",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1430,34 +1430,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all security zones.
+        /// Finds a security zone.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of SecurityZones</returns>
-        public NetworkObjectsPagingResults<SecurityZone> FindAllSecurityZones
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>SecurityZone object</returns>
+        public SecurityZone FindSecurityZone
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<SecurityZone>
+            return Find.Invoke<SecurityZone>
                 (
                     Session: this,
-                    Command: "show-security-zones",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-security-zone",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all security zones that match filter.
+        /// Finds security zones that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1469,7 +1463,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of SecurityZones</returns>
-        public NetworkObjectsPagingResults<SecurityZone> FindAllSecurityZones
+        public NetworkObjectsPagingResults<SecurityZone> FindSecurityZones
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1493,23 +1487,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a security zone.
+        /// Finds security zones.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>SecurityZone object</returns>
-        public SecurityZone FindSecurityZone
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of SecurityZones</returns>
+        public NetworkObjectsPagingResults<SecurityZone> FindSecurityZones
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<SecurityZone>
+            return FindAll.Invoke<SecurityZone>
                 (
                     Session: this,
-                    Command: "show-security-zone",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-security-zones",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1538,34 +1538,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all tags.
+        /// Finds a tag.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of Tags</returns>
-        public NetworkObjectsPagingResults<Tag> FindAllTags
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Tag object</returns>
+        public Tag FindTag
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<Tag>
+            return Find.Invoke<Tag>
                 (
                     Session: this,
-                    Command: "show-tags",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-tag",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all tags that match filter.
+        /// Finds tags that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1577,7 +1571,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Tags</returns>
-        public NetworkObjectsPagingResults<Tag> FindAllTags
+        public NetworkObjectsPagingResults<Tag> FindTags
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1601,23 +1595,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a tag.
+        /// Finds tags.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>Tag object</returns>
-        public Tag FindTag
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Tags</returns>
+        public NetworkObjectsPagingResults<Tag> FindTags
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<Tag>
+            return FindAll.Invoke<Tag>
                 (
                     Session: this,
-                    Command: "show-tag",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-tags",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1646,34 +1646,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all time objects.
+        /// Finds a time object.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of Times</returns>
-        public NetworkObjectsPagingResults<Time> FindAllTimes
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Time object</returns>
+        public Time FindTime
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<Time>
+            return Find.Invoke<Time>
                 (
                     Session: this,
-                    Command: "show-times",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-time",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all time objects that match filter.
+        /// Finds time objects that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1685,7 +1679,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Times</returns>
-        public NetworkObjectsPagingResults<Time> FindAllTimes
+        public NetworkObjectsPagingResults<Time> FindTimes
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1709,23 +1703,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a time object.
+        /// Finds time objects.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>Time object</returns>
-        public Time FindTime
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Times</returns>
+        public NetworkObjectsPagingResults<Time> FindTimes
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<Time>
+            return FindAll.Invoke<Time>
                 (
                     Session: this,
-                    Command: "show-time",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-times",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1754,34 +1754,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all time groups.
+        /// Finds a time group.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of TimeGroups</returns>
-        public NetworkObjectsPagingResults<TimeGroup> FindAllTimeGroups
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>TimeGroup object</returns>
+        public TimeGroup FindTimeGroup
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<TimeGroup>
+            return Find.Invoke<TimeGroup>
                 (
                     Session: this,
-                    Command: "show-time-groups",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-time-group",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all time groups that match filter.
+        /// Finds time groups that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1793,7 +1787,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of TimeGroups</returns>
-        public NetworkObjectsPagingResults<TimeGroup> FindAllTimeGroups
+        public NetworkObjectsPagingResults<TimeGroup> FindTimeGroups
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1817,23 +1811,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a time group.
+        /// Finds time groups.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>TimeGroup object</returns>
-        public TimeGroup FindTimeGroup
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of TimeGroups</returns>
+        public NetworkObjectsPagingResults<TimeGroup> FindTimeGroups
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<TimeGroup>
+            return FindAll.Invoke<TimeGroup>
                 (
                     Session: this,
-                    Command: "show-time-group",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-time-groups",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1866,34 +1866,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all services ICMP.
+        /// Finds a service-icmp.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of Objects</returns>
-        public NetworkObjectsPagingResults<ServiceICMP> FindAllServicesICMP
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Object object</returns>
+        public ServiceICMP FindServiceICMP
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<ServiceICMP>
+            return Find.Invoke<ServiceICMP>
                 (
                     Session: this,
-                    Command: "show-services-icmp",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-service-icmp",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all service-icmps that match filter.
+        /// Finds service-icmps that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -1905,7 +1899,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Objects</returns>
-        public NetworkObjectsPagingResults<ServiceICMP> FindAllServicesICMP
+        public NetworkObjectsPagingResults<ServiceICMP> FindServicesICMP
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -1929,23 +1923,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a service-icmp.
+        /// Finds services ICMP.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>Object object</returns>
-        public ServiceICMP FindServiceICMP
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP> FindServicesICMP
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<ServiceICMP>
+            return FindAll.Invoke<ServiceICMP>
                 (
                     Session: this,
-                    Command: "show-service-icmp",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-services-icmp",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -1974,34 +1974,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all services ICMP6.
+        /// Finds a service-icmp6.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of Objects</returns>
-        public NetworkObjectsPagingResults<ServiceICMP6> FindAllServicesICMP6
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>Object object</returns>
+        public ServiceICMP6 FindServiceICMP6
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<ServiceICMP6>
+            return Find.Invoke<ServiceICMP6>
                 (
                     Session: this,
-                    Command: "show-services-icmp6",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-service-icmp6",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all service-icmp6s that match filter.
+        /// Finds service-icmp6s that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -2013,7 +2007,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of Objects</returns>
-        public NetworkObjectsPagingResults<ServiceICMP6> FindAllServicesICMP6
+        public NetworkObjectsPagingResults<ServiceICMP6> FindServicesICMP6
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -2037,23 +2031,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a service-icmp6.
+        /// Finds services ICMP6.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>Object object</returns>
-        public ServiceICMP6 FindServiceICMP6
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of Objects</returns>
+        public NetworkObjectsPagingResults<ServiceICMP6> FindServicesICMP6
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<ServiceICMP6>
+            return FindAll.Invoke<ServiceICMP6>
                 (
                     Session: this,
-                    Command: "show-service-icmp6",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-services-icmp6",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 
@@ -2082,34 +2082,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all TCP services.
-        /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
-        public NetworkObjectsPagingResults<ServiceTCP> FindAllServicesTCP
-            (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
-            )
-        {
-            return FindAll.Invoke<ServiceTCP>
-                (
-                    Session: this,
-                    Command: "show-services-tcp",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
-                );
-        }
-
-        /// <summary>
-        /// Finds all TCP services that match filter.
+        /// Finds TCP services that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -2121,7 +2094,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
-        public NetworkObjectsPagingResults<ServiceTCP> FindAllServicesTCP
+        public NetworkObjectsPagingResults<ServiceTCP> FindServicesTCP
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -2137,6 +2110,33 @@ namespace Koopman.CheckPoint
                     Type: "service-tcp",
                     Filter: filter,
                     IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds TCP services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
+        public NetworkObjectsPagingResults<ServiceTCP> FindServicesTCP
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceTCP>
+                (
+                    Session: this,
+                    Command: "show-services-tcp",
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Offset: offset,
@@ -2190,34 +2190,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all UDP services.
-        /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
-        public NetworkObjectsPagingResults<ServiceUDP> FindAllServicesUDP
-            (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
-            )
-        {
-            return FindAll.Invoke<ServiceUDP>
-                (
-                    Session: this,
-                    Command: "show-services-udp",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
-                );
-        }
-
-        /// <summary>
-        /// Finds all UDP services that match filter.
+        /// Finds UDP services that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -2229,7 +2202,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
-        public NetworkObjectsPagingResults<ServiceUDP> FindAllServicesUDP
+        public NetworkObjectsPagingResults<ServiceUDP> FindServicesUDP
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -2245,6 +2218,33 @@ namespace Koopman.CheckPoint
                     Type: "service-udp",
                     Filter: filter,
                     IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds UDP services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
+        public NetworkObjectsPagingResults<ServiceUDP> FindServicesUDP
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceUDP>
+                (
+                    Session: this,
+                    Command: "show-services-udp",
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Offset: offset,
@@ -2298,34 +2298,28 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds all service groups.
+        /// Finds a service group.
         /// </summary>
-        /// <param name="detailLevel">The detail level to return.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="order">The order.</param>
-        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
-        public NetworkObjectsPagingResults<ServiceGroup> FindAllServiceGroups
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ServiceGroup object</returns>
+        public ServiceGroup FindServiceGroup
             (
-                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
-                int limit = FindAll.Defaults.Limit,
-                int offset = FindAll.Defaults.Offset,
-                IOrder order = FindAll.Defaults.Order
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return FindAll.Invoke<ServiceGroup>
+            return Find.Invoke<ServiceGroup>
                 (
                     Session: this,
-                    Command: "show-service-groups",
-                    DetailLevel: detailLevel,
-                    Limit: limit,
-                    Offset: offset,
-                    Order: order
+                    Command: "show-service-group",
+                    Value: value,
+                    DetailLevel: detailLevel
                 );
         }
 
         /// <summary>
-        /// Finds all service groups that match filter.
+        /// Finds service groups that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <param name="ipOnly">
@@ -2337,7 +2331,7 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
-        public NetworkObjectsPagingResults<ServiceGroup> FindAllServiceGroups
+        public NetworkObjectsPagingResults<ServiceGroup> FindServiceGroups
             (
                 string filter,
                 bool ipOnly = FindAll.Defaults.IPOnly,
@@ -2361,23 +2355,29 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds a service group.
+        /// Finds service groups.
         /// </summary>
-        /// <param name="value">The name or UID to find.</param>
-        /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>ServiceGroup object</returns>
-        public ServiceGroup FindServiceGroup
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
+        public NetworkObjectsPagingResults<ServiceGroup> FindServiceGroups
             (
-                string value,
-                DetailLevels detailLevel = Find.Defaults.DetailLevel
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                int offset = FindAll.Defaults.Offset,
+                IOrder order = FindAll.Defaults.Order
             )
         {
-            return Find.Invoke<ServiceGroup>
+            return FindAll.Invoke<ServiceGroup>
                 (
                     Session: this,
-                    Command: "show-service-group",
-                    Value: value,
-                    DetailLevel: detailLevel
+                    Command: "show-service-groups",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
                 );
         }
 

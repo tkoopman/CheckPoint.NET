@@ -44,7 +44,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllServicesICMP6(limit: 5, order: ServiceICMP.Order.NameAsc);
+            var a = Session.FindServicesICMP6(limit: 5, order: ServiceICMP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -52,7 +52,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllServicesICMP6(filter: Filter, limit: 5, order: ServiceICMP.Order.NameAsc);
+            var a = Session.FindServicesICMP6(filter: Filter, limit: 5, order: ServiceICMP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
