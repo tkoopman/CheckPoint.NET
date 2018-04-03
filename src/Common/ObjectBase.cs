@@ -26,7 +26,7 @@ namespace Koopman.CheckPoint.Common
     /// Common properties all objects contain when full detail level returned
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.ObjectSummary" />
-    public abstract class ObjectBase : ObjectSummary
+    public abstract class ObjectBase<T> : ObjectSummary<T> where T : IObjectSummary
     {
         #region Fields
 
@@ -43,7 +43,7 @@ namespace Koopman.CheckPoint.Common
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectBase" /> class.
+        /// Initializes a new instance of the <see cref="ObjectBase{T}" /> class.
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level.</param>
@@ -59,7 +59,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Color of the object
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         /// <exception cref="System.ArgumentNullException">Color</exception>
         [JsonProperty(PropertyName = "color")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -76,7 +76,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Comments string
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "comments")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Comments
@@ -92,7 +92,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Object icon
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "icon")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Icon
@@ -104,7 +104,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Meta Information
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "meta-info", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public MetaInfo MetaInfo
@@ -116,7 +116,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Indicates whether the object is read-only
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         /// <exception cref="System.ArgumentNullException">ReadOnly</exception>
         [JsonProperty(PropertyName = "read-only")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

@@ -63,21 +63,21 @@ namespace Koopman.CheckPoint.Json
             if (typeof(ChangeTracking).GetTypeInfo().IsAssignableFrom(property.DeclaringType))
             {
                 bool useUID = (GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID);
-                if (property.UnderlyingName.Equals(nameof(ObjectSummary.UID)))
+                if (property.UnderlyingName.Equals(nameof(IObjectSummary.UID)))
                 {
                     property.ShouldSerialize =
                         instance =>
                         {
-                            ObjectSummary o = (ObjectSummary)instance;
+                            IObjectSummary o = (IObjectSummary)instance;
                             return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID;
                         };
                 }
-                else if (property.UnderlyingName.Equals(nameof(ObjectSummary.OldName)))
+                else if (property.UnderlyingName.Equals("OldName"))
                 {
                     property.ShouldSerialize =
                             instance =>
                             {
-                                ObjectSummary o = (ObjectSummary)instance;
+                                IObjectSummary o = (IObjectSummary)instance;
                                 return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.Name;
                             };
                     if (SetMethod)
@@ -85,7 +85,7 @@ namespace Koopman.CheckPoint.Json
                 }
                 else
                 {
-                    if (SetMethod && property.UnderlyingName.Equals(nameof(ObjectSummary.Name)))
+                    if (SetMethod && property.UnderlyingName.Equals(nameof(IObjectSummary.Name)))
                     {
                         // Make sure Name changes sent out as "new-name" As for if this property
                         // should be sent at all that will be handled by code below

@@ -40,9 +40,9 @@ namespace Koopman.CheckPoint
     /// var tg = Session.FindTimeGroup("MyTimeGroup");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
     /// <seealso cref="Koopman.CheckPoint.Common.ITimeGroupMember" />
-    public class TimeGroup : ObjectBase, ITimeGroupMember
+    public class TimeGroup : ObjectBase<TimeGroup>, ITimeGroupMember
     {
         #region Fields
 

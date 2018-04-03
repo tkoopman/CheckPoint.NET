@@ -24,9 +24,8 @@ namespace Koopman.CheckPoint
     /// <summary>
     /// Check Point Tag
     /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.IMember" />
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class Tag : ObjectBase, IMember
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
+    public class Tag : ObjectBase<Tag>
     {
         #region Constructors
 

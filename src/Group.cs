@@ -42,9 +42,9 @@ namespace Koopman.CheckPoint
     /// var group = Session.FindGroup("MyGroup");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
     /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
-    public class Group : ObjectBase, IGroupMember
+    public class Group : ObjectBase<Group>, IGroupMember
     {
         #region Fields
 

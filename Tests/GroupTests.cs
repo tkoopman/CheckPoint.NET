@@ -76,6 +76,15 @@ namespace Tests
         }
 
         [TestMethod]
+        public void FindUID()
+        {
+            var a = Session.FindGroup(Name, DetailLevels.UID);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.Members.Count > 0);
+            Assert.IsFalse(a.IsChanged);
+        }
+
+        [TestMethod]
         public void New()
         {
             string name = $"New {Name}";

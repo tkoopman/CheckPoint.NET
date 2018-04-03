@@ -25,54 +25,62 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Koopman.CheckPoint
 {
     /// <summary>
-    /// The basic summary information of a Check Point object
+    /// Static ObjectSummary fields
     /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
-    public class ObjectSummary : ChangeTracking
+    public static class ObjectSummary
     {
         #region Static Fields
 
         /// <summary>
         /// The Any object.
         /// </summary>
-        public static readonly ObjectSummary Any = new ObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
+        public static readonly ObjectSummary<IObjectSummary> Any = new ObjectSummary<IObjectSummary>(null, DetailLevels.Full, "CpmiAnyObject")
         {
             UID = "97aeb369-9aea-11d5-bd16-0090272ccb30",
             _name = "Any",
-            Domain = Domain.DataDomain
+            _domain = Domain.DataDomain
         };
 
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        internal static readonly ObjectSummary RestrictCommonProtocolsAction = new ObjectSummary(null, DetailLevels.Full, "")
+        internal static readonly ObjectSummary<IObjectSummary> RestrictCommonProtocolsAction = new ObjectSummary<IObjectSummary>(null, DetailLevels.Full, "")
         {
             UID = "ea3a425f-56b3-46de-98e7-bd88ce27a801",
             _name = "Restrict_Common_Protocols_Action",
-            Domain = Domain.Default
+            _domain = Domain.Default
         };
 
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        internal static readonly ObjectSummary TrustAllAction = new ObjectSummary(null, DetailLevels.Full, "")
+        internal static readonly ObjectSummary<IObjectSummary> TrustAllAction = new ObjectSummary<IObjectSummary>(null, DetailLevels.Full, "")
         {
             UID = "226b5ee1-69ce-4bdb-a53f-3a01e68885b4",
             _name = "Trust_all_action",
-            Domain = Domain.Default
+            _domain = Domain.Default
         };
 
         #endregion Static Fields
+    }
 
+    /// <summary>
+    /// The basic summary information of a Check Point object
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
+    public class ObjectSummary<T> : ChangeTracking, IObjectSummary where T : IObjectSummary
+    {
         #region Fields
 
-        private Domain _domain;
-        private string _name;
+        internal Domain _domain;
+        internal string _name;
 
         #endregion Fields
 
@@ -124,7 +132,7 @@ namespace Koopman.CheckPoint
         /// Information about the domain the object belongs to.
         /// </summary>
         /// <value>The domain.</value>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "domain", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Domain Domain
@@ -137,7 +145,7 @@ namespace Koopman.CheckPoint
         /// Object name. Should be unique in the domain.
         /// </summary>
         /// <value>The object's name.</value>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         /// <exception cref="System.NotImplementedException"></exception>
         [JsonProperty(PropertyName = "name")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -198,31 +206,16 @@ namespace Koopman.CheckPoint
         /// <value>The set contract resolver.</value>
         protected virtual IContractResolver SetContractResolver => ChangeTrackingContractResolver.SetInstance;
 
-        private bool IsReadOnly { get => GetType() == typeof(ObjectSummary); }
-
-        /// <summary>
-        /// Gets the identifier that is used when adding this object to a group.
-        /// </summary>
-        /// <returns>Name if not null else the UID</returns>
-        /// <exception cref="InvalidOperationException">Cannot add unsaved object.</exception>
-        public string GetMembershipID()
-        {
-            if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
-
-            return (IsPropertyChanged(nameof(Name)) || String.IsNullOrWhiteSpace(Name)) ? UID : Name;
-        }
+        private bool IsReadOnly { get => GetType().GetTypeInfo().IsGenericType; }
 
         #endregion Properties
 
         #region Methods
 
         /// <summary>
-        /// Same as calling <see cref="ObjectSummary.AcceptChanges(Ignore)" /> with a value of <see cref="Ignore.No" />;
+        /// Same as calling <see cref="ObjectSummary{T}.AcceptChanges(Ignore)" /> with a value of <see cref="Ignore.No" />;
         /// </summary>
-        public override void AcceptChanges()
-        {
-            AcceptChanges(Ignore.No);
-        }
+        public override void AcceptChanges() => AcceptChanges(Ignore.No);
 
         /// <summary>
         /// Posts all changes to Check Point server. If successful all object properties will be
@@ -234,7 +227,7 @@ namespace Koopman.CheckPoint
         /// </exception>
         public virtual void AcceptChanges(Ignore ignore)
         {
-            if (this.GetType() == typeof(ObjectSummary)) { throw new System.NotImplementedException($"Check Point type of {Type} is not fully implemented yet."); }
+            if (this.GetType().GetTypeInfo().IsGenericType) { throw new System.NotImplementedException($"Check Point type of {Type} is not fully implemented yet."); }
 
             if (IsChanged)
             {
@@ -276,7 +269,7 @@ namespace Koopman.CheckPoint
         /// <exception cref="Exception">Cannot delete a new object.</exception>
         public virtual void Delete(Ignore ignore = Internal.Delete.Defaults.ignore)
         {
-            if (this.GetType() == typeof(ObjectSummary)) { throw new System.NotImplementedException(); }
+            if (this.GetType().GetTypeInfo().IsGenericType) { throw new System.NotImplementedException(); }
             if (IsNew) { throw new Exception("Cannot delete a new object."); }
 
             Internal.Delete.Invoke(
@@ -284,6 +277,18 @@ namespace Koopman.CheckPoint
                 Command: $"delete-{Type}",
                 Value: UID,
                 Ignore: ignore);
+        }
+
+        /// <summary>
+        /// Gets the identifier that is used when adding this object to a group.
+        /// </summary>
+        /// <returns>Name if not null else the UID</returns>
+        /// <exception cref="InvalidOperationException">Cannot add unsaved object.</exception>
+        public string GetMembershipID()
+        {
+            if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
+
+            return (IsPropertyChanged(nameof(Name)) || String.IsNullOrWhiteSpace(Name)) ? UID : Name;
         }
 
         /// <summary>
@@ -297,11 +302,33 @@ namespace Koopman.CheckPoint
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
-        public virtual void Reload(bool OnlyIfPartial = Internal.Reload.Defaults.OnlyIfPartial, DetailLevels detailLevel = Internal.Reload.Defaults.DetailLevel)
+        public T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
         {
-            if (this.GetType() == typeof(ObjectSummary)) { throw new System.NotImplementedException(); }
+            if (this.GetType().GetTypeInfo().IsGenericType) { throw new System.NotImplementedException(); }
 
-            Internal.Reload.Invoke($"show-{Type}", this, OnlyIfPartial, detailLevel);
+            if (IsNew) { throw new Exception("Cannot reload a new object."); }
+            if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return (T)(IObjectSummary)this; }
+
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "uid", UID },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
+
+            string result = Session.Post($"show-{Type}", jsonData);
+
+            DetailLevel = DetailLevels.Full;
+
+            JsonConvert.PopulateObject(result, this, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, detailLevel) } });
+
+            return (T)(IObjectSummary)this;
+        }
+
+        IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel)
+        {
+            return Reload(OnlyIfPartial, detailLevel);
         }
 
         /// <summary>

@@ -42,13 +42,13 @@ namespace Koopman.CheckPoint
     /// var gwe = Session.FindGroupWithExclusion("MyGroupWithExclusion");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class GroupWithExclusion : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
+    public class GroupWithExclusion : ObjectBase<GroupWithExclusion>
     {
         #region Fields
 
-        private ObjectSummary _except;
-        private ObjectSummary _include;
+        private IObjectSummary _except;
+        private IObjectSummary _include;
 
         #endregion Fields
 
@@ -95,9 +95,9 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Get or sets the object this group excludes.
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "except")]
-        public ObjectSummary Except
+        public IObjectSummary Except
         {
             get
             {
@@ -113,9 +113,9 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets the object this group includes.
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "include")]
-        public ObjectSummary Include
+        public IObjectSummary Include
         {
             get
             {

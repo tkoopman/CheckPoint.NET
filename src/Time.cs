@@ -49,9 +49,9 @@ namespace Koopman.CheckPoint
     /// var t = Session.FindTime("MyTime");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
     /// <seealso cref="Koopman.CheckPoint.Common.ITimeGroupMember" />
-    public class Time : ObjectBase, ITimeGroupMember
+    public class Time : ObjectBase<Time>, ITimeGroupMember
     {
         #region Constructors
 

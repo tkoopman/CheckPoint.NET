@@ -25,11 +25,11 @@ namespace Koopman.CheckPoint.Common
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.MembershipChangeTracking{T}" />
-    public class MemberMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : IMember
+    public class MemberMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : IObjectSummary
     {
         #region Constructors
 
-        internal MemberMembershipChangeTracking(ObjectSummary parent) : base(parent)
+        internal MemberMembershipChangeTracking(IObjectSummary parent) : base(parent)
         {
         }
 

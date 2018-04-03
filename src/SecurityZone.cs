@@ -37,8 +37,8 @@ namespace Koopman.CheckPoint
     /// var sz = Session.FindSecurityZone("MySecurityZone");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class SecurityZone : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
+    public class SecurityZone : ObjectBase<SecurityZone>
     {
         #region Constructors
 

@@ -35,7 +35,7 @@ namespace Koopman.CheckPoint.Json
     {
         #region Fields
 
-        private List<ObjectSummary> cache = new List<ObjectSummary>();
+        private List<IObjectSummary> cache = new List<IObjectSummary>();
 
         #endregion Fields
 
@@ -71,7 +71,7 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ObjectSummary).GetTypeInfo().IsAssignableFrom(objectType) || typeof(IMember).GetTypeInfo().IsAssignableFrom(objectType);
+            return typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Koopman.CheckPoint.Json
         /// <param name="uid">The uid to find in cache.</param>
         /// <param name="defaultObject">The default object if not found in cache.</param>
         /// <returns></returns>
-        public ObjectSummary GetFromCache(string uid, ObjectSummary defaultObject = null)
+        public IObjectSummary GetFromCache(string uid, IObjectSummary defaultObject = null)
         {
             foreach (var obj in cache)
                 if (obj.UID.Equals(uid)) return obj;
@@ -95,12 +95,10 @@ namespace Koopman.CheckPoint.Json
                 JObject obj = serializer.Deserialize<JObject>(reader);
                 string uid = obj.GetValue("uid").ToString();
 
-                ObjectSummary result = null;
+                IObjectSummary result = null;
 
                 if (existingValue != null)
-                {
-                    ((ObjectSummary)existingValue).DetailLevel = GetDetailLevel(reader);
-                }
+                    SetProperty((IObjectSummary)existingValue, "DetailLevel", GetDetailLevel(reader));
                 else
                 {
                     result = GetFromCache(uid);
@@ -190,12 +188,12 @@ namespace Koopman.CheckPoint.Json
                             return ObjectSummary.Any;
 
                         default:
-                            result = (existingValue == null) ? new ObjectSummary(Session, GetDetailLevel(reader)) : (ObjectSummary)existingValue;
+                            result = (existingValue == null) ? new ObjectSummary<IObjectSummary>(Session, GetDetailLevel(reader)) : (ObjectSummary<IObjectSummary>)existingValue;
                             break;
                     }
 
                     if (result.UID == null)
-                        result.UID = uid;
+                        SetProperty(result, "UID", uid);
                     cache.Add(result);
                 }
 
@@ -208,18 +206,22 @@ namespace Koopman.CheckPoint.Json
                 var cached = GetFromCache(uid);
                 if (cached != null) return cached;
 
-                if (typeof(ObjectSummary).GetTypeInfo().IsAssignableFrom(objectType))
+                if (objectType.GetTypeInfo().IsClass)
                 {
-                    ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.Single(c => c.GetParameters().Length == 2 && c.GetParameters().First().ParameterType == typeof(Session) && c.GetParameters().Last().ParameterType == typeof(DetailLevels));
+                    ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.Single(
+                        c => c.GetParameters().Length == 2 &&
+                        c.GetParameters().First().ParameterType == typeof(Session) &&
+                        c.GetParameters().Last().ParameterType == typeof(DetailLevels));
+
                     if (ci == null) { throw new Exception("Unable to find constructor that accepts Session, DetailLevels parameters"); }
-                    cached = (ObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
-                    cached.UID = uid;
+                    cached = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
+                    SetProperty(cached, "UID", uid);
                     cache.Add(cached);
 
                     return cached;
                 }
 
-                throw CreateJsonReaderException(reader, $"Should not hit this. Type: {reader.TokenType}");
+                return new GenericMember(Session, uid);
             }
             else throw CreateJsonReaderException(reader, $"Invalid token type found. Type: {reader.TokenType}");
         }
@@ -229,13 +231,27 @@ namespace Koopman.CheckPoint.Json
             throw new NotImplementedException();
         }
 
+        private static void SetProperty(IObjectSummary obj, string name, object value)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (name == null) throw new ArgumentNullException(nameof(name));
+
+            PropertyInfo prop = obj.GetType().GetTypeInfo().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+            if (prop != null && prop.CanWrite)
+            {
+                prop.SetValue(obj, value, null);
+            }
+            else
+            {
+                throw new ArgumentException("No writeable property found.");
+            }
+        }
+
         private JsonReaderException CreateJsonReaderException(JsonReader reader, string message)
         {
-            if (reader is JsonTextReader)
-            {
-                var textReader = (JsonTextReader)reader;
+            if (reader is JsonTextReader textReader)
                 return new JsonReaderException(message, reader.Path, textReader.LineNumber, textReader.LinePosition, null);
-            }
+
             return new JsonReaderException(message);
         }
 

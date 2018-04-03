@@ -42,9 +42,9 @@ namespace Koopman.CheckPoint
     /// var h = Session.FindHost("MyHost");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
     /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
-    public class Host : ObjectBase, IGroupMember
+    public class Host : ObjectBase<Host>, IGroupMember
     {
         #region Fields
 
@@ -109,7 +109,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets the IPv4 address of this host.
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv4-address")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -127,7 +127,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets the IPv6 address of this host.
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         [JsonProperty(PropertyName = "ipv6-address")]
         [JsonConverter(typeof(IPAddressConverter))]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -145,7 +145,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets the NAT settings.
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "nat-settings")]
         public NATSettings NATSettings
         {
