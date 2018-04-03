@@ -60,13 +60,20 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
+            var a = Session.FindAllGroups(limit: 5, order: Group.Order.NameAsc);
+            Assert.IsNotNull(a);
+        }
+
+        [TestMethod]
+        public void Finds()
+        {
             var a = Session.FindGroups(limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public void FindsFiltered()
         {
             string filter = Name.Substring(0, 3);
 

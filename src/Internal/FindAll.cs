@@ -38,35 +38,44 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Session">The session.</param>
         /// <param name="Command">The FindAll command.</param>
         /// <param name="DetailLevel">The detail level to be returned.</param>
-        /// <param name="Limit">The number of objects to be returned.</param>
-        /// <param name="Offset">The offset.</param>
+        /// <param name="Limit">
+        /// The number of objects to be returned per API call. Does not affect the total amount
+        /// returned by method just how many returned by each call to the management server.
+        /// </param>
         /// <param name="Order">The sort order.</param>
-        internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
+        internal static T[] Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order)
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            int Offset = 0;
+            var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
+            var objs = new List<T>();
+
+            while (true)
             {
-                { "details-level", DetailLevel.ToString() },
-                { "limit", Limit },
-                { "offset", Offset },
-                { "order", (Order == null)? null:new IOrder[] { Order } }
-            };
-
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post(Command, jsonData);
-
-            NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevel, DetailLevel) } });
-
-            if (results != null)
-            {
-                results.Next = delegate ()
+                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
                 {
-                    if (results.To == results.Total) { return null; }
-                    return FindAll.Invoke<T>(Session, Command, DetailLevel, Limit, results.To, Order);
+                    { "details-level", DetailLevel.ToString() },
+                    { "limit", Limit },
+                    { "offset", Offset },
+                    { "order", (Order == null)? null:new IOrder[] { Order } }
                 };
-            }
 
-            return results;
+                string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
+
+                string result = Session.Post(Command, jsonData);
+
+                NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+                foreach (var o in results)
+                    objs.Add(o);
+
+                if (results.To == results.Total)
+                {
+                    objectConverter.PostDeserilization(objs);
+                    return objs.ToArray();
+                }
+
+                Offset = results.To;
+            }
         }
 
         /// <summary>
@@ -79,38 +88,44 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="IPOnly">if set to <c>true</c> ip only option will be sent.</param>
         /// <param name="DetailLevel">The detail level to return.</param>
         /// <param name="Limit">The number of objects to be returned.</param>
-        /// <param name="Offset">The offset.</param>
         /// <param name="Order">The sort order.</param>
         /// <returns></returns>
-        internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
+        internal static T[] Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order)
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            int Offset = 0;
+            var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
+            var objs = new List<T>();
+
+            while (true)
             {
-                { "filter", Filter },
-                { "ip-only", IPOnly },
-                { "type", Type },
-                { "details-level", DetailLevel.ToString() },
-                { "limit", Limit },
-                { "offset", Offset },
-                { "order", (Order == null)? null:new IOrder[] { Order } }
-            };
-
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post("show-objects", jsonData);
-
-            NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevel, DetailLevel) } });
-
-            if (results != null)
-            {
-                results.Next = delegate ()
+                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
                 {
-                    if (results.To == results.Total) { return null; }
-                    return FindAll.Invoke<T>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order);
+                    { "filter", Filter },
+                    { "ip-only", IPOnly },
+                    { "type", Type },
+                    { "details-level", DetailLevel.ToString() },
+                    { "limit", Limit },
+                    { "offset", Offset },
+                    { "order", (Order == null)? null:new IOrder[] { Order } }
                 };
-            }
 
-            return results;
+                string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
+
+                string result = Session.Post("show-objects", jsonData);
+
+                NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+                foreach (var o in results)
+                    objs.Add(o);
+
+                if (results.To == results.Total)
+                {
+                    objectConverter.PostDeserilization(objs);
+                    return objs.ToArray();
+                }
+
+                Offset = results.To;
+            }
         }
 
         #endregion Methods
@@ -126,8 +141,7 @@ namespace Koopman.CheckPoint.Internal
 
             internal const DetailLevels DetailLevel = DetailLevels.Standard;
             internal const bool IPOnly = false;
-            internal const int Limit = 50;
-            internal const int Offset = 0;
+            internal const int Limit = 500;
             internal const IOrder Order = null;
 
             #endregion Fields

@@ -1,12 +1,24 @@
 ﻿using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Internal;
+using Koopman.CheckPoint.Json;
 
 namespace Koopman.CheckPoint.Common
 {
+    /// <summary>
+    /// Used to represent an unknown object type when only the UID is returned.
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.IObjectSummary" />
+    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
+    /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
     public class GenericMember : IObjectSummary, IGroupMember, IServiceGroupMember
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenericMember" /> class.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="uid">The uid.</param>
         internal GenericMember(Session session, string uid)
         {
             UID = uid;
@@ -14,6 +26,13 @@ namespace Koopman.CheckPoint.Common
         }
 
         #endregion Constructors
+
+        #region Fields
+
+        private IObjectSummary cache = null;
+        private bool cached = false;
+
+        #endregion Fields
 
         #region Properties
 
@@ -81,9 +100,23 @@ namespace Koopman.CheckPoint.Common
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
         /// <returns></returns>
-        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
+        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel)
         {
-            return Find.Invoke(Session, UID, detailLevel);
+            if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)
+                cache = Find.Invoke(Session, UID, detailLevel);
+
+            return cache;
+        }
+
+        internal IObjectSummary GetFromCache(ObjectConverter objectConverter)
+        {
+            if (!cached)
+            {
+                cache = objectConverter.GetFromCache(UID);
+                cached = true;
+            }
+
+            return cache;
         }
 
         #endregion Methods

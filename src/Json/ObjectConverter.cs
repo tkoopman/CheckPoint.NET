@@ -21,6 +21,7 @@ using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -36,6 +37,7 @@ namespace Koopman.CheckPoint.Json
         #region Fields
 
         private List<IObjectSummary> cache = new List<IObjectSummary>();
+        private List<GenericMember> cacheGeneric = new List<GenericMember>();
 
         #endregion Fields
 
@@ -78,14 +80,51 @@ namespace Koopman.CheckPoint.Json
         /// Gets object from cache or if not in cache will return the defaultObject.
         /// </summary>
         /// <param name="uid">The uid to find in cache.</param>
-        /// <param name="defaultObject">The default object if not found in cache.</param>
         /// <returns></returns>
-        public IObjectSummary GetFromCache(string uid, IObjectSummary defaultObject = null)
+        public IObjectSummary GetFromCache(string uid)
         {
             foreach (var obj in cache)
                 if (obj.UID.Equals(uid)) return obj;
 
-            return defaultObject;
+            return null;
+        }
+
+        /// <summary>
+        /// Posts the deserilization. This will call UpdateGenericMembers(ObjectConverter) on each
+        /// returned object if HasUpdatedGenericMembers equals false. Each object can then do what
+        /// ever it needs to update things like groups with the cached version if one exists. This is
+        /// used in cases where the UID was used before the object matching the UID was details in
+        /// the JSON response.
+        /// </summary>
+        /// <remarks>
+        /// This needs to be called manually wherever ObjectConverter is used before returnign results.
+        /// </remarks>
+        public void PostDeserilization(object o)
+        {
+            // Nothing to update if either cache is empty so lets not waste time looking
+            if (cacheGeneric.Count == 0 || cache.Count == 0) return;
+
+            if (o is IEnumerable collection)
+            {
+                foreach (var obj in collection)
+                    PostDeserilization(obj);
+            }
+            else
+            {
+                PropertyInfo property = o.GetType().GetTypeInfo().DeclaredProperties.Single(
+                            p => p.Name.Equals("HasUpdatedGenericMembers"));
+
+                if (property == null || property.GetValue(o).Equals(true)) return;
+
+                MethodInfo method = o.GetType().GetTypeInfo().DeclaredMethods.Single(
+                            c => c.Name.Equals("UpdateGenericMembers") &&
+                            c.GetParameters().Length == 1 &&
+                            c.GetParameters().First().ParameterType == typeof(ObjectConverter));
+
+                if (method == null) return;
+
+                method.Invoke(o, new object[] { this });
+            }
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -206,6 +245,9 @@ namespace Koopman.CheckPoint.Json
                 var cached = GetFromCache(uid);
                 if (cached != null) return cached;
 
+                foreach (var obj in cacheGeneric)
+                    if (obj.UID.Equals(uid)) return obj;
+
                 if (objectType.GetTypeInfo().IsClass)
                 {
                     ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.Single(
@@ -221,7 +263,9 @@ namespace Koopman.CheckPoint.Json
                     return cached;
                 }
 
-                return new GenericMember(Session, uid);
+                var generic = new GenericMember(Session, uid);
+                cacheGeneric.Add(generic);
+                return generic;
             }
             else throw CreateJsonReaderException(reader, $"Invalid token type found. Type: {reader.TokenType}");
         }

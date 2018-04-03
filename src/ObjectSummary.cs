@@ -179,6 +179,8 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; internal set; }
 
+        internal bool HasUpdatedGenericMembers { get; private set; } = false;
+
         /// <summary>
         /// Gets the name of the object before any changes. Used when sending updates that may
         /// include a name change.
@@ -347,6 +349,14 @@ namespace Koopman.CheckPoint
         public override string ToString()
         {
             return (string.IsNullOrEmpty(Name)) ? UID : Name;
+        }
+
+        /// <summary>
+        /// Update any GenericMembers with ObjectConverter cache if exists.
+        /// </summary>
+        internal virtual void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            HasUpdatedGenericMembers = true;
         }
 
         /// <summary>

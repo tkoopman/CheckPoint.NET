@@ -76,18 +76,8 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc);
+            var a = Session.FindAllNetworks(limit: 5, order: Network.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
-        }
-
-        [TestMethod]
-        public void FindAllFiltered()
-        {
-            var a = Session.FindNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
-            Assert.IsNotNull(a);
-            Network b = a[0].Reload();
-            a = a.NextPage();
         }
 
         [TestMethod]
@@ -103,6 +93,23 @@ namespace Tests
         public void FindNotFound()
         {
             Session.FindNetwork("I Don't Exist!");
+        }
+
+        [TestMethod]
+        public void Finds()
+        {
+            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc);
+            Assert.IsNotNull(a);
+            a = a.NextPage();
+        }
+
+        [TestMethod]
+        public void FindsFiltered()
+        {
+            var a = Session.FindNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
+            Assert.IsNotNull(a);
+            Network b = a[0].Reload();
+            a = a.NextPage();
         }
 
         [TestMethod]
