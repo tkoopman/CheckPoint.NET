@@ -29,50 +29,136 @@ namespace Koopman.CheckPoint
         #region Properties
 
         /// <summary>
+        /// Color of the object
+        /// </summary>
+        [JsonProperty(PropertyName = "color")]
+        public Colors Color { get; private set; }
+
+        /// <summary>
+        /// Comments string
+        /// </summary>
+        [JsonProperty(PropertyName = "comments")]
+        public string Comments { get; private set; }
+
+        /// <summary>
+        /// Information about the domain the object belongs to.
+        /// </summary>
+        /// <value>The domain.</value>
+        [JsonProperty(PropertyName = "domain", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        public Domain Domain { get; private set; }
+
+        /// <summary>
+        /// Object icon
+        /// </summary>
+        [JsonProperty(PropertyName = "icon")]
+        public string Icon { get; private set; }
+
+        /// <summary>
+        /// Gets the last update time.
+        /// </summary>
+        /// <value>The last update time.</value>
+        [JsonProperty(PropertyName = "last-update-time")]
+        [JsonConverter(typeof(CheckPointDateTimeConverter))]
+        public DateTime LastUpdateTime { get; set; }
+
+        /// <summary>
+        /// Meta Information
+        /// </summary>
+        [JsonProperty(PropertyName = "meta-info", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        public MetaInfo MetaInfo { get; private set; }
+
+        /// <summary>
+        /// Object name. Should be unique in the domain.
+        /// </summary>
+        /// <value>The object's name.</value>
+        /// <exception cref="System.NotImplementedException"></exception>
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; private set; }
+
+        /// <summary>
         /// Gets the progress percentage.
         /// </summary>
         /// <value>The progress percentage.</value>
         [JsonProperty(PropertyName = "progress-percentage")]
-        public int ProgressPercentage
-        {
-            get; private set;
-        }
+        public int ProgressPercentage { get; private set; }
+
+        /// <summary>
+        /// Indicates whether the object is read-only
+        /// </summary>
+        [JsonProperty(PropertyName = "read-only")]
+        public bool ReadOnly { get; private set; }
+
+        /// <summary>
+        /// Gets the start time.
+        /// </summary>
+        /// <value>The start time.</value>
+        [JsonProperty(PropertyName = "start-time")]
+        [JsonConverter(typeof(CheckPointDateTimeConverter))]
+        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// Gets the task status.
         /// </summary>
         /// <value>The status.</value>
         [JsonProperty(PropertyName = "status")]
-        public TaskStatus Status
-        {
-            get; private set;
-        }
+        public TaskStatus Status { get; private set; }
+
+        /// <summary>
+        /// Suppressed
+        /// </summary>
+        /// <value>Suppressed.</value>
+        [JsonProperty(PropertyName = "suppressed")]
+        public bool Suppressed { get; private set; }
+
+        /// <summary>
+        /// Tags assigned to object
+        /// </summary>
+        [JsonProperty(PropertyName = "tags")]
+        public Tag[] Tags { get; private set; }
 
         /// <summary>
         /// Gets the task details.
         /// </summary>
         /// <value>The task details.</value>
         [JsonProperty(PropertyName = "task-details")]
-        public Details[] TaskDetails
-        {
-            get; private set;
-        }
+        public Details[] TaskDetails { get; private set; }
 
         /// <summary>
         /// Gets the task identifier.
         /// </summary>
         /// <value>The task identifier.</value>
         [JsonProperty(PropertyName = "task-id")]
-        public string TaskID
-        {
-            get; private set;
-        }
+        public string TaskID { get; private set; }
+
+        /// <summary>
+        /// Task name.
+        /// </summary>
+        /// <value>The task's name.</value>
+        [JsonProperty(PropertyName = "task-name")]
+        public string TaskName { get; private set; }
+
+        /// <summary>
+        /// Type of the object.
+        /// </summary>
+        /// <value>The type.</value>
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; private set; }
+
+        /// <summary>
+        /// Object unique identifier.
+        /// </summary>
+        /// <value>The uid.</value>
+        [JsonProperty(PropertyName = "uid")]
+        public string UID { get; private set; }
 
         private Session Session { get; }
 
         #endregion Properties
 
         #region Methods
+
+        /// <inheritdoc />
+        public override string ToString() => (String.IsNullOrWhiteSpace(TaskName)) ? TaskID : TaskName;
 
         /// <summary>
         /// Asynchronous wait call, that will complete once the test status is no longer In Progress.
@@ -109,7 +195,11 @@ namespace Koopman.CheckPoint
 
                 if (detailLevels == DetailLevels.Full) { return Status == TaskStatus.Succeeded; }
                 if (Status != TaskStatus.InProgress)
-                { detailLevels = DetailLevels.Full; }
+                {
+                    // Set Detail level to full and do another loop just to populate Task with
+                    // updated task details before returning
+                    detailLevels = DetailLevels.Full;
+                }
                 else
                 {
                     progress?.Report(ProgressPercentage);
@@ -159,7 +249,7 @@ namespace Koopman.CheckPoint
         #region Classes
 
         /// <summary>
-        /// Task destails
+        /// Task details
         /// </summary>
         public class Details
         {
@@ -172,6 +262,15 @@ namespace Koopman.CheckPoint
             public Domain Domain
             {
                 get; private set;
+            }
+
+            /// <summary>
+            /// Gets the response error message.
+            /// </summary>
+            /// <value>The response error message.</value>
+            public string ResponseError
+            {
+                get => (ResponseError64 == null) ? null : System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(ResponseError64));
             }
 
             /// <summary>
@@ -189,6 +288,9 @@ namespace Koopman.CheckPoint
             /// <value>The uid.</value>
             [JsonProperty(PropertyName = "uid")]
             public string UID { get; private set; }
+
+            [JsonProperty(PropertyName = "responseError")]
+            private string ResponseError64 { get; set; }
 
             [JsonProperty(PropertyName = "responseMessage")]
             private string ResponseMessage64 { get; set; }
