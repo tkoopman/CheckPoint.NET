@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -96,7 +97,7 @@ namespace Koopman.CheckPoint
         /// Get or sets the object this group excludes.
         /// </summary>
         /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
-        [JsonProperty(PropertyName = "except")]
+        [JsonProperty(PropertyName = "except", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         public IObjectSummary Except
         {
             get
@@ -114,7 +115,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the object this group includes.
         /// </summary>
         /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
-        [JsonProperty(PropertyName = "include")]
+        [JsonProperty(PropertyName = "include", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         public IObjectSummary Include
         {
             get
@@ -136,6 +137,30 @@ namespace Koopman.CheckPoint
 
         #endregion Properties
 
+        /// <summary>
+        /// Sets the object this group excepts.
+        /// </summary>
+        public void SetExcept(string value)
+        {
+            Except = new AddAsString(value);
+        }
+
+        /// <summary>
+        /// Sets the object this group includes.
+        /// </summary>
+        public void SetInclude(string value)
+        {
+            Include = new AddAsString(value);
+        }
+
+        /// <inheritdoc />
+        protected override void OnDeserializing()
+        {
+            base.OnDeserializing();
+            _include = null;
+            _except = null;
+        }
+
         #region Classes
 
         /// <summary>
@@ -156,6 +181,44 @@ namespace Koopman.CheckPoint
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields
+        }
+
+        private class AddAsString : IObjectSummary
+        {
+            public AddAsString(string value)
+            {
+                if (value.isUID())
+                    UID = value;
+                else
+                    Name = value;
+            }
+
+            public DetailLevels DetailLevel => throw new System.NotImplementedException();
+
+            public Domain Domain => throw new System.NotImplementedException();
+
+            public bool IsNew => throw new System.NotImplementedException();
+
+            public string Name { get; }
+
+            public string Type => throw new System.NotImplementedException();
+
+            public string UID { get; }
+
+            public string GetMembershipID()
+            {
+                return Name ?? UID;
+            }
+
+            public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public override string ToString()
+            {
+                return GetMembershipID();
+            }
         }
 
         #endregion Classes

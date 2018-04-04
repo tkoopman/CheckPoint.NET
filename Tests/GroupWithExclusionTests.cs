@@ -93,6 +93,26 @@ namespace Tests
         }
 
         [TestMethod]
+        public void NewAsString()
+        {
+            string name = $"New {Name}";
+
+            var a = new GroupWithExclusion(Session)
+            {
+                Name = name,
+                Color = Colors.Red
+            };
+
+            a.SetInclude("any");
+            a.SetExcept(Except);
+
+            Assert.IsTrue(a.IsNew);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
+        }
+
+        [TestMethod]
         public void Set()
         {
             string set = $"Not {Name}";
