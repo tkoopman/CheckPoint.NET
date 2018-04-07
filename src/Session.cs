@@ -631,6 +631,7 @@ namespace Koopman.CheckPoint
 
             return results;
         }
+
         /// <summary>
         /// Edit user's current session. All <c>null</c> values will not be changed.
         /// </summary>
@@ -1165,6 +1166,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         /// <summary>
         /// Finds a group with exclusion.
         /// </summary>
@@ -1350,6 +1352,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion Host Methods
 
         #region MulticastAddressRange Methods
@@ -1514,6 +1517,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion MulticastAddressRange Methods
 
         #region Network Methods
@@ -1843,6 +1847,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion SimpleGateway Methods
 
         #region SecurityZone Methods
@@ -2007,6 +2012,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion SecurityZone Methods
 
         #region Tag Methods
@@ -2171,6 +2177,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion Tag Methods
 
         #region Time Methods
@@ -2335,6 +2342,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion Time Methods
 
         #region TimeGroup Methods
@@ -2499,11 +2507,177 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion TimeGroup Methods
 
         #endregion Object Methods
 
         #region Service Methods
+
+        #region ServiceDceRpc Methods
+
+        /// <summary>
+        /// Deletes a DCE-RPC service.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteServiceDceRpc
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-dce-rpc",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all DCE-RPC services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceTCP</returns>
+        public ServiceDceRpc[] FindAllServicesDceRpc
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceDceRpc>
+                (
+                    Session: this,
+                    Type: "service-dce-rpc",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all DCE-RPC services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceTCP</returns>
+        public ServiceDceRpc[] FindAllServicesDceRpc
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceDceRpc>
+                (
+                    Session: this,
+                    Command: "show-services-dce-rpc",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a DCE-RPC service.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ServiceDceRpc object</returns>
+        public ServiceDceRpc FindServiceDceRpc
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceDceRpc>
+                (
+                    Session: this,
+                    Command: "show-service-dce-rpc",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds DCE-RPC services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceDceRpc</returns>
+        public NetworkObjectsPagingResults<ServiceDceRpc> FindServicesDceRpc
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceDceRpc>
+                (
+                    Session: this,
+                    Type: "service-dce-rpc",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds DCE-RPC services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceDceRpc</returns>
+        public NetworkObjectsPagingResults<ServiceDceRpc> FindServicesDceRpc
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceDceRpc>
+                (
+                    Session: this,
+                    Command: "show-services-dce-rpc",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        #endregion ServiceDceRpc Methods
 
         #region ICMP Methods
 
@@ -2667,6 +2841,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion ICMP Methods
 
         #region ICMP6 Methods
@@ -2831,7 +3006,503 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion ICMP6 Methods
+
+        #region ServiceOther Methods
+
+        /// <summary>
+        /// Deletes a other service.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteServiceOther
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-other",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all other services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceOther</returns>
+        public ServiceOther[] FindAllServicesOther
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceOther>
+                (
+                    Session: this,
+                    Type: "service-other",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all other services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceOther</returns>
+        public ServiceOther[] FindAllServicesOther
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceOther>
+                (
+                    Session: this,
+                    Command: "show-services-other",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a other service.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ServiceOther object</returns>
+        public ServiceOther FindServiceOther
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceOther>
+                (
+                    Session: this,
+                    Command: "show-service-other",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds other services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceOther</returns>
+        public NetworkObjectsPagingResults<ServiceOther> FindServicesOther
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceOther>
+                (
+                    Session: this,
+                    Type: "service-other",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds other services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceOther</returns>
+        public NetworkObjectsPagingResults<ServiceOther> FindServicesOther
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceOther>
+                (
+                    Session: this,
+                    Command: "show-services-other",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        #endregion ServiceOther Methods
+
+        #region ServiceRPC Methods
+
+        /// <summary>
+        /// Deletes a RPC service.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteServiceRPC
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-rpc",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all RPC services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceRPC</returns>
+        public ServiceRPC[] FindAllServicesRPC
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceRPC>
+                (
+                    Session: this,
+                    Type: "service-rpc",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all RPC services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceRPC</returns>
+        public ServiceRPC[] FindAllServicesRPC
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceRPC>
+                (
+                    Session: this,
+                    Command: "show-services-rpc",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a RPC service.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ServiceRPC object</returns>
+        public ServiceRPC FindServiceRPC
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceRPC>
+                (
+                    Session: this,
+                    Command: "show-service-rpc",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds RPC services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceRPC</returns>
+        public NetworkObjectsPagingResults<ServiceRPC> FindServicesRPC
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceRPC>
+                (
+                    Session: this,
+                    Type: "service-rpc",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds RPC services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceRPC</returns>
+        public NetworkObjectsPagingResults<ServiceRPC> FindServicesRPC
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceRPC>
+                (
+                    Session: this,
+                    Command: "show-services-rpc",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        #endregion ServiceRPC Methods
+
+        #region ServiceSCTP Methods
+
+        /// <summary>
+        /// Deletes a SCTP service.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteServiceSCTP
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-service-sctp",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all SCTP services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceSCTP</returns>
+        public ServiceSCTP[] FindAllServicesSCTP
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceSCTP>
+                (
+                    Session: this,
+                    Type: "service-sctp",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all SCTP services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ServiceSCTP</returns>
+        public ServiceSCTP[] FindAllServicesSCTP
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ServiceSCTP>
+                (
+                    Session: this,
+                    Command: "show-services-sctp",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds a SCTP service.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ServiceSCTP object</returns>
+        public ServiceSCTP FindServiceSCTP
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ServiceSCTP>
+                (
+                    Session: this,
+                    Command: "show-service-sctp",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds SCTP services that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceSCTP</returns>
+        public NetworkObjectsPagingResults<ServiceSCTP> FindServicesSCTP
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceSCTP>
+                (
+                    Session: this,
+                    Type: "service-sctp",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds SCTP services.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ServiceSCTP</returns>
+        public NetworkObjectsPagingResults<ServiceSCTP> FindServicesSCTP
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ServiceSCTP>
+                (
+                    Session: this,
+                    Command: "show-services-sctp",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        #endregion ServiceSCTP Methods
 
         #region ServiceTCP Methods
 
@@ -2974,6 +3645,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         /// <summary>
         /// Finds a TCP service.
         /// </summary>
@@ -3138,6 +3810,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         /// <summary>
         /// Finds a UDP service.
         /// </summary>
@@ -3323,6 +3996,7 @@ namespace Koopman.CheckPoint
                     Order: order
                 );
         }
+
         #endregion ServiceGroup Methods
 
         #endregion Service Methods

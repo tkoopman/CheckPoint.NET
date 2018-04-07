@@ -23,11 +23,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests
 {
     [TestClass]
-    public class ServiceGroupTests : StandardTestsBase
+    public class ServiceRPCTests : StandardTestsBase
     {
         #region Fields
 
-        private static readonly string Name = "DAIP_Control_services";
+        private static readonly string Filter = "yp";
+        private static readonly string Name = "mountd";
 
         #endregion Fields
 
@@ -36,16 +37,14 @@ namespace Tests
         [TestMethod]
         public void Find()
         {
-            var a = Session.FindServiceGroup(Name);
+            var a = Session.FindServiceRPC(Name);
             Assert.IsNotNull(a);
-            Assert.IsTrue(a.Members.Count > 0);
-            Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindServiceGroups(limit: 5, order: ServiceGroup.Order.NameAsc);
+            var a = Session.FindServicesRPC(limit: 5, order: ServiceRPC.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -53,55 +52,27 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            string filter = Name.Substring(0, 3);
-
-            var a = Session.FindServiceGroups(filter: filter, limit: 5, order: ServiceGroup.Order.NameAsc);
+            var a = Session.FindServicesRPC(filter: Filter, limit: 5, order: ServiceRPC.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
 
         [TestMethod]
-        public void FindNFS()
-        {
-            var a = Session.FindServiceGroup("NFS");
-            Assert.IsNotNull(a);
-            Assert.IsTrue(a.Members.Count > 0);
-            Assert.IsFalse(a.IsChanged);
-        }
-
-        [TestMethod]
         public void New()
         {
-            string name = $"New {Name}";
+            string name = $"New{Name}";
 
-            var a = new ServiceGroup(Session)
+            var a = new ServiceRPC(Session)
             {
                 Name = name,
-                Color = Colors.Red
+                Color = Colors.Red,
+                ProgramNumber = 100005
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-
-            a.Members.Clear();
-            Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(0, a.Members.Count);
-
-            a.Members.Add("domain-udp");
-            Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(1, a.Members.Count);
-
-            a.Members.Remove(a.Members[0]);
-            Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(0, a.Members.Count);
         }
 
         #endregion Methods

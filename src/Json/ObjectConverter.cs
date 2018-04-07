@@ -176,6 +176,10 @@ namespace Koopman.CheckPoint.Json
                             result = (existingValue == null) ? new Network(Session, GetDetailLevel(reader)) : (Network)existingValue;
                             break;
 
+                        case "service-dce-rpc":
+                            result = (existingValue == null) ? new ServiceDceRpc(Session, GetDetailLevel(reader)) : (ServiceDceRpc)existingValue;
+                            break;
+
                         case "service-icmp":
                             result = (existingValue == null) ? new ServiceICMP(Session, GetDetailLevel(reader)) : (ServiceICMP)existingValue;
                             break;
@@ -184,8 +188,20 @@ namespace Koopman.CheckPoint.Json
                             result = (existingValue == null) ? new ServiceICMP6(Session, GetDetailLevel(reader)) : (ServiceICMP6)existingValue;
                             break;
 
+                        case "service-other":
+                            result = (existingValue == null) ? new ServiceOther(Session, GetDetailLevel(reader)) : (ServiceOther)existingValue;
+                            break;
+
+                        case "service-sctp":
+                            result = (existingValue == null) ? new ServiceSCTP(Session, GetDetailLevel(reader)) : (ServiceSCTP)existingValue;
+                            break;
+
                         case "service-tcp":
                             result = (existingValue == null) ? new ServiceTCP(Session, GetDetailLevel(reader)) : (ServiceTCP)existingValue;
+                            break;
+
+                        case "service-rpc":
+                            result = (existingValue == null) ? new ServiceRPC(Session, GetDetailLevel(reader)) : (ServiceRPC)existingValue;
                             break;
 
                         case "service-udp":

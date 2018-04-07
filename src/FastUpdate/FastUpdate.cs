@@ -113,6 +113,20 @@ namespace Koopman.CheckPoint.FastUpdate
         }
 
         /// <summary>
+        /// Updates the Service DCE-RPC without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">The identifier, can by name or UID of Service DCE-RPC to update.</param>
+        /// <returns>
+        /// ServiceDceRpc object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static ServiceDceRpc UpdateServiceDceRpc(this Session session, string identifier)
+        {
+            return AddIdentifier(identifier, new ServiceDceRpc(session, DetailLevels.Full));
+        }
+
+        /// <summary>
         /// Updates the Service Group without finding it first.
         /// </summary>
         /// <param name="session">The session.</param>
@@ -152,6 +166,48 @@ namespace Koopman.CheckPoint.FastUpdate
         public static ServiceICMP6 UpdateServiceICMP6(this Session session, string identifier)
         {
             return AddIdentifier(identifier, new ServiceICMP6(session, DetailLevels.Full));
+        }
+
+        /// <summary>
+        /// Updates the Service Other without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">The identifier, can by name or UID of Service Other to update.</param>
+        /// <returns>
+        /// ServiceOther object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static ServiceOther UpdateServiceOther(this Session session, string identifier)
+        {
+            return AddIdentifier(identifier, new ServiceOther(session, DetailLevels.Full));
+        }
+
+        /// <summary>
+        /// Updates the Service RPC without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">The identifier, can by name or UID of Service RPC to update.</param>
+        /// <returns>
+        /// ServiceRPC object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static ServiceRPC UpdateServiceRPC(this Session session, string identifier)
+        {
+            return AddIdentifier(identifier, new ServiceRPC(session, DetailLevels.Full));
+        }
+
+        /// <summary>
+        /// Updates the Service SCTP without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">The identifier, can by name or UID of Service SCTP to update.</param>
+        /// <returns>
+        /// ServiceSCTP object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static ServiceSCTP UpdateServiceSCTP(this Session session, string identifier)
+        {
+            return AddIdentifier(identifier, new ServiceSCTP(session, DetailLevels.Full));
         }
 
         /// <summary>
