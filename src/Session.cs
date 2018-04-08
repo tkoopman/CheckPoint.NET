@@ -2945,6 +2945,33 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
+        /// Finds an application site.
+        /// </summary>
+        /// <param name="applicationID">The application identifier.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>
+        /// ApplicationSite object
+        /// </returns>
+        public ApplicationSite FindApplicationSite
+            (
+                int applicationID,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "application-id", applicationID },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-application-site", jsonData);
+
+            return JsonConvert.DeserializeObject<ApplicationSite>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, detailLevel) } });
+        }
+
+        /// <summary>
         /// Finds application sites that match filter.
         /// </summary>
         /// <param name="filter">The filter.</param>

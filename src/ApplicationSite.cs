@@ -77,6 +77,7 @@ namespace Koopman.CheckPoint
         private MembershipChangeTracking<string> _urlList;
         private bool? _urlsDefinedAsRegularExpression;
         private bool? _userDefined;
+        private int? _applicationID;
 
         #endregion Fields
 
@@ -93,6 +94,19 @@ namespace Koopman.CheckPoint
         {
             get => _additionalCategories;
             internal set => _additionalCategories = value;
+        }
+
+        /// <summary>
+        /// Used to configure or edit the additional categories of a custom application / site used
+        /// in the Application and URL Filtering or Threat Prevention.
+        /// </summary>
+        /// <value>The additional categories assigned.</value>
+        [JsonProperty(PropertyName = "application-id")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public int? ApplicationID
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _applicationID : null;
+            internal set => _applicationID = value;
         }
 
         /// <summary>

@@ -166,6 +166,27 @@ namespace Tests
             }
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ObjectNotFoundException))]
+        public void FindAppByID()
+        {
+            ApplicationSite a = null;
+            try
+            {
+                a = Session.FindApplicationSite("mycompany.com");
+            }
+            catch (ObjectNotFoundException)
+            {
+                Assert.Fail("Initial find should return result.");
+            }
+
+            Assert.IsNotNull(a);
+
+            // ObjectNotFound error returned when it should be found
+            a = Session.FindApplicationSite((int)a.ApplicationID);
+            Assert.IsNotNull(a);
+        }
+
         #endregion Methods
     }
 }
