@@ -137,9 +137,12 @@ namespace Koopman.CheckPoint
 
         #endregion Properties
 
+        #region Methods
+
         /// <summary>
         /// Sets the object this group excepts.
         /// </summary>
+        /// <param name="value">The name or UID of object.</param>
         public void SetExcept(string value)
         {
             Except = new AddAsString(value);
@@ -148,6 +151,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Sets the object this group includes.
         /// </summary>
+        /// <param name="value">The name or UID of object.</param>
         public void SetInclude(string value)
         {
             Include = new AddAsString(value);
@@ -160,6 +164,8 @@ namespace Koopman.CheckPoint
             _include = null;
             _except = null;
         }
+
+        #endregion Methods
 
         #region Classes
 
@@ -185,6 +191,8 @@ namespace Koopman.CheckPoint
 
         private class AddAsString : IObjectSummary
         {
+            #region Constructors
+
             public AddAsString(string value)
             {
                 if (value.isUID())
@@ -192,6 +200,10 @@ namespace Koopman.CheckPoint
                 else
                     Name = value;
             }
+
+            #endregion Constructors
+
+            #region Properties
 
             public DetailLevels DetailLevel => throw new System.NotImplementedException();
 
@@ -204,6 +216,10 @@ namespace Koopman.CheckPoint
             public string Type => throw new System.NotImplementedException();
 
             public string UID { get; }
+
+            #endregion Properties
+
+            #region Methods
 
             public string GetMembershipID()
             {
@@ -219,6 +235,8 @@ namespace Koopman.CheckPoint
             {
                 return GetMembershipID();
             }
+
+            #endregion Methods
         }
 
         #endregion Classes
