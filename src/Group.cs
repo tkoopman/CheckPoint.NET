@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
@@ -42,9 +43,9 @@ namespace Koopman.CheckPoint
     /// var group = Session.FindGroup("MyGroup");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
     /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
-    public class Group : ObjectBase, IGroupMember
+    public class Group : ObjectBase<Group>, IGroupMember
     {
         #region Fields
 
@@ -119,6 +120,17 @@ namespace Koopman.CheckPoint
         }
 
         #endregion Properties
+
+        #region Methods
+
+        internal override void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            base.UpdateGenericMembers(objectConverter);
+            Groups.UpdateGenericMembers(objectConverter);
+            Members.UpdateGenericMembers(objectConverter);
+        }
+
+        #endregion Methods
 
         #region Classes
 

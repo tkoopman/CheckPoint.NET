@@ -110,11 +110,11 @@
     <AppendMarkdownFileExtensionsToUrls>False</AppendMarkdownFileExtensionsToUrls>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
-      <NamespaceSummaryItem name="Koopman.CheckPoint" isDocumented="True">CheckPoint.NET Main Classes</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Koopman.CheckPoint.Common" isDocumented="True">CheckPoint.NET Shared Common Classes</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Koopman.CheckPoint.Exceptions" isDocumented="True">CheckPoint.NET Exceptions</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Koopman.CheckPoint.SimpleGatewaySettings" isDocumented="True">CheckPoint.NET Simple Gateway Settings Classes</NamespaceSummaryItem>
-    </NamespaceSummaries>
+<NamespaceSummaryItem name="Koopman.CheckPoint" isDocumented="True">CheckPoint.NET Main Classes</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Koopman.CheckPoint.Common" isDocumented="True">CheckPoint.NET Shared Common Classes</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Koopman.CheckPoint.Exceptions" isDocumented="True">CheckPoint.NET Exceptions</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Koopman.CheckPoint.SimpleGatewaySettings" isDocumented="True">CheckPoint.NET Simple Gateway Settings Classes</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Koopman.CheckPoint.FastUpdate" isDocumented="True">Allows for editing existing objects without finding them first.</NamespaceSummaryItem></NamespaceSummaries>
     <ProjectSummary>CheckPoint.NET Namespaces</ProjectSummary>
     <SourceCodeBasePath>..\src\</SourceCodeBasePath>
     <CatalogProductId>VS</CatalogProductId>

@@ -3,7 +3,7 @@
     /// <summary>
     /// Identifies objects that can be assigned as members of a <see cref="TimeGroup" />
     /// </summary>
-    public interface ITimeGroupMember : IMember
+    public interface ITimeGroupMember : IObjectSummary
     {
     }
 }

@@ -54,10 +54,17 @@
     <Compile Include="..\src\Internal\SubnetMask.cs">
       <Link>SubnetMask.cs</Link>
     </Compile>
+    <Compile Include="ApplicationSiteTests.cs" />
+    <Compile Include="ApplicationGroupTests.cs" />
     <Compile Include="Bugs.cs" />
     <Compile Include="LoginMessageTests.cs" />
+    <Compile Include="ApplicationCategoryTests.cs" />
     <Compile Include="ServiceICMP6Tests.cs" />
     <Compile Include="ServiceICMPTests.cs" />
+    <Compile Include="ServiceDceRpcTests.cs" />
+    <Compile Include="ServiceSCTPTests.cs" />
+    <Compile Include="ServiceRPCTests.cs" />
+    <Compile Include="ServiceOtherTests.cs" />
     <Compile Include="SessionInfoTests.cs" />
     <Compile Include="ServiceGroupTests.cs" />
     <Compile Include="PolicyTests.cs" />

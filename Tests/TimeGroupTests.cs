@@ -59,7 +59,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllTimeGroups(limit: 5);
+            var a = Session.FindTimeGroups(limit: 5);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -69,7 +69,7 @@ namespace Tests
         {
             string filter = Name.Substring(0, 3);
 
-            var a = Session.FindAllTimeGroups(filter: filter, limit: 5);
+            var a = Session.FindTimeGroups(filter: filter, limit: 5);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

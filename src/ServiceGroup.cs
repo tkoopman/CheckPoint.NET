@@ -26,9 +26,9 @@ namespace Koopman.CheckPoint
     /// <summary>
     /// Services Group Class.
     /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
     /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
-    public class ServiceGroup : ObjectBase, IServiceGroupMember
+    public class ServiceGroup : ObjectBase<ServiceGroup>, IServiceGroupMember
     {
         #region Fields
 

@@ -53,6 +53,28 @@ namespace Koopman.CheckPoint.Internal
             return JsonConvert.DeserializeObject<T>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
         }
 
+        /// <summary>
+        /// Invokes the Find command.
+        /// </summary>
+        /// <param name="Session">The session.</param>
+        /// <param name="uid">The uid to find.</param>
+        /// <param name="DetailLevel">The detail level to be returned.</param>
+        /// <returns></returns>
+        internal static IObjectSummary Invoke(Session Session, string uid, DetailLevels DetailLevel)
+        {
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "uid", uid },
+                { "details-level", DetailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
+
+            string result = Session.Post("show-object", jsonData);
+
+            return JsonConvert.DeserializeObject<IObjectSummary>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
+        }
+
         #endregion Methods
 
         #region Classes

@@ -75,7 +75,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllSimpleGateways(limit: 5, order: SimpleGateway.Order.NameDesc);
+            var a = Session.FindSimpleGateways(limit: 5, order: SimpleGateway.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -83,7 +83,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllSimpleGateways(filter: Filter, ipOnly: true, limit: 5, order: SimpleGateway.Order.NameDesc);
+            var a = Session.FindSimpleGateways(filter: Filter, ipOnly: true, limit: 5, order: SimpleGateway.Order.NameDesc);
             Assert.IsNotNull(a);
             a = a.NextPage();
             Assert.IsNotNull(a);

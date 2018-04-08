@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -42,13 +43,13 @@ namespace Koopman.CheckPoint
     /// var gwe = Session.FindGroupWithExclusion("MyGroupWithExclusion");
     /// </code>
     /// </example>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
-    public class GroupWithExclusion : ObjectBase
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
+    public class GroupWithExclusion : ObjectBase<GroupWithExclusion>
     {
         #region Fields
 
-        private ObjectSummary _except;
-        private ObjectSummary _include;
+        private IObjectSummary _except;
+        private IObjectSummary _include;
 
         #endregion Fields
 
@@ -95,9 +96,9 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Get or sets the object this group excludes.
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
-        [JsonProperty(PropertyName = "except")]
-        public ObjectSummary Except
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        [JsonProperty(PropertyName = "except", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        public IObjectSummary Except
         {
             get
             {
@@ -113,9 +114,9 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets or sets the object this group includes.
         /// </summary>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
-        [JsonProperty(PropertyName = "include")]
-        public ObjectSummary Include
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        [JsonProperty(PropertyName = "include", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        public IObjectSummary Include
         {
             get
             {
@@ -135,6 +136,36 @@ namespace Koopman.CheckPoint
         protected override IContractResolver SetContractResolver => GroupWithExclusionContractResolver.SetInstance;
 
         #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Sets the object this group excepts.
+        /// </summary>
+        /// <param name="value">The name or UID of object.</param>
+        public void SetExcept(string value)
+        {
+            Except = new AddAsString(value);
+        }
+
+        /// <summary>
+        /// Sets the object this group includes.
+        /// </summary>
+        /// <param name="value">The name or UID of object.</param>
+        public void SetInclude(string value)
+        {
+            Include = new AddAsString(value);
+        }
+
+        /// <inheritdoc />
+        protected override void OnDeserializing()
+        {
+            base.OnDeserializing();
+            _include = null;
+            _except = null;
+        }
+
+        #endregion Methods
 
         #region Classes
 
@@ -156,6 +187,56 @@ namespace Koopman.CheckPoint
             public readonly static IOrder NameDesc = new OrderDescending("name");
 
             #endregion Fields
+        }
+
+        private class AddAsString : IObjectSummary
+        {
+            #region Constructors
+
+            public AddAsString(string value)
+            {
+                if (value.isUID())
+                    UID = value;
+                else
+                    Name = value;
+            }
+
+            #endregion Constructors
+
+            #region Properties
+
+            public DetailLevels DetailLevel => throw new System.NotImplementedException();
+
+            public Domain Domain => throw new System.NotImplementedException();
+
+            public bool IsNew => throw new System.NotImplementedException();
+
+            public string Name { get; }
+
+            public string Type => throw new System.NotImplementedException();
+
+            public string UID { get; }
+
+            #endregion Properties
+
+            #region Methods
+
+            public string GetMembershipID()
+            {
+                return Name ?? UID;
+            }
+
+            public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public override string ToString()
+            {
+                return GetMembershipID();
+            }
+
+            #endregion Methods
         }
 
         #endregion Classes

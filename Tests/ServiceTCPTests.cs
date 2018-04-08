@@ -57,7 +57,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllServicesTCP(limit: 5, order: ServiceTCP.Order.NameAsc);
+            var a = Session.FindServicesTCP(limit: 5, order: ServiceTCP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -65,7 +65,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllServicesTCP(filter: Filter, limit: 5, order: ServiceTCP.Order.NameAsc);
+            var a = Session.FindServicesTCP(filter: Filter, limit: 5, order: ServiceTCP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }

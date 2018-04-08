@@ -17,6 +17,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Json;
+
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
@@ -25,11 +27,11 @@ namespace Koopman.CheckPoint.Common
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.MembershipChangeTracking{T}" />
-    public class MemberMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : IMember
+    public class MemberMembershipChangeTracking<T> : MembershipChangeTracking<T> where T : IObjectSummary
     {
         #region Constructors
 
-        internal MemberMembershipChangeTracking(ObjectSummary parent) : base(parent)
+        internal MemberMembershipChangeTracking(IObjectSummary parent) : base(parent)
         {
         }
 
@@ -68,6 +70,20 @@ namespace Koopman.CheckPoint.Common
         {
             if (item == null) { return false; }
             return Remove(item.GetMembershipID());
+        }
+
+        internal void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            for (int x = 0; x < Members.Count; x++)
+                if (Members[x] is GenericMember)
+                {
+                    GenericMember m = (GenericMember)(IObjectSummary)Members[x];
+                    IObjectSummary summary = m.GetFromCache(objectConverter);
+                    if (summary != null)
+                        Members[x] = (T)summary;
+                }
+                else
+                    objectConverter.PostDeserilization(Members[x]);
         }
 
         #endregion Methods

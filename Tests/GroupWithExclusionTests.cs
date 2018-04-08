@@ -60,7 +60,7 @@ namespace Tests
         [TestMethod]
         public void FindAll()
         {
-            var a = Session.FindAllGroupsWithExclusion(limit: 5, order: GroupWithExclusion.Order.NameAsc);
+            var a = Session.FindGroupsWithExclusion(limit: 5, order: GroupWithExclusion.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -68,7 +68,7 @@ namespace Tests
         [TestMethod]
         public void FindAllFiltered()
         {
-            var a = Session.FindAllGroupsWithExclusion(filter: Filter, limit: 5, order: GroupWithExclusion.Order.NameAsc);
+            var a = Session.FindGroupsWithExclusion(filter: Filter, limit: 5, order: GroupWithExclusion.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -85,6 +85,26 @@ namespace Tests
                 Include = ObjectSummary.Any,
                 Except = Session.FindGroup(Except)
             };
+
+            Assert.IsTrue(a.IsNew);
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
+        }
+
+        [TestMethod]
+        public void NewAsString()
+        {
+            string name = $"New {Name}";
+
+            var a = new GroupWithExclusion(Session)
+            {
+                Name = name,
+                Color = Colors.Red
+            };
+
+            a.SetInclude("any");
+            a.SetExcept(Except);
 
             Assert.IsTrue(a.IsNew);
             a.AcceptChanges();

@@ -70,7 +70,7 @@ namespace Koopman.CheckPoint.Common
 
         #region Constructors
 
-        internal MembershipChangeTracking(ObjectSummary parent)
+        internal MembershipChangeTracking(IObjectSummary parent)
         {
             Parent = parent;
         }
@@ -117,7 +117,7 @@ namespace Koopman.CheckPoint.Common
         /// Gets the parent object that is tracking this membership.
         /// </summary>
         [JsonIgnore]
-        protected internal ObjectSummary Parent { get; internal set; }
+        protected internal IObjectSummary Parent { get; internal set; }
 
         #endregion Properties
 

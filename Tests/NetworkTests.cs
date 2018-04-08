@@ -31,7 +31,7 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string v4Filter = "172.16.0.0";
+        private static readonly string v4Filter = "172.16.0.0/16";
         private static readonly int v4MaskLen = 24;
         private static readonly string v4Name = "CP_default_Office_Mode_addresses_pool";
         private static readonly IPAddress v4Subnet = IPAddress.Parse("172.16.10.0");
@@ -78,13 +78,12 @@ namespace Tests
         {
             var a = Session.FindAllNetworks(limit: 5, order: Network.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public void FindAllUIDs()
         {
-            var a = Session.FindAllNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
+            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.UID);
             Assert.IsNotNull(a);
             a = a.NextPage();
         }
@@ -94,6 +93,30 @@ namespace Tests
         public void FindNotFound()
         {
             Session.FindNetwork("I Don't Exist!");
+        }
+
+        [TestMethod]
+        public void Finds()
+        {
+            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(a);
+            a = a.NextPage();
+        }
+
+        [TestMethod]
+        public void FindsFiltered()
+        {
+            var a = Session.FindNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
+            Assert.IsNotNull(a);
+            Network b = a[0].Reload();
+            a = a.NextPage();
+        }
+
+        [TestMethod]
+        public void FindUID()
+        {
+            var a = Session.FindNetwork("HQ LAN", DetailLevels.UID);
+            Assert.IsNotNull(a);
         }
 
         [TestMethod]

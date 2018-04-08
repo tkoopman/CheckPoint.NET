@@ -14,7 +14,7 @@ namespace Koopman.CheckPoint
         #region Constructors
 
         [JsonConstructor]
-        private SessionInfo(Session session, string application, int changes, Colors color, string comments, ConnectionModes connectionMode, string description, string email, string icon, IPAddress iPAddress, bool isExpiredSession, bool isInWork, DateTime lastLoginTime, DateTime lastLogoutTime, int locks, string name, string phoneNumber, DateTime publishTime, bool readOnly, int sessionTimeout, States state, Tag[] tags, string type, string uID, string userName)
+        private SessionInfo(string application, int changes, Colors color, string comments, ConnectionModes connectionMode, string description, string email, string icon, IPAddress iPAddress, bool isExpiredSession, bool isInWork, DateTime lastLoginTime, DateTime lastLogoutTime, int locks, string name, string phoneNumber, DateTime publishTime, bool readOnly, int sessionTimeout, States state, Tag[] tags, string type, string uID, string userName)
         {
             Application = application;
             Changes = changes;

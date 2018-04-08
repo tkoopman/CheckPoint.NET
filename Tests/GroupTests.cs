@@ -62,17 +62,33 @@ namespace Tests
         {
             var a = Session.FindAllGroups(limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
+        }
+
+        [TestMethod]
+        public void Finds()
+        {
+            var a = Session.FindGroups(limit: 5, order: Group.Order.NameAsc);
+            Assert.IsNotNull(a);
             a = a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public void FindsFiltered()
         {
             string filter = Name.Substring(0, 3);
 
-            var a = Session.FindAllGroups(filter: filter, limit: 5, order: Group.Order.NameAsc);
+            var a = Session.FindGroups(filter: filter, limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
             a = a.NextPage();
+        }
+
+        [TestMethod]
+        public void FindUID()
+        {
+            var a = Session.FindGroup(Name, DetailLevels.UID);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.Members.Count > 0);
+            Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]

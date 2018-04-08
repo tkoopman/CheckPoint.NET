@@ -38,7 +38,7 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
+            return typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -54,7 +54,7 @@ namespace Koopman.CheckPoint.Json
                 return;
             }
 
-            ObjectSummary obj = (ObjectSummary)value;
+            IObjectSummary obj = (IObjectSummary)value;
             if (String.IsNullOrWhiteSpace(obj.Name))
                 writer.WriteValue(obj.UID);
             else

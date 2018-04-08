@@ -26,9 +26,9 @@ namespace Koopman.CheckPoint
     /// <summary>
     /// Check Point ICMP v6 Service
     /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase" />
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
     /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
-    public class ServiceICMP6 : ObjectBase, IServiceGroupMember
+    public class ServiceICMP6 : ObjectBase<ServiceICMP6>, IServiceGroupMember
     {
         #region Fields
 
@@ -86,7 +86,7 @@ namespace Koopman.CheckPoint
         /// <see href="http://www.iana.org/assignments/icmp-parameters">RFC 792</see>.
         /// </summary>
         /// <value>The ICMP code.</value>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "icmp-code")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int ICMPCode
@@ -105,7 +105,7 @@ namespace Koopman.CheckPoint
         /// <see href="http://www.iana.org/assignments/icmp-parameters">RFC 792</see>.
         /// </summary>
         /// <value>The ICMP type.</value>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "icmp-type")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int ICMPType
@@ -123,7 +123,7 @@ namespace Koopman.CheckPoint
         /// Gets or sets the keep connections open after policy installation.
         /// </summary>
         /// <value>The keep connections open after policy installation.</value>
-        /// <remarks>Requires <see cref="ObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "keep-connections-open-after-policy-installation")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool? KeepConnectionsOpenAfterPolicyInstallation

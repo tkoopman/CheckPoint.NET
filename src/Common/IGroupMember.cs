@@ -3,7 +3,7 @@
     /// <summary>
     /// Identifies objects that can be assigned as members of a <see cref="Group" />
     /// </summary>
-    public interface IGroupMember : IMember
+    public interface IGroupMember : IObjectSummary
     {
     }
 }
