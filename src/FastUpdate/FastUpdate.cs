@@ -25,6 +25,54 @@ namespace Koopman.CheckPoint.FastUpdate
         }
 
         /// <summary>
+        /// Updates the Application Category without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">
+        /// The identifier, can by name or UID of Application Category to update.
+        /// </param>
+        /// <returns>
+        /// ApplicationCategory object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static ApplicationCategory UpdateApplicationCategory(this Session session, string identifier)
+        {
+            return AddIdentifier(identifier, new ApplicationCategory(session, DetailLevels.Full));
+        }
+
+        /// <summary>
+        /// Updates the Application Group without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">
+        /// The identifier, can by name or UID of Application Group to update.
+        /// </param>
+        /// <returns>
+        /// ApplicationGroup object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static ApplicationGroup UpdateApplicationGroup(this Session session, string identifier)
+        {
+            return AddIdentifier(identifier, new ApplicationGroup(session, DetailLevels.Full));
+        }
+
+        /// <summary>
+        /// Updates the Application Site without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">
+        /// The identifier, can by name or UID of Application Site to update.
+        /// </param>
+        /// <returns>
+        /// ApplicationSite object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static ApplicationSite UpdateApplicationSite(this Session session, string identifier)
+        {
+            return AddIdentifier(identifier, new ApplicationSite(session, DetailLevels.Full));
+        }
+
+        /// <summary>
         /// Updates the Group without finding it first.
         /// </summary>
         /// <param name="session">The session.</param>

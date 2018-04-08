@@ -10,7 +10,7 @@ namespace Koopman.CheckPoint.Common
     /// <seealso cref="Koopman.CheckPoint.IObjectSummary" />
     /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
     /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
-    public class GenericMember : IObjectSummary, IGroupMember, IServiceGroupMember
+    public class GenericMember : IObjectSummary, IGroupMember, IServiceGroupMember, IApplicationGroupMember
     {
         #region Constructors
 
@@ -94,11 +94,11 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
         /// </summary>
-        /// <param name="OnlyIfPartial">Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" /></param>
+        /// <param name="OnlyIfPartial">
+        /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
+        /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
-        /// <returns>
-        /// IObjectSummary of reloaded object
-        /// </returns>
+        /// <returns>IObjectSummary of reloaded object</returns>
         public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel)
         {
             if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)

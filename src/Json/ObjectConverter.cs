@@ -156,6 +156,18 @@ namespace Koopman.CheckPoint.Json
                             result = (existingValue == null) ? new AddressRange(Session, GetDetailLevel(reader)) : (AddressRange)existingValue;
                             break;
 
+                        case "application-site-category":
+                            result = (existingValue == null) ? new ApplicationCategory(Session, GetDetailLevel(reader)) : (ApplicationCategory)existingValue;
+                            break;
+
+                        case "application-site-group":
+                            result = (existingValue == null) ? new ApplicationGroup(Session, GetDetailLevel(reader)) : (ApplicationGroup)existingValue;
+                            break;
+
+                        case "application-site":
+                            result = (existingValue == null) ? new ApplicationSite(Session, GetDetailLevel(reader)) : (ApplicationSite)existingValue;
+                            break;
+
                         case "group":
                             result = (existingValue == null) ? new Group(Session, GetDetailLevel(reader)) : (Group)existingValue;
                             break;

@@ -2514,6 +2514,501 @@ namespace Koopman.CheckPoint
 
         #region Service Methods
 
+        #region ApplicationCategory Methods
+
+        /// <summary>
+        /// Deletes an application category.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteApplicationCategory
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-application-site-category",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all application categories that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ApplicationCategory</returns>
+        public ApplicationCategory[] FindAllApplicationCategories
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ApplicationCategory>
+                (
+                    Session: this,
+                    Type: "application-site-category",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all application categories.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ApplicationCategory</returns>
+        public ApplicationCategory[] FindAllApplicationCategories
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ApplicationCategory>
+                (
+                    Session: this,
+                    Command: "show-application-site-categories",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds application categories that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ApplicationCategory</returns>
+        public NetworkObjectsPagingResults<ApplicationCategory> FindApplicationCategories
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ApplicationCategory>
+                (
+                    Session: this,
+                    Type: "application-site-category",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds application categories.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ApplicationCategory</returns>
+        public NetworkObjectsPagingResults<ApplicationCategory> FindApplicationCategories
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ApplicationCategory>
+                (
+                    Session: this,
+                    Command: "show-application-site-categories",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds an application category.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ApplicationCategory object</returns>
+        public ApplicationCategory FindApplicationCategory
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ApplicationCategory>
+                (
+                    Session: this,
+                    Command: "show-application-site-category",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        #endregion ApplicationCategory Methods
+
+        #region ApplicationGroup Methods
+
+        /// <summary>
+        /// Deletes an application group.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteApplicationGroup
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-application-site-group",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all application groups that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ApplicationGroup</returns>
+        public ApplicationGroup[] FindAllApplicationGroups
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ApplicationGroup>
+                (
+                    Session: this,
+                    Type: "application-site-group",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all application groups.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ApplicationGroup</returns>
+        public ApplicationGroup[] FindAllApplicationGroups
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ApplicationGroup>
+                (
+                    Session: this,
+                    Command: "show-application-site-groups",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds an application group.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ApplicationGroup object</returns>
+        public ApplicationGroup FindApplicationGroup
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ApplicationGroup>
+                (
+                    Session: this,
+                    Command: "show-application-site-group",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds application groups that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ApplicationGroup</returns>
+        public NetworkObjectsPagingResults<ApplicationGroup> FindApplicationGroups
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ApplicationGroup>
+                (
+                    Session: this,
+                    Type: "application-site-group",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds application groups.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ApplicationGroup</returns>
+        public NetworkObjectsPagingResults<ApplicationGroup> FindApplicationGroups
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ApplicationGroup>
+                (
+                    Session: this,
+                    Command: "show-application-site-groups",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        #endregion ApplicationGroup Methods
+
+        #region ApplicationSite Methods
+
+        /// <summary>
+        /// Deletes an application site.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteApplicationSite
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-application-site",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds all application sites that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ApplicationSite</returns>
+        public ApplicationSite[] FindAllApplicationSites
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ApplicationSite>
+                (
+                    Session: this,
+                    Type: "application-site",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all application sites.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of ApplicationSite</returns>
+        public ApplicationSite[] FindAllApplicationSites
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<ApplicationSite>
+                (
+                    Session: this,
+                    Command: "show-application-sites",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds an application site.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>ApplicationSite object</returns>
+        public ApplicationSite FindApplicationSite
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<ApplicationSite>
+                (
+                    Session: this,
+                    Command: "show-application-site",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds application sites that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ApplicationSite</returns>
+        public NetworkObjectsPagingResults<ApplicationSite> FindApplicationSites
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ApplicationSite>
+                (
+                    Session: this,
+                    Type: "application-site",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds application sites.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of ApplicationSite</returns>
+        public NetworkObjectsPagingResults<ApplicationSite> FindApplicationSites
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<ApplicationSite>
+                (
+                    Session: this,
+                    Command: "show-application-sites",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        #endregion ApplicationSite Methods
+
         #region ServiceDceRpc Methods
 
         /// <summary>

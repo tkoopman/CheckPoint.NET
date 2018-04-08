@@ -53,6 +53,19 @@ namespace Koopman.CheckPoint.Common
             _tags = new MemberMembershipChangeTracking<Tag>(this);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectBase{T}" /> class.
+        /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="type">
+        /// The Check Point type. Must match type property returned in JSON data.
+        /// </param>
+        protected ObjectBase(Session session, DetailLevels detailLevel, string type) : base(session, detailLevel, type)
+        {
+            _tags = new MemberMembershipChangeTracking<Tag>(this);
+        }
+
         #endregion Constructors
 
         #region Properties
