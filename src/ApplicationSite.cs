@@ -130,7 +130,11 @@ namespace Koopman.CheckPoint
         public bool? AreUrlsDefinedAsRegularExpression
         {
             get => (TestDetailLevel(DetailLevels.Full)) ? _urlsDefinedAsRegularExpression : null;
-            internal set => _urlsDefinedAsRegularExpression = value;
+            set
+            {
+                _urlsDefinedAsRegularExpression = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
