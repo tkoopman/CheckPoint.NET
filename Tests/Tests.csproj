@@ -59,6 +59,7 @@
     <Compile Include="Bugs.cs" />
     <Compile Include="LoginMessageTests.cs" />
     <Compile Include="ApplicationCategoryTests.cs" />
+    <Compile Include="ObjectTests.cs" />
     <Compile Include="ServiceICMP6Tests.cs" />
     <Compile Include="ServiceICMPTests.cs" />
     <Compile Include="ServiceDceRpcTests.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="HostTests.cs" />
     <Compile Include="StandardTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ObjectSummaryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

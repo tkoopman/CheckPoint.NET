@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace Koopman.CheckPoint.Internal
@@ -71,8 +72,8 @@ namespace Koopman.CheckPoint.Internal
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
             string result = Session.Post("show-object", jsonData);
-
-            return JsonConvert.DeserializeObject<IObjectSummary>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
+            JObject obj = JObject.Parse(result);
+            return obj.GetValue("object").ToObject<IObjectSummary>(JsonSerializer.Create(new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } }));
         }
 
         #endregion Methods

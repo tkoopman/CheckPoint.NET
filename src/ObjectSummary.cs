@@ -41,32 +41,17 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// The Any object.
         /// </summary>
-        public static readonly ObjectSummary<IObjectSummary> Any = new ObjectSummary<IObjectSummary>(null, DetailLevels.Full, "CpmiAnyObject")
-        {
-            UID = "97aeb369-9aea-11d5-bd16-0090272ccb30",
-            _name = "Any",
-            _domain = Domain.DataDomain
-        };
+        public static readonly IObjectSummary Any = GenericObjectSummary.Any;
 
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        internal static readonly ObjectSummary<IObjectSummary> RestrictCommonProtocolsAction = new ObjectSummary<IObjectSummary>(null, DetailLevels.Full, "")
-        {
-            UID = "ea3a425f-56b3-46de-98e7-bd88ce27a801",
-            _name = "Restrict_Common_Protocols_Action",
-            _domain = Domain.Default
-        };
+        public static readonly IObjectSummary RestrictCommonProtocolsAction = GenericObjectSummary.RestrictCommonProtocolsAction;
 
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        internal static readonly ObjectSummary<IObjectSummary> TrustAllAction = new ObjectSummary<IObjectSummary>(null, DetailLevels.Full, "")
-        {
-            UID = "226b5ee1-69ce-4bdb-a53f-3a01e68885b4",
-            _name = "Trust_all_action",
-            _domain = Domain.Default
-        };
+        public static readonly IObjectSummary TrustAllAction = GenericObjectSummary.TrustAllAction;
 
         #endregion Static Fields
     }
@@ -76,7 +61,7 @@ namespace Koopman.CheckPoint
     /// </summary>
     /// <typeparam name="T">Type from derived classes</typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
-    public class ObjectSummary<T> : ChangeTracking, IObjectSummary where T : IObjectSummary
+    public abstract class ObjectSummary<T> : ChangeTracking, IObjectSummary where T : IObjectSummary
     {
         #region Fields
 
@@ -103,7 +88,7 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Initializes a read-only new instance of the <see cref="ObjectSummary" /> class.
+        /// Initializes a new instance of the <see cref="ObjectSummary" /> class.
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level.</param>
@@ -147,7 +132,6 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <value>The object's name.</value>
         /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
-        /// <exception cref="System.NotImplementedException"></exception>
         [JsonProperty(PropertyName = "name")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Name
@@ -156,7 +140,6 @@ namespace Koopman.CheckPoint
 
             set
             {
-                if (IsReadOnly && !IsDeserializing) { throw new System.NotImplementedException($"Check Point type of {Type} is not fully implemented yet."); }
                 _name = value;
                 if (IsDeserializing)
                 {
@@ -230,8 +213,6 @@ namespace Koopman.CheckPoint
         /// </exception>
         public virtual void AcceptChanges(Ignore ignore)
         {
-            if (this.GetType().GetTypeInfo().IsGenericType) { throw new System.NotImplementedException($"Check Point type of {Type} is not fully implemented yet."); }
-
             if (IsChanged)
             {
                 JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { Converters = { new MembershipChangeTrackingConverter() } };
@@ -272,7 +253,6 @@ namespace Koopman.CheckPoint
         /// <exception cref="Exception">Cannot delete a new object.</exception>
         public virtual void Delete(Ignore ignore = Internal.Delete.Defaults.ignore)
         {
-            if (this.GetType().GetTypeInfo().IsGenericType) { throw new System.NotImplementedException(); }
             if (IsNew) { throw new Exception("Cannot delete a new object."); }
 
             Internal.Delete.Invoke(
@@ -309,8 +289,6 @@ namespace Koopman.CheckPoint
         /// <exception cref="Exception">Cannot reload a new object.</exception>
         public T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
         {
-            if (this.GetType().GetTypeInfo().IsGenericType) { throw new System.NotImplementedException(); }
-
             if (IsNew) { throw new Exception("Cannot reload a new object."); }
             if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return (T)(IObjectSummary)this; }
 

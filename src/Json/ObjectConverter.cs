@@ -150,7 +150,8 @@ namespace Koopman.CheckPoint.Json
                 // provided make sure it can be cast to the correct type
                 if (result == null)
                 {
-                    switch (obj.GetValue("type").ToString())
+                    string type = obj.GetValue("type").ToString();
+                    switch (type)
                     {
                         case "address-range":
                             result = (existingValue == null) ? new AddressRange(Session, GetDetailLevel(reader)) : (AddressRange)existingValue;
@@ -256,7 +257,7 @@ namespace Koopman.CheckPoint.Json
                             return ObjectSummary.Any;
 
                         default:
-                            result = (existingValue == null) ? new ObjectSummary<IObjectSummary>(Session, GetDetailLevel(reader)) : (ObjectSummary<IObjectSummary>)existingValue;
+                            result = (existingValue == null) ? new GenericObjectSummary(Session, GetDetailLevel(reader), type) : (GenericObjectSummary)existingValue;
                             break;
                     }
 
