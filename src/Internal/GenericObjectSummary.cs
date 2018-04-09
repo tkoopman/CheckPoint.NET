@@ -15,6 +15,8 @@ namespace Koopman.CheckPoint.Internal
     /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
     internal class GenericObjectSummary : IObjectSummary
     {
+        #region Fields
+
         /// <summary>
         /// The Any object.
         /// </summary>
@@ -26,7 +28,7 @@ namespace Koopman.CheckPoint.Internal
         };
 
         /// <summary>
-        /// The Trust_all_action object.
+        /// The restrict common protocols action
         /// </summary>
         internal static readonly GenericObjectSummary RestrictCommonProtocolsAction = new GenericObjectSummary(null, DetailLevels.Full, "")
         {
@@ -44,6 +46,8 @@ namespace Koopman.CheckPoint.Internal
             Name = "Trust_all_action",
             Domain = Domain.Default
         };
+
+        #endregion Fields
 
         #region Constructors
 
@@ -74,13 +78,15 @@ namespace Koopman.CheckPoint.Internal
 
         #endregion Constructors
 
+
+
         #region Fields
 
-        private IObjectSummary cache = null;
-        private bool cached = false;
         private Domain _domain;
         private string _name;
         private string _type;
+        private IObjectSummary cache = null;
+        private bool cached = false;
 
         #endregion Fields
 
@@ -179,6 +185,12 @@ namespace Koopman.CheckPoint.Internal
             return cache;
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString() => GetMembershipID();
+
         internal IObjectSummary GetFromCache(ObjectConverter objectConverter)
         {
             if (!cached)
@@ -189,14 +201,6 @@ namespace Koopman.CheckPoint.Internal
 
             return cache;
         }
-
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
-        public override string ToString() =>  GetMembershipID();
 
         /// <summary>
         /// Tests the current detail level and takes action if too low.

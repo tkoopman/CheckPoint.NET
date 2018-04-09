@@ -75,7 +75,7 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         /// <exception cref="System.ArgumentNullException">Color</exception>
-        [JsonProperty(PropertyName = "color")]
+        [JsonProperty(PropertyName = "color", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Colors? Color
         {

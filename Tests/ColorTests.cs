@@ -43,6 +43,7 @@ namespace Tests
             {
                 a.Color = c;
                 a.AcceptChanges();
+                if (c == Colors.None) break;
                 Assert.AreEqual(c, a.Color);
             }
         }

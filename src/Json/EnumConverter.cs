@@ -203,41 +203,37 @@ namespace Koopman.CheckPoint.Json
                 t.GetTypeInfo().GetCustomAttribute(typeof(FlagsAttribute)) != null :
                 OutputArray == OutputArrayOptions.Yes;
 
-            if (asArray) { writer.WriteStartArray(); }
+            Enum e = (Enum)value;
+            if (asArray)
+            {
+                writer.WriteStartArray();
 
-            if (value == null)
-            {
-                if (!asArray) { writer.WriteNull(); }
-            }
-            else
-            {
-                Enum e = (Enum)value;
-                List<string> values = new List<string>();
-                if (asArray)
+                if (value != null)
                 {
-                    string[] flags = t.GetTypeInfo().GetEnumNames();
+                    List<string> values = new List<string>(); string[] flags = t.GetTypeInfo().GetEnumNames();
                     foreach (var flag in flags)
                     {
                         Enum flagEnum = (Enum)Enum.Parse(t, flag);
                         MemberInfo[] flagInfo = t.GetTypeInfo().GetMember(flag);
                         bool ignore = flagInfo[0].GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null;
                         if (!ignore && e.HasFlag(flagEnum))
-                        {
-                            values.Add(flag);
-                        }
+                            writer.WriteValue(SerializeValue(flag, t));
                     }
                 }
-                else
-                {
-                    values.Add(e.ToString());
-                }
-                foreach (string v in values)
-                {
-                    writer.WriteValue(SerializeValue(v, t));
-                }
-            }
 
-            if (asArray) { writer.WriteEndArray(); }
+                writer.WriteEndArray();
+            }
+            else if (value == null)
+                writer.WriteNull();
+            else
+            {
+                MemberInfo[] flagInfo = t.GetTypeInfo().GetMember(e.ToString());
+                bool ignore = flagInfo[0].GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null;
+                if (ignore)
+                    writer.WriteNull();
+                else
+                    writer.WriteValue(SerializeValue(e.ToString(), t));
+            }
         }
 
         private static bool GetIsNullable(Type objectType)

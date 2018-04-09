@@ -134,6 +134,13 @@ namespace Koopman.CheckPoint.Json
                 JObject obj = serializer.Deserialize<JObject>(reader);
                 string uid = obj.GetValue("uid").ToString();
 
+                if (uid.Equals(ObjectSummary.Any.UID))
+                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
+                if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
+                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
+                if (uid.Equals(ObjectSummary.TrustAllAction.UID))
+                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
+
                 IObjectSummary result = null;
 
                 if (existingValue != null)
@@ -245,19 +252,7 @@ namespace Koopman.CheckPoint.Json
                             break;
 
                         case "":
-                            // Not sure what to do with these. For now return null for known ones.
-                            if (objectType.GetTypeInfo().IsInterface)
-                            {
-                                if (obj.GetValue("uid").ToString().Equals(ObjectSummary.TrustAllAction.UID))
-                                    return ObjectSummary.TrustAllAction;
-                                if (obj.GetValue("uid").ToString().Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
-                                    return ObjectSummary.RestrictCommonProtocolsAction;
-                                throw new NotImplementedException("Empty type objects not implemented");
-                            }
-                            return null;
-
-                        case "CpmiAnyObject":
-                            return ObjectSummary.Any;
+                            throw new NotImplementedException("Empty type objects not implemented");
 
                         default:
                             result = (existingValue == null) ? new GenericObjectSummary(Session, GetDetailLevel(reader), type) : (GenericObjectSummary)existingValue;
@@ -275,6 +270,14 @@ namespace Koopman.CheckPoint.Json
             else if (reader.TokenType == JsonToken.String)
             {
                 string uid = serializer.Deserialize<string>(reader);
+
+                if (uid.Equals(ObjectSummary.Any.UID))
+                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
+                if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
+                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
+                if (uid.Equals(ObjectSummary.TrustAllAction.UID))
+                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
+
                 var cached = GetFromCache(uid);
                 if (cached != null) return cached;
 
