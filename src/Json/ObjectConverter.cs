@@ -129,19 +129,14 @@ namespace Koopman.CheckPoint.Json
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            IObjectSummary result;
             if (reader.TokenType == JsonToken.StartObject)
             {
                 JObject obj = serializer.Deserialize<JObject>(reader);
                 string uid = obj.GetValue("uid").ToString();
 
-                if (uid.Equals(ObjectSummary.Any.UID))
-                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
-                if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
-                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
-                if (uid.Equals(ObjectSummary.TrustAllAction.UID))
-                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
-
-                IObjectSummary result = null;
+                if (IsSpecialObject(uid, objectType, out result))
+                    return result;
 
                 if (existingValue != null)
                     SetProperty((IObjectSummary)existingValue, "DetailLevel", GetDetailLevel(reader));
@@ -271,15 +266,11 @@ namespace Koopman.CheckPoint.Json
             {
                 string uid = serializer.Deserialize<string>(reader);
 
-                if (uid.Equals(ObjectSummary.Any.UID))
-                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
-                if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
-                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
-                if (uid.Equals(ObjectSummary.TrustAllAction.UID))
-                    return (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
+                if (IsSpecialObject(uid, objectType, out result))
+                    return result;
 
-                var cached = GetFromCache(uid);
-                if (cached != null) return cached;
+                result = GetFromCache(uid);
+                if (result != null) return result;
 
                 foreach (var obj in cacheGeneric)
                     if (obj.UID.Equals(uid)) return obj;
@@ -292,11 +283,11 @@ namespace Koopman.CheckPoint.Json
                         c.GetParameters().Last().ParameterType == typeof(DetailLevels));
 
                     if (ci == null) { throw new Exception("Unable to find constructor that accepts Session, DetailLevels parameters"); }
-                    cached = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
-                    SetProperty(cached, "UID", uid);
-                    cache.Add(cached);
+                    result = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
+                    SetProperty(result, "UID", uid);
+                    cache.Add(result);
 
-                    return cached;
+                    return result;
                 }
 
                 var generic = new GenericMember(Session, uid);
@@ -340,6 +331,27 @@ namespace Koopman.CheckPoint.Json
             return (reader.Depth == 0) ? ParentDetailLevel : ChildDetailLevel;
         }
 
+        private bool IsSpecialObject(string uid, Type objectType, out IObjectSummary obj)
+        {
+            if (uid.Equals(ObjectSummary.Any.UID))
+            {
+                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
+                return true;
+            }
+            if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
+            {
+                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
+                return true;
+            }
+            if (uid.Equals(ObjectSummary.TrustAllAction.UID))
+            {
+                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
+                return true;
+            }
+
+            obj = null;
+            return false;
+        }
         #endregion Methods
     }
 }

@@ -72,9 +72,8 @@ namespace Koopman.CheckPoint.Common
         internal void UpdateGenericMembers(ObjectConverter objectConverter)
         {
             for (int x = 0; x < Members.Count; x++)
-                if (Members[x] is GenericMember)
+                if (Members[x] is GenericMember m)
                 {
-                    GenericMember m = (GenericMember)(IObjectSummary)Members[x];
                     IObjectSummary summary = m.GetFromCache(objectConverter);
                     if (summary != null)
                         Members[x] = (T)summary;

@@ -206,13 +206,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Yellow
         /// </summary>
-        Yellow,
-
-        /// <summary>
-        /// None returned by some check point inbuilt objects. If used during update color will not
-        /// be changed.
-        /// </summary>
-        [JsonIgnore]
-        None
+        Yellow
     }
 }
