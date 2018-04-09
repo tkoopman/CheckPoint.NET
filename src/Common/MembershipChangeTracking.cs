@@ -142,6 +142,7 @@ namespace Koopman.CheckPoint.Common
         /// <exception cref="DetailLevelException"></exception>
         public void Add(string item)
         {
+            if (item == null) return;
             if (Action == ChangeAction.None || Action == ChangeAction.Add || Action == ChangeAction.Set)
             {
                 if (Action == ChangeAction.None)
@@ -180,14 +181,11 @@ namespace Koopman.CheckPoint.Common
         /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         public virtual void Add(T item)
         {
+            if (item == null) return;
             if (IsDeserializing)
-            {
                 Members.Add(item);
-            }
             else
-            {
                 Add(item.ToString());
-            }
         }
 
         /// <summary>

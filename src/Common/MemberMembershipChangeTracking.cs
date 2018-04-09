@@ -46,15 +46,11 @@ namespace Koopman.CheckPoint.Common
         /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         public override void Add(T item)
         {
+            if (item == null) return;
             if (IsDeserializing)
-            {
                 Members.Add(item);
-            }
             else
-            {
-                if (item == null) { return; }
                 Add(item.GetMembershipID());
-            }
         }
 
         /// <summary>

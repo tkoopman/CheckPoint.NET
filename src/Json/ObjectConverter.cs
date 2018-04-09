@@ -246,11 +246,15 @@ namespace Koopman.CheckPoint.Json
 
                         case "":
                             // Not sure what to do with these. For now return null for known ones.
-                            if (obj.GetValue("uid").ToString().Equals(ObjectSummary.TrustAllAction.UID))
-                                return ObjectSummary.TrustAllAction;
-                            if (obj.GetValue("uid").ToString().Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
-                                return ObjectSummary.RestrictCommonProtocolsAction;
-                            throw new NotImplementedException("Empty type objects not implemented");
+                            if (objectType.GetTypeInfo().IsInterface)
+                            {
+                                if (obj.GetValue("uid").ToString().Equals(ObjectSummary.TrustAllAction.UID))
+                                    return ObjectSummary.TrustAllAction;
+                                if (obj.GetValue("uid").ToString().Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
+                                    return ObjectSummary.RestrictCommonProtocolsAction;
+                                throw new NotImplementedException("Empty type objects not implemented");
+                            }
+                            return null;
 
                         case "CpmiAnyObject":
                             return ObjectSummary.Any;
