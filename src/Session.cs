@@ -4796,6 +4796,31 @@ namespace Koopman.CheckPoint
 
         #endregion Policy Methods
 
+        #region WhereUsed Methods
+
+        public WhereUsed WhereUsed(string identifier, DetailLevels detailLevel = DetailLevels.Standard, bool indirect = false, int indirectMaxDepth = 5)
+        {
+            JObject data = new JObject()
+            {
+                { identifier.isUID() ? "uid" : "name", identifier },
+                { "details-level", detailLevel.ToString() }
+            };
+            
+            if (indirect)
+            {
+                data.Add("indirect", true);
+                data.Add("indirect-max-depth", indirectMaxDepth);
+            }
+
+            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+
+            string result = this.Post("where-used", jsonData);
+
+            return JsonConvert.DeserializeObject<WhereUsed>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, detailLevel, detailLevel) } });
+        }
+
+        #endregion WhereUsed Methods
+
         #endregion Misc. Methods
     }
 }

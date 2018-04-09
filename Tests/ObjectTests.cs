@@ -53,6 +53,13 @@ namespace Tests
             Assert.AreEqual(a[0].UID, b.UID);
         }
 
+        [TestMethod]
+        public void WhereUsed()
+        {
+            var a = Session.WhereUsed("domain-udp");
+            Assert.IsNotNull(a);
+        }
+
         #endregion Methods
     }
 }

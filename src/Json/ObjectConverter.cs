@@ -17,7 +17,6 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -247,10 +246,10 @@ namespace Koopman.CheckPoint.Json
 
                         case "":
                             // Not sure what to do with these. For now return null for known ones.
-                            if (
-                                obj.GetValue("uid").ToString().Equals(ObjectSummary.TrustAllAction.UID) ||
-                                obj.GetValue("uid").ToString().Equals(ObjectSummary.RestrictCommonProtocolsAction.UID)
-                                ) return null;
+                            if (obj.GetValue("uid").ToString().Equals(ObjectSummary.TrustAllAction.UID))
+                                return ObjectSummary.TrustAllAction;
+                            if (obj.GetValue("uid").ToString().Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
+                                return ObjectSummary.RestrictCommonProtocolsAction;
                             throw new NotImplementedException("Empty type objects not implemented");
 
                         case "CpmiAnyObject":

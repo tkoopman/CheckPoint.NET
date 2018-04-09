@@ -15,7 +15,6 @@ namespace Koopman.CheckPoint.Internal
     /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
     internal class GenericObjectSummary : IObjectSummary
     {
-
         /// <summary>
         /// The Any object.
         /// </summary>
@@ -190,6 +189,14 @@ namespace Koopman.CheckPoint.Internal
 
             return cache;
         }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString() =>  GetMembershipID();
 
         /// <summary>
         /// Tests the current detail level and takes action if too low.
