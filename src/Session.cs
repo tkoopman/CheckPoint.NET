@@ -4798,6 +4798,14 @@ namespace Koopman.CheckPoint
 
         #region WhereUsed Methods
 
+        /// <summary>
+        /// Searches for usage of the target object in other objects and rules.
+        /// </summary>
+        /// <param name="identifier">The object identifier to search for.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="indirect">if set to <c>true</c> results will include indirect uses.</param>
+        /// <param name="indirectMaxDepth">The indirect maximum depth.</param>
+        /// <returns>WhereUsed object</returns>
         public WhereUsed WhereUsed(string identifier, DetailLevels detailLevel = DetailLevels.Standard, bool indirect = false, int indirectMaxDepth = 5)
         {
             JObject data = new JObject()
