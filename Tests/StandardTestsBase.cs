@@ -68,9 +68,10 @@ namespace Tests
                          indentJson: true,
                          sessionName: "CheckPoint.NET Test",
                          description: TestContext.TestName
-                     );
-
-            Session.DebugWriter = DebugWriter;
+                     )
+            {
+                DebugWriter = DebugWriter
+            };
             DebugWriter.WriteLine($" Starting test {TestContext.TestName} ".CenterString(60, '#'));
         }
 

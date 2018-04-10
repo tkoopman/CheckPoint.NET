@@ -17,10 +17,9 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Koopman.CheckPoint.Common
@@ -56,11 +55,9 @@ namespace Koopman.CheckPoint.Common
                     {
                         if (typeof(IChangeTracking).GetTypeInfo().IsAssignableFrom(p.PropertyType))
                         {
-                            IChangeTracking v = (IChangeTracking)p.GetValue(this);
+                            var v = (IChangeTracking)p.GetValue(this);
                             if (v != null && v.IsChanged)
-                            {
                                 return true;
-                            }
                         }
                     }
                 }
@@ -77,39 +74,28 @@ namespace Koopman.CheckPoint.Common
         /// Gets array of properties that have been changed.
         /// </summary>
         /// <returns>Array of property names</returns>
-        protected internal string[] getChangedProperties()
-        {
-            return ChangedProperties.ToArray();
-        }
+        protected internal string[] GetChangedProperties() => ChangedProperties.ToArray();
 
         /// <summary>
         /// Determines whether a specific property has been changed.
         /// </summary>
         /// <param name="propertyName">Name of the property to check.</param>
         /// <returns><c>true</c> if the property has been changed; otherwise, <c>false</c>.</returns>
-        protected internal bool IsPropertyChanged(string propertyName)
-        {
-            return ChangedProperties.Contains(propertyName);
-        }
+        protected internal bool IsPropertyChanged(string propertyName) => ChangedProperties.Contains(propertyName);
 
         /// <summary>
         /// Called when deserialized.
         /// </summary>
-        protected override void OnDeserialized()
-        {
-            ChangedProperties.Clear();
-        }
+        protected override void OnDeserialized() => ChangedProperties.Clear();
 
         /// <summary>
         /// Should be called, by the property setter, when any property value is updated.
         /// </summary>
         /// <param name="propertyName">Name of the property being updated.</param>
-        protected override void OnPropertyChanged([CallerMemberName] String propertyName = "")
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (!IsDeserializing && !IsPropertyChanged(propertyName))
-            {
                 ChangedProperties.Add(propertyName);
-            }
         }
 
         #endregion Methods
