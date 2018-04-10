@@ -50,18 +50,18 @@ namespace Tests
         }
 
         [TestMethod]
+        public void Unused()
+        {
+            var a = Session.FindUnusedObjects(limit: 5, detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.Total > 0);
+        }
+
+        [TestMethod]
         public void WhereUsed()
         {
             var a = Session.FindWhereUsed("domain-udp", DetailLevels.Full);
             Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public void Unused()
-        {
-            var a = Session.FindUnusedObjects(limit:5, detailLevel: DetailLevels.Full);
-            Assert.IsNotNull(a);
-            Assert.IsTrue(a.Total > 0);
         }
 
         #endregion Methods

@@ -36,23 +36,6 @@ namespace Tests
         #region Methods
 
         /// <summary>
-        /// Bug that shows unable to clear all tags by sending empty array. Had also tried sending "" but that fails with errors. Also tried null but that did same as empty array.
-        /// </summary>
-        [TestMethod]
-        public void ClearTags()
-        {
-            var a = Session.FindHost("DNS Server");
-            a.Tags.Clear();
-            a.Tags.Add("TestTag");
-            a.AcceptChanges();
-
-            a.Tags.Clear();
-            a.AcceptChanges();
-            // Should equal 0
-            Assert.AreEqual(1, a.Tags.Count);
-        }
-
-        /// <summary>
         /// Bug that shows no way to clear an IP address once one is set.
         /// </summary>
         [TestMethod]
@@ -72,6 +55,45 @@ namespace Tests
             a = Session.FindHost("DNS Server");
             // Should be null
             Assert.IsNotNull(a.IPv6Address);
+        }
+
+        /// <summary>
+        /// Bug that shows unable to clear all tags by sending empty array. Had also tried sending ""
+        /// but that fails with errors. Also tried null but that did same as empty array.
+        /// </summary>
+        [TestMethod]
+        public void ClearTags()
+        {
+            var a = Session.FindHost("DNS Server");
+            a.Tags.Clear();
+            a.Tags.Add("TestTag");
+            a.AcceptChanges();
+
+            a.Tags.Clear();
+            a.AcceptChanges();
+            // Should equal 0
+            Assert.AreEqual(1, a.Tags.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectNotFoundException))]
+        public void FindAppByID()
+        {
+            ApplicationSite a = null;
+            try
+            {
+                a = Session.FindApplicationSite("mycompany.com");
+            }
+            catch (ObjectNotFoundException)
+            {
+                Assert.Fail("Initial find should return result.");
+            }
+
+            Assert.IsNotNull(a);
+
+            // ObjectNotFound error returned when it should be found
+            a = Session.FindApplicationSite((int)a.ApplicationID);
+            Assert.IsNotNull(a);
         }
 
         /// <summary>
@@ -164,27 +186,6 @@ namespace Tests
             {
                 GlobalOptions.WriteTimeAs = GlobalOptions.TimeField.ISO8601;
             }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindAppByID()
-        {
-            ApplicationSite a = null;
-            try
-            {
-                a = Session.FindApplicationSite("mycompany.com");
-            }
-            catch (ObjectNotFoundException)
-            {
-                Assert.Fail("Initial find should return result.");
-            }
-
-            Assert.IsNotNull(a);
-
-            // ObjectNotFound error returned when it should be found
-            a = Session.FindApplicationSite((int)a.ApplicationID);
-            Assert.IsNotNull(a);
         }
 
         #endregion Methods
