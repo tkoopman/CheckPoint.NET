@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpKI>
   <HelpKINode Title="AcceptChanges method">
-    <HelpKINode Title="Firewall.AcceptChanges Method " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_AcceptChanges.htm" />
     <HelpKINode Title="ObjectSummary(T).AcceptChanges Method " Url="html/Overload_Koopman_CheckPoint_ObjectSummary_1_AcceptChanges.htm" />
     <HelpKINode Title="SimpleChangeTracking.AcceptChanges Method " Url="html/M_Koopman_CheckPoint_Common_SimpleChangeTracking_AcceptChanges.htm" />
-    <HelpKINode Title="VPN.AcceptChanges Method " Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_VPN_AcceptChanges.htm" />
   </HelpKINode>
   <HelpKINode Title="AcceptReplies property">
     <HelpKINode Title="ServiceOther.AcceptReplies Property " Url="html/P_Koopman_CheckPoint_ServiceOther_AcceptReplies.htm" />
     <HelpKINode Title="ServiceUDP.AcceptReplies Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_AcceptReplies.htm" />
   </HelpKINode>
+  <HelpKINode Title="AccessControlRules property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_AccessControlRules.htm" />
   <HelpKINode Title="Action property">
     <HelpKINode Title="AntiSpoofing.Action Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_AntiSpoofing_Action.htm" />
     <HelpKINode Title="ServiceOther.Action Property " Url="html/P_Koopman_CheckPoint_ServiceOther_Action.htm" />
@@ -274,7 +273,6 @@
     <HelpKINode Title="SessionInfo.Description Property " Url="html/P_Koopman_CheckPoint_SessionInfo_Description.htm" />
   </HelpKINode>
   <HelpKINode Title="DetailLevel property">
-    <HelpKINode Title="GenericMember.DetailLevel Property " Url="html/P_Koopman_CheckPoint_Common_GenericMember_DetailLevel.htm" />
     <HelpKINode Title="IObjectSummary.DetailLevel Property " Url="html/P_Koopman_CheckPoint_IObjectSummary_DetailLevel.htm" />
     <HelpKINode Title="ObjectSummary(T).DetailLevel Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_1_DetailLevel.htm" />
   </HelpKINode>
@@ -307,7 +305,6 @@
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Common_Domain.htm" />
   </HelpKINode>
   <HelpKINode Title="Domain property">
-    <HelpKINode Title="GenericMember.Domain Property " Url="html/P_Koopman_CheckPoint_Common_GenericMember_Domain.htm" />
     <HelpKINode Title="IObjectSummary.Domain Property " Url="html/P_Koopman_CheckPoint_IObjectSummary_Domain.htm" />
     <HelpKINode Title="ObjectSummary(T).Domain Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_1_Domain.htm" />
     <HelpKINode Title="Task.Details.Domain Property " Url="html/P_Koopman_CheckPoint_Task_Details_Domain.htm" />
@@ -384,6 +381,7 @@
   <HelpKINode Title="FindAllHosts method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllHosts.htm" />
   <HelpKINode Title="FindAllMulticastAddressRanges method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllMulticastAddressRanges.htm" />
   <HelpKINode Title="FindAllNetworks method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllNetworks.htm" />
+  <HelpKINode Title="FindAllObjects method" Url="html/M_Koopman_CheckPoint_Session_FindAllObjects.htm" />
   <HelpKINode Title="FindAllSecurityZones method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllSecurityZones.htm" />
   <HelpKINode Title="FindAllServiceGroups method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllServiceGroups.htm" />
   <HelpKINode Title="FindAllServicesDceRpc method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllServicesDceRpc.htm" />
@@ -399,6 +397,7 @@
   <HelpKINode Title="FindAllTags method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllTags.htm" />
   <HelpKINode Title="FindAllTimeGroups method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimeGroups.htm" />
   <HelpKINode Title="FindAllTimes method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimes.htm" />
+  <HelpKINode Title="FindAllUnusedObjects method" Url="html/M_Koopman_CheckPoint_Session_FindAllUnusedObjects.htm" />
   <HelpKINode Title="FindApplicationCategories method" Url="html/Overload_Koopman_CheckPoint_Session_FindApplicationCategories.htm" />
   <HelpKINode Title="FindApplicationCategory method" Url="html/M_Koopman_CheckPoint_Session_FindApplicationCategory.htm" />
   <HelpKINode Title="FindApplicationGroup method" Url="html/M_Koopman_CheckPoint_Session_FindApplicationGroup.htm" />
@@ -415,6 +414,8 @@
   <HelpKINode Title="FindMulticastAddressRanges method" Url="html/Overload_Koopman_CheckPoint_Session_FindMulticastAddressRanges.htm" />
   <HelpKINode Title="FindNetwork method" Url="html/M_Koopman_CheckPoint_Session_FindNetwork.htm" />
   <HelpKINode Title="FindNetworks method" Url="html/Overload_Koopman_CheckPoint_Session_FindNetworks.htm" />
+  <HelpKINode Title="FindObject method" Url="html/M_Koopman_CheckPoint_Session_FindObject.htm" />
+  <HelpKINode Title="FindObjects method" Url="html/M_Koopman_CheckPoint_Session_FindObjects.htm" />
   <HelpKINode Title="FindSecurityZone method" Url="html/M_Koopman_CheckPoint_Session_FindSecurityZone.htm" />
   <HelpKINode Title="FindSecurityZones method" Url="html/Overload_Koopman_CheckPoint_Session_FindSecurityZones.htm" />
   <HelpKINode Title="FindServiceDceRpc method" Url="html/M_Koopman_CheckPoint_Session_FindServiceDceRpc.htm" />
@@ -435,7 +436,7 @@
   <HelpKINode Title="FindServicesUDP method" Url="html/Overload_Koopman_CheckPoint_Session_FindServicesUDP.htm" />
   <HelpKINode Title="FindServiceTCP method" Url="html/M_Koopman_CheckPoint_Session_FindServiceTCP.htm" />
   <HelpKINode Title="FindServiceUDP method" Url="html/M_Koopman_CheckPoint_Session_FindServiceUDP.htm" />
-  <HelpKINode Title="FindSession method" Url="html/Overload_Koopman_CheckPoint_Session_FindSession.htm" />
+  <HelpKINode Title="FindSession method" Url="html/M_Koopman_CheckPoint_Session_FindSession.htm" />
   <HelpKINode Title="FindSessions method" Url="html/M_Koopman_CheckPoint_Session_FindSessions.htm" />
   <HelpKINode Title="FindSimpleGateway method" Url="html/M_Koopman_CheckPoint_Session_FindSimpleGateway.htm" />
   <HelpKINode Title="FindSimpleGateways method" Url="html/Overload_Koopman_CheckPoint_Session_FindSimpleGateways.htm" />
@@ -446,6 +447,8 @@
   <HelpKINode Title="FindTimeGroup method" Url="html/M_Koopman_CheckPoint_Session_FindTimeGroup.htm" />
   <HelpKINode Title="FindTimeGroups method" Url="html/Overload_Koopman_CheckPoint_Session_FindTimeGroups.htm" />
   <HelpKINode Title="FindTimes method" Url="html/Overload_Koopman_CheckPoint_Session_FindTimes.htm" />
+  <HelpKINode Title="FindUnusedObjects method" Url="html/M_Koopman_CheckPoint_Session_FindUnusedObjects.htm" />
+  <HelpKINode Title="FindWhereUsed method" Url="html/M_Koopman_CheckPoint_Session_FindWhereUsed.htm" />
   <HelpKINode Title="Firebrick enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Firewall class">
     <HelpKINode Title="Firewall Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm" />
@@ -454,7 +457,6 @@
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_Firewall.htm" />
   </HelpKINode>
   <HelpKINode Title="Firewall property" Url="html/P_Koopman_CheckPoint_SimpleGateway_Firewall.htm" />
-  <HelpKINode Title="Firewall.AcceptChanges method" Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_AcceptChanges.htm" />
   <HelpKINode Title="Firewall.AutoCalculateConnectionsHashTableSizeAndMemoryPool property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_AutoCalculateConnectionsHashTableSizeAndMemoryPool.htm" />
   <HelpKINode Title="Firewall.AutoMaximumLimitForConcurrentConnections property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_AutoMaximumLimitForConcurrentConnections.htm" />
   <HelpKINode Title="Firewall.ConnectionsHashSize property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Firewall_ConnectionsHashSize.htm" />
@@ -487,19 +489,6 @@
   <HelpKINode Title="GenericException.HTTPStatusCode property" Url="html/P_Koopman_CheckPoint_Exceptions_GenericException_HTTPStatusCode.htm" />
   <HelpKINode Title="GenericException.ToString method" Url="html/Overload_Koopman_CheckPoint_Exceptions_GenericException_ToString.htm" />
   <HelpKINode Title="GenericException.Warnings property" Url="html/P_Koopman_CheckPoint_Exceptions_GenericException_Warnings.htm" />
-  <HelpKINode Title="GenericMember class">
-    <HelpKINode Title="GenericMember Class" Url="html/T_Koopman_CheckPoint_Common_GenericMember.htm" />
-    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Common_GenericMember.htm" />
-    <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Common_GenericMember.htm" />
-  </HelpKINode>
-  <HelpKINode Title="GenericMember.DetailLevel property" Url="html/P_Koopman_CheckPoint_Common_GenericMember_DetailLevel.htm" />
-  <HelpKINode Title="GenericMember.Domain property" Url="html/P_Koopman_CheckPoint_Common_GenericMember_Domain.htm" />
-  <HelpKINode Title="GenericMember.GetMembershipID method" Url="html/M_Koopman_CheckPoint_Common_GenericMember_GetMembershipID.htm" />
-  <HelpKINode Title="GenericMember.IsNew property" Url="html/P_Koopman_CheckPoint_Common_GenericMember_IsNew.htm" />
-  <HelpKINode Title="GenericMember.Name property" Url="html/P_Koopman_CheckPoint_Common_GenericMember_Name.htm" />
-  <HelpKINode Title="GenericMember.Reload method" Url="html/M_Koopman_CheckPoint_Common_GenericMember_Reload.htm" />
-  <HelpKINode Title="GenericMember.Type property" Url="html/P_Koopman_CheckPoint_Common_GenericMember_Type.htm" />
-  <HelpKINode Title="GenericMember.UID property" Url="html/P_Koopman_CheckPoint_Common_GenericMember_UID.htm" />
   <HelpKINode Title="GetEnumerator method">
     <HelpKINode Title="MembershipChangeTracking(T).GetEnumerator Method " Url="html/M_Koopman_CheckPoint_Common_MembershipChangeTracking_1_GetEnumerator.htm" />
     <HelpKINode Title="ObjectsPagingResults(T).GetEnumerator Method " Url="html/M_Koopman_CheckPoint_Common_ObjectsPagingResults_1_GetEnumerator.htm" />
@@ -511,7 +500,6 @@
   </HelpKINode>
   <HelpKINode Title="GetLoginMessage method" Url="html/M_Koopman_CheckPoint_Session_GetLoginMessage.htm" />
   <HelpKINode Title="GetMembershipID method">
-    <HelpKINode Title="GenericMember.GetMembershipID Method " Url="html/M_Koopman_CheckPoint_Common_GenericMember_GetMembershipID.htm" />
     <HelpKINode Title="IObjectSummary.GetMembershipID Method " Url="html/M_Koopman_CheckPoint_IObjectSummary_GetMembershipID.htm" />
     <HelpKINode Title="ObjectSummary(T).GetMembershipID Method " Url="html/M_Koopman_CheckPoint_ObjectSummary_1_GetMembershipID.htm" />
   </HelpKINode>
@@ -775,7 +763,6 @@
   <HelpKINode Title="IsExpiredSession property" Url="html/P_Koopman_CheckPoint_SessionInfo_IsExpiredSession.htm" />
   <HelpKINode Title="IsInWork property" Url="html/P_Koopman_CheckPoint_SessionInfo_IsInWork.htm" />
   <HelpKINode Title="IsNew property">
-    <HelpKINode Title="GenericMember.IsNew Property " Url="html/P_Koopman_CheckPoint_Common_GenericMember_IsNew.htm" />
     <HelpKINode Title="IObjectSummary.IsNew Property " Url="html/P_Koopman_CheckPoint_IObjectSummary_IsNew.htm" />
     <HelpKINode Title="SimpleChangeTracking.IsNew Property " Url="html/P_Koopman_CheckPoint_Common_SimpleChangeTracking_IsNew.htm" />
   </HelpKINode>
@@ -826,7 +813,6 @@
   <HelpKINode Title="Koopman.CheckPoint.Common.ChangeAction enumeration" Url="html/T_Koopman_CheckPoint_Common_ChangeAction.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Common.ChangeTracking class" Url="html/T_Koopman_CheckPoint_Common_ChangeTracking.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Common.Domain class" Url="html/T_Koopman_CheckPoint_Common_Domain.htm" />
-  <HelpKINode Title="Koopman.CheckPoint.Common.GenericMember class" Url="html/T_Koopman_CheckPoint_Common_GenericMember.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Common.GlobalOptions class" Url="html/T_Koopman_CheckPoint_Common_GlobalOptions.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Common.GlobalOptions.Identifier enumeration" Url="html/T_Koopman_CheckPoint_Common_GlobalOptions_Identifier.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Common.GlobalOptions.TimeField enumeration" Url="html/T_Koopman_CheckPoint_Common_GlobalOptions_TimeField.htm" />
@@ -861,6 +847,11 @@
   <HelpKINode Title="Koopman.CheckPoint.Common.SimpleListChangeTracking&lt;T&gt; class" Url="html/T_Koopman_CheckPoint_Common_SimpleListChangeTracking_1.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Common.TimeOfDay class" Url="html/T_Koopman_CheckPoint_Common_TimeOfDay.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Common.TimeRange class" Url="html/T_Koopman_CheckPoint_Common_TimeRange.htm" />
+  <HelpKINode Title="Koopman.CheckPoint.Common.WhereUsed class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed.htm" />
+  <HelpKINode Title="Koopman.CheckPoint.Common.WhereUsed.WhereUsedResults class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults.htm" />
+  <HelpKINode Title="Koopman.CheckPoint.Common.WhereUsed.WhereUsedResults.NATs class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs.htm" />
+  <HelpKINode Title="Koopman.CheckPoint.Common.WhereUsed.WhereUsedResults.Rules class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules.htm" />
+  <HelpKINode Title="Koopman.CheckPoint.Common.WhereUsed.WhereUsedResults.ThreatRules class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules.htm" />
   <HelpKINode Title="Koopman.CheckPoint.Days enumeration" Url="html/T_Koopman_CheckPoint_Days.htm" />
   <HelpKINode Title="Koopman.CheckPoint.DetailLevelActions enumeration" Url="html/T_Koopman_CheckPoint_DetailLevelActions.htm" />
   <HelpKINode Title="Koopman.CheckPoint.DetailLevels enumeration" Url="html/T_Koopman_CheckPoint_DetailLevels.htm" />
@@ -984,6 +975,11 @@
   <HelpKINode Title="LastModifier property" Url="html/P_Koopman_CheckPoint_Common_MetaInfo_LastModifier.htm" />
   <HelpKINode Title="LastModifyTime property" Url="html/P_Koopman_CheckPoint_Common_MetaInfo_LastModifyTime.htm" />
   <HelpKINode Title="LastUpdateTime property" Url="html/P_Koopman_CheckPoint_Task_LastUpdateTime.htm" />
+  <HelpKINode Title="Layer property">
+    <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.Layer Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_Layer.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Layer Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Layer.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LayerPosition property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_LayerPosition.htm" />
   <HelpKINode Title="LemonChiffon enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="LessThan operator" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_LessThan.htm" />
   <HelpKINode Title="LessThanOrEqual operator" Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_op_LessThanOrEqual.htm" />
@@ -1224,7 +1220,6 @@
   <HelpKINode Title="Name enumeration member" Url="html/T_Koopman_CheckPoint_Common_GlobalOptions_Identifier.htm" />
   <HelpKINode Title="Name property">
     <HelpKINode Title="Domain.Name Property " Url="html/P_Koopman_CheckPoint_Common_Domain_Name.htm" />
-    <HelpKINode Title="GenericMember.Name Property " Url="html/P_Koopman_CheckPoint_Common_GenericMember_Name.htm" />
     <HelpKINode Title="Interface.Name Property " Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Interface_Name.htm" />
     <HelpKINode Title="IObjectSummary.Name Property " Url="html/P_Koopman_CheckPoint_IObjectSummary_Name.htm" />
     <HelpKINode Title="ObjectSummary(T).Name Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_1_Name.htm" />
@@ -1275,6 +1270,11 @@
     <HelpKINode Title="Tag.Order.NameDesc Field" Url="html/F_Koopman_CheckPoint_Tag_Order_NameDesc.htm" />
     <HelpKINode Title="Time.Order.NameDesc Field" Url="html/F_Koopman_CheckPoint_Time_Order_NameDesc.htm" />
     <HelpKINode Title="TimeGroup.Order.NameDesc Field" Url="html/F_Koopman_CheckPoint_TimeGroup_Order_NameDesc.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NatRules property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NatRules.htm" />
+  <HelpKINode Title="NATs class">
+    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs.htm" />
   </HelpKINode>
   <HelpKINode Title="NATSettings class">
     <HelpKINode Title="NATSettings Class" Url="html/T_Koopman_CheckPoint_Common_NATSettings.htm" />
@@ -1409,7 +1409,10 @@
     <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_ObjectNotFoundException.htm" />
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_ObjectNotFoundException.htm" />
   </HelpKINode>
-  <HelpKINode Title="Objects property" Url="html/P_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1_Objects.htm" />
+  <HelpKINode Title="Objects property">
+    <HelpKINode Title="NetworkObjectsPagingResults(T).Objects Property " Url="html/P_Koopman_CheckPoint_Common_NetworkObjectsPagingResults_1_Objects.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.Objects Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Objects.htm" />
+  </HelpKINode>
   <HelpKINode Title="ObjectsPagingResults(Of T) class">
     <HelpKINode Title="ObjectsPagingResults(T) Class" Url="html/T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Common_ObjectsPagingResults_1.htm" />
@@ -1453,6 +1456,8 @@
   <HelpKINode Title="ObjectSummary(Of T).Type property" Url="html/P_Koopman_CheckPoint_ObjectSummary_1_Type.htm" />
   <HelpKINode Title="ObjectSummary(Of T).UID property" Url="html/P_Koopman_CheckPoint_ObjectSummary_1_UID.htm" />
   <HelpKINode Title="ObjectSummary.Any field" Url="html/F_Koopman_CheckPoint_ObjectSummary_Any.htm" />
+  <HelpKINode Title="ObjectSummary.RestrictCommonProtocolsAction field" Url="html/F_Koopman_CheckPoint_ObjectSummary_RestrictCommonProtocolsAction.htm" />
+  <HelpKINode Title="ObjectSummary.TrustAllAction field" Url="html/F_Koopman_CheckPoint_ObjectSummary_TrustAllAction.htm" />
   <HelpKINode Title="ObjectSummary&lt;T&gt; class">
     <HelpKINode Title="ObjectSummary(T) Class" Url="html/T_Koopman_CheckPoint_ObjectSummary_1.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_ObjectSummary_1.htm" />
@@ -1481,32 +1486,36 @@
   <HelpKINode Title="Orange enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Orchid enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Order class">
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_MulticastAddressRange_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SecurityZone_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceDceRpc_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceOther_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_TimeGroup_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_AddressRange_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceUDP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceTCP_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Tag_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceSCTP_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Network_Order.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceGroup_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SecurityZone_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_GroupWithExclusion_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_AddressRange_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Time_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceRPC_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceOther_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceGroup_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceDceRpc_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Host_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceTCP_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Group_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_MulticastAddressRange_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_Network_Order.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP6_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceICMP_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_ServiceUDP_Order.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Koopman_CheckPoint_SimpleGateway_Order.htm" />
   </HelpKINode>
   <HelpKINode Title="OSName property" Url="html/P_Koopman_CheckPoint_SimpleGateway_OSName.htm" />
   <HelpKINode Title="OverrideDefaultSettings property">
     <HelpKINode Title="ServiceOther.OverrideDefaultSettings Property " Url="html/P_Koopman_CheckPoint_ServiceOther_OverrideDefaultSettings.htm" />
     <HelpKINode Title="ServiceTCP.OverrideDefaultSettings Property " Url="html/P_Koopman_CheckPoint_ServiceTCP_OverrideDefaultSettings.htm" />
     <HelpKINode Title="ServiceUDP.OverrideDefaultSettings Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_OverrideDefaultSettings.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Package property">
+    <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.Package Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_Package.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Package Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Package.htm" />
   </HelpKINode>
   <HelpKINode Title="PartiallySucceeded enumeration member" Url="html/T_Koopman_CheckPoint_Task_TaskStatus.htm" />
   <HelpKINode Title="Pattern property" Url="html/P_Koopman_CheckPoint_Time_RecurrenceClass_Pattern.htm" />
@@ -1524,6 +1533,11 @@
     <HelpKINode Title="ServiceSCTP.Port Property " Url="html/P_Koopman_CheckPoint_ServiceSCTP_Port.htm" />
     <HelpKINode Title="ServiceTCP.Port Property " Url="html/P_Koopman_CheckPoint_ServiceTCP_Port.htm" />
     <HelpKINode Title="ServiceUDP.Port Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_Port.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Position property">
+    <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.Position Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_Position.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.Position Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_Position.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Position Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Position.htm" />
   </HelpKINode>
   <HelpKINode Title="Posix enumeration member" Url="html/T_Koopman_CheckPoint_Common_GlobalOptions_TimeField.htm" />
   <HelpKINode Title="Post method" Url="html/M_Koopman_CheckPoint_Session_Post.htm" />
@@ -1564,7 +1578,6 @@
   <HelpKINode Title="Red enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="RejectConnectionsWhenFreeDiskSpaceBelowThreshold property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_RejectConnectionsWhenFreeDiskSpaceBelowThreshold.htm" />
   <HelpKINode Title="Reload method">
-    <HelpKINode Title="GenericMember.Reload Method " Url="html/M_Koopman_CheckPoint_Common_GenericMember_Reload.htm" />
     <HelpKINode Title="IObjectSummary.Reload Method " Url="html/M_Koopman_CheckPoint_IObjectSummary_Reload.htm" />
     <HelpKINode Title="ObjectSummary(T).Reload Method " Url="html/M_Koopman_CheckPoint_ObjectSummary_1_Reload.htm" />
   </HelpKINode>
@@ -1583,24 +1596,39 @@
   <HelpKINode Title="ReserveForPacketCaptureThreshold property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_ReserveForPacketCaptureThreshold.htm" />
   <HelpKINode Title="ResponseError property" Url="html/P_Koopman_CheckPoint_Task_Details_ResponseError.htm" />
   <HelpKINode Title="ResponseMessage property" Url="html/P_Koopman_CheckPoint_Task_Details_ResponseMessage.htm" />
+  <HelpKINode Title="RestrictCommonProtocolsAction field" Url="html/F_Koopman_CheckPoint_ObjectSummary_RestrictCommonProtocolsAction.htm" />
   <HelpKINode Title="ReturnNull enumeration member" Url="html/T_Koopman_CheckPoint_DetailLevelActions.htm" />
   <HelpKINode Title="Risk property" Url="html/P_Koopman_CheckPoint_ApplicationSite_Risk.htm" />
   <HelpKINode Title="RotateLogByFileSize property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_RotateLogByFileSize.htm" />
   <HelpKINode Title="RotateLogFileSizeThreshold property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_RotateLogFileSizeThreshold.htm" />
   <HelpKINode Title="RotateLogOnSchedule property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_RotateLogOnSchedule.htm" />
   <HelpKINode Title="RotateLogScheduleName property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_RotateLogScheduleName.htm" />
+  <HelpKINode Title="Rule property">
+    <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.Rule Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_Rule.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.Rule Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_Rule.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Rule Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Rule.htm" />
+  </HelpKINode>
   <HelpKINode Title="RulebaseInvalidOperationException class">
     <HelpKINode Title="RulebaseInvalidOperationException Class" Url="html/T_Koopman_CheckPoint_Exceptions_RulebaseInvalidOperationException.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Exceptions_RulebaseInvalidOperationException.htm" />
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Exceptions_RulebaseInvalidOperationException.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RuleColumns property">
+    <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.RuleColumns Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_RuleColumns.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.RuleColumns Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_RuleColumns.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.RuleColumns Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_RuleColumns.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Rules class">
+    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules.htm" />
   </HelpKINode>
   <HelpKINode Title="RunScript method" Url="html/Overload_Koopman_CheckPoint_Session_RunScript.htm" />
   <HelpKINode Title="Saturday enumeration member" Url="html/T_Koopman_CheckPoint_Days.htm" />
   <HelpKINode Title="SaveLogsLocally property" Url="html/P_Koopman_CheckPoint_SimpleGateway_SaveLogsLocally.htm" />
   <HelpKINode Title="SeaGreen enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="SecurityZone class">
-    <HelpKINode Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone.htm" />
     <HelpKINode Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SecurityZone.htm" />
+    <HelpKINode Title="SecurityZone Class" Url="html/T_Koopman_CheckPoint_SimpleGatewaySettings_SecurityZone.htm" />
     <HelpKINode Title="constructor" Url="html/M_Koopman_CheckPoint_SecurityZone__ctor.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_SecurityZone.htm" />
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_SecurityZone.htm" />
@@ -1838,6 +1866,7 @@
   <HelpKINode Title="Session.FindAllHosts method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllHosts.htm" />
   <HelpKINode Title="Session.FindAllMulticastAddressRanges method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllMulticastAddressRanges.htm" />
   <HelpKINode Title="Session.FindAllNetworks method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllNetworks.htm" />
+  <HelpKINode Title="Session.FindAllObjects method" Url="html/M_Koopman_CheckPoint_Session_FindAllObjects.htm" />
   <HelpKINode Title="Session.FindAllSecurityZones method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllSecurityZones.htm" />
   <HelpKINode Title="Session.FindAllServiceGroups method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllServiceGroups.htm" />
   <HelpKINode Title="Session.FindAllServicesDceRpc method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllServicesDceRpc.htm" />
@@ -1853,6 +1882,7 @@
   <HelpKINode Title="Session.FindAllTags method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllTags.htm" />
   <HelpKINode Title="Session.FindAllTimeGroups method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimeGroups.htm" />
   <HelpKINode Title="Session.FindAllTimes method" Url="html/Overload_Koopman_CheckPoint_Session_FindAllTimes.htm" />
+  <HelpKINode Title="Session.FindAllUnusedObjects method" Url="html/M_Koopman_CheckPoint_Session_FindAllUnusedObjects.htm" />
   <HelpKINode Title="Session.FindApplicationCategories method" Url="html/Overload_Koopman_CheckPoint_Session_FindApplicationCategories.htm" />
   <HelpKINode Title="Session.FindApplicationCategory method" Url="html/M_Koopman_CheckPoint_Session_FindApplicationCategory.htm" />
   <HelpKINode Title="Session.FindApplicationGroup method" Url="html/M_Koopman_CheckPoint_Session_FindApplicationGroup.htm" />
@@ -1869,6 +1899,8 @@
   <HelpKINode Title="Session.FindMulticastAddressRanges method" Url="html/Overload_Koopman_CheckPoint_Session_FindMulticastAddressRanges.htm" />
   <HelpKINode Title="Session.FindNetwork method" Url="html/M_Koopman_CheckPoint_Session_FindNetwork.htm" />
   <HelpKINode Title="Session.FindNetworks method" Url="html/Overload_Koopman_CheckPoint_Session_FindNetworks.htm" />
+  <HelpKINode Title="Session.FindObject method" Url="html/M_Koopman_CheckPoint_Session_FindObject.htm" />
+  <HelpKINode Title="Session.FindObjects method" Url="html/M_Koopman_CheckPoint_Session_FindObjects.htm" />
   <HelpKINode Title="Session.FindSecurityZone method" Url="html/M_Koopman_CheckPoint_Session_FindSecurityZone.htm" />
   <HelpKINode Title="Session.FindSecurityZones method" Url="html/Overload_Koopman_CheckPoint_Session_FindSecurityZones.htm" />
   <HelpKINode Title="Session.FindServiceDceRpc method" Url="html/M_Koopman_CheckPoint_Session_FindServiceDceRpc.htm" />
@@ -1889,7 +1921,7 @@
   <HelpKINode Title="Session.FindServicesUDP method" Url="html/Overload_Koopman_CheckPoint_Session_FindServicesUDP.htm" />
   <HelpKINode Title="Session.FindServiceTCP method" Url="html/M_Koopman_CheckPoint_Session_FindServiceTCP.htm" />
   <HelpKINode Title="Session.FindServiceUDP method" Url="html/M_Koopman_CheckPoint_Session_FindServiceUDP.htm" />
-  <HelpKINode Title="Session.FindSession method" Url="html/Overload_Koopman_CheckPoint_Session_FindSession.htm" />
+  <HelpKINode Title="Session.FindSession method" Url="html/M_Koopman_CheckPoint_Session_FindSession.htm" />
   <HelpKINode Title="Session.FindSessions method" Url="html/M_Koopman_CheckPoint_Session_FindSessions.htm" />
   <HelpKINode Title="Session.FindSimpleGateway method" Url="html/M_Koopman_CheckPoint_Session_FindSimpleGateway.htm" />
   <HelpKINode Title="Session.FindSimpleGateways method" Url="html/Overload_Koopman_CheckPoint_Session_FindSimpleGateways.htm" />
@@ -1900,6 +1932,8 @@
   <HelpKINode Title="Session.FindTimeGroup method" Url="html/M_Koopman_CheckPoint_Session_FindTimeGroup.htm" />
   <HelpKINode Title="Session.FindTimeGroups method" Url="html/Overload_Koopman_CheckPoint_Session_FindTimeGroups.htm" />
   <HelpKINode Title="Session.FindTimes method" Url="html/Overload_Koopman_CheckPoint_Session_FindTimes.htm" />
+  <HelpKINode Title="Session.FindUnusedObjects method" Url="html/M_Koopman_CheckPoint_Session_FindUnusedObjects.htm" />
+  <HelpKINode Title="Session.FindWhereUsed method" Url="html/M_Koopman_CheckPoint_Session_FindWhereUsed.htm" />
   <HelpKINode Title="Session.GetLoginMessage method" Url="html/M_Koopman_CheckPoint_Session_GetLoginMessage.htm" />
   <HelpKINode Title="Session.IndentJson property" Url="html/P_Koopman_CheckPoint_Session_IndentJson.htm" />
   <HelpKINode Title="Session.InstallPolicy method" Url="html/M_Koopman_CheckPoint_Session_InstallPolicy.htm" />
@@ -2166,6 +2200,11 @@
   <HelpKINode Title="TaskID property" Url="html/P_Koopman_CheckPoint_Task_TaskID.htm" />
   <HelpKINode Title="TaskName property" Url="html/P_Koopman_CheckPoint_Task_TaskName.htm" />
   <HelpKINode Title="ThreatEmulation property" Url="html/P_Koopman_CheckPoint_SimpleGateway_ThreatEmulation.htm" />
+  <HelpKINode Title="ThreatPreventionRules property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatPreventionRules.htm" />
+  <HelpKINode Title="ThreatRules class">
+    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules.htm" />
+  </HelpKINode>
   <HelpKINode Title="ThrowException enumeration member" Url="html/T_Koopman_CheckPoint_DetailLevelActions.htm" />
   <HelpKINode Title="Thursday enumeration member" Url="html/T_Koopman_CheckPoint_Days.htm" />
   <HelpKINode Title="Time class">
@@ -2270,12 +2309,15 @@
     <HelpKINode Title="Task.ToString Method " Url="html/M_Koopman_CheckPoint_Task_ToString.htm" />
     <HelpKINode Title="TimeOfDay.ToString Method " Url="html/M_Koopman_CheckPoint_Common_TimeOfDay_ToString.htm" />
   </HelpKINode>
-  <HelpKINode Title="Total property" Url="html/P_Koopman_CheckPoint_Common_ObjectsPagingResults_1_Total.htm" />
+  <HelpKINode Title="Total property">
+    <HelpKINode Title="ObjectsPagingResults(T).Total Property " Url="html/P_Koopman_CheckPoint_Common_ObjectsPagingResults_1_Total.htm" />
+    <HelpKINode Title="WhereUsed.WhereUsedResults.Total Property " Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Total.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TrustAllAction field" Url="html/F_Koopman_CheckPoint_ObjectSummary_TrustAllAction.htm" />
   <HelpKINode Title="Tuesday enumeration member" Url="html/T_Koopman_CheckPoint_Days.htm" />
   <HelpKINode Title="TurnOnQOSLogging property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_Logs_TurnOnQOSLogging.htm" />
   <HelpKINode Title="Turquoise enumeration member" Url="html/T_Koopman_CheckPoint_Colors.htm" />
   <HelpKINode Title="Type property">
-    <HelpKINode Title="GenericMember.Type Property " Url="html/P_Koopman_CheckPoint_Common_GenericMember_Type.htm" />
     <HelpKINode Title="IObjectSummary.Type Property " Url="html/P_Koopman_CheckPoint_IObjectSummary_Type.htm" />
     <HelpKINode Title="ObjectSummary(T).Type Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_1_Type.htm" />
     <HelpKINode Title="SessionInfo.Type Property " Url="html/P_Koopman_CheckPoint_SessionInfo_Type.htm" />
@@ -2287,7 +2329,6 @@
   </HelpKINode>
   <HelpKINode Title="UID property">
     <HelpKINode Title="Domain.UID Property " Url="html/P_Koopman_CheckPoint_Common_Domain_UID.htm" />
-    <HelpKINode Title="GenericMember.UID Property " Url="html/P_Koopman_CheckPoint_Common_GenericMember_UID.htm" />
     <HelpKINode Title="IObjectSummary.UID Property " Url="html/P_Koopman_CheckPoint_IObjectSummary_UID.htm" />
     <HelpKINode Title="ObjectSummary(T).UID Property " Url="html/P_Koopman_CheckPoint_ObjectSummary_1_UID.htm" />
     <HelpKINode Title="Session.UID Property " Url="html/P_Koopman_CheckPoint_Session_UID.htm" />
@@ -2328,6 +2369,7 @@
   <HelpKINode Title="URL property" Url="html/P_Koopman_CheckPoint_Session_URL.htm" />
   <HelpKINode Title="URLFiltering property" Url="html/P_Koopman_CheckPoint_SimpleGateway_URLFiltering.htm" />
   <HelpKINode Title="UrlList property" Url="html/P_Koopman_CheckPoint_ApplicationSite_UrlList.htm" />
+  <HelpKINode Title="UsedDirectly property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_UsedDirectly.htm" />
   <HelpKINode Title="UseDefaultSessionTimeout property">
     <HelpKINode Title="ServiceOther.UseDefaultSessionTimeout Property " Url="html/P_Koopman_CheckPoint_ServiceOther_UseDefaultSessionTimeout.htm" />
     <HelpKINode Title="ServiceSCTP.UseDefaultSessionTimeout Property " Url="html/P_Koopman_CheckPoint_ServiceSCTP_UseDefaultSessionTimeout.htm" />
@@ -2335,6 +2377,7 @@
     <HelpKINode Title="ServiceUDP.UseDefaultSessionTimeout Property " Url="html/P_Koopman_CheckPoint_ServiceUDP_UseDefaultSessionTimeout.htm" />
   </HelpKINode>
   <HelpKINode Title="UseDefaultTimeout property" Url="html/P_Koopman_CheckPoint_Common_AggressiveAging_UseDefaultTimeout.htm" />
+  <HelpKINode Title="UsedIndirectly property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_UsedIndirectly.htm" />
   <HelpKINode Title="UserDefinedAlertNo1 enumeration member" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
   <HelpKINode Title="UserDefinedAlertNo2 enumeration member" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
   <HelpKINode Title="UserDefinedAlertNo3 enumeration member" Url="html/T_Koopman_CheckPoint_Common_AlertType.htm" />
@@ -2356,7 +2399,6 @@
     <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_SimpleGatewaySettings_VPN.htm" />
   </HelpKINode>
   <HelpKINode Title="VPN property" Url="html/P_Koopman_CheckPoint_SimpleGateway_VPN.htm" />
-  <HelpKINode Title="VPN.AcceptChanges method" Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_VPN_AcceptChanges.htm" />
   <HelpKINode Title="VPN.MaximumConcurrentIKENegotiations property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_VPN_MaximumConcurrentIKENegotiations.htm" />
   <HelpKINode Title="VPN.MaximumConcurrentTunnels property" Url="html/P_Koopman_CheckPoint_SimpleGatewaySettings_VPN_MaximumConcurrentTunnels.htm" />
   <HelpKINode Title="VPN.VPN constructor" Url="html/M_Koopman_CheckPoint_SimpleGatewaySettings_VPN__ctor.htm" />
@@ -2375,6 +2417,40 @@
   <HelpKINode Title="Weekend enumeration member" Url="html/T_Koopman_CheckPoint_Days.htm" />
   <HelpKINode Title="Weekly enumeration member" Url="html/T_Koopman_CheckPoint_Time_RecurrencePattern.htm" />
   <HelpKINode Title="Welcome" Url="html/f4927271-44e3-4f70-8967-24b39d1a8b02.htm" />
+  <HelpKINode Title="WhereUsed class">
+    <HelpKINode Title="WhereUsed Class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Common_WhereUsed.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Common_WhereUsed.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WhereUsed.UsedDirectly property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_UsedDirectly.htm" />
+  <HelpKINode Title="WhereUsed.UsedIndirectly property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_UsedIndirectly.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.AccessControlRules property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_AccessControlRules.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.NatRules property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NatRules.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.NATs class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.Package property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_Package.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.Position property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_Position.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.Rule property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_Rule.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.NATs.RuleColumns property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_NATs_RuleColumns.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.Objects property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Objects.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.Rules class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.Layer property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_Layer.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.Position property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_Position.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.Rule property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_Rule.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.Rules.RuleColumns property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Rules_RuleColumns.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatPreventionRules property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatPreventionRules.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules class" Url="html/T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Layer property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Layer.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.LayerPosition property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_LayerPosition.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Package property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Package.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Position property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Position.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.Rule property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_Rule.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.ThreatRules.RuleColumns property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_ThreatRules_RuleColumns.htm" />
+  <HelpKINode Title="WhereUsed.WhereUsedResults.Total property" Url="html/P_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults_Total.htm" />
+  <HelpKINode Title="WhereUsedResults class">
+    <HelpKINode Title="methods" Url="html/Methods_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Koopman_CheckPoint_Common_WhereUsed_WhereUsedResults.htm" />
+  </HelpKINode>
   <HelpKINode Title="WriteTimeAs property" Url="html/P_Koopman_CheckPoint_Common_GlobalOptions_WriteTimeAs.htm" />
   <HelpKINode Title="WrongSessionIDException class">
     <HelpKINode Title="WrongSessionIDException Class" Url="html/T_Koopman_CheckPoint_Exceptions_WrongSessionIDException.htm" />
