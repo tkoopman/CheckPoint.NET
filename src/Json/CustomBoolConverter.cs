@@ -69,7 +69,7 @@ namespace Koopman.CheckPoint.Json
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            Type t = (GetIsNullable(objectType))
+            var t = (GetIsNullable(objectType))
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 
@@ -97,7 +97,7 @@ namespace Koopman.CheckPoint.Json
             }
 
             bool isNullable = GetIsNullable(objectType);
-            Type t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+            var t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 
             try
             {
@@ -145,10 +145,7 @@ namespace Koopman.CheckPoint.Json
             writer.WriteValue((b) ? True : False);
         }
 
-        private static bool GetIsNullable(Type objectType)
-        {
-            return (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
-        }
+        private static bool GetIsNullable(Type objectType) => (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
 
         #endregion Methods
     }

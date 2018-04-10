@@ -2,7 +2,6 @@
 using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
-using System;
 using System.Diagnostics;
 
 namespace Koopman.CheckPoint.Internal
@@ -164,10 +163,7 @@ namespace Koopman.CheckPoint.Internal
         /// Gets the identifier that is used when adding this object to a group.
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
-        public string GetMembershipID()
-        {
-            return (String.IsNullOrWhiteSpace(Name)) ? UID : Name;
-        }
+        public string GetMembershipID() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
         /// <summary>
         /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
@@ -218,7 +214,7 @@ namespace Koopman.CheckPoint.Internal
         {
             if (DetailLevel < minValue)
             {
-                DetailLevelActions action =
+                var action =
                     (detailLevelAction == DetailLevelActions.SessionDefault) ?
                         Session.DetailLevelAction :
                         detailLevelAction;
@@ -236,10 +232,7 @@ namespace Koopman.CheckPoint.Internal
                         throw new DetailLevelException(DetailLevel, minValue);
                 }
             }
-            else
-            {
-                return true;
-            }
+            else return true;
         }
 
         #endregion Methods

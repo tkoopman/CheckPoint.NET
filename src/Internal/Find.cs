@@ -41,9 +41,9 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="DetailLevel">The detail level to be returned.</param>
         internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
-                { Value.isUID() ? "uid" : "name", Value },
+                { Value.IsUID() ? "uid" : "name", Value },
                 { "details-level", DetailLevel.ToString() }
             };
 
@@ -63,7 +63,7 @@ namespace Koopman.CheckPoint.Internal
         /// <returns></returns>
         internal static IObjectSummary Invoke(Session Session, string uid, DetailLevels DetailLevel)
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "uid", uid },
                 { "details-level", DetailLevel.ToString() }
@@ -72,7 +72,7 @@ namespace Koopman.CheckPoint.Internal
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
             string result = Session.Post("show-object", jsonData);
-            JObject obj = JObject.Parse(result);
+            var obj = JObject.Parse(result);
             return obj.GetValue("object").ToObject<IObjectSummary>(JsonSerializer.Create(new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } }));
         }
 

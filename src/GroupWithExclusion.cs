@@ -100,10 +100,7 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "except", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         public IObjectSummary Except
         {
-            get
-            {
-                return (TestDetailLevel(DetailLevels.Full)) ? _except : null;
-            }
+            get => (TestDetailLevel(DetailLevels.Full)) ? _except : null;
             set
             {
                 _except = value;
@@ -118,10 +115,7 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "include", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         public IObjectSummary Include
         {
-            get
-            {
-                return (TestDetailLevel(DetailLevels.Full)) ? _include : null;
-            }
+            get => (TestDetailLevel(DetailLevels.Full)) ? _include : null;
             set
             {
                 _include = value;
@@ -143,19 +137,13 @@ namespace Koopman.CheckPoint
         /// Sets the object this group excepts.
         /// </summary>
         /// <param name="value">The name or UID of object.</param>
-        public void SetExcept(string value)
-        {
-            Except = new AddAsString(value);
-        }
+        public void SetExcept(string value) => Except = new AddAsString(value);
 
         /// <summary>
         /// Sets the object this group includes.
         /// </summary>
         /// <param name="value">The name or UID of object.</param>
-        public void SetInclude(string value)
-        {
-            Include = new AddAsString(value);
-        }
+        public void SetInclude(string value) => Include = new AddAsString(value);
 
         /// <inheritdoc />
         protected override void OnDeserializing()
@@ -195,7 +183,7 @@ namespace Koopman.CheckPoint
 
             public AddAsString(string value)
             {
-                if (value.isUID())
+                if (value.IsUID())
                     UID = value;
                 else
                     Name = value;
@@ -221,20 +209,12 @@ namespace Koopman.CheckPoint
 
             #region Methods
 
-            public string GetMembershipID()
-            {
-                return Name ?? UID;
-            }
+            public string GetMembershipID() => Name ?? UID;
 
-            public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
-            {
+            public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) =>
                 throw new System.NotImplementedException();
-            }
 
-            public override string ToString()
-            {
-                return GetMembershipID();
-            }
+            public override string ToString() => GetMembershipID();
 
             #endregion Methods
         }

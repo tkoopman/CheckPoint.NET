@@ -4796,7 +4796,7 @@ namespace Koopman.CheckPoint
         {
             var data = new JObject()
             {
-                { identifier.isUID() ? "uid" : "name", identifier },
+                { identifier.IsUID() ? "uid" : "name", identifier },
                 { "details-level", detailLevel.ToString() }
             };
 

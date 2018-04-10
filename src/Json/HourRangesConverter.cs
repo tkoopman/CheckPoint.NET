@@ -38,10 +38,7 @@ namespace Koopman.CheckPoint.Json
         /// <returns>
         /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
         /// </returns>
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(HourRanges) == objectType;
-        }
+        public override bool CanConvert(Type objectType) => typeof(HourRanges) == objectType;
 
         /// <summary>
         /// Reads the JSON representation of the object.
@@ -53,12 +50,12 @@ namespace Koopman.CheckPoint.Json
         /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            HourRanges result = new HourRanges();
+            var result = new HourRanges();
             result.OnDeserializingMethod(serializer.Context);
 
             if (reader.TokenType != JsonToken.StartArray) throw new JsonSerializationException($"Cannot convert non array token value to {objectType}.");
 
-            JArray array = serializer.Deserialize<JArray>(reader);
+            var array = serializer.Deserialize<JArray>(reader);
             foreach (JObject obj in array)
             {
                 if (obj != null)
@@ -68,8 +65,8 @@ namespace Koopman.CheckPoint.Json
                     TimeRange timeRange = null;
                     if (enabled)
                     {
-                        TimeOfDay start = new TimeOfDay(obj.GetValue("from").ToString());
-                        TimeOfDay end = new TimeOfDay(obj.GetValue("to").ToString());
+                        var start = new TimeOfDay(obj.GetValue("from").ToString());
+                        var end = new TimeOfDay(obj.GetValue("to").ToString());
                         timeRange = new TimeRange(start, end);
                     }
 
@@ -96,12 +93,12 @@ namespace Koopman.CheckPoint.Json
                 return;
             }
 
-            HourRanges v = (HourRanges)value;
+            var v = (HourRanges)value;
 
             writer.WriteStartArray();
             for (int i = 0; i < HourRanges.Size; i++)
             {
-                TimeRange tr = v[i];
+                var tr = v[i];
                 bool enabled = tr != null;
                 writer.WriteStartObject();
                 writer.WritePropertyName("index");

@@ -32,15 +32,9 @@ namespace Koopman.CheckPoint.Json
 
         public override bool CanRead => false;
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(NATSettings);
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(NATSettings);
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) => throw new NotImplementedException();
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -50,7 +44,7 @@ namespace Koopman.CheckPoint.Json
                 return;
             }
 
-            NATSettings nat = (NATSettings)value;
+            var nat = (NATSettings)value;
 
             writer.WriteStartObject();
             writer.WritePropertyName("auto-rule");

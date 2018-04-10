@@ -75,7 +75,7 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <param name="index">The index.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public T this[int index] { get => ((IList<T>)_Objects)[index]; set { throw new System.NotImplementedException($"Read-Only"); } }
+        public T this[int index] { get => ((IList<T>)_Objects)[index]; set => throw new System.NotImplementedException($"Read-Only"); }
 
         #endregion Indexers
 
@@ -85,19 +85,13 @@ namespace Koopman.CheckPoint.Common
         /// Returns an enumerator that iterates through the collection of Objects.
         /// </summary>
         /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return ((IEnumerable<T>)_Objects).GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => ((IEnumerable<T>)_Objects).GetEnumerator();
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection of Objects.
         /// </summary>
         /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<T>)_Objects).GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)_Objects).GetEnumerator();
 
         /// <summary>
         /// Gets the next page of results from management server.
@@ -105,7 +99,8 @@ namespace Koopman.CheckPoint.Common
         /// <returns>Returns the next page of results. Null if no next page to return.</returns>
         public NetworkObjectsPagingResults<T> NextPage()
         {
-            if (Next == null) { return null; }
+            if (Next == null)
+                return null;
 
             return Next();
         }

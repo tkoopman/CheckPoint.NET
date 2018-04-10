@@ -46,15 +46,11 @@ namespace Koopman.CheckPoint.Json
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
+            var property = base.CreateProperty(member, memberSerialization);
 
-            if (typeof(GroupWithExclusion).GetTypeInfo().IsAssignableFrom(property.DeclaringType))
-            {
-                if (property.UnderlyingName.Equals(nameof(GroupWithExclusion.Include)) || property.UnderlyingName.Equals(nameof(GroupWithExclusion.Except)))
-                {
-                    property.Converter = new NameOrUIDConverter();
-                }
-            }
+            if (typeof(GroupWithExclusion).GetTypeInfo().IsAssignableFrom(property.DeclaringType) &&
+                (property.UnderlyingName.Equals(nameof(GroupWithExclusion.Include)) || property.UnderlyingName.Equals(nameof(GroupWithExclusion.Except))))
+                property.Converter = new NameOrUIDConverter();
 
             return property;
         }

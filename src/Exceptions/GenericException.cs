@@ -79,10 +79,7 @@ namespace Koopman.CheckPoint.Exceptions
         /// Returns the Message property and any Check Point error or warning details.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return ToString(true);
-        }
+        public override string ToString() => ToString(true);
 
         /// <summary>
         /// Returns the Message property and optionally any Check Point error or warning details.
@@ -91,7 +88,7 @@ namespace Koopman.CheckPoint.Exceptions
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public string ToString(bool includeDetails)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendLine(Message);
             if (includeDetails)
             {

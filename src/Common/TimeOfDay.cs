@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -31,8 +31,8 @@ namespace Koopman.CheckPoint.Common
         /// <exception cref="ArgumentOutOfRangeException">hour or minute</exception>
         public TimeOfDay(string time)
         {
-            Regex re = new Regex(@"^(\d{1,2}):(\d{1,2})$");
-            MatchCollection matches = re.Matches(time);
+            var re = new Regex(@"^(\d{1,2}):(\d{1,2})$");
+            var matches = re.Matches(time);
             if (matches.Count != 1) throw new InvalidCastException($"Cannot convert to {nameof(TimeOfDay)}");
 
             short hour = short.Parse(matches[0].Groups[1].Value);
@@ -74,18 +74,12 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Gets the hour.
         /// </summary>
-        public byte Hour
-        {
-            get => (byte)(Minutes / 60);
-        }
+        public byte Hour => (byte)(Minutes / 60);
 
         /// <summary>
         /// Gets the minute.
         /// </summary>
-        public byte Minute
-        {
-            get => (byte)(Minutes % 60);
-        }
+        public byte Minute => (byte)(Minutes % 60);
 
         /// <summary>
         /// Gets the number of minutes past midnight.
@@ -101,20 +95,14 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <param name="v">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator short(TimeOfDay v)
-        {
-            return v.Minutes;
-        }
+        public static implicit operator short(TimeOfDay v) => v.Minutes;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="System.Int32" /> to <see cref="TimeOfDay" />.
         /// </summary>
         /// <param name="v">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator TimeOfDay(int v)
-        {
-            return new TimeOfDay(v);
-        }
+        public static implicit operator TimeOfDay(int v) => new TimeOfDay(v);
 
         /// <summary>
         /// Implements the operator -.
@@ -122,10 +110,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="mins">The number of minutes to subtract.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator -(TimeOfDay c1, int mins)
-        {
-            return new TimeOfDay(c1.Minutes - mins);
-        }
+        public static TimeOfDay operator -(TimeOfDay c1, int mins) => new TimeOfDay(c1.Minutes - mins);
 
         /// <summary>
         /// Implements the operator -.
@@ -133,10 +118,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="mins">The number of minutes to subtract.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator -(TimeOfDay c1, short mins)
-        {
-            return new TimeOfDay(c1.Minutes - mins);
-        }
+        public static TimeOfDay operator -(TimeOfDay c1, short mins) => new TimeOfDay(c1.Minutes - mins);
 
         /// <summary>
         /// Implements the operator -.
@@ -144,20 +126,14 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay to subtract.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator -(TimeOfDay c1, TimeOfDay c2)
-        {
-            return new TimeOfDay(c1.Minutes - c2.Minutes);
-        }
+        public static TimeOfDay operator -(TimeOfDay c1, TimeOfDay c2) => new TimeOfDay(c1.Minutes - c2.Minutes);
 
         /// <summary>
         /// Implements the operator --.
         /// </summary>
         /// <param name="c1">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator --(TimeOfDay c1)
-        {
-            return new TimeOfDay(c1.Minutes - 1);
-        }
+        public static TimeOfDay operator --(TimeOfDay c1) => new TimeOfDay(c1.Minutes - 1);
 
         /// <summary>
         /// Implements the operator !=.
@@ -165,10 +141,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator !=(TimeOfDay c1, TimeOfDay c2)
-        {
-            return c1.Minutes != c2.Minutes;
-        }
+        public static bool operator !=(TimeOfDay c1, TimeOfDay c2) => c1.Minutes != c2.Minutes;
 
         /// <summary>
         /// Implements the operator +.
@@ -176,10 +149,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="mins">The number of minutes to add.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator +(TimeOfDay c1, int mins)
-        {
-            return new TimeOfDay(c1.Minutes + mins);
-        }
+        public static TimeOfDay operator +(TimeOfDay c1, int mins) => new TimeOfDay(c1.Minutes + mins);
 
         /// <summary>
         /// Implements the operator +.
@@ -187,10 +157,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="mins">The number of minutes to add.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator +(TimeOfDay c1, short mins)
-        {
-            return new TimeOfDay(c1.Minutes + mins);
-        }
+        public static TimeOfDay operator +(TimeOfDay c1, short mins) => new TimeOfDay(c1.Minutes + mins);
 
         /// <summary>
         /// Implements the operator +.
@@ -198,20 +165,14 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator +(TimeOfDay c1, TimeOfDay c2)
-        {
-            return new TimeOfDay(c1.Minutes + c2.Minutes);
-        }
+        public static TimeOfDay operator +(TimeOfDay c1, TimeOfDay c2) => new TimeOfDay(c1.Minutes + c2.Minutes);
 
         /// <summary>
         /// Implements the operator ++.
         /// </summary>
         /// <param name="c1">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static TimeOfDay operator ++(TimeOfDay c1)
-        {
-            return new TimeOfDay(c1.Minutes + 1);
-        }
+        public static TimeOfDay operator ++(TimeOfDay c1) => new TimeOfDay(c1.Minutes + 1);
 
         /// <summary>
         /// Implements the operator &lt;.
@@ -219,10 +180,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator <(TimeOfDay c1, TimeOfDay c2)
-        {
-            return c1.Minutes < c2.Minutes;
-        }
+        public static bool operator <(TimeOfDay c1, TimeOfDay c2) => c1.Minutes < c2.Minutes;
 
         /// <summary>
         /// Implements the operator &lt;=.
@@ -230,10 +188,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator <=(TimeOfDay c1, TimeOfDay c2)
-        {
-            return c1.Minutes <= c2.Minutes;
-        }
+        public static bool operator <=(TimeOfDay c1, TimeOfDay c2) => c1.Minutes <= c2.Minutes;
 
         /// <summary>
         /// Implements the operator ==.
@@ -241,10 +196,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator ==(TimeOfDay c1, TimeOfDay c2)
-        {
-            return c1.Minutes == c2.Minutes;
-        }
+        public static bool operator ==(TimeOfDay c1, TimeOfDay c2) => c1.Minutes == c2.Minutes;
 
         /// <summary>
         /// Implements the operator &gt;.
@@ -252,10 +204,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator >(TimeOfDay c1, TimeOfDay c2)
-        {
-            return c1.Minutes > c2.Minutes;
-        }
+        public static bool operator >(TimeOfDay c1, TimeOfDay c2) => c1.Minutes > c2.Minutes;
 
         /// <summary>
         /// Implements the operator &gt;=.
@@ -263,20 +212,14 @@ namespace Koopman.CheckPoint.Common
         /// <param name="c1">The TimeOfDay.</param>
         /// <param name="c2">The TimeOfDay.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator >=(TimeOfDay c1, TimeOfDay c2)
-        {
-            return c1.Minutes >= c2.Minutes;
-        }
+        public static bool operator >=(TimeOfDay c1, TimeOfDay c2) => c1.Minutes >= c2.Minutes;
 
         /// <summary>
         /// Compares to another TimeOfDay.
         /// </summary>
         /// <param name="other">The other TimeOfDay.</param>
         /// <returns>A value that indicates the relative order of the objects being compared.</returns>
-        public int CompareTo(TimeOfDay other)
-        {
-            return Minutes.CompareTo(other.Minutes);
-        }
+        public int CompareTo(TimeOfDay other) => Minutes.CompareTo(other.Minutes);
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -286,10 +229,7 @@ namespace Koopman.CheckPoint.Common
         /// true if the current object is equal to the <paramref name="other">other</paramref>
         /// parameter; otherwise, false.
         /// </returns>
-        public bool Equals(TimeOfDay other)
-        {
-            return Minutes == other.Minutes;
-        }
+        public bool Equals(TimeOfDay other) => Minutes == other.Minutes;
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
@@ -302,13 +242,9 @@ namespace Koopman.CheckPoint.Common
         public override bool Equals(object obj)
         {
             if (typeof(int).GetTypeInfo().IsAssignableFrom(obj.GetType()))
-            {
                 return (int)obj == Minutes;
-            }
             else
-            {
                 return false;
-            }
         }
 
         /// <summary>
@@ -318,19 +254,13 @@ namespace Koopman.CheckPoint.Common
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures
         /// like a hash table.
         /// </returns>
-        public override int GetHashCode()
-        {
-            return Minutes.GetHashCode();
-        }
+        public override int GetHashCode() => Minutes.GetHashCode();
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance in format HH:mm.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return string.Format("{0:D2}:{1:D2}", Hour, Minute);
-        }
+        public override string ToString() => string.Format("{0:D2}:{1:D2}", Hour, Minute);
 
         #endregion Methods
     }

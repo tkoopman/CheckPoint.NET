@@ -161,7 +161,7 @@ namespace Koopman.CheckPoint
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => (String.IsNullOrWhiteSpace(TaskName)) ? TaskID : TaskName;
+        public override string ToString() => (string.IsNullOrWhiteSpace(TaskName)) ? TaskID : TaskName;
 
         /// <summary>
         /// Asynchronous wait call, that will complete once the test status is no longer In Progress.
@@ -174,14 +174,14 @@ namespace Koopman.CheckPoint
         /// </returns>
         public async System.Threading.Tasks.Task<bool> WaitAsync(
                 int delay = 1000,
-                CancellationToken cancellationToken = default(CancellationToken),
+                CancellationToken cancellationToken = default,
                 IProgress<int> progress = null
             )
         {
-            DetailLevels detailLevels = DetailLevels.Standard;
+            var detailLevels = DetailLevels.Standard;
             while (true)
             {
-                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+                var data = new Dictionary<string, dynamic>
                 {
                     { "task-id", TaskID },
                     { "details-level", detailLevels }
@@ -191,8 +191,8 @@ namespace Koopman.CheckPoint
 
                 string result = await Session.PostAsync("show-task", jsonData, cancellationToken);
 
-                JObject results = JsonConvert.DeserializeObject<JObject>(result);
-                JArray array = (JArray)results.GetValue("tasks");
+                var results = JsonConvert.DeserializeObject<JObject>(result);
+                var array = (JArray)results.GetValue("tasks");
 
                 JsonConvert.PopulateObject(array.First.ToString(), this, new JsonSerializerSettings() { Converters = { new SessionConstructorConverter(Session) } });
 
@@ -271,19 +271,13 @@ namespace Koopman.CheckPoint
             /// Gets the response error message.
             /// </summary>
             /// <value>The response error message.</value>
-            public string ResponseError
-            {
-                get => (ResponseError64 == null) ? null : System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(ResponseError64));
-            }
+            public string ResponseError => (ResponseError64 == null) ? null : System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(ResponseError64));
 
             /// <summary>
             /// Gets the response message.
             /// </summary>
             /// <value>The response message.</value>
-            public string ResponseMessage
-            {
-                get => (ResponseMessage64 == null) ? null : System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(ResponseMessage64));
-            }
+            public string ResponseMessage => (ResponseMessage64 == null) ? null : System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(ResponseMessage64));
 
             /// <summary>
             /// Gets the uid.

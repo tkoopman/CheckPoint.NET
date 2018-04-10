@@ -118,7 +118,7 @@ namespace Koopman.CheckPoint.Json
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            Type t = (GetIsNullable(objectType))
+            var t = (GetIsNullable(objectType))
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 
@@ -136,15 +136,15 @@ namespace Koopman.CheckPoint.Json
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             bool isNullable = GetIsNullable(objectType);
-            Type t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+            var t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 
             if (reader.TokenType == JsonToken.Null)
             {
-                if (NullAsZero) { return 0; }
+                if (NullAsZero)
+                    return 0;
+
                 if (!isNullable)
-                {
                     throw new JsonSerializationException($"Cannot convert null value to {objectType}.");
-                }
 
                 return null;
             }
@@ -157,8 +157,11 @@ namespace Koopman.CheckPoint.Json
 
                     if (enumText == string.Empty)
                     {
-                        if (NullAsZero) { return 0; }
-                        if (isNullable) { return null; }
+                        if (NullAsZero)
+                            return 0;
+
+                        if (isNullable)
+                            return null;
                     }
 
                     return DeserializeValue(enumText, t);
@@ -197,24 +200,24 @@ namespace Koopman.CheckPoint.Json
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             bool isNullable = GetIsNullable(value.GetType());
-            Type t = isNullable ? Nullable.GetUnderlyingType(value.GetType()) : value.GetType();
+            var t = isNullable ? Nullable.GetUnderlyingType(value.GetType()) : value.GetType();
 
             bool asArray = (OutputArray == OutputArrayOptions.Auto) ?
                 t.GetTypeInfo().GetCustomAttribute(typeof(FlagsAttribute)) != null :
                 OutputArray == OutputArrayOptions.Yes;
 
-            Enum e = (Enum)value;
+            var e = (Enum)value;
             if (asArray)
             {
                 writer.WriteStartArray();
 
                 if (value != null)
                 {
-                    List<string> values = new List<string>(); string[] flags = t.GetTypeInfo().GetEnumNames();
-                    foreach (var flag in flags)
+                    var values = new List<string>(); string[] flags = t.GetTypeInfo().GetEnumNames();
+                    foreach (string flag in flags)
                     {
-                        Enum flagEnum = (Enum)Enum.Parse(t, flag);
-                        MemberInfo[] flagInfo = t.GetTypeInfo().GetMember(flag);
+                        var flagEnum = (Enum)Enum.Parse(t, flag);
+                        var flagInfo = t.GetTypeInfo().GetMember(flag);
                         bool ignore = flagInfo[0].GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null;
                         if (!ignore && e.HasFlag(flagEnum))
                             writer.WriteValue(SerializeValue(flag, t));
@@ -227,7 +230,7 @@ namespace Koopman.CheckPoint.Json
                 writer.WriteNull();
             else
             {
-                MemberInfo[] flagInfo = t.GetTypeInfo().GetMember(e.ToString());
+                var flagInfo = t.GetTypeInfo().GetMember(e.ToString());
                 bool ignore = flagInfo[0].GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null;
                 if (ignore)
                     writer.WriteNull();
@@ -236,32 +239,25 @@ namespace Koopman.CheckPoint.Json
             }
         }
 
-        private static bool GetIsNullable(Type objectType)
-        {
-            return (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
-        }
+        private static bool GetIsNullable(Type objectType) => (objectType.GetTypeInfo().IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
 
-        private Object DeserializeValue(string value, Type type)
+        private object DeserializeValue(string value, Type type)
         {
             string enumText = value;
             // Check EnumMember Values first
             string[] flags = type.GetTypeInfo().GetEnumNames();
-            foreach (var flag in flags)
+            foreach (string flag in flags)
             {
-                Enum flagEnum = (Enum)Enum.Parse(type, flag);
-                MemberInfo[] flagInfo = type.GetTypeInfo().GetMember(flag);
-                EnumMemberAttribute att = (EnumMemberAttribute)flagInfo[0].GetCustomAttribute(typeof(EnumMemberAttribute));
+                var flagEnum = (Enum)Enum.Parse(type, flag);
+                var flagInfo = type.GetTypeInfo().GetMember(flag);
+                var att = (EnumMemberAttribute)flagInfo[0].GetCustomAttribute(typeof(EnumMemberAttribute));
                 if (att != null && att.Value.Equals(enumText, StringComparison.CurrentCultureIgnoreCase))
-                {
                     return flagEnum;
-                }
             }
 
             // Remove SplitWordsWith from value so they can be matched to CamelCase Enum values
             if (OutputSplitWords != null)
-            {
                 enumText = enumText.Replace(OutputSplitWords, "");
-            }
 
             return (Enum)Enum.Parse(enumType: type, value: enumText, ignoreCase: true);
         }
@@ -269,18 +265,17 @@ namespace Koopman.CheckPoint.Json
         private string SerializeValue(string value, Type type)
         {
             string v = value;
-            MemberInfo[] enumInfo = type.GetTypeInfo().GetMember(v);
+            var enumInfo = type.GetTypeInfo().GetMember(v);
 
             if (enumInfo != null && enumInfo.Length == 1)
             {
-                EnumMemberAttribute att = (EnumMemberAttribute)enumInfo[0].GetCustomAttribute(typeof(EnumMemberAttribute));
-                if (att != null) { return att.Value; }
+                var att = (EnumMemberAttribute)enumInfo[0].GetCustomAttribute(typeof(EnumMemberAttribute));
+                if (att != null)
+                    return att.Value;
             }
 
             if (OutputSplitWords != null)
-            {
                 v = v.CamelCaseToRegular(OutputSplitWords);
-            }
 
             switch (OutputCase)
             {

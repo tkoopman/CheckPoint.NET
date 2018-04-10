@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 
 namespace Koopman.CheckPoint.Json
 {
@@ -42,19 +42,19 @@ namespace Koopman.CheckPoint.Json
         public override bool CanConvert(Type objectType)
         {
             //ConstructorInfo ci = objectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(Session) }, null);
-            ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.SingleOrDefault(c => (c.GetParameters().Length == 1 && c.GetParameters().First().ParameterType == typeof(Session)));
+            var ci = objectType.GetTypeInfo().DeclaredConstructors.SingleOrDefault(c => (c.GetParameters().Length == 1 && c.GetParameters().First().ParameterType == typeof(Session)));
             return ci != null;
         }
 
         /// <inheritdoc />
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            Object result = existingValue;
+            object result = existingValue;
 
             if (result == null)
             {
                 //ConstructorInfo ci = objectType.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(Session) }, null);
-                ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.Single(c => c.GetParameters().Length == 1 && c.GetParameters().First().ParameterType == typeof(Session));
+                var ci = objectType.GetTypeInfo().DeclaredConstructors.Single(c => c.GetParameters().Length == 1 && c.GetParameters().First().ParameterType == typeof(Session));
                 if (ci == null) { throw new Exception("Unable to find constructor that accepts Session parameter"); }
                 result = ci.Invoke(new object[] { Session });
             }
@@ -64,10 +64,7 @@ namespace Koopman.CheckPoint.Json
         }
 
         /// <inheritdoc />
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
 
         #endregion Methods
     }

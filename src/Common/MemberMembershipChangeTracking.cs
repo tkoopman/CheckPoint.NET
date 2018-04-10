@@ -74,7 +74,7 @@ namespace Koopman.CheckPoint.Common
             for (int x = 0; x < Members.Count; x++)
                 if (Members[x] is GenericMember m)
                 {
-                    IObjectSummary summary = m.GetFromCache(objectConverter);
+                    var summary = m.GetFromCache(objectConverter);
                     if (summary != null)
                         Members[x] = (T)summary;
                 }

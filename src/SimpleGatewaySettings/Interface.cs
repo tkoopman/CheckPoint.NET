@@ -123,8 +123,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
         public IPAddress IPv4NetworkMask
         {
             get => Internal.SubnetMask.MaskLengthToSubnetMask(IPv4MaskLength);
-
-            set { IPv4MaskLength = Internal.SubnetMask.SubnetMaskToMaskLength(value); }
+            set => IPv4MaskLength = Internal.SubnetMask.SubnetMaskToMaskLength(value);
         }
 
         /// <summary>
@@ -182,10 +181,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
         /// </summary>
         /// <value><c>true</c> if security zone assigned; otherwise, <c>false</c>.</value>
         [JsonProperty(PropertyName = "security-zone")]
-        public bool SecurityZone
-        {
-            get => _securityZoneSettings != null;
-        }
+        public bool SecurityZone => _securityZoneSettings != null;
 
         /// <summary>
         /// Gets or sets the security zone settings.
@@ -246,10 +242,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
 
         #endregion Methods
     }

@@ -71,10 +71,7 @@ namespace Koopman.CheckPoint.Json
 
         #region Methods
 
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
-        }
+        public override bool CanConvert(Type objectType) => typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
 
         /// <summary>
         /// Gets object from cache or if not in cache will return the defaultObject.
@@ -105,18 +102,18 @@ namespace Koopman.CheckPoint.Json
 
             if (o is IEnumerable collection)
             {
-                foreach (var obj in collection)
+                foreach (object obj in collection)
                     PostDeserilization(obj);
             }
             else
             {
                 var type = o.GetType().GetTypeInfo();
-                PropertyInfo property = type.GetAllProperties().FirstOrDefault(
+                var property = type.GetAllProperties().FirstOrDefault(
                             p => p.Name.Equals("HasUpdatedGenericMembers"));
 
                 if (property == null || property.GetValue(o).Equals(true)) return;
 
-                MethodInfo method = type.GetAllMethods().FirstOrDefault(
+                var method = type.GetAllMethods().FirstOrDefault(
                             c => c.Name.Equals("UpdateGenericMembers") &&
                             c.GetParameters().Length == 1 &&
                             c.GetParameters().First().ParameterType == typeof(ObjectConverter));
@@ -132,7 +129,7 @@ namespace Koopman.CheckPoint.Json
             IObjectSummary result;
             if (reader.TokenType == JsonToken.StartObject)
             {
-                JObject obj = serializer.Deserialize<JObject>(reader);
+                var obj = serializer.Deserialize<JObject>(reader);
                 string uid = obj.GetValue("uid").ToString();
 
                 if (IsSpecialObject(uid, objectType, out result))
@@ -277,7 +274,7 @@ namespace Koopman.CheckPoint.Json
 
                 if (objectType.GetTypeInfo().IsClass)
                 {
-                    ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.Single(
+                    var ci = objectType.GetTypeInfo().DeclaredConstructors.Single(
                         c => c.GetParameters().Length == 2 &&
                         c.GetParameters().First().ParameterType == typeof(Session) &&
                         c.GetParameters().Last().ParameterType == typeof(DetailLevels));
@@ -297,25 +294,18 @@ namespace Koopman.CheckPoint.Json
             else throw CreateJsonReaderException(reader, $"Invalid token type found. Type: {reader.TokenType}");
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
 
         private static void SetProperty(IObjectSummary obj, string name, object value)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             if (name == null) throw new ArgumentNullException(nameof(name));
 
-            PropertyInfo prop = obj.GetType().GetTypeInfo().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+            var prop = obj.GetType().GetTypeInfo().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             if (prop != null && prop.CanWrite)
-            {
                 prop.SetValue(obj, value, null);
-            }
             else
-            {
                 throw new ArgumentException("No writeable property found.");
-            }
         }
 
         private JsonReaderException CreateJsonReaderException(JsonReader reader, string message)
@@ -326,10 +316,7 @@ namespace Koopman.CheckPoint.Json
             return new JsonReaderException(message);
         }
 
-        private DetailLevels GetDetailLevel(JsonReader reader)
-        {
-            return (reader.Depth == 0) ? ParentDetailLevel : ChildDetailLevel;
-        }
+        private DetailLevels GetDetailLevel(JsonReader reader) => (reader.Depth == 0) ? ParentDetailLevel : ChildDetailLevel;
 
         private bool IsSpecialObject(string uid, Type objectType, out IObjectSummary obj)
         {
@@ -352,6 +339,7 @@ namespace Koopman.CheckPoint.Json
             obj = null;
             return false;
         }
+
         #endregion Methods
     }
 }

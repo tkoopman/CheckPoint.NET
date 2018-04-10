@@ -1,5 +1,4 @@
 ﻿using Koopman.CheckPoint.Internal;
-using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.FastUpdate
 {
@@ -19,10 +18,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// AddressRange object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static AddressRange UpdateAddressRange(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new AddressRange(session, DetailLevels.Full));
-        }
+        public static AddressRange UpdateAddressRange(this Session session, string identifier) => AddIdentifier(identifier, new AddressRange(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Application Category without finding it first.
@@ -35,10 +31,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ApplicationCategory object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ApplicationCategory UpdateApplicationCategory(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ApplicationCategory(session, DetailLevels.Full));
-        }
+        public static ApplicationCategory UpdateApplicationCategory(this Session session, string identifier) => AddIdentifier(identifier, new ApplicationCategory(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Application Group without finding it first.
@@ -51,10 +44,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ApplicationGroup object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ApplicationGroup UpdateApplicationGroup(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ApplicationGroup(session, DetailLevels.Full));
-        }
+        public static ApplicationGroup UpdateApplicationGroup(this Session session, string identifier) => AddIdentifier(identifier, new ApplicationGroup(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Application Site without finding it first.
@@ -67,10 +57,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ApplicationSite object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ApplicationSite UpdateApplicationSite(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ApplicationSite(session, DetailLevels.Full));
-        }
+        public static ApplicationSite UpdateApplicationSite(this Session session, string identifier) => AddIdentifier(identifier, new ApplicationSite(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Group without finding it first.
@@ -81,10 +68,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// Group object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static Group UpdateGroup(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new Group(session, DetailLevels.Full));
-        }
+        public static Group UpdateGroup(this Session session, string identifier) => AddIdentifier(identifier, new Group(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Group With Exclusion without finding it first.
@@ -97,10 +81,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// GroupWithExclusion object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static GroupWithExclusion UpdateGroupWithExclusion(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new GroupWithExclusion(session, DetailLevels.Full));
-        }
+        public static GroupWithExclusion UpdateGroupWithExclusion(this Session session, string identifier) => AddIdentifier(identifier, new GroupWithExclusion(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the host without finding it first.
@@ -111,10 +92,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// Host object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static Host UpdateHost(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new Host(session, DetailLevels.Full));
-        }
+        public static Host UpdateHost(this Session session, string identifier) => AddIdentifier(identifier, new Host(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Multicast Address Range without finding it first.
@@ -127,10 +105,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// MulticastAddressRange object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static MulticastAddressRange UpdateMulticastAddressRange(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new MulticastAddressRange(session, DetailLevels.Full));
-        }
+        public static MulticastAddressRange UpdateMulticastAddressRange(this Session session, string identifier) => AddIdentifier(identifier, new MulticastAddressRange(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Network without finding it first.
@@ -141,10 +116,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// Network object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static Network UpdateNetwork(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new Network(session, DetailLevels.Full));
-        }
+        public static Network UpdateNetwork(this Session session, string identifier) => AddIdentifier(identifier, new Network(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Security Zone without finding it first.
@@ -155,10 +127,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// SecurityZone object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static SecurityZone UpdateSecurityZone(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new SecurityZone(session, DetailLevels.Full));
-        }
+        public static SecurityZone UpdateSecurityZone(this Session session, string identifier) => AddIdentifier(identifier, new SecurityZone(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service DCE-RPC without finding it first.
@@ -169,10 +138,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceDceRpc object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceDceRpc UpdateServiceDceRpc(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceDceRpc(session, DetailLevels.Full));
-        }
+        public static ServiceDceRpc UpdateServiceDceRpc(this Session session, string identifier) => AddIdentifier(identifier, new ServiceDceRpc(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service Group without finding it first.
@@ -183,10 +149,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceGroup object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceGroup UpdateServiceGroup(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceGroup(session, DetailLevels.Full));
-        }
+        public static ServiceGroup UpdateServiceGroup(this Session session, string identifier) => AddIdentifier(identifier, new ServiceGroup(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service ICMP without finding it first.
@@ -197,10 +160,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceICMP object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceICMP UpdateServiceICMP(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceICMP(session, DetailLevels.Full));
-        }
+        public static ServiceICMP UpdateServiceICMP(this Session session, string identifier) => AddIdentifier(identifier, new ServiceICMP(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service ICMP6 without finding it first.
@@ -211,10 +171,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceICMP6 object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceICMP6 UpdateServiceICMP6(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceICMP6(session, DetailLevels.Full));
-        }
+        public static ServiceICMP6 UpdateServiceICMP6(this Session session, string identifier) => AddIdentifier(identifier, new ServiceICMP6(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service Other without finding it first.
@@ -225,10 +182,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceOther object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceOther UpdateServiceOther(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceOther(session, DetailLevels.Full));
-        }
+        public static ServiceOther UpdateServiceOther(this Session session, string identifier) => AddIdentifier(identifier, new ServiceOther(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service RPC without finding it first.
@@ -239,10 +193,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceRPC object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceRPC UpdateServiceRPC(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceRPC(session, DetailLevels.Full));
-        }
+        public static ServiceRPC UpdateServiceRPC(this Session session, string identifier) => AddIdentifier(identifier, new ServiceRPC(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service SCTP without finding it first.
@@ -253,10 +204,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceSCTP object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceSCTP UpdateServiceSCTP(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceSCTP(session, DetailLevels.Full));
-        }
+        public static ServiceSCTP UpdateServiceSCTP(this Session session, string identifier) => AddIdentifier(identifier, new ServiceSCTP(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service TCP without finding it first.
@@ -267,10 +215,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceTCP object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceTCP UpdateServiceTCP(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceTCP(session, DetailLevels.Full));
-        }
+        public static ServiceTCP UpdateServiceTCP(this Session session, string identifier) => AddIdentifier(identifier, new ServiceTCP(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Service UDP without finding it first.
@@ -281,10 +226,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// ServiceUDP object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static ServiceUDP UpdateServiceUDP(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new ServiceUDP(session, DetailLevels.Full));
-        }
+        public static ServiceUDP UpdateServiceUDP(this Session session, string identifier) => AddIdentifier(identifier, new ServiceUDP(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Simple Gateway without finding it first.
@@ -295,10 +237,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// SimpleGateway object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static SimpleGateway UpdateSimpleGateway(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new SimpleGateway(session, DetailLevels.Full));
-        }
+        public static SimpleGateway UpdateSimpleGateway(this Session session, string identifier) => AddIdentifier(identifier, new SimpleGateway(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Tag without finding it first.
@@ -309,10 +248,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// Tag object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static Tag UpdateTag(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new Tag(session, DetailLevels.Full));
-        }
+        public static Tag UpdateTag(this Session session, string identifier) => AddIdentifier(identifier, new Tag(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Time without finding it first.
@@ -323,10 +259,7 @@ namespace Koopman.CheckPoint.FastUpdate
         /// Time object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static Time UpdateTime(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new Time(session, DetailLevels.Full));
-        }
+        public static Time UpdateTime(this Session session, string identifier) => AddIdentifier(identifier, new Time(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Time Group without finding it first.
@@ -337,19 +270,16 @@ namespace Koopman.CheckPoint.FastUpdate
         /// TimeGroup object ready for you to set properties to change and then use
         /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
         /// </returns>
-        public static TimeGroup UpdateTimeGroup(this Session session, string identifier)
-        {
-            return AddIdentifier(identifier, new TimeGroup(session, DetailLevels.Full));
-        }
+        public static TimeGroup UpdateTimeGroup(this Session session, string identifier) => AddIdentifier(identifier, new TimeGroup(session, DetailLevels.Full));
 
         private static T AddIdentifier<T>(string identifier, T obj) where T : ObjectSummary<T>
         {
-            obj.OnDeserializingMethod(default(StreamingContext));
-            if (identifier.isUID())
+            obj.OnDeserializingMethod(default);
+            if (identifier.IsUID())
                 obj.UID = identifier;
             else
                 obj.Name = identifier;
-            obj.OnDeserializedMethod(default(StreamingContext));
+            obj.OnDeserializedMethod(default);
 
             return obj;
         }

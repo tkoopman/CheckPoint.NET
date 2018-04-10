@@ -192,7 +192,7 @@ namespace Koopman.CheckPoint
         /// <value>The set contract resolver.</value>
         protected virtual IContractResolver SetContractResolver => ChangeTrackingContractResolver.SetInstance;
 
-        private bool IsReadOnly { get => GetType().GetTypeInfo().IsGenericType; }
+        private bool IsReadOnly => GetType().GetTypeInfo().IsGenericType;
 
         #endregion Properties
 
@@ -215,7 +215,7 @@ namespace Koopman.CheckPoint
         {
             if (IsChanged)
             {
-                JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { Converters = { new MembershipChangeTrackingConverter() } };
+                var jsonSerializerSettings = new JsonSerializerSettings() { Converters = { new MembershipChangeTrackingConverter() } };
                 string command;
 
                 if (IsNew)
@@ -229,7 +229,7 @@ namespace Koopman.CheckPoint
                     jsonSerializerSettings.ContractResolver = SetContractResolver;
                 }
 
-                JObject jo = JObject.FromObject(this, JsonSerializer.Create(jsonSerializerSettings));
+                var jo = JObject.FromObject(this, JsonSerializer.Create(jsonSerializerSettings));
 
                 jo.AddIgnore(ignore);
 
@@ -271,7 +271,7 @@ namespace Koopman.CheckPoint
         {
             if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
 
-            return (IsPropertyChanged(nameof(Name)) || String.IsNullOrWhiteSpace(Name)) ? UID : Name;
+            return (IsPropertyChanged(nameof(Name)) || string.IsNullOrWhiteSpace(Name)) ? UID : Name;
         }
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace Koopman.CheckPoint
             if (IsNew) { throw new Exception("Cannot reload a new object."); }
             if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return (T)(IObjectSummary)this; }
 
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "uid", UID },
                 { "details-level", detailLevel.ToString() }
@@ -318,36 +318,24 @@ namespace Koopman.CheckPoint
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
         /// <returns>IObjectSummary of reloaded object</returns>
-        IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel)
-        {
-            return Reload(OnlyIfPartial, detailLevel);
-        }
+        IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel) => Reload(OnlyIfPartial, detailLevel);
 
         /// <summary>
         /// Conditional Property Serialization for Domain
         /// </summary>
         /// <returns>true if Domain should be serialised.</returns>
-        public bool ShouldSerializeDomain()
-        {
-            return Domain != null && !Domain.Equals(Domain.Default);
-        }
+        public bool ShouldSerializeDomain() => Domain != null && !Domain.Equals(Domain.Default);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this object.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this object.</returns>
-        public override string ToString()
-        {
-            return (string.IsNullOrEmpty(Name)) ? UID : Name;
-        }
+        public override string ToString() => (string.IsNullOrEmpty(Name)) ? UID : Name;
 
         /// <summary>
         /// Update any GenericMembers with ObjectConverter cache if exists.
         /// </summary>
-        internal virtual void UpdateGenericMembers(ObjectConverter objectConverter)
-        {
-            HasUpdatedGenericMembers = true;
-        }
+        internal virtual void UpdateGenericMembers(ObjectConverter objectConverter) => HasUpdatedGenericMembers = true;
 
         /// <summary>
         /// Tests the current detail level and takes action if too low.
@@ -365,7 +353,7 @@ namespace Koopman.CheckPoint
         {
             if (DetailLevel < minValue)
             {
-                DetailLevelActions action =
+                var action =
                     (detailLevelAction == DetailLevelActions.SessionDefault) ?
                         Session.DetailLevelAction :
                         detailLevelAction;
