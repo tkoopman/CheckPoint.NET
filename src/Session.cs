@@ -342,7 +342,7 @@ namespace Koopman.CheckPoint
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>JSON Response Data</returns>
         /// <inheritdoc cref="Post(string, string)" select="exception|seealso" />
-        public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default)
         {
             if (_isDisposed)
             {
@@ -4806,7 +4806,7 @@ namespace Koopman.CheckPoint
         /// <param name="indirect">if set to <c>true</c> results will include indirect uses.</param>
         /// <param name="indirectMaxDepth">The indirect maximum depth.</param>
         /// <returns>WhereUsed object</returns>
-        public WhereUsed WhereUsed(string identifier, DetailLevels detailLevel = DetailLevels.Standard, bool indirect = false, int indirectMaxDepth = 5)
+        public WhereUsed FindWhereUsed(string identifier, DetailLevels detailLevel = DetailLevels.Standard, bool indirect = false, int indirectMaxDepth = 5)
         {
             JObject data = new JObject()
             {

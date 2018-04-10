@@ -52,7 +52,7 @@ namespace Tests
         [TestMethod]
         public void WhereUsed()
         {
-            var a = Session.WhereUsed("domain-udp", DetailLevels.Full);
+            var a = Session.FindWhereUsed("domain-udp", DetailLevels.Full);
             Assert.IsNotNull(a);
         }
 

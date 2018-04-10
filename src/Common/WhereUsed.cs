@@ -3,7 +3,7 @@
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// Results from <see cref="Session.WhereUsed(string, DetailLevels, bool, int)" />
+    /// Results from <see cref="Session.FindWhereUsed(string, DetailLevels, bool, int)" />
     /// </summary>
     public class WhereUsed
     {
