@@ -56,6 +56,14 @@ namespace Tests
             Assert.IsNotNull(a);
         }
 
+        [TestMethod]
+        public void Unused()
+        {
+            var a = Session.FindUnusedObjects(limit:5, detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.Total > 0);
+        }
+
         #endregion Methods
     }
 }

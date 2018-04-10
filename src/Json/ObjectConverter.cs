@@ -101,7 +101,7 @@ namespace Koopman.CheckPoint.Json
         public void PostDeserilization(object o)
         {
             // Nothing to update if either cache is empty so lets not waste time looking
-            if (cacheGeneric.Count == 0 || cache.Count == 0) return;
+            if (o == null || cacheGeneric.Count == 0 || cache.Count == 0) return;
 
             if (o is IEnumerable collection)
             {

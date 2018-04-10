@@ -4813,7 +4813,7 @@ namespace Koopman.CheckPoint
                 { identifier.isUID() ? "uid" : "name", identifier },
                 { "details-level", detailLevel.ToString() }
             };
-            
+
             if (indirect)
             {
                 data.Add("indirect", true);
@@ -4824,10 +4824,106 @@ namespace Koopman.CheckPoint
 
             string result = this.Post("where-used", jsonData);
 
-            return JsonConvert.DeserializeObject<WhereUsed>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, detailLevel, detailLevel) } });
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+
+            var whereUsed = JsonConvert.DeserializeObject<WhereUsed>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            objectConverter.PostDeserilization(whereUsed.UsedDirectly?.Objects);
+            objectConverter.PostDeserilization(whereUsed.UsedIndirectly?.Objects);
+
+            return whereUsed;
         }
 
         #endregion WhereUsed Methods
+
+        #region Unused Methods
+
+        /// <summary>
+        /// Searches for unusage objects.
+        /// </summary>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>
+        /// Array of IObjectSummary objects
+        /// </returns>
+        public IObjectSummary[] FindAllUnusedObjects(DetailLevels detailLevel = DetailLevels.Standard, int limit = 50, IOrder order = null)
+        {
+            int offset = 0;
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+            var objs = new List<IObjectSummary>();
+
+            while (true)
+            {
+                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+                {
+                    { "details-level", detailLevel.ToString() },
+                    { "limit", limit },
+                    { "offset", offset },
+                    { "order", (order == null)? null:new IOrder[] { order } }
+                };
+
+                string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+                string result = Post("show-unused-objects", jsonData);
+
+                var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<IObjectSummary>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+                foreach (var o in results)
+                    objs.Add(o);
+
+                if (results.To == results.Total)
+                {
+                    objectConverter.PostDeserilization(objs);
+                    return objs.ToArray();
+                }
+
+                offset = results.To;
+            }
+        }
+
+        /// <summary>
+        /// Searches for unusage objects.
+        /// </summary>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>
+        /// NetworkObjectsPagingResults of IObjectSummary objects
+        /// </returns>
+        public NetworkObjectsPagingResults<IObjectSummary> FindUnusedObjects(DetailLevels detailLevel = DetailLevels.Standard, int limit = 50, int offset = 0, IOrder order = null)
+        {
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            {
+                { "details-level", detailLevel.ToString() },
+                { "limit", limit },
+                { "offset", offset },
+                { "order", (order == null)? null:new IOrder[] { order } }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-unused-objects", jsonData);
+
+            var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<IObjectSummary>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            if (results != null)
+            {
+                objectConverter.PostDeserilization(results);
+                results.Next = delegate ()
+                {
+                    if (results.To == results.Total) { return null; }
+                    return this.FindUnusedObjects(detailLevel, limit, results.To, order);
+                };
+            }
+
+            return results;
+        }
+
+        #endregion Unused Methods
 
         #endregion Misc. Methods
     }
