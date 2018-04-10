@@ -29,25 +29,6 @@ namespace Koopman.CheckPoint.Internal
     {
         #region Methods
 
-        /// <summary>
-        /// Adds the ignore values to a request.
-        /// </summary>
-        /// <param name="jo">The request.</param>
-        /// <param name="ignore">The ignore setting.</param>
-        internal static void AddIgnore(this JObject jo, Ignore ignore)
-        {
-            switch (ignore)
-            {
-                case Ignore.Warnings:
-                    jo.Add("ignore-warnings", true);
-                    break;
-
-                case Ignore.Errors:
-                    jo.Add("ignore-errors", true);
-                    break;
-            }
-        }
-
         internal static void AddIfNotNull(this JObject jo, string name, string value)
         {
             if (value == null) return;
@@ -67,14 +48,30 @@ namespace Koopman.CheckPoint.Internal
         }
 
         /// <summary>
+        /// Adds the ignore values to a request.
+        /// </summary>
+        /// <param name="jo">The request.</param>
+        /// <param name="ignore">The ignore setting.</param>
+        internal static void AddIgnore(this JObject jo, Ignore ignore)
+        {
+            switch (ignore)
+            {
+                case Ignore.Warnings:
+                    jo.Add("ignore-warnings", true);
+                    break;
+
+                case Ignore.Errors:
+                    jo.Add("ignore-errors", true);
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Returns true if string is in the format of a Check Point UID
         /// </summary>
         /// <param name="str">String to test.</param>
         /// <returns>True if valid UID format</returns>
-        internal static bool isUID(this string str)
-        {
-            return Regex.IsMatch(str, @"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$");
-        }
+        internal static bool IsUID(this string str) => Regex.IsMatch(str, @"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$");
 
         #endregion Methods
     }

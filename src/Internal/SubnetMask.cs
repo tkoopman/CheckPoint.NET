@@ -40,7 +40,7 @@ namespace Koopman.CheckPoint.Internal
             if (maskLength < 0 || maskLength > 32)
                 throw new ArgumentException("Valid values 0 - 32", nameof(maskLength));
 
-            Byte[] binaryMask = new byte[4];
+            byte[] binaryMask = new byte[4];
 
             for (int i = 0; i < 4; i++)
             {
@@ -52,7 +52,7 @@ namespace Koopman.CheckPoint.Internal
                 {
                     int oneLength = maskLength - i * 8;
                     string binaryDigit =
-                        String.Empty.PadLeft(oneLength, '1').PadRight(8, '0');
+                        string.Empty.PadLeft(oneLength, '1').PadRight(8, '0');
                     binaryMask[i] = Convert.ToByte(binaryDigit, 2);
                 }
             }
@@ -69,7 +69,7 @@ namespace Koopman.CheckPoint.Internal
         {
             try
             {
-                Byte[] ipbytes = subnetMask.GetAddressBytes();
+                byte[] ipbytes = subnetMask.GetAddressBytes();
 
                 uint subnet = 16777216 * Convert.ToUInt32(ipbytes[0]) +
                     65536 * Convert.ToUInt32(ipbytes[1]) + 256 * Convert.ToUInt32(ipbytes[2]) + Convert.ToUInt32(ipbytes[3]);

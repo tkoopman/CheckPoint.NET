@@ -17,7 +17,6 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -69,7 +68,7 @@ namespace Koopman.CheckPoint.Internal
         internal static string CamelCaseToRegular(this string source, string separator = " ")
         {
             string[] s = CamelCaseToArray(source);
-            return String.Join(separator, s);
+            return string.Join(separator, s);
         }
 
         /// <summary>

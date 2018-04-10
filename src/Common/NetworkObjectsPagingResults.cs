@@ -38,7 +38,7 @@ namespace Koopman.CheckPoint.Common
         /// </para>
         /// </summary>
         [JsonProperty(PropertyName = "objects", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-        public List<T> Objects { get { return _Objects; } set { _Objects = value; } }
+        public List<T> Objects { get => _Objects; set => _Objects = value; }
 
         #endregion Properties
     }

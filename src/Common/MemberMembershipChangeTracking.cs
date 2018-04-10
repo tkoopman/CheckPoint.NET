@@ -17,6 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 
 namespace Koopman.CheckPoint.Common
@@ -45,15 +46,11 @@ namespace Koopman.CheckPoint.Common
         /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         public override void Add(T item)
         {
+            if (item == null) return;
             if (IsDeserializing)
-            {
                 Members.Add(item);
-            }
             else
-            {
-                if (item == null) { return; }
                 Add(item.GetMembershipID());
-            }
         }
 
         /// <summary>
@@ -75,10 +72,9 @@ namespace Koopman.CheckPoint.Common
         internal void UpdateGenericMembers(ObjectConverter objectConverter)
         {
             for (int x = 0; x < Members.Count; x++)
-                if (Members[x] is GenericMember)
+                if (Members[x] is GenericMember m)
                 {
-                    GenericMember m = (GenericMember)(IObjectSummary)Members[x];
-                    IObjectSummary summary = m.GetFromCache(objectConverter);
+                    var summary = m.GetFromCache(objectConverter);
                     if (summary != null)
                         Members[x] = (T)summary;
                 }

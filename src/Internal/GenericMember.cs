@@ -1,16 +1,16 @@
-﻿using Koopman.CheckPoint.Exceptions;
-using Koopman.CheckPoint.Internal;
+﻿using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Json;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint.Internal
 {
     /// <summary>
-    /// Used to represent an unknown object type when only the UID is returned.
+    /// Used to represent an unknown object type when is needs to be used as a member of another object.
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.IObjectSummary" />
     /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
     /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
-    public class GenericMember : IObjectSummary, IGroupMember, IServiceGroupMember, IApplicationGroupMember
+    internal class GenericMember : IObjectSummary, IGroupMember, IServiceGroupMember, IApplicationGroupMember
     {
         #region Constructors
 

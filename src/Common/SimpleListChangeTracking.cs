@@ -76,12 +76,10 @@ namespace Koopman.CheckPoint.Common
         {
             get
             {
-                foreach (T i in items)
-                {
+                foreach (var i in items)
                     if (i.ToString().Equals(str)) return i;
-                }
 
-                return default(T);
+                return default;
             }
         }
 
@@ -117,10 +115,7 @@ namespace Koopman.CheckPoint.Common
         /// true if <paramref name="item">item</paramref> is found in the
         /// <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false.
         /// </returns>
-        public bool Contains(T item)
-        {
-            return ((IList<T>)items).Contains(item);
-        }
+        public bool Contains(T item) => ((IList<T>)items).Contains(item);
 
         /// <summary>
         /// Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1"></see>
@@ -133,19 +128,13 @@ namespace Koopman.CheckPoint.Common
         /// <see cref="T:System.Array"></see> must have zero-based indexing.
         /// </param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            ((IList<T>)items).CopyTo(array, arrayIndex);
-        }
+        public void CopyTo(T[] array, int arrayIndex) => ((IList<T>)items).CopyTo(array, arrayIndex);
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return ((IList<T>)items).GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => ((IList<T>)items).GetEnumerator();
 
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
@@ -154,10 +143,7 @@ namespace Koopman.CheckPoint.Common
         /// An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate
         /// through the collection.
         /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IList<T>)items).GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => ((IList<T>)items).GetEnumerator();
 
         /// <summary>
         /// Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"></see>.
@@ -166,10 +152,7 @@ namespace Koopman.CheckPoint.Common
         /// <returns>
         /// The index of <paramref name="item">item</paramref> if found in the list; otherwise, -1.
         /// </returns>
-        public int IndexOf(T item)
-        {
-            return ((IList<T>)items).IndexOf(item);
-        }
+        public int IndexOf(T item) => ((IList<T>)items).IndexOf(item);
 
         /// <summary>
         /// Inserts an item to the <see cref="T:System.Collections.Generic.IList`1"></see> at the
@@ -212,10 +195,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Called when deserializing.
         /// </summary>
-        protected override void OnDeserializing()
-        {
-            items.Clear();
-        }
+        protected override void OnDeserializing() => items.Clear();
 
         #endregion Methods
     }

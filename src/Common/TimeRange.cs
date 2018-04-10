@@ -51,8 +51,8 @@ namespace Koopman.CheckPoint.Common
         /// <exception cref="ArgumentOutOfRangeException">end - End must be greater than start</exception>
         public TimeRange(string start, string end)
         {
-            TimeOfDay s = new TimeOfDay(start);
-            TimeOfDay e = new TimeOfDay(end);
+            var s = new TimeOfDay(start);
+            var e = new TimeOfDay(end);
             if (s > e) throw new ArgumentOutOfRangeException(nameof(end), "End must be greater than start");
             Start = s;
             End = e;
@@ -65,7 +65,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Gets the duration.
         /// </summary>
-        public short Duration { get => (short)((short)End - (short)Start); }
+        public short Duration => (short)((short)End - (short)Start);
 
         /// <summary>
         /// Gets the end TimeOfDay.

@@ -61,10 +61,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Resets the object’s state to unchanged by accepting the modifications.
         /// </summary>
-        public virtual void AcceptChanges()
-        {
-            throw new NotImplementedException("Use AcceptChanges from Parent Object.");
-        }
+        public virtual void AcceptChanges() => throw new NotImplementedException("Use AcceptChanges from Parent Object.");
 
         /// <summary>
         /// Called when deserialized.
@@ -108,12 +105,10 @@ namespace Koopman.CheckPoint.Common
         /// Should be called, by the property setter, when any property value is updated.
         /// </summary>
         /// <param name="propertyName">Name of the property being updated.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (!IsDeserializing)
-            {
                 IsChanged = true;
-            }
         }
 
         #endregion Methods

@@ -19,7 +19,6 @@
 
 using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
-using System;
 
 namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
@@ -69,18 +68,5 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
         }
 
         #endregion Properties
-
-        #region Methods
-
-        /// <summary>
-        /// Resets the object’s state to unchanged by accepting the modifications.
-        /// </summary>
-        /// <exception cref="NotImplementedException">Use AcceptChanges from Parent Object.</exception>
-        public override void AcceptChanges()
-        {
-            throw new NotImplementedException("Use AcceptChanges from Parent Object.");
-        }
-
-        #endregion Methods
     }
 }

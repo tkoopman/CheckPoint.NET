@@ -51,7 +51,7 @@ namespace Koopman.CheckPoint.Internal
 
             while (true)
             {
-                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+                var data = new Dictionary<string, dynamic>
                 {
                     { "details-level", DetailLevel.ToString() },
                     { "limit", Limit },
@@ -63,7 +63,7 @@ namespace Koopman.CheckPoint.Internal
 
                 string result = Session.Post(Command, jsonData);
 
-                NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+                var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
                 foreach (var o in results)
                     objs.Add(o);
@@ -98,7 +98,7 @@ namespace Koopman.CheckPoint.Internal
 
             while (true)
             {
-                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+                var data = new Dictionary<string, dynamic>
                 {
                     { "filter", Filter },
                     { "ip-only", IPOnly },
@@ -113,7 +113,7 @@ namespace Koopman.CheckPoint.Internal
 
                 string result = Session.Post("show-objects", jsonData);
 
-                NetworkObjectsPagingResults<T> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+                var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
                 foreach (var o in results)
                     objs.Add(o);

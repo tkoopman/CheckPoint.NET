@@ -55,30 +55,27 @@ namespace Koopman.CheckPoint.Json
 
         #region Methods
 
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(DateTime).GetTypeInfo().IsAssignableFrom(objectType);
-        }
+        public override bool CanConvert(Type objectType) => typeof(DateTime).GetTypeInfo().IsAssignableFrom(objectType);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject obj = serializer.Deserialize<JObject>(reader);
+            var obj = serializer.Deserialize<JObject>(reader);
 
             if (IgnoreTimeZone)
             {
-                DateTime result = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Unspecified);
+                var result = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Unspecified);
                 return result.AddMilliseconds((long)obj["posix"]);
             }
             else
             {
-                DateTime result = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                var result = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
                 return result.AddMilliseconds((long)obj["posix"]).ToLocalTime();
             }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            DateTime dt = (DateTime)value;
+            var dt = (DateTime)value;
 
             if (GlobalOptions.WriteTimeAs == GlobalOptions.TimeField.ISO8601)
             {
@@ -91,10 +88,10 @@ namespace Koopman.CheckPoint.Json
             }
             else
             {
-                DateTime baseTime = (IgnoreTimeZone) ?
+                var baseTime = (IgnoreTimeZone) ?
                     new DateTime(1970, 1, 1, 0, 0, 0, 0, dt.Kind) :
                     new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                TimeSpan ts = dt - baseTime;
+                var ts = dt - baseTime;
                 long posix = (long)ts.TotalMilliseconds;
 
                 writer.WriteStartObject();
@@ -103,25 +100,6 @@ namespace Koopman.CheckPoint.Json
                 writer.WriteEndObject();
             }
         }
-
-        /* Was going to use posix but found CheckPoint changed the values sometimes
-                public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-                {
-                    DateTime dt = (DateTime)value;
-
-                    if (!IgnoreTimeZone)
-                    {
-                        dt = dt.ToUniversalTime();
-                    }
-
-                    TimeSpan ts = dt - new DateTime(1970, 1, 1, 0, 0, 0, 0, dt.Kind);
-
-                    writer.WriteStartObject();
-                    writer.WritePropertyName("posix");
-                    writer.WriteValue((long)ts.TotalMilliseconds);
-                    writer.WriteEndObject();
-                }
-        */
 
         #endregion Methods
     }

@@ -41,14 +41,11 @@ namespace Koopman.CheckPoint.Json
 
         #region Methods
 
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(ISecurityZoneSettings).GetTypeInfo().IsAssignableFrom(objectType);
-        }
+        public override bool CanConvert(Type objectType) => typeof(ISecurityZoneSettings).GetTypeInfo().IsAssignableFrom(objectType);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject obj = serializer.Deserialize<JObject>(reader);
+            var obj = serializer.Deserialize<JObject>(reader);
 
             ISecurityZoneSettings result;
 
@@ -65,10 +62,7 @@ namespace Koopman.CheckPoint.Json
             return result;
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
 
         #endregion Methods
     }

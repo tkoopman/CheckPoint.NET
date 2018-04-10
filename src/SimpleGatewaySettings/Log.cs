@@ -517,10 +517,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
         /// Gets the stop logging when free disk space below metrics.
         /// </summary>
         /// <value>The stop logging when free disk space below metrics.</value>
-        public Metrics StopLoggingWhenFreeDiskSpaceBelowMetrics
-        {
-            get => Metrics.MBytes;
-        }
+        public Metrics StopLoggingWhenFreeDiskSpaceBelowMetrics => Metrics.MBytes;
 
         /// <summary>
         /// Gets or sets the stop logging when free disk space below threshold.

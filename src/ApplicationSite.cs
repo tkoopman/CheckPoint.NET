@@ -70,6 +70,7 @@ namespace Koopman.CheckPoint
         #region Fields
 
         private MembershipChangeTracking<string> _additionalCategories;
+        private int? _applicationID;
         private MembershipChangeTracking<string> _applicationSignature;
         private string _description;
         private MemberMembershipChangeTracking<ApplicationGroup> _groups;
@@ -77,7 +78,6 @@ namespace Koopman.CheckPoint
         private MembershipChangeTracking<string> _urlList;
         private bool? _urlsDefinedAsRegularExpression;
         private bool? _userDefined;
-        private int? _applicationID;
 
         #endregion Fields
 

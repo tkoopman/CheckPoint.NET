@@ -233,7 +233,7 @@ namespace Koopman.CheckPoint
         {
             get => (TestDetailLevel(DetailLevels.Standard) && _maskLength4 != -1) ? Internal.SubnetMask.MaskLengthToSubnetMask(_maskLength4) : null;
 
-            set { MaskLength4 = Internal.SubnetMask.SubnetMaskToMaskLength(value); }
+            set => MaskLength4 = Internal.SubnetMask.SubnetMaskToMaskLength(value);
         }
 
         #endregion Properties

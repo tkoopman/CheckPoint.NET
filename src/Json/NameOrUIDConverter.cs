@@ -36,15 +36,9 @@ namespace Koopman.CheckPoint.Json
 
         #region Methods
 
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
-        }
+        public override bool CanConvert(Type objectType) => typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) => throw new NotImplementedException();
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -54,8 +48,8 @@ namespace Koopman.CheckPoint.Json
                 return;
             }
 
-            IObjectSummary obj = (IObjectSummary)value;
-            if (String.IsNullOrWhiteSpace(obj.Name))
+            var obj = (IObjectSummary)value;
+            if (string.IsNullOrWhiteSpace(obj.Name))
                 writer.WriteValue(obj.UID);
             else
                 writer.WriteValue(obj.Name);

@@ -58,7 +58,7 @@ namespace Koopman.CheckPoint.Json
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
+            var property = base.CreateProperty(member, memberSerialization);
 
             if (typeof(ChangeTracking).GetTypeInfo().IsAssignableFrom(property.DeclaringType))
             {
@@ -68,7 +68,7 @@ namespace Koopman.CheckPoint.Json
                     property.ShouldSerialize =
                         instance =>
                         {
-                            IObjectSummary o = (IObjectSummary)instance;
+                            var o = (IObjectSummary)instance;
                             return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID;
                         };
                 }
@@ -77,7 +77,7 @@ namespace Koopman.CheckPoint.Json
                     property.ShouldSerialize =
                             instance =>
                             {
-                                IObjectSummary o = (IObjectSummary)instance;
+                                var o = (IObjectSummary)instance;
                                 return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.Name;
                             };
                     if (SetMethod)
@@ -98,12 +98,14 @@ namespace Koopman.CheckPoint.Json
                         property.ShouldSerialize =
                         instance =>
                         {
-                            ChangeTracking c = (ChangeTracking)instance;
+                            var c = (ChangeTracking)instance;
                             if (c.IsPropertyChanged(member.Name))
                                 return true;
 
                             var ic = (IChangeTracking)((PropertyInfo)member).GetValue(instance);
-                            if (ic == null) { return false; }
+                            if (ic == null)
+                                return false;
+
                             return ic.IsChanged;
                         };
                     }
@@ -113,7 +115,7 @@ namespace Koopman.CheckPoint.Json
                         property.ShouldSerialize =
                         instance =>
                         {
-                            ChangeTracking c = (ChangeTracking)instance;
+                            var c = (ChangeTracking)instance;
                             return c.IsPropertyChanged(member.Name);
                         };
                     }

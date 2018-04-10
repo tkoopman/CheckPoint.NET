@@ -97,8 +97,8 @@ namespace Koopman.CheckPoint.Common
         {
             try
             {
-                Domain OBJ = (Domain)obj;
-                return this.UID.Equals(OBJ.UID);
+                var OBJ = (Domain)obj;
+                return UID.Equals(OBJ.UID);
             }
             catch (InvalidCastException)
             {
@@ -113,19 +113,13 @@ namespace Koopman.CheckPoint.Common
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures
         /// like a hash table.
         /// </returns>
-        public override int GetHashCode()
-        {
-            return this.UID.GetHashCode();
-        }
+        public override int GetHashCode() => UID.GetHashCode();
 
         /// <summary>
         /// Convert domain object to string. (Domain name)
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
 
         #endregion Methods
     }

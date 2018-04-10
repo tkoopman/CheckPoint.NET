@@ -48,15 +48,12 @@ namespace Koopman.CheckPoint.Json
                 : false;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) => throw new NotImplementedException();
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            ChangeAction Action = (ChangeAction)value.GetType().GetTypeInfo().GetProperty("Action", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
-            List<string> ChangedMembers = (List<string>)value.GetType().GetTypeInfo().GetProperty("ChangedMembers", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
+            var Action = (ChangeAction)value.GetType().GetTypeInfo().GetProperty("Action", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
+            var ChangedMembers = (List<string>)value.GetType().GetTypeInfo().GetProperty("ChangedMembers", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
 
             if (Action == ChangeAction.Set)
             {

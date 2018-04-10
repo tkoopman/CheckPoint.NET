@@ -87,10 +87,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Gets the object's changed status.
         /// </summary>
-        public override bool IsChanged
-        {
-            get { return Action != ChangeAction.None; }
-        }
+        public override bool IsChanged => Action != ChangeAction.None;
 
         /// <summary>
         /// Gets a value indicating whether the
@@ -129,7 +126,11 @@ namespace Koopman.CheckPoint.Common
         /// <param name="index">The index.</param>
         /// <returns>Object at the index location</returns>
         /// <exception cref="System.NotImplementedException">Cannot use index to set members</exception>
-        public T this[int index] { get => ((IList<T>)Members)[index]; set { throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership."); } }
+        public T this[int index]
+        {
+            get => ((IList<T>)Members)[index];
+            set => throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership.");
+        }
 
         #endregion Indexers
 
@@ -142,6 +143,7 @@ namespace Koopman.CheckPoint.Common
         /// <exception cref="DetailLevelException"></exception>
         public void Add(string item)
         {
+            if (item == null) return;
             if (Action == ChangeAction.None || Action == ChangeAction.Add || Action == ChangeAction.Set)
             {
                 if (Action == ChangeAction.None)
@@ -155,7 +157,7 @@ namespace Koopman.CheckPoint.Common
             else if (!IsNew)
             {
                 Action = ChangeAction.Set;
-                List<string> ToRemove = new List<string>(ChangedMembers);
+                var ToRemove = new List<string>(ChangedMembers);
                 ChangedMembers.Clear();
 
                 foreach (var m in Members)
@@ -180,14 +182,11 @@ namespace Koopman.CheckPoint.Common
         /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
         public virtual void Add(T item)
         {
+            if (item == null) return;
             if (IsDeserializing)
-            {
                 Members.Add(item);
-            }
             else
-            {
                 Add(item.ToString());
-            }
         }
 
         /// <summary>
@@ -208,10 +207,7 @@ namespace Koopman.CheckPoint.Common
         /// true if <paramref name="item">item</paramref> is found in the
         /// <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false.
         /// </returns>
-        public bool Contains(T item)
-        {
-            return ((IList<T>)Members).Contains(item);
-        }
+        public bool Contains(T item) => ((IList<T>)Members).Contains(item);
 
         /// <summary>
         /// Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1"></see>
@@ -224,19 +220,13 @@ namespace Koopman.CheckPoint.Common
         /// <see cref="T:System.Array"></see> must have zero-based indexing.
         /// </param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            ((IList<T>)Members).CopyTo(array, arrayIndex);
-        }
+        public void CopyTo(T[] array, int arrayIndex) => ((IList<T>)Members).CopyTo(array, arrayIndex);
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return ((IEnumerable<T>)Members).GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => ((IEnumerable<T>)Members).GetEnumerator();
 
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
@@ -245,10 +235,7 @@ namespace Koopman.CheckPoint.Common
         /// An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate
         /// through the collection.
         /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<T>)Members).GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)Members).GetEnumerator();
 
         /// <summary>
         /// Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"></see>.
@@ -257,10 +244,7 @@ namespace Koopman.CheckPoint.Common
         /// <returns>
         /// The index of <paramref name="item">item</paramref> if found in the list; otherwise, -1.
         /// </returns>
-        public int IndexOf(T item)
-        {
-            return ((IList<T>)Members).IndexOf(item);
-        }
+        public int IndexOf(T item) => ((IList<T>)Members).IndexOf(item);
 
         /// <summary>
         /// Use Add, Remove and Clear methods only to modify membership.
@@ -270,10 +254,7 @@ namespace Koopman.CheckPoint.Common
         /// <exception cref="System.NotImplementedException">
         /// Use Add, Remove and Clear methods only to modify membership..
         /// </exception>
-        public void Insert(int index, T item)
-        {
-            throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership.");
-        }
+        public void Insert(int index, T item) => throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership.");
 
         /// <summary>
         /// Removes the specified item.
@@ -333,20 +314,14 @@ namespace Koopman.CheckPoint.Common
         /// method also returns false if <paramref name="item">item</paramref> is not found in the
         /// original <see cref="T:System.Collections.Generic.ICollection`1"></see>.
         /// </returns>
-        public virtual bool Remove(T item)
-        {
-            return Remove(item.ToString());
-        }
+        public virtual bool Remove(T item) => Remove(item.ToString());
 
         /// <summary>
         /// Removes the <see cref="T:System.Collections.Generic.IList`1"></see> item at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the item to remove.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void RemoveAt(int index)
-        {
-            throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership.");
-        }
+        public void RemoveAt(int index) => throw new System.NotImplementedException($"Use Add, Remove and Clear methods only to modify membership.");
 
         /// <summary>
         /// Called when deserialized.
@@ -361,10 +336,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Called when deserializing.
         /// </summary>
-        protected override void OnDeserializing()
-        {
-            Members.Clear();
-        }
+        protected override void OnDeserializing() => Members.Clear();
 
         #endregion Methods
     }

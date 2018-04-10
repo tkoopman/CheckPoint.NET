@@ -38,9 +38,9 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Ignore">The ignore setting.</param>
         internal static void Invoke(Session Session, string Command, string Value, Ignore Ignore)
         {
-            JObject jo = new JObject
+            var jo = new JObject
             {
-                { Value.isUID() ? "uid" : "name", Value }
+                { Value.IsUID() ? "uid" : "name", Value }
             };
 
             jo.AddIgnore(Ignore);

@@ -117,7 +117,7 @@ namespace Koopman.CheckPoint
 
             URL = $"https://{managementServer}:{port}/web_api/";
 
-            JObject data = new JObject()
+            var data = new JObject()
             {
                 { "user", userName },
                 { "password", password }
@@ -133,7 +133,7 @@ namespace Koopman.CheckPoint
 
             string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
-            string result = this.Post("login", jsonData);
+            string result = Post("login", jsonData);
 
             JsonConvert.PopulateObject(result, this);
         }
@@ -342,7 +342,7 @@ namespace Koopman.CheckPoint
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>JSON Response Data</returns>
         /// <inheritdoc cref="Post(string, string)" select="exception|seealso" />
-        public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default)
         {
             if (_isDisposed)
             {
@@ -352,13 +352,13 @@ namespace Koopman.CheckPoint
 
             string debugIP = WriteDebug(command, json);
 
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             if (command != "login")
             {
                 content.Headers.Add("X-chkp-sid", SID);
             }
 
-            HttpResponseMessage response = await GetHttpClient().PostAsync(command, content, cancellationToken);
+            var response = await GetHttpClient().PostAsync(command, content, cancellationToken);
 
             try
             {
@@ -392,10 +392,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Sends the keep alive.
         /// </summary>
-        public void SendKeepAlive()
-        {
-            Post("keepalive", "{}");
-        }
+        public void SendKeepAlive() => Post("keepalive", "{}");
 
         /// <summary>
         /// Sets the login message. All <c>null</c> values will not be changed.
@@ -407,7 +404,7 @@ namespace Koopman.CheckPoint
         /// <returns>LoginMessageDetails</returns>
         public LoginMessageDetails SetLoginMessage(string header = null, string message = null, bool? showMessage = null, bool? warning = null)
         {
-            JObject data = new JObject();
+            var data = new JObject();
 
             data.AddIfNotNull("header", header);
             data.AddIfNotNull("message", message);
@@ -429,7 +426,7 @@ namespace Koopman.CheckPoint
             }
             if (_httpClient == null)
             {
-                HttpClientHandler handler = new HttpClientHandler();
+                var handler = new HttpClientHandler();
                 if (handler.SupportsAutomaticDecompression)
                 {
                     handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
@@ -479,7 +476,7 @@ namespace Koopman.CheckPoint
 
         private string UIDToJson(string uid)
         {
-            JObject jObject = new JObject();
+            var jObject = new JObject();
             if (uid != null) { jObject.Add("uid", uid); }
             string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting); ;
             return jsonData;
@@ -533,7 +530,7 @@ namespace Koopman.CheckPoint
 
             while (true)
             {
-                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+                var data = new Dictionary<string, dynamic>
                 {
                     { "view-published-sessions", viewPublishedSessions },
                     { "limit", limit },
@@ -546,7 +543,7 @@ namespace Koopman.CheckPoint
 
                 string result = Post("show-sessions", jsonData);
 
-                NetworkObjectsPagingResults<SessionInfo> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<SessionInfo>>(result);
+                var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<SessionInfo>>(result);
 
                 foreach (var o in results)
                     sessions.Add(o);
@@ -561,14 +558,14 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds a session.
         /// </summary>
-        /// <param name="uid">The UID to find.</param>
+        /// <param name="uid">The UID to find. <c>null</c> for current session information</param>
         /// <returns>SessionInfo object</returns>
         public SessionInfo FindSession
             (
-                string uid
+                string uid = null
             )
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "uid", uid }
             };
@@ -578,15 +575,6 @@ namespace Koopman.CheckPoint
             string result = Post("show-session", jsonData);
 
             return JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
-        }
-
-        /// <summary>
-        /// Finds the session information for the current session.
-        /// </summary>
-        /// <returns>SessionInfo object</returns>
-        public SessionInfo FindSession()
-        {
-            return FindSession(null);
         }
 
         /// <summary>
@@ -605,7 +593,7 @@ namespace Koopman.CheckPoint
                 IOrder order = Finds.Defaults.Order
             )
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "view-published-sessions", viewPublishedSessions },
                 { "limit", limit },
@@ -618,14 +606,14 @@ namespace Koopman.CheckPoint
 
             string result = Post("show-sessions", jsonData);
 
-            NetworkObjectsPagingResults<SessionInfo> results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<SessionInfo>>(result);
+            var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<SessionInfo>>(result);
 
             if (results != null)
             {
                 results.Next = delegate ()
                 {
                     if (results.To == results.Total) { return null; }
-                    return this.FindSessions(viewPublishedSessions, limit, results.To, order);
+                    return FindSessions(viewPublishedSessions, limit, results.To, order);
                 };
             }
 
@@ -644,7 +632,7 @@ namespace Koopman.CheckPoint
         /// <returns>Updated SessionInfo</returns>
         public SessionInfo SetSessionInfo(string name = null, string description = null, string[] tags = null, Colors? color = null, string comments = null, Ignore ignore = Ignore.No)
         {
-            JObject data = new JObject()
+            var data = new JObject()
             {
                 { "new-name", name },
                 { "description", description },
@@ -673,7 +661,7 @@ namespace Koopman.CheckPoint
                 string uid
             )
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "uid", uid }
             };
@@ -682,7 +670,7 @@ namespace Koopman.CheckPoint
 
             string result = Post("switch-session", jsonData);
 
-            SessionInfo si = JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
+            var si = JsonConvert.DeserializeObject<SessionInfo>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full) } });
 
             UID = si.UID;
 
@@ -694,6 +682,103 @@ namespace Koopman.CheckPoint
         #endregion Session Methods
 
         #region Object Methods
+
+        #region Get Object(s)
+
+        /// <summary>
+        /// Finds all objects that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="type">The object type.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of IObjectSummary</returns>
+        public IObjectSummary[] FindAllObjects
+            (
+                string filter = null,
+                string type = null,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<IObjectSummary>
+                (
+                    Session: this,
+                    Type: type,
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds an object by UID.
+        /// </summary>
+        /// <param name="uid">The UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>IObjectSummary object</returns>
+        public IObjectSummary FindObject
+            (
+                string uid,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke
+                (
+                    Session: this,
+                    uid: uid,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds objects that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="type">The object type.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of IObjectSummary</returns>
+        public NetworkObjectsPagingResults<IObjectSummary> FindObjects
+            (
+                string filter = null,
+                string type = null,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<IObjectSummary>
+                (
+                    Session: this,
+                    Type: type,
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        #endregion Get Object(s)
 
         #region AddressRange Methods
 
@@ -2949,16 +3034,14 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="applicationID">The application identifier.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
-        /// <returns>
-        /// ApplicationSite object
-        /// </returns>
+        /// <returns>ApplicationSite object</returns>
         public ApplicationSite FindApplicationSite
             (
                 int applicationID,
                 DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "application-id", applicationID },
                 { "details-level", detailLevel.ToString() }
@@ -4537,20 +4620,20 @@ namespace Koopman.CheckPoint
                 string taskID
             )
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "task-id", taskID },
                 { "details-level", DetailLevels.Full }
             };
 
-            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
-            string result = this.Post("show-task", jsonData);
+            string result = Post("show-task", jsonData);
 
-            JObject results = JsonConvert.DeserializeObject<JObject>(result);
-            JArray array = (JArray)results.GetValue("tasks");
+            var results = JsonConvert.DeserializeObject<JObject>(result);
+            var array = (JArray)results.GetValue("tasks");
 
-            Task[] tasks = JsonConvert.DeserializeObject<Task[]>(array.ToString(), new JsonSerializerSettings() { Converters = { new SessionConstructorConverter(this) } });
+            var tasks = JsonConvert.DeserializeObject<Task[]>(array.ToString(), new JsonSerializerSettings() { Converters = { new SessionConstructorConverter(this) } });
 
             return tasks?[0];
         }
@@ -4572,7 +4655,7 @@ namespace Koopman.CheckPoint
                 string comments = null
             )
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "script-name", scriptName },
                 { "script", script },
@@ -4581,18 +4664,18 @@ namespace Koopman.CheckPoint
                 { "comments", comments }
             };
 
-            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
-            string result = this.Post("run-script", jsonData);
+            string result = Post("run-script", jsonData);
 
-            JObject results = JsonConvert.DeserializeObject<JObject>(result);
-            JArray array = (JArray)results.GetValue("tasks");
+            var results = JsonConvert.DeserializeObject<JObject>(result);
+            var array = (JArray)results.GetValue("tasks");
 
-            Dictionary<string, string> dicResults = new Dictionary<string, string>();
+            var dicResults = new Dictionary<string, string>();
 
             foreach (var r in array)
             {
-                JObject j = r as JObject;
+                var j = r as JObject;
                 dicResults.Add(j.GetValue("target").ToString(), j.GetValue("task-id").ToString());
             }
 
@@ -4616,7 +4699,7 @@ namespace Koopman.CheckPoint
                 string comments = null
             )
         {
-            IReadOnlyDictionary<string, string> results = RunScript(
+            var results = RunScript(
                     scriptName,
                     script,
                     args,
@@ -4656,7 +4739,7 @@ namespace Koopman.CheckPoint
             bool prepareOnly = false,
             string revision = null)
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "policy-package", policy },
                 { "targets", targets },
@@ -4667,11 +4750,11 @@ namespace Koopman.CheckPoint
                 { "revision", revision }
             };
 
-            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
-            string result = this.Post("install-policy", jsonData);
+            string result = Post("install-policy", jsonData);
 
-            JObject taskID = JsonConvert.DeserializeObject<JObject>(result);
+            var taskID = JsonConvert.DeserializeObject<JObject>(result);
 
             return taskID.GetValue("task-id")?.ToString();
         }
@@ -4683,21 +4766,146 @@ namespace Koopman.CheckPoint
         /// <returns>Task ID</returns>
         public string VerifyPolicy(string policy)
         {
-            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>
+            var data = new Dictionary<string, dynamic>
             {
                 { "policy-package", policy }
             };
 
-            string jsonData = JsonConvert.SerializeObject(data, this.JsonFormatting);
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
-            string result = this.Post("verify-policy", jsonData);
+            string result = Post("verify-policy", jsonData);
 
-            JObject taskID = JsonConvert.DeserializeObject<JObject>(result);
+            var taskID = JsonConvert.DeserializeObject<JObject>(result);
 
             return taskID.GetValue("task-id")?.ToString();
         }
 
         #endregion Policy Methods
+
+        #region WhereUsed Methods
+
+        /// <summary>
+        /// Searches for usage of the target object in other objects and rules.
+        /// </summary>
+        /// <param name="identifier">The object identifier to search for.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="indirect">if set to <c>true</c> results will include indirect uses.</param>
+        /// <param name="indirectMaxDepth">The indirect maximum depth.</param>
+        /// <returns>WhereUsed object</returns>
+        public WhereUsed FindWhereUsed(string identifier, DetailLevels detailLevel = DetailLevels.Standard, bool indirect = false, int indirectMaxDepth = 5)
+        {
+            var data = new JObject()
+            {
+                { identifier.IsUID() ? "uid" : "name", identifier },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            if (indirect)
+            {
+                data.Add("indirect", true);
+                data.Add("indirect-max-depth", indirectMaxDepth);
+            }
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("where-used", jsonData);
+
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+
+            var whereUsed = JsonConvert.DeserializeObject<WhereUsed>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            objectConverter.PostDeserilization(whereUsed.UsedDirectly?.Objects);
+            objectConverter.PostDeserilization(whereUsed.UsedIndirectly?.Objects);
+
+            return whereUsed;
+        }
+
+        #endregion WhereUsed Methods
+
+        #region Unused Methods
+
+        /// <summary>
+        /// Searches for unusage objects.
+        /// </summary>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of IObjectSummary objects</returns>
+        public IObjectSummary[] FindAllUnusedObjects(DetailLevels detailLevel = DetailLevels.Standard, int limit = 50, IOrder order = null)
+        {
+            int offset = 0;
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+            var objs = new List<IObjectSummary>();
+
+            while (true)
+            {
+                var data = new Dictionary<string, dynamic>
+                {
+                    { "details-level", detailLevel.ToString() },
+                    { "limit", limit },
+                    { "offset", offset },
+                    { "order", (order == null)? null:new IOrder[] { order } }
+                };
+
+                string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+                string result = Post("show-unused-objects", jsonData);
+
+                var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<IObjectSummary>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+                foreach (var o in results)
+                    objs.Add(o);
+
+                if (results.To == results.Total)
+                {
+                    objectConverter.PostDeserilization(objs);
+                    return objs.ToArray();
+                }
+
+                offset = results.To;
+            }
+        }
+
+        /// <summary>
+        /// Searches for unusage objects.
+        /// </summary>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of IObjectSummary objects</returns>
+        public NetworkObjectsPagingResults<IObjectSummary> FindUnusedObjects(DetailLevels detailLevel = DetailLevels.Standard, int limit = 50, int offset = 0, IOrder order = null)
+        {
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+
+            var data = new Dictionary<string, dynamic>
+            {
+                { "details-level", detailLevel.ToString() },
+                { "limit", limit },
+                { "offset", offset },
+                { "order", (order == null)? null:new IOrder[] { order } }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-unused-objects", jsonData);
+
+            var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<IObjectSummary>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            if (results != null)
+            {
+                objectConverter.PostDeserilization(results);
+                results.Next = delegate ()
+                {
+                    if (results.To == results.Total) { return null; }
+                    return FindUnusedObjects(detailLevel, limit, results.To, order);
+                };
+            }
+
+            return results;
+        }
+
+        #endregion Unused Methods
 
         #endregion Misc. Methods
     }

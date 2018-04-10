@@ -17,7 +17,6 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -72,10 +71,7 @@ namespace Koopman.CheckPoint.Json
 
         #region Methods
 
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
-        }
+        public override bool CanConvert(Type objectType) => typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
 
         /// <summary>
         /// Gets object from cache or if not in cache will return the defaultObject.
@@ -102,22 +98,22 @@ namespace Koopman.CheckPoint.Json
         public void PostDeserilization(object o)
         {
             // Nothing to update if either cache is empty so lets not waste time looking
-            if (cacheGeneric.Count == 0 || cache.Count == 0) return;
+            if (o == null || cacheGeneric.Count == 0 || cache.Count == 0) return;
 
             if (o is IEnumerable collection)
             {
-                foreach (var obj in collection)
+                foreach (object obj in collection)
                     PostDeserilization(obj);
             }
             else
             {
                 var type = o.GetType().GetTypeInfo();
-                PropertyInfo property = type.GetAllProperties().FirstOrDefault(
+                var property = type.GetAllProperties().FirstOrDefault(
                             p => p.Name.Equals("HasUpdatedGenericMembers"));
 
                 if (property == null || property.GetValue(o).Equals(true)) return;
 
-                MethodInfo method = type.GetAllMethods().FirstOrDefault(
+                var method = type.GetAllMethods().FirstOrDefault(
                             c => c.Name.Equals("UpdateGenericMembers") &&
                             c.GetParameters().Length == 1 &&
                             c.GetParameters().First().ParameterType == typeof(ObjectConverter));
@@ -130,12 +126,14 @@ namespace Koopman.CheckPoint.Json
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            IObjectSummary result;
             if (reader.TokenType == JsonToken.StartObject)
             {
-                JObject obj = serializer.Deserialize<JObject>(reader);
+                var obj = serializer.Deserialize<JObject>(reader);
                 string uid = obj.GetValue("uid").ToString();
 
-                IObjectSummary result = null;
+                if (IsSpecialObject(uid, objectType, out result))
+                    return result;
 
                 if (existingValue != null)
                     SetProperty((IObjectSummary)existingValue, "DetailLevel", GetDetailLevel(reader));
@@ -150,7 +148,8 @@ namespace Koopman.CheckPoint.Json
                 // provided make sure it can be cast to the correct type
                 if (result == null)
                 {
-                    switch (obj.GetValue("type").ToString())
+                    string type = obj.GetValue("type").ToString();
+                    switch (type)
                     {
                         case "address-range":
                             result = (existingValue == null) ? new AddressRange(Session, GetDetailLevel(reader)) : (AddressRange)existingValue;
@@ -245,18 +244,10 @@ namespace Koopman.CheckPoint.Json
                             break;
 
                         case "":
-                            // Not sure what to do with these. For now return null for known ones.
-                            if (
-                                obj.GetValue("uid").ToString().Equals(ObjectSummary.TrustAllAction.UID) ||
-                                obj.GetValue("uid").ToString().Equals(ObjectSummary.RestrictCommonProtocolsAction.UID)
-                                ) return null;
                             throw new NotImplementedException("Empty type objects not implemented");
 
-                        case "CpmiAnyObject":
-                            return ObjectSummary.Any;
-
                         default:
-                            result = (existingValue == null) ? new ObjectSummary<IObjectSummary>(Session, GetDetailLevel(reader)) : (ObjectSummary<IObjectSummary>)existingValue;
+                            result = (existingValue == null) ? new GenericObjectSummary(Session, GetDetailLevel(reader), type) : (GenericObjectSummary)existingValue;
                             break;
                     }
 
@@ -271,25 +262,29 @@ namespace Koopman.CheckPoint.Json
             else if (reader.TokenType == JsonToken.String)
             {
                 string uid = serializer.Deserialize<string>(reader);
-                var cached = GetFromCache(uid);
-                if (cached != null) return cached;
+
+                if (IsSpecialObject(uid, objectType, out result))
+                    return result;
+
+                result = GetFromCache(uid);
+                if (result != null) return result;
 
                 foreach (var obj in cacheGeneric)
                     if (obj.UID.Equals(uid)) return obj;
 
                 if (objectType.GetTypeInfo().IsClass)
                 {
-                    ConstructorInfo ci = objectType.GetTypeInfo().DeclaredConstructors.Single(
+                    var ci = objectType.GetTypeInfo().DeclaredConstructors.Single(
                         c => c.GetParameters().Length == 2 &&
                         c.GetParameters().First().ParameterType == typeof(Session) &&
                         c.GetParameters().Last().ParameterType == typeof(DetailLevels));
 
                     if (ci == null) { throw new Exception("Unable to find constructor that accepts Session, DetailLevels parameters"); }
-                    cached = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
-                    SetProperty(cached, "UID", uid);
-                    cache.Add(cached);
+                    result = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
+                    SetProperty(result, "UID", uid);
+                    cache.Add(result);
 
-                    return cached;
+                    return result;
                 }
 
                 var generic = new GenericMember(Session, uid);
@@ -299,25 +294,18 @@ namespace Koopman.CheckPoint.Json
             else throw CreateJsonReaderException(reader, $"Invalid token type found. Type: {reader.TokenType}");
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
 
         private static void SetProperty(IObjectSummary obj, string name, object value)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             if (name == null) throw new ArgumentNullException(nameof(name));
 
-            PropertyInfo prop = obj.GetType().GetTypeInfo().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+            var prop = obj.GetType().GetTypeInfo().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             if (prop != null && prop.CanWrite)
-            {
                 prop.SetValue(obj, value, null);
-            }
             else
-            {
                 throw new ArgumentException("No writeable property found.");
-            }
         }
 
         private JsonReaderException CreateJsonReaderException(JsonReader reader, string message)
@@ -328,9 +316,28 @@ namespace Koopman.CheckPoint.Json
             return new JsonReaderException(message);
         }
 
-        private DetailLevels GetDetailLevel(JsonReader reader)
+        private DetailLevels GetDetailLevel(JsonReader reader) => (reader.Depth == 0) ? ParentDetailLevel : ChildDetailLevel;
+
+        private bool IsSpecialObject(string uid, Type objectType, out IObjectSummary obj)
         {
-            return (reader.Depth == 0) ? ParentDetailLevel : ChildDetailLevel;
+            if (uid.Equals(ObjectSummary.Any.UID))
+            {
+                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
+                return true;
+            }
+            if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
+            {
+                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
+                return true;
+            }
+            if (uid.Equals(ObjectSummary.TrustAllAction.UID))
+            {
+                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
+                return true;
+            }
+
+            obj = null;
+            return false;
         }
 
         #endregion Methods

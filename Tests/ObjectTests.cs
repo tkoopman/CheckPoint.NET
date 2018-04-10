@@ -19,20 +19,49 @@
 
 using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Tests
 {
     [TestClass]
-    public class ObjectSummaryTests
+    public class ObjectTests : StandardTestsBase
     {
         #region Methods
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void IsReadOnly()
+        public void FindAll()
         {
-            ObjectSummary.Any.Name = "Fail";
+            var a = Session.FindAllObjects(filter: "domain", detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.Length > 0);
+            var b = Session.FindObject(a[0].UID);
+            Assert.IsNotNull(b);
+            Assert.AreEqual(a[0].UID, b.UID);
+        }
+
+        [TestMethod]
+        public void Finds()
+        {
+            var a = Session.FindObjects(limit: 5);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.Total > 0);
+            var b = Session.FindObject(a[0].UID);
+            Assert.IsNotNull(b);
+            Assert.AreEqual(a[0].UID, b.UID);
+        }
+
+        [TestMethod]
+        public void Unused()
+        {
+            var a = Session.FindUnusedObjects(limit: 5, detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(a);
+            Assert.IsTrue(a.Total > 0);
+        }
+
+        [TestMethod]
+        public void WhereUsed()
+        {
+            var a = Session.FindWhereUsed("domain-udp", DetailLevels.Full);
+            Assert.IsNotNull(a);
         }
 
         #endregion Methods

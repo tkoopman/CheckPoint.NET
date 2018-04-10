@@ -38,7 +38,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             #region Properties
 
             [JsonProperty(PropertyName = "auto-calculated")]
-            private bool Value { get => true; }
+            private bool Value => true;
 
             #endregion Properties
         }
@@ -66,10 +66,7 @@ namespace Koopman.CheckPoint.SimpleGatewaySettings
             /// Returns a <see cref="System.String" /> that represents this instance.
             /// </summary>
             /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-            public override string ToString()
-            {
-                return Name;
-            }
+            public override string ToString() => Name;
 
             #endregion Methods
         }
