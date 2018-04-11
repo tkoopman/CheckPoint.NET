@@ -23,11 +23,10 @@ using System.Collections.Generic;
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// Result from methods that return multiple Network Objects.
+    /// Result from Session.FindAccessLayers
     /// </summary>
-    /// <typeparam name="T">The type of object the results include</typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectsPagingResults{T,U}" />
-    public class NetworkObjectsPagingResults<T> : ObjectsPagingResults<T, NetworkObjectsPagingResults<T>>
+    public class AccessLayersPagingResults : ObjectsPagingResults<AccessLayer, AccessLayersPagingResults>
     {
         #region Properties
 
@@ -37,8 +36,8 @@ namespace Koopman.CheckPoint.Common
         /// table shows the level of detail shown when details-level is set to standard.
         /// </para>
         /// </summary>
-        [JsonProperty(PropertyName = "objects", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-        public List<T> Objects { get => _Objects; set => _Objects = value; }
+        [JsonProperty(PropertyName = "access-layers", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+        public List<AccessLayer> AccessLayers { get => _Objects; set => _Objects = value; }
 
         #endregion Properties
     }

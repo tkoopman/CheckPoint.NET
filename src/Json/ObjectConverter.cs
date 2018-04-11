@@ -151,6 +151,10 @@ namespace Koopman.CheckPoint.Json
                     string type = obj.GetValue("type").ToString();
                     switch (type)
                     {
+                        case "access-layer":
+                            result = (existingValue == null) ? new AccessLayer(Session, GetDetailLevel(reader)) : (AccessLayer)existingValue;
+                            break;
+
                         case "address-range":
                             result = (existingValue == null) ? new AddressRange(Session, GetDetailLevel(reader)) : (AddressRange)existingValue;
                             break;

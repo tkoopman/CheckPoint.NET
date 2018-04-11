@@ -41,7 +41,22 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Limit">The number of objects to be returned.</param>
         /// <param name="Offset">The offset.</param>
         /// <param name="Order">The sort order.</param>
-        internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
+        internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order) =>
+            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Command, DetailLevel, Limit, Offset, Order);
+
+        /// <summary>
+        /// Invokes the Finds command. This is the API commands like show-hosts
+        /// </summary>
+        /// <typeparam name="T">Object type that should be returned</typeparam>
+        /// <typeparam name="U">ObjectsPagingResults class used</typeparam>
+        /// <param name="Session">The session.</param>
+        /// <param name="Command">The FindAll command.</param>
+        /// <param name="DetailLevel">The detail level to be returned.</param>
+        /// <param name="Limit">The number of objects to be returned.</param>
+        /// <param name="Offset">The offset.</param>
+        /// <param name="Order">The sort order.</param>
+        /// <returns></returns>
+        internal static U Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order) where U : ObjectsPagingResults<T, U>
         {
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
 
@@ -57,7 +72,7 @@ namespace Koopman.CheckPoint.Internal
 
             string result = Session.Post(Command, jsonData);
 
-            var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+            var results = JsonConvert.DeserializeObject<U>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
             if (results != null)
             {
@@ -65,7 +80,7 @@ namespace Koopman.CheckPoint.Internal
                 results.Next = delegate ()
                 {
                     if (results.To == results.Total) { return null; }
-                    return Finds.Invoke<T>(Session, Command, DetailLevel, Limit, results.To, Order);
+                    return Invoke<T, U>(Session, Command, DetailLevel, Limit, results.To, Order);
                 };
             }
 
@@ -85,7 +100,24 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Offset">The offset.</param>
         /// <param name="Order">The sort order.</param>
         /// <returns></returns>
-        internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order)
+        internal static NetworkObjectsPagingResults<T> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order) =>
+            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Type, Filter, IPOnly, DetailLevel, Limit, Offset, Order);
+
+        /// <summary>
+        /// Invokes the Finds using the show-objects API command.
+        /// </summary>
+        /// <typeparam name="T">Object type that should be returned</typeparam>
+        /// <typeparam name="U">ObjectsPagingResults class used</typeparam>
+        /// <param name="Session">The session.</param>
+        /// <param name="Type">The type of objects to return.</param>
+        /// <param name="Filter">The filter to be applied to search.</param>
+        /// <param name="IPOnly">if set to <c>true</c> ip only option will be sent.</param>
+        /// <param name="DetailLevel">The detail level to return.</param>
+        /// <param name="Limit">The number of objects to be returned.</param>
+        /// <param name="Offset">The offset.</param>
+        /// <param name="Order">The sort order.</param>
+        /// <returns></returns>
+        internal static U Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order) where U : ObjectsPagingResults<T, U>
         {
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
 
@@ -104,7 +136,7 @@ namespace Koopman.CheckPoint.Internal
 
             string result = Session.Post("show-objects", jsonData);
 
-            var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<T>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+            var results = JsonConvert.DeserializeObject<U>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
             if (results != null)
             {
@@ -112,7 +144,7 @@ namespace Koopman.CheckPoint.Internal
                 results.Next = delegate ()
                 {
                     if (results.To == results.Total) { return null; }
-                    return Finds.Invoke<T>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order);
+                    return Invoke<T, U>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order);
                 };
             }
 

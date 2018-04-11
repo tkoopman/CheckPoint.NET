@@ -60,6 +60,7 @@
     <Compile Include="LoginMessageTests.cs" />
     <Compile Include="ApplicationCategoryTests.cs" />
     <Compile Include="ObjectTests.cs" />
+    <Compile Include="AccessLayerTests.cs" />
     <Compile Include="ServiceICMP6Tests.cs" />
     <Compile Include="ServiceICMPTests.cs" />
     <Compile Include="ServiceDceRpcTests.cs" />

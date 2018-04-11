@@ -28,9 +28,10 @@ namespace Koopman.CheckPoint.Common
     /// Result from commands that return multiple objects.
     /// </summary>
     /// <typeparam name="T">Type of the result objects</typeparam>
+    /// <typeparam name="U">ObjectsPagingResults used for T</typeparam>
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}" />
     [JsonObject]
-    public abstract class ObjectsPagingResults<T> : IEnumerable<T>
+    public abstract class ObjectsPagingResults<T, U> : IEnumerable<T> where U : ObjectsPagingResults<T, U>
     {
         #region Fields
 
@@ -64,7 +65,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Gets or sets the function used to move to the next page of results.
         /// </summary>
-        protected internal Func<NetworkObjectsPagingResults<T>> Next { get; set; }
+        protected internal Func<U> Next { get; set; }
 
         #endregion Properties
 
@@ -97,7 +98,7 @@ namespace Koopman.CheckPoint.Common
         /// Gets the next page of results from management server.
         /// </summary>
         /// <returns>Returns the next page of results. Null if no next page to return.</returns>
-        public NetworkObjectsPagingResults<T> NextPage()
+        public U NextPage()
         {
             if (Next == null)
                 return null;

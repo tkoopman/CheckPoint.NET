@@ -4606,6 +4606,175 @@ namespace Koopman.CheckPoint
 
         #endregion Service Methods
 
+        #region Access Control and NAT Methods
+
+        #region Access Layer Methods
+
+        /// <summary>
+        /// Deletes an access layer.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteAccessLayer
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-access-layer",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds an access layer.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>AccessLayer object</returns>
+        public AccessLayer FindAccessLayer
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<AccessLayer>
+                (
+                    Session: this,
+                    Command: "show-access-layer",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds access layers that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of AccessLayers</returns>
+        public NetworkObjectsPagingResults<AccessLayer> FindAccessLayers
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<AccessLayer>
+                (
+                    Session: this,
+                    Type: "access-layer",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds access layers.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>AccessLayersPagingResults</returns>
+        public AccessLayersPagingResults FindAccessLayers
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<AccessLayer, AccessLayersPagingResults>
+                (
+                    Session: this,
+                    Command: "show-access-layers",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all access layers that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of AccessLayer</returns>
+        public AccessLayer[] FindAllAccessLayers
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<AccessLayer>
+                (
+                    Session: this,
+                    Type: "access-layer",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all access layers.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of AccessLayer</returns>
+        public AccessLayer[] FindAllAccessLayers
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<AccessLayer, AccessLayersPagingResults>
+                (
+                    Session: this,
+                    Command: "show-access-layers",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        #endregion Access Layer Methods
+
+        #endregion Access Control and NAT Methods
+
         #region Misc. Methods
 
         #region Task Methods
