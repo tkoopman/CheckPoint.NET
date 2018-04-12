@@ -17,6 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.AccessRules;
 using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -155,6 +156,10 @@ namespace Koopman.CheckPoint.Json
                             result = (existingValue == null) ? new AccessLayer(Session, GetDetailLevel(reader)) : (AccessLayer)existingValue;
                             break;
 
+                        case "access-rule":
+                            result = (existingValue == null) ? new AccessRule(Session, GetDetailLevel(reader)) : (AccessRule)existingValue;
+                            break;
+
                         case "address-range":
                             result = (existingValue == null) ? new AddressRange(Session, GetDetailLevel(reader)) : (AddressRange)existingValue;
                             break;
@@ -245,6 +250,10 @@ namespace Koopman.CheckPoint.Json
 
                         case "time-group":
                             result = (existingValue == null) ? new TimeGroup(Session, GetDetailLevel(reader)) : (TimeGroup)existingValue;
+                            break;
+
+                        case "CpmiAppfwLimit":
+                            result = (existingValue == null) ? new Limit(Session, GetDetailLevel(reader)) : (Limit)existingValue;
                             break;
 
                         case "":
@@ -338,6 +347,15 @@ namespace Koopman.CheckPoint.Json
             {
                 obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
                 return true;
+            }
+            if (objectType.Equals(typeof(RulebaseAction)))
+            {
+                foreach (var action in RulebaseAction.Actions)
+                    if (action.UID.Equals(uid))
+                    {
+                        obj = action;
+                        return true;
+                    }
             }
 
             obj = null;

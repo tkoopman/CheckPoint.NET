@@ -27,7 +27,7 @@ namespace Koopman.CheckPoint
     /// Check Point Access Layer Object
     /// </summary>
     /// <example>
-    /// Add new security zone using <see cref="AccessLayer.AccessLayer(Session, bool)" />
+    /// Add new access layer using <see cref="AccessLayer.AccessLayer(Session, bool)" />
     /// <code>
     /// var al = new AccessLayer(Session) {
     ///     Name = "MyAccessLayer"
@@ -40,7 +40,7 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
-    public class AccessLayer : ObjectBase<SecurityZone>
+    public class AccessLayer : ObjectBase<AccessLayer>
     {
         #region Constructors
 
@@ -198,7 +198,7 @@ namespace Koopman.CheckPoint
         #region Classes
 
         /// <summary>
-        /// Valid sort orders forAccess Layers
+        /// Valid sort orders for Access Layers
         /// </summary>
         public static class Order
         {

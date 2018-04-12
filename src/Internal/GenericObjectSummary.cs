@@ -10,9 +10,7 @@ namespace Koopman.CheckPoint.Internal
     /// Used to represent an unknown object type.
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.IObjectSummary" />
-    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
-    /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
-    internal class GenericObjectSummary : IObjectSummary
+    public class GenericObjectSummary : IObjectSummary
     {
         #region Fields
 
@@ -151,7 +149,7 @@ namespace Koopman.CheckPoint.Internal
         /// Object unique identifier.
         /// </summary>
         /// <value>The uid.</value>
-        public string UID { get; private set; }
+        public string UID { get; internal set; }
 
         private Session Session { get; }
 

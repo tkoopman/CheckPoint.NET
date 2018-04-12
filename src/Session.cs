@@ -4773,6 +4773,26 @@ namespace Koopman.CheckPoint
 
         #endregion Access Layer Methods
 
+        #region Access Rule Methods
+
+        public AccessRule FindAccessRule(string layer, int ruleNumber, DetailLevels detailLevel = Find.Defaults.DetailLevel)
+        {
+            var data = new Dictionary<string, dynamic>
+            {
+                { "layer", layer },
+                { "rule-number", ruleNumber },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-access-rule", jsonData);
+
+            return JsonConvert.DeserializeObject<AccessRule>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, detailLevel) } });
+        }
+
+        #endregion Access Rule Methods
+
         #endregion Access Control and NAT Methods
 
         #region Misc. Methods

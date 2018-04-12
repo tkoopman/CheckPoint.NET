@@ -54,6 +54,7 @@
     <Compile Include="..\src\Internal\SubnetMask.cs">
       <Link>SubnetMask.cs</Link>
     </Compile>
+    <Compile Include="AccessRuleTests.cs" />
     <Compile Include="ApplicationSiteTests.cs" />
     <Compile Include="ApplicationGroupTests.cs" />
     <Compile Include="Bugs.cs" />
