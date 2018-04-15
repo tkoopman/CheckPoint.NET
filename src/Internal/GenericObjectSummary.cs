@@ -161,7 +161,7 @@ namespace Koopman.CheckPoint.Internal
         /// Gets the identifier that is used when adding this object to a group.
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
-        public string GetMembershipID() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
+        public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
         /// <summary>
         /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
@@ -183,7 +183,7 @@ namespace Koopman.CheckPoint.Internal
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => GetMembershipID();
+        public override string ToString() => GetIdentifier();
 
         internal IObjectSummary GetFromCache(ObjectConverter objectConverter)
         {

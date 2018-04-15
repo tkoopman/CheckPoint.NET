@@ -267,12 +267,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
         /// <exception cref="InvalidOperationException">Cannot add unsaved object.</exception>
-        public string GetMembershipID()
-        {
-            if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
-
-            return (IsPropertyChanged(nameof(Name)) || string.IsNullOrWhiteSpace(Name)) ? UID : Name;
-        }
+        public string GetIdentifier() => (IsPropertyChanged(nameof(Name)) || string.IsNullOrWhiteSpace(_name)) ? UID : _name;
 
         /// <summary>
         /// Reloads the current object. Used to either reset changes made without saving, or to
@@ -330,7 +325,7 @@ namespace Koopman.CheckPoint
         /// Returns a <see cref="System.String" /> that represents this object.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this object.</returns>
-        public override string ToString() => (string.IsNullOrEmpty(Name)) ? UID : Name;
+        public override string ToString() => (string.IsNullOrEmpty(_name)) ? UID : _name;
 
         /// <summary>
         /// Update any GenericMembers with ObjectConverter cache if exists.
@@ -353,6 +348,9 @@ namespace Koopman.CheckPoint
         {
             if (DetailLevel < minValue)
             {
+                if (IsDeserializing || IsSerializing)
+                    return false;
+
                 var action =
                     (detailLevelAction == DetailLevelActions.SessionDefault) ?
                         Session.DetailLevelAction :

@@ -17,6 +17,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.AccessRules;
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
@@ -26,19 +28,19 @@ namespace Koopman.CheckPoint.Json
     /// <summary>
     /// Used to make sure Include and Except properties just output the name or UID of the object.
     /// </summary>
-    internal class GroupWithExclusionContractResolver : ChangeTrackingContractResolver
+    internal class AccessRuleContractResolver : ChangeTrackingContractResolver
     {
         #region Fields
 
         /// <summary>
         /// Default instance to be used when adding new objects.
         /// </summary>
-        public new static readonly GroupWithExclusionContractResolver AddInstance = new GroupWithExclusionContractResolver() { SetMethod = false };
+        public new static readonly AccessRuleContractResolver AddInstance = new AccessRuleContractResolver() { SetMethod = false };
 
         /// <summary>
         /// Default instance to be used when updating existing objects.
         /// </summary>
-        public new static readonly GroupWithExclusionContractResolver SetInstance = new GroupWithExclusionContractResolver() { SetMethod = true };
+        public new static readonly AccessRuleContractResolver SetInstance = new AccessRuleContractResolver() { SetMethod = true };
 
         #endregion Fields
 
@@ -48,9 +50,39 @@ namespace Koopman.CheckPoint.Json
         {
             var property = base.CreateProperty(member, memberSerialization);
 
-            if (typeof(GroupWithExclusion).GetTypeInfo().IsAssignableFrom(property.DeclaringType) &&
-                (property.UnderlyingName.Equals(nameof(GroupWithExclusion.Include)) || property.UnderlyingName.Equals(nameof(GroupWithExclusion.Except))))
+            if (property.PropertyType == typeof(RulebaseAction) ||
+                property.PropertyType == typeof(TrackType))
                 property.Converter = ToStringConverter.Instance;
+            else if (property.UnderlyingName.Equals(nameof(AccessRule.Layer)))
+            {
+                property.Converter = ToStringConverter.Instance;
+                property.ShouldSerialize = null;
+            }
+            else if (property.UnderlyingName.Equals(nameof(AccessRule.Position)))
+            {
+                property.ShouldSerialize =
+                        instance =>
+                        {
+                            var c = (ChangeTracking)instance;
+                            return c.IsNew || c.IsPropertyChanged(member.Name);
+                        };
+                if (SetMethod)
+                    property.PropertyName = "new-position";
+            }
+            else if (property.UnderlyingName.Equals(nameof(IObjectSummary.UID)))
+            {
+                property.ShouldSerialize =
+                        instance =>
+                        {
+                            var o = (IObjectSummary)instance;
+                            return !o.IsNew;
+                        };
+            }
+            else if (property.UnderlyingName.Equals("OldName"))
+            {
+                property.ShouldSerialize = null;
+                property.Ignored = true;
+            }
 
             return property;
         }

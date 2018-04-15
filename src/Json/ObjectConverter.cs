@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.AccessRules;
+using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -295,6 +296,11 @@ namespace Koopman.CheckPoint.Json
                     if (ci == null) { throw new Exception("Unable to find constructor that accepts Session, DetailLevels parameters"); }
                     result = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
                     SetProperty(result, "UID", uid);
+                    if (result is SimpleChangeTracking sct)
+                    {
+                        sct.OnDeserializingMethod(default);
+                        sct.OnDeserializedMethod(default);
+                    }
                     cache.Add(result);
 
                     return result;
@@ -354,6 +360,15 @@ namespace Koopman.CheckPoint.Json
                     if (action.UID.Equals(uid))
                     {
                         obj = action;
+                        return true;
+                    }
+            }
+            if (objectType.Equals(typeof(TrackType)))
+            {
+                foreach (var t in TrackType.Types)
+                    if (t.UID.Equals(uid))
+                    {
+                        obj = t;
                         return true;
                     }
             }

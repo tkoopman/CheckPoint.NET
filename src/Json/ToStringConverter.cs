@@ -18,41 +18,42 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Reflection;
+using System;
 
 namespace Koopman.CheckPoint.Json
 {
     /// <summary>
-    /// Used to make sure Include and Except properties just output the name or UID of the object.
+    /// Used to output the ObjectSummary.Name or of that is empty the ObjectSummary.UID
     /// </summary>
-    internal class GroupWithExclusionContractResolver : ChangeTrackingContractResolver
+    internal class ToStringConverter : JsonConverter
     {
         #region Fields
 
-        /// <summary>
-        /// Default instance to be used when adding new objects.
-        /// </summary>
-        public new static readonly GroupWithExclusionContractResolver AddInstance = new GroupWithExclusionContractResolver() { SetMethod = false };
-
-        /// <summary>
-        /// Default instance to be used when updating existing objects.
-        /// </summary>
-        public new static readonly GroupWithExclusionContractResolver SetInstance = new GroupWithExclusionContractResolver() { SetMethod = true };
+        internal static readonly ToStringConverter Instance = new ToStringConverter();
 
         #endregion Fields
 
+        #region Properties
+
+        public override bool CanRead => false;
+        public override bool CanWrite => true;
+
+        #endregion Properties
+
         #region Methods
 
-        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        public override bool CanConvert(Type objectType) => false;
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) => throw new NotImplementedException();
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var property = base.CreateProperty(member, memberSerialization);
-
-            if (typeof(GroupWithExclusion).GetTypeInfo().IsAssignableFrom(property.DeclaringType) &&
-                (property.UnderlyingName.Equals(nameof(GroupWithExclusion.Include)) || property.UnderlyingName.Equals(nameof(GroupWithExclusion.Except))))
-                property.Converter = ToStringConverter.Instance;
-
-            return property;
+            if (value == null)
+                writer.WriteNull();
+            else if (value is IObjectSummary obj)
+                writer.WriteValue(obj.GetIdentifier());
+            else
+                writer.WriteValue(value.ToString());
         }
 
         #endregion Methods

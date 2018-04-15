@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 using System.Runtime.Serialization;
 using static Koopman.CheckPoint.Json.EnumConverter;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint.SimpleGatewaySettings
 {
     /// <summary>
     /// Type of Check Point Alert to raise

@@ -55,11 +55,10 @@ namespace Koopman.CheckPoint
         #region Methods
 
         /// <summary>
-        /// Gets the identifier that is used when adding this object to a group.
+        /// Gets the identifier.
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
-        /// <exception cref="System.InvalidOperationException">Cannot add unsaved object.</exception>
-        string GetMembershipID();
+        string GetIdentifier();
 
         /// <summary>
         /// Reloads the current object. Used to either reset changes made without saving, or to

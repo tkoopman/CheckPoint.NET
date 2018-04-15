@@ -19,7 +19,10 @@
 
 using Koopman.CheckPoint.AccessRules;
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.FastUpdate;
+using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
 
 namespace Koopman.CheckPoint
@@ -32,9 +35,12 @@ namespace Koopman.CheckPoint
     {
         #region Constructors
 
-        public AccessRule(Session session, bool setIfExists = false) : this(session, DetailLevels.Full)
+        public AccessRule(Session session, string layer, Position position, bool setIfExists = false) : this(session, DetailLevels.Full)
         {
+            Layer = session.UpdateAccessLayer(layer);
+            Position = position;
             SetIfExists = setIfExists;
+            Track = new Track();
         }
 
         /// <summary>
@@ -68,6 +74,7 @@ namespace Koopman.CheckPoint
         private bool _serviceNegate;
         private MemberMembershipChangeTracking<IObjectSummary> _source;
         private bool _sourceNegate;
+        private Track _track;
 
         #endregion Fields
 
@@ -277,7 +284,40 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <summary>
+        /// Rule track settings
+        /// </summary>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <exception cref="System.ArgumentNullException">Track</exception>
+        [JsonProperty(PropertyName = "track", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public Track Track
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _track : null;
+            set
+            {
+                _track = value ?? throw new System.ArgumentNullException(nameof(Track));
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty(PropertyName = "position")]
+        internal Position Position { get; private set; }
+
+        protected override IContractResolver AddContractResolver => AccessRuleContractResolver.AddInstance;
+        protected override IContractResolver SetContractResolver => AccessRuleContractResolver.SetInstance;
+
         #endregion Properties
+
+        #region Methods
+
+        public void SetPosition(Position position)
+        {
+            Position = position;
+            OnPropertyChanged(nameof(Position));
+        }
+
+        #endregion Methods
 
         #region Classes
 

@@ -51,11 +51,11 @@ namespace Koopman.CheckPoint.AccessRules
 
         #region Methods
 
-        public string GetMembershipID() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
+        public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
         public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) => this;
 
-        public override string ToString() => GetMembershipID();
+        public override string ToString() => GetIdentifier();
 
         #endregion Methods
     }

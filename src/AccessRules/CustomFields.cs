@@ -1,30 +1,52 @@
-﻿using Newtonsoft.Json;
+﻿using Koopman.CheckPoint.Common;
+using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.AccessRules
 {
-    public class CustomFields
+    public class CustomFields : ChangeTracking
     {
-        #region Constructors
+        #region Fields
 
-        public CustomFields(string field1, string field2, string field3)
-        {
-            Field1 = field1;
-            Field2 = field2;
-            Field3 = field3;
-        }
+        private string _field1;
+        private string _field2;
+        private string _field3;
 
-        #endregion Constructors
+        #endregion Fields
 
         #region Properties
 
         [JsonProperty(PropertyName = "field-1")]
-        public string Field1 { get; private set; }
+        public string Field1
+        {
+            get => _field1;
+            set
+            {
+                _field1 = value;
+                OnPropertyChanged();
+            }
+        }
 
         [JsonProperty(PropertyName = "field-2")]
-        public string Field2 { get; private set; }
+        public string Field2
+        {
+            get => _field2;
+            set
+            {
+                _field2 = value;
+                OnPropertyChanged();
+            }
+        }
 
         [JsonProperty(PropertyName = "field-3")]
-        public string Field3 { get; private set; }
+        public string Field3
+        {
+            get => _field3;
+            set
+            {
+                _field3 = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion Properties
     }

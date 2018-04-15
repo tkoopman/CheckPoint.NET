@@ -21,6 +21,7 @@ using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.FastUpdate;
+using Koopman.CheckPoint.SimpleGatewaySettings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 

@@ -17,44 +17,55 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
-using System;
-using System.Reflection;
+using System.Runtime.Serialization;
+using static Koopman.CheckPoint.Json.EnumConverter;
 
-namespace Koopman.CheckPoint.Json
+namespace Koopman.CheckPoint.AccessRules
 {
     /// <summary>
-    /// Used to output the ObjectSummary.Name or of that is empty the ObjectSummary.UID
+    /// Type of Check Point Alert to raise
     /// </summary>
-    internal class NameOrUIDConverter : JsonConverter
+    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ")]
+    public enum AlertType
     {
-        #region Properties
+        /// <summary>
+        /// No alerts
+        /// </summary>
+        None,
 
-        public override bool CanRead => false;
+        /// <summary>
+        /// Alert
+        /// </summary>
+        Alert,
 
-        #endregion Properties
+        /// <summary>
+        /// E-mail alert
+        /// </summary>
+        Mail,
 
-        #region Methods
+        /// <summary>
+        /// Send SNMP trap alert
+        /// </summary>
+        SNMP,
 
-        public override bool CanConvert(Type objectType) => typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(objectType);
+        /// <summary>
+        /// User defined alert No1
+        /// </summary>
+        [EnumMember(Value = "user alert 1")]
+        UserAlert1,
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) => throw new NotImplementedException();
+        /// <summary>
+        /// User defined alert No2
+        /// </summary>
+        [EnumMember(Value = "user alert 2")]
+        UserAlert2,
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            if (value == null)
-            {
-                writer.WriteNull();
-                return;
-            }
-
-            var obj = (IObjectSummary)value;
-            if (string.IsNullOrWhiteSpace(obj.Name))
-                writer.WriteValue(obj.UID);
-            else
-                writer.WriteValue(obj.Name);
-        }
-
-        #endregion Methods
+        /// <summary>
+        /// User defined alert No3
+        /// </summary>
+        [EnumMember(Value = "user alert 3")]
+        UserAlert3
     }
 }

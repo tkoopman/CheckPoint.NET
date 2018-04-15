@@ -46,6 +46,29 @@ namespace Tests
             }
         }
 
+        [TestMethod]
+        public void New()
+        {
+            var a = new AccessRule(Session, "TestLayer", new Position(1));
+            a.Action = RulebaseAction.Accept;
+            a.Track.Type = TrackType.Log;
+            a.Source.Add("DNS Server");
+            a.CustomFields = new CustomFields() { Field1 = "TestNew" };
+            a.AcceptChanges();
+            Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
+            a.Source.Clear();
+            a.Destination.Add("DNS Server");
+            a.CustomFields.Field1 = "Test";
+            a.SetPosition(new Position(Positions.Bottom));
+            a.Track.Type = TrackType.ExtendedLog;
+            a.Track.Alert = AlertType.SNMP;
+            a.Name = "Test Rule";
+            a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(TrackType.ExtendedLog, a.Track.Type);
+            Assert.AreEqual(1, a.Destination.Count);
+        }
+
         #endregion Methods
     }
 }

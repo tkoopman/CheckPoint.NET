@@ -10,6 +10,17 @@ namespace Koopman.CheckPoint.FastUpdate
         #region Methods
 
         /// <summary>
+        /// Updates the Access Layer without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">The identifier, can by name or UID of Access Layer to update.</param>
+        /// <returns>
+        /// AccessLayer object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static AccessLayer UpdateAccessLayer(this Session session, string identifier) => AddIdentifier(identifier, new AccessLayer(session, DetailLevels.Full));
+
+        /// <summary>
         /// Updates the Address Range without finding it first.
         /// </summary>
         /// <param name="session">The session.</param>

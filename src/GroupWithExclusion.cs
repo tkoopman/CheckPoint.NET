@@ -209,12 +209,12 @@ namespace Koopman.CheckPoint
 
             #region Methods
 
-            public string GetMembershipID() => Name ?? UID;
+            public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
             public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) =>
                 throw new System.NotImplementedException();
 
-            public override string ToString() => GetMembershipID();
+            public override string ToString() => GetIdentifier();
 
             #endregion Methods
         }

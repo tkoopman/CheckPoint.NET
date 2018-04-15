@@ -54,6 +54,13 @@ namespace Koopman.CheckPoint.Common
         [JsonIgnore]
         protected internal bool IsDeserializing { get; private set; } = false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is serializing.
+        /// </summary>
+        /// <value><c>true</c> if this instance is serialising; otherwise, <c>false</c>.</value>
+        [JsonIgnore]
+        protected internal bool IsSerializing { get; private set; } = false;
+
         #endregion Properties
 
         #region Methods
@@ -71,7 +78,6 @@ namespace Koopman.CheckPoint.Common
         internal void OnDeserializedMethod(StreamingContext context)
         {
             IsDeserializing = false;
-            IsNew = false;
             IsChanged = false;
             OnDeserialized();
         }
@@ -84,7 +90,30 @@ namespace Koopman.CheckPoint.Common
         internal void OnDeserializingMethod(StreamingContext context)
         {
             IsDeserializing = true;
+            IsNew = false;
             OnDeserializing();
+        }
+
+        /// <summary>
+        /// Called when serialized.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        [OnSerialized]
+        internal void OnSerializedMethod(StreamingContext context)
+        {
+            IsSerializing = false;
+            OnSerialized();
+        }
+
+        /// <summary>
+        /// Called when serializing.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context)
+        {
+            IsSerializing = true;
+            OnSerializing();
         }
 
         /// <summary>
@@ -109,6 +138,20 @@ namespace Koopman.CheckPoint.Common
         {
             if (!IsDeserializing)
                 IsChanged = true;
+        }
+
+        /// <summary>
+        /// Called when serialized.
+        /// </summary>
+        protected virtual void OnSerialized()
+        {
+        }
+
+        /// <summary>
+        /// Called when Serializing.
+        /// </summary>
+        protected virtual void OnSerializing()
+        {
         }
 
         #endregion Methods
