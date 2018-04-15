@@ -4775,6 +4775,13 @@ namespace Koopman.CheckPoint
 
         #region Access Rule Methods
 
+        /// <summary>
+        /// Finds the access rule by rule number.
+        /// </summary>
+        /// <param name="layer">The layer.</param>
+        /// <param name="ruleNumber">The rule number.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <returns>AccessRule</returns>
         public AccessRule FindAccessRule(string layer, int ruleNumber, DetailLevels detailLevel = Find.Defaults.DetailLevel)
         {
             var data = new Dictionary<string, dynamic>

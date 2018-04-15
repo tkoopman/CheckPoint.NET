@@ -3,6 +3,10 @@ using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.AccessRules
 {
+    /// <summary>
+    /// Custom fields assigned to rule
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
     public class CustomFields : ChangeTracking
     {
         #region Fields
@@ -15,6 +19,10 @@ namespace Koopman.CheckPoint.AccessRules
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the field1.
+        /// </summary>
+        /// <value>The field1.</value>
         [JsonProperty(PropertyName = "field-1")]
         public string Field1
         {
@@ -26,6 +34,10 @@ namespace Koopman.CheckPoint.AccessRules
             }
         }
 
+        /// <summary>
+        /// Gets or sets the field2.
+        /// </summary>
+        /// <value>The field2.</value>
         [JsonProperty(PropertyName = "field-2")]
         public string Field2
         {
@@ -37,6 +49,10 @@ namespace Koopman.CheckPoint.AccessRules
             }
         }
 
+        /// <summary>
+        /// Gets or sets the field3.
+        /// </summary>
+        /// <value>The field3.</value>
         [JsonProperty(PropertyName = "field-3")]
         public string Field3
         {

@@ -128,7 +128,7 @@ namespace Koopman.CheckPoint.Internal
         public string Name
         {
             get => (TestDetailLevel(DetailLevels.Standard)) ? _name : null;
-            private set => _name = value;
+            internal set => _name = value;
         }
 
         /// <summary>

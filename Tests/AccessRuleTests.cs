@@ -49,11 +49,14 @@ namespace Tests
         [TestMethod]
         public void New()
         {
-            var a = new AccessRule(Session, "TestLayer", new Position(1));
-            a.Action = RulebaseAction.Accept;
+            var a = new AccessRule(Session, "TestLayer", new Position(1))
+            {
+                Action = RulebaseAction.Accept,
+                CustomFields = new CustomFields() { Field1 = "TestNew" }
+            };
+            a.ActionSettings.SetLimit("Upload_1Gbps");
             a.Track.Type = TrackType.Log;
             a.Source.Add("DNS Server");
-            a.CustomFields = new CustomFields() { Field1 = "TestNew" };
             a.AcceptChanges();
             Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
             a.Source.Clear();
@@ -61,12 +64,16 @@ namespace Tests
             a.CustomFields.Field1 = "Test";
             a.SetPosition(new Position(Positions.Bottom));
             a.Track.Type = TrackType.ExtendedLog;
+            a.Track.PerConnection = false;
+            a.Track.PerSession = true;
             a.Track.Alert = AlertType.SNMP;
             a.Name = "Test Rule";
             a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(TrackType.ExtendedLog, a.Track.Type);
             Assert.AreEqual(1, a.Destination.Count);
+            Assert.IsFalse(a.Track.PerConnection);
+            Assert.IsTrue(a.Track.PerSession);
         }
 
         #endregion Methods

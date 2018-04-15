@@ -51,7 +51,8 @@ namespace Koopman.CheckPoint.Json
             var property = base.CreateProperty(member, memberSerialization);
 
             if (property.PropertyType == typeof(RulebaseAction) ||
-                property.PropertyType == typeof(TrackType))
+                property.PropertyType == typeof(TrackType) ||
+                property.PropertyType == typeof(Limit))
                 property.Converter = ToStringConverter.Instance;
             else if (property.UnderlyingName.Equals(nameof(AccessRule.Layer)))
             {

@@ -4,13 +4,35 @@ using System;
 
 namespace Koopman.CheckPoint.AccessRules
 {
+    /// <summary>
+    /// Absolute and Reletive positions
+    /// </summary>
     [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
     public enum Positions
     {
+        /// <summary>
+        /// Position is a fixed rule number
+        /// </summary>
         Absolute,
+
+        /// <summary>
+        /// The top of rulebase or section
+        /// </summary>
         Top,
+
+        /// <summary>
+        /// Above rule or section
+        /// </summary>
         Above,
+
+        /// <summary>
+        /// Below rule or section
+        /// </summary>
         Below,
+
+        /// <summary>
+        /// The bottom of rulebase or section
+        /// </summary>
         Bottom
     }
 
@@ -67,13 +89,26 @@ namespace Koopman.CheckPoint.AccessRules
 
         #region Properties
 
+        /// <summary>
+        /// Gets how locations is set. Either absolute or relitive to rulebase, section or existing rule.
+        /// </summary>
+        /// <value>The locate.</value>
         public Positions Locate { get; }
+
+        /// <summary>
+        /// Gets the reference point for Locate.
+        /// </summary>
+        /// <value>The point.</value>
         public string Point { get; }
 
         #endregion Properties
 
         #region Methods
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
             if (Locate == Positions.Absolute)

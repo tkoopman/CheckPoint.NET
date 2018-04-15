@@ -35,12 +35,18 @@ namespace Koopman.CheckPoint
     {
         #region Constructors
 
-        public AccessRule(Session session, string layer, Position position, bool setIfExists = false) : this(session, DetailLevels.Full)
+        /// <summary>
+        /// Create a new access rule.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="layer">The layer.</param>
+        /// <param name="position">The position.</param>
+        public AccessRule(Session session, string layer, Position position) : this(session, DetailLevels.Full)
         {
             Layer = session.UpdateAccessLayer(layer);
             Position = position;
-            SetIfExists = setIfExists;
-            Track = new Track();
+            _actionSettings = new ActionSettings();
+            _track = new Track();
         }
 
         /// <summary>
@@ -304,13 +310,20 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "position")]
         internal Position Position { get; private set; }
 
+        /// <inheritdoc />
         protected override IContractResolver AddContractResolver => AccessRuleContractResolver.AddInstance;
+
+        /// <inheritdoc />
         protected override IContractResolver SetContractResolver => AccessRuleContractResolver.SetInstance;
 
         #endregion Properties
 
         #region Methods
 
+        /// <summary>
+        /// Sets the new position.
+        /// </summary>
+        /// <param name="position">The new position.</param>
         public void SetPosition(Position position)
         {
             Position = position;
