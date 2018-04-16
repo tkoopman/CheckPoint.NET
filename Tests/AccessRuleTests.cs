@@ -57,6 +57,7 @@ namespace Tests
             a.ActionSettings.SetLimit("Upload_1Gbps");
             a.Track.Type = TrackType.Log;
             a.Source.Add("DNS Server");
+            a.VPN.Add("All_GwToGw");
             a.AcceptChanges();
             Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
             a.Source.Clear();

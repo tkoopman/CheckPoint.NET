@@ -1,10 +1,10 @@
-﻿using Koopman.CheckPoint.Common;
-using Koopman.CheckPoint.Exceptions;
+﻿using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace Koopman.CheckPoint.Internal
+namespace Koopman.CheckPoint.Common
 {
     /// <summary>
     /// Used to represent an unknown object type.
@@ -15,9 +15,19 @@ namespace Koopman.CheckPoint.Internal
         #region Fields
 
         /// <summary>
+        /// The All gateway to gateway VPNs.
+        /// </summary>
+        public static readonly GenericObjectSummary AllGwToGw = new GenericObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
+        {
+            UID = "97aeb36a-9aed-11d5-bd16-0090272ccb30",
+            Name = "All_GwToGw",
+            Domain = Domain.DataDomain
+        };
+
+        /// <summary>
         /// The Any object.
         /// </summary>
-        internal static readonly GenericObjectSummary Any = new GenericObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
+        public static readonly GenericObjectSummary Any = new GenericObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
         {
             UID = "97aeb369-9aea-11d5-bd16-0090272ccb30",
             Name = "Any",
@@ -27,7 +37,7 @@ namespace Koopman.CheckPoint.Internal
         /// <summary>
         /// The restrict common protocols action
         /// </summary>
-        internal static readonly GenericObjectSummary RestrictCommonProtocolsAction = new GenericObjectSummary(null, DetailLevels.Full, "")
+        public static readonly GenericObjectSummary RestrictCommonProtocolsAction = new GenericObjectSummary(null, DetailLevels.Full, "", true)
         {
             UID = "ea3a425f-56b3-46de-98e7-bd88ce27a801",
             Name = "Restrict_Common_Protocols_Action",
@@ -37,40 +47,47 @@ namespace Koopman.CheckPoint.Internal
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        internal static readonly GenericObjectSummary TrustAllAction = new GenericObjectSummary(null, DetailLevels.Full, "")
+        public static readonly GenericObjectSummary TrustAllAction = new GenericObjectSummary(null, DetailLevels.Full, "", true)
         {
             UID = "226b5ee1-69ce-4bdb-a53f-3a01e68885b4",
             Name = "Trust_all_action",
             Domain = Domain.Default
         };
 
+        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, RestrictCommonProtocolsAction, TrustAllAction, AllGwToGw };
+
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericMember" /> class.
+        /// Initializes a new instance of the <see cref="GenericObjectSummary" /> class.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="type">The type.</param>
-        internal GenericObjectSummary(Session session, DetailLevels detailLevel, string type)
+        /// <param name="allowNullResult">if set to <c>true</c> allow null result.</param>
+        internal GenericObjectSummary(Session session, DetailLevels detailLevel, string type, bool allowNullResult = false)
         {
             Session = session;
             DetailLevel = detailLevel;
             Type = type;
+            AllowNullResult = allowNullResult;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericMember" /> class with just UID detail level.
+        /// Initializes a new instance of the <see cref="GenericObjectSummary" /> class with just UID
+        /// detail level.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="uid">The uid.</param>
-        internal GenericObjectSummary(Session session, string uid)
+        /// <param name="allowNullResult">if set to <c>true</c> allow null result.</param>
+        internal GenericObjectSummary(Session session, string uid, bool allowNullResult = false)
         {
             Session = session;
             DetailLevel = DetailLevels.UID;
             UID = uid;
+            AllowNullResult = allowNullResult;
         }
 
         #endregion Constructors
@@ -150,6 +167,12 @@ namespace Koopman.CheckPoint.Internal
         /// </summary>
         /// <value>The uid.</value>
         public string UID { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether null can be returned if class cast error.
+        /// </summary>
+        /// <value><c>true</c> if allow null result; otherwise, <c>false</c>.</value>
+        internal bool AllowNullResult { get; }
 
         private Session Session { get; }
 

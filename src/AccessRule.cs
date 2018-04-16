@@ -61,6 +61,7 @@ namespace Koopman.CheckPoint
             _destination = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _service = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _source = new MemberMembershipChangeTracking<IObjectSummary>(this);
+            _vpn = new MemberMembershipChangeTracking<IObjectSummary>(this);
         }
 
         #endregion Constructors
@@ -81,6 +82,7 @@ namespace Koopman.CheckPoint
         private MemberMembershipChangeTracking<IObjectSummary> _source;
         private bool _sourceNegate;
         private Track _track;
+        private MemberMembershipChangeTracking<IObjectSummary> _vpn;
 
         #endregion Fields
 
@@ -305,6 +307,17 @@ namespace Koopman.CheckPoint
                 _track = value ?? throw new System.ArgumentNullException(nameof(Track));
                 OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// VPN objects.
+        /// </summary>
+        [JsonProperty(PropertyName = "vpn")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MemberMembershipChangeTracking<IObjectSummary> VPN
+        {
+            get => _vpn;
+            internal set => _vpn = value;
         }
 
         [JsonProperty(PropertyName = "position")]

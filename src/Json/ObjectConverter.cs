@@ -339,21 +339,6 @@ namespace Koopman.CheckPoint.Json
 
         private bool IsSpecialObject(string uid, Type objectType, out IObjectSummary obj)
         {
-            if (uid.Equals(ObjectSummary.Any.UID))
-            {
-                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
-                return true;
-            }
-            if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
-            {
-                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
-                return true;
-            }
-            if (uid.Equals(ObjectSummary.TrustAllAction.UID))
-            {
-                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
-                return true;
-            }
             if (objectType.Equals(typeof(RulebaseAction)))
             {
                 foreach (var action in RulebaseAction.Actions)
@@ -362,7 +347,9 @@ namespace Koopman.CheckPoint.Json
                         obj = action;
                         return true;
                     }
+                throw new JsonException($"Invalid rulebase action uid: {uid}");
             }
+
             if (objectType.Equals(typeof(TrackType)))
             {
                 foreach (var t in TrackType.Types)
@@ -371,7 +358,20 @@ namespace Koopman.CheckPoint.Json
                         obj = t;
                         return true;
                     }
+                throw new JsonException($"Invalid track type uid: {uid}");
             }
+
+            foreach (var inbuilt in GenericObjectSummary.InBuilt)
+                if (inbuilt.UID.Equals(uid))
+                {
+                    if (objectType.GetTypeInfo().IsAssignableFrom(inbuilt.GetType()))
+                        obj = inbuilt;
+                    else if (inbuilt.AllowNullResult)
+                        obj = null;
+                    else
+                        throw new InvalidCastException($"Unable to cast {inbuilt.GetType()} to {objectType}.");
+                    return true;
+                }
 
             obj = null;
             return false;

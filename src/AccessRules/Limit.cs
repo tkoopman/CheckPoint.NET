@@ -1,4 +1,4 @@
-﻿using Koopman.CheckPoint.Internal;
+﻿using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.AccessRules
@@ -6,7 +6,7 @@ namespace Koopman.CheckPoint.AccessRules
     /// <summary>
     /// Access Rule Limit object
     /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Internal.GenericObjectSummary" />
+    /// <seealso cref="Koopman.CheckPoint.Common.GenericObjectSummary" />
     public class Limit : GenericObjectSummary
     {
         #region Constructors
@@ -16,7 +16,7 @@ namespace Koopman.CheckPoint.AccessRules
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="detailLevel">The detail level.</param>
-        internal Limit(Session session, DetailLevels detailLevel) : base(session, detailLevel, "CpmiAppfwLimit")
+        internal Limit(Session session, DetailLevels detailLevel) : base(session, detailLevel, "CpmiAppfwLimit", false)
         {
         }
 
