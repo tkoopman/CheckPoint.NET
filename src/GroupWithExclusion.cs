@@ -145,6 +145,26 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID of object.</param>
         public void SetInclude(string value) => Include = new AddAsString(value);
 
+        internal override void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            base.UpdateGenericMembers(objectConverter);
+            if (DetailLevel >= DetailLevels.Standard)
+            {
+                if (_include is GenericMember i)
+                {
+                    var summary = i.GetFromCache(objectConverter);
+                    if (summary != null)
+                        _include = summary;
+                }
+                if (_except is GenericMember e)
+                {
+                    var summary = e.GetFromCache(objectConverter);
+                    if (summary != null)
+                        _except = summary;
+                }
+            }
+        }
+
         /// <inheritdoc />
         protected override void OnDeserializing()
         {

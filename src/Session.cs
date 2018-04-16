@@ -4779,6 +4779,33 @@ namespace Koopman.CheckPoint
 
             string result = Post("show-access-rule", jsonData);
 
+            var objectConverter = new ObjectConverter(this, DetailLevels.Full, detailLevel);
+
+            var accessRule = JsonConvert.DeserializeObject<AccessRule>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            objectConverter.PostDeserilization(accessRule);
+
+            return accessRule;
+        }
+
+        /// <summary>
+        /// Finds the access rule by rule number.
+        /// </summary>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <returns>AccessRule</returns>
+        public AccessRule FindAccessRulebase(string name, DetailLevels detailLevel = Find.Defaults.DetailLevel)
+        {
+            var data = new Dictionary<string, dynamic>
+            {
+                { "name", name },
+                { "use-object-dictionary", true },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-access-rulebase", jsonData);
+
             return JsonConvert.DeserializeObject<AccessRule>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, detailLevel) } });
         }
 

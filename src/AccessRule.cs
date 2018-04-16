@@ -374,6 +374,17 @@ namespace Koopman.CheckPoint
             OnPropertyChanged(nameof(Position));
         }
 
+        internal override void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            base.UpdateGenericMembers(objectConverter);
+            Content.UpdateGenericMembers(objectConverter);
+            Destination.UpdateGenericMembers(objectConverter);
+            InstallOn.UpdateGenericMembers(objectConverter);
+            Service.UpdateGenericMembers(objectConverter);
+            Source.UpdateGenericMembers(objectConverter);
+            VPN.UpdateGenericMembers(objectConverter);
+        }
+
         #endregion Methods
 
         #region Classes

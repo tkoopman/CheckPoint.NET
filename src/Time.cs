@@ -215,6 +215,16 @@ namespace Koopman.CheckPoint
 
         #endregion Properties
 
+        #region Methods
+
+        internal override void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            base.UpdateGenericMembers(objectConverter);
+            Groups.UpdateGenericMembers(objectConverter);
+        }
+
+        #endregion Methods
+
         #region Classes
 
         /// <summary>
