@@ -17,72 +17,30 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.AccessRules
 {
     /// <summary>
-    /// Custom fields assigned to rule
+    /// On which direction the file types processing is applied.
     /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
-    public class CustomFields : ChangeTracking
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase)]
+    public enum ContentDirection
     {
-        #region Fields
-
-        private string _field1;
-        private string _field2;
-        private string _field3;
-
-        #endregion Fields
-
-        #region Properties
+        /// <summary>
+        /// Up and Down
+        /// </summary>
+        Any,
 
         /// <summary>
-        /// Gets or sets the field1.
+        /// Uploads only
         /// </summary>
-        /// <value>The field1.</value>
-        [JsonProperty(PropertyName = "field-1")]
-        public string Field1
-        {
-            get => _field1;
-            set
-            {
-                _field1 = value;
-                OnPropertyChanged();
-            }
-        }
+        Up,
 
         /// <summary>
-        /// Gets or sets the field2.
+        /// Downloads only
         /// </summary>
-        /// <value>The field2.</value>
-        [JsonProperty(PropertyName = "field-2")]
-        public string Field2
-        {
-            get => _field2;
-            set
-            {
-                _field2 = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the field3.
-        /// </summary>
-        /// <value>The field3.</value>
-        [JsonProperty(PropertyName = "field-3")]
-        public string Field3
-        {
-            get => _field3;
-            set
-            {
-                _field3 = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion Properties
+        Down
     }
 }

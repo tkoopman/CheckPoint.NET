@@ -35,6 +35,16 @@ namespace Koopman.CheckPoint.Common
         };
 
         /// <summary>
+        /// The Policy Targets object.
+        /// </summary>
+        public static readonly GenericObjectSummary PolicyTargets = new GenericObjectSummary(null, DetailLevels.Full, "Global")
+        {
+            UID = "6c488338-8eec-4103-ad21-cd461ac2c476",
+            Name = "Policy Targets",
+            Domain = Domain.DataDomain
+        };
+
+        /// <summary>
         /// The restrict common protocols action
         /// </summary>
         public static readonly GenericObjectSummary RestrictCommonProtocolsAction = new GenericObjectSummary(null, DetailLevels.Full, "", true)
@@ -54,7 +64,7 @@ namespace Koopman.CheckPoint.Common
             Domain = Domain.Default
         };
 
-        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, RestrictCommonProtocolsAction, TrustAllAction, AllGwToGw };
+        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, PolicyTargets, RestrictCommonProtocolsAction, TrustAllAction, AllGwToGw };
 
         #endregion Fields
 

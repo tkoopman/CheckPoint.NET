@@ -59,6 +59,7 @@ namespace Koopman.CheckPoint
         {
             _content = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _destination = new MemberMembershipChangeTracking<IObjectSummary>(this);
+            _installOn = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _service = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _source = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _vpn = new MemberMembershipChangeTracking<IObjectSummary>(this);
@@ -71,12 +72,14 @@ namespace Koopman.CheckPoint
         private RulebaseAction _action;
         private ActionSettings _actionSettings;
         private MemberMembershipChangeTracking<IObjectSummary> _content;
+        private ContentDirection _contentDirection;
         private bool _contentNegate;
         private CustomFields _customFields;
         private MemberMembershipChangeTracking<IObjectSummary> _destination;
         private bool _destinationNegate;
         private bool _enabled;
         private AccessLayer _inlineLayer;
+        private MemberMembershipChangeTracking<IObjectSummary> _installOn;
         private MemberMembershipChangeTracking<IObjectSummary> _service;
         private bool _serviceNegate;
         private MemberMembershipChangeTracking<IObjectSummary> _source;
@@ -131,6 +134,23 @@ namespace Koopman.CheckPoint
         {
             get => _content;
             internal set => _content = value;
+        }
+
+        /// <summary>
+        /// On which direction the file types processing is applied.
+        /// </summary>
+        /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
+        /// <exception cref="System.ArgumentNullException">ContentDirection</exception>
+        [JsonProperty(PropertyName = "content-direction", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public ContentDirection? ContentDirection
+        {
+            get => (TestDetailLevel(DetailLevels.Full)) ? _contentDirection : (ContentDirection?)null;
+            set
+            {
+                _contentDirection = value ?? throw new System.ArgumentNullException(nameof(ContentDirection));
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -227,6 +247,17 @@ namespace Koopman.CheckPoint
                 _inlineLayer = value ?? throw new System.ArgumentNullException(nameof(InlineLayer));
                 OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Which Gateways identified by the name or UID to install the policy on.
+        /// </summary>
+        [JsonProperty(PropertyName = "install-on")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public MemberMembershipChangeTracking<IObjectSummary> InstallOn
+        {
+            get => _installOn;
+            internal set => _installOn = value;
         }
 
         /// <summary>
