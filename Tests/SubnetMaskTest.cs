@@ -82,24 +82,15 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void SubnetMaskToMaskLenFail1()
-        {
-            SubnetMask.SubnetMaskToMaskLength(IPAddress.Parse("255.255.255.1"));
-        }
+        public void SubnetMaskToMaskLenFail1() => SubnetMask.SubnetMaskToMaskLength(IPAddress.Parse("255.255.255.1"));
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void SubnetMaskToMaskLenFail2()
-        {
-            SubnetMask.SubnetMaskToMaskLength(IPAddress.Parse("255.0.255.0"));
-        }
+        public void SubnetMaskToMaskLenFail2() => SubnetMask.SubnetMaskToMaskLength(IPAddress.Parse("255.0.255.0"));
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void SubnetMaskToMaskLenFail3()
-        {
-            SubnetMask.SubnetMaskToMaskLength(IPAddress.Parse("0.0.0.1"));
-        }
+        public void SubnetMaskToMaskLenFail3() => SubnetMask.SubnetMaskToMaskLength(IPAddress.Parse("0.0.0.1"));
 
         #endregion Methods
     }

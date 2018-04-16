@@ -43,10 +43,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ValidationFailedException))]
-        public void Delete()
-        {
-            Session.DeleteSimpleGateway(Name);
-        }
+        public void Delete() => Session.DeleteSimpleGateway(Name);
 
         [TestMethod]
         public void FastUpdate()
@@ -92,10 +89,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound()
-        {
-            Session.FindSimpleGateway("I Don't Exist!");
-        }
+        public void FindNotFound() => Session.FindSimpleGateway("I Don't Exist!");
 
         [TestMethod]
         public void New()

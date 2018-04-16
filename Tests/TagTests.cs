@@ -51,7 +51,7 @@ namespace Tests
         [TestMethod]
         public void Find()
         {
-            Tag a = Session.FindTag(Name);
+            var a = Session.FindTag(Name);
             Assert.IsNotNull(a);
         }
 
@@ -76,7 +76,7 @@ namespace Tests
         {
             string name = $"New {Name}";
 
-            Tag a = new Tag(Session)
+            var a = new Tag(Session)
             {
                 Name = name,
                 Color = Colors.Red

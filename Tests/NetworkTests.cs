@@ -44,10 +44,7 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Delete()
-        {
-            Session.DeleteNetwork(v4Name);
-        }
+        public void Delete() => Session.DeleteNetwork(v4Name);
 
         [TestMethod]
         public void FastUpdate()
@@ -90,10 +87,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound()
-        {
-            Session.FindNetwork("I Don't Exist!");
-        }
+        public void FindNotFound() => Session.FindNetwork("I Don't Exist!");
 
         [TestMethod]
         public void Finds()
@@ -108,7 +102,7 @@ namespace Tests
         {
             var a = Session.FindNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
             Assert.IsNotNull(a);
-            Network b = a[0].Reload();
+            var b = a[0].Reload();
             a = a.NextPage();
         }
 

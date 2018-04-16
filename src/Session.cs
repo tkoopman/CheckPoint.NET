@@ -256,7 +256,8 @@ namespace Koopman.CheckPoint
         {
             string jsonData = UIDToJson(uid);
             Post("continue-session-in-smartconsole", jsonData);
-            if (uid == null || uid.Equals(UID)) { Dispose(); }
+            if (uid == null || uid.Equals(UID))
+                Dispose();
         }
 
         /// <summary>
@@ -345,18 +346,15 @@ namespace Koopman.CheckPoint
         public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default)
         {
             if (_isDisposed)
-            {
                 throw new ObjectDisposedException("Session", "This session has already been disposed!");
-            }
+
             string result = null;
 
             string debugIP = WriteDebug(command, json);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             if (command != "login")
-            {
                 content.Headers.Add("X-chkp-sid", SID);
-            }
 
             var response = await GetHttpClient().PostAsync(command, content, cancellationToken);
 
@@ -367,9 +365,7 @@ namespace Koopman.CheckPoint
                 WriteDebug(debugIP, response.StatusCode, result);
 
                 if (!response.IsSuccessStatusCode)
-                {
                     throw CheckPointError.CreateException(result, response.StatusCode);
-                }
             }
             finally
             {
@@ -421,31 +417,22 @@ namespace Koopman.CheckPoint
         internal HttpClient GetHttpClient()
         {
             if (_isDisposed)
-            {
                 throw new ObjectDisposedException("Session", "This session has already been disposed!");
-            }
+
             if (_httpClient == null)
             {
                 var handler = new HttpClientHandler();
                 if (handler.SupportsAutomaticDecompression)
-                {
                     handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                }
 
 #if NET45
                 if (!CertificateValidation)
-                {
                     ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
-                }
                 else
-                {
                     ServicePointManager.ServerCertificateValidationCallback = null;
-                }
 #else
                 if (!CertificateValidation)
-                {
                     handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                }
 #endif
 
                 _httpClient = new HttpClient(handler)
@@ -460,16 +447,15 @@ namespace Koopman.CheckPoint
 
         internal void WriteDebug(string message)
         {
-            if (DebugWriter != null)
-            {
-                DebugWriter.WriteLine(message);
-                DebugWriter.Flush();
-            }
+            var writer = DebugWriter;
+            if (writer == null) return;
+            writer.WriteLine(message);
+            writer.Flush();
         }
 
         private static string RandomString(int length)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
@@ -477,36 +463,34 @@ namespace Koopman.CheckPoint
         private string UIDToJson(string uid)
         {
             var jObject = new JObject();
-            if (uid != null) { jObject.Add("uid", uid); }
+            if (uid != null)
+                jObject.Add("uid", uid);
             string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting); ;
             return jsonData;
         }
 
         private string WriteDebug(string command, string data)
         {
-            if (DebugWriter != null)
-            {
-                string id = RandomString(8);
+            var writer = DebugWriter;
+            if (writer == null) return null;
+            string id = RandomString(8);
 
-                DebugWriter.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
+            writer.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
 {data}
 ");
-                DebugWriter.Flush();
+            writer.Flush();
 
-                return id;
-            }
-            else return null;
+            return id;
         }
 
         private void WriteDebug(string id, HttpStatusCode code, string data)
         {
-            if (DebugWriter != null)
-            {
-                DebugWriter.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
+            var writer = DebugWriter;
+            if (writer == null) return;
+            writer.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
 {data}
 ");
-                DebugWriter.Flush();
-            }
+            writer.Flush();
         }
 
         #region SessionInfo Methods

@@ -41,10 +41,7 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Delete()
-        {
-            Session.DeleteHost(Name);
-        }
+        public void Delete() => Session.DeleteHost(Name);
 
         [TestMethod]
         public void FastUpdate()
@@ -91,10 +88,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound()
-        {
-            Session.FindHost("I Don't Exist!");
-        }
+        public void FindNotFound() => Session.FindHost("I Don't Exist!");
 
         [TestMethod]
         public void New()

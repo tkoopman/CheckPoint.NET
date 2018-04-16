@@ -18,7 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
+using System;
 
 namespace Koopman.CheckPoint.Internal
 {
@@ -71,7 +71,7 @@ namespace Koopman.CheckPoint.Internal
         /// </summary>
         /// <param name="str">String to test.</param>
         /// <returns>True if valid UID format</returns>
-        internal static bool IsUID(this string str) => Regex.IsMatch(str, @"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$");
+        internal static bool IsUID(this string str) => Guid.TryParse(str, out _);
 
         #endregion Methods
     }

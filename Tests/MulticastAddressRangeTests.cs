@@ -41,10 +41,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(GenericException))]
-        public void Delete()
-        {
-            Session.DeleteMulticastAddressRange(v6Name);
-        }
+        public void Delete() => Session.DeleteMulticastAddressRange(v6Name);
 
         [TestMethod]
         [ExpectedException(typeof(ObjectLockedException))]
@@ -86,10 +83,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound()
-        {
-            Session.FindMulticastAddressRange("I Don't Exist!");
-        }
+        public void FindNotFound() => Session.FindMulticastAddressRange("I Don't Exist!");
 
         [TestMethod]
         public void New()

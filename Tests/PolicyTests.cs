@@ -34,13 +34,13 @@ namespace Tests
         [ExpectedException(typeof(GenericException))]
         public void TestInstallPolicy()
         {
-            var taskID = Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
+            string taskID = Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
         }
 
         [TestMethod]
         public void TestVerifyPolicy()
         {
-            var taskID = Session.VerifyPolicy("Corporate_Policy");
+            string taskID = Session.VerifyPolicy("Corporate_Policy");
             Assert.IsNotNull(taskID);
 
             var task = Session.FindTask(taskID);

@@ -56,24 +56,13 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TimeTest2()
-        {
-            // 00:01 - 00:00
-            new TimeRange(1, 0);
-        }
+        public void TimeTest2() => new TimeRange(1, 0);
 
         [TestMethod]
-        public void TimeTest3()
-        {
-            // 00:01 - 00:01
-            new TimeRange(1, 1);
-        }
+        public void TimeTest3() => new TimeRange(1, 1);
 
         [TestMethod]
-        public void TimeTest4()
-        {
-            new TimeRange("01:00", "11:00");
-        }
+        public void TimeTest4() => new TimeRange("01:00", "11:00");
 
         #endregion Methods
     }
