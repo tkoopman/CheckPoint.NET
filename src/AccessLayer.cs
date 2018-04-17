@@ -47,23 +47,22 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Create new <see cref="AccessLayer" />.
         /// </summary>
+        /// <param name="session">The current session.</param>
+        /// <param name="addDefaultRule">
+        /// if set to <c>true</c> default cleanup rule will be included in new layer.
+        /// </param>
         /// <example>
         /// <code>
         /// var al = new AccessLayer(Session) {
-        ///     Name = "MyAccessLayer"
+        /// Name = "MyAccessLayer"
         /// };
         /// al.AcceptChanges();
         /// </code>
         /// </example>
-        /// <param name="session">The current session.</param>
-        /// <param name="setIfExists">
-        /// if set to <c>true</c> if another object with the same name already exists, it will be
-        /// updated. Pay attention that original object's fields will be overwritten by the fields
-        /// provided in the request payload!.
-        /// </param>
-        public AccessLayer(Session session, bool setIfExists = false) : this(session, DetailLevels.Full)
+        public AccessLayer(Session session, bool addDefaultRule = true) : this(session, DetailLevels.Full)
         {
-            SetIfExists = setIfExists;
+            AddDefaultRule = addDefaultRule;
+            OnPropertyChanged(nameof(AddDefaultRule));
         }
 
         /// <summary>
@@ -192,6 +191,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        [JsonProperty(PropertyName = "add-default-rule")]
+        private bool AddDefaultRule { get; set; }
 
         #endregion Properties
 

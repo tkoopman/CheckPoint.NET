@@ -4791,7 +4791,16 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Finds the access rule base.
         /// </summary>
+        /// <param name="value">The name or UID to layer to get rulebase of.</param>
+        /// <param name="filter">
+        /// Search expression to filter the rulebase. The provided text should be exactly the same as
+        /// it would be given in Smart Console. The logical operators in the expression ('AND', 'OR')
+        /// should be provided in capital letters.
+        /// </param>
         /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The sort order.</param>
         /// <returns>AccessRulebasePagingResults</returns>
         public AccessRulebasePagingResults FindAccessRulebase(
             string value,

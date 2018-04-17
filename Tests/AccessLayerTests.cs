@@ -61,7 +61,7 @@ namespace Tests
         {
             string name = $"New_{Name}";
 
-            var a = new AccessLayer(Session)
+            var a = new AccessLayer(Session, false)
             {
                 Name = name,
                 Color = Colors.Red
