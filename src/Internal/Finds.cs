@@ -79,7 +79,7 @@ namespace Koopman.CheckPoint.Internal
                 objectConverter.PostDeserilization(results);
                 results.Next = delegate ()
                 {
-                    if (results.To == results.Total) { return null; }
+                    if (results.To == results.Total) return null;
                     return Invoke<T, U>(Session, Command, DetailLevel, Limit, results.To, Order);
                 };
             }
@@ -143,7 +143,7 @@ namespace Koopman.CheckPoint.Internal
                 objectConverter.PostDeserilization(results);
                 results.Next = delegate ()
                 {
-                    if (results.To == results.Total) { return null; }
+                    if (results.To == results.Total) return null;
                     return Invoke<T, U>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order);
                 };
             }

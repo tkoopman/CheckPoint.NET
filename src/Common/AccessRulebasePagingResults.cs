@@ -23,11 +23,10 @@ using System.Collections.Generic;
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// Result from methods that return multiple Network Objects.
+    /// Result from Session.FindAccessRulebase
     /// </summary>
-    /// <typeparam name="T">The type of object the results include</typeparam>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectsPagingResults{T,U}" />
-    public class NetworkObjectsPagingResults<T> : ObjectsPagingResults<T, NetworkObjectsPagingResults<T>>
+    public class AccessRulebasePagingResults : ObjectsPagingResults<AccessRule, AccessRulebasePagingResults>
     {
         #region Properties
 
@@ -37,8 +36,17 @@ namespace Koopman.CheckPoint.Common
         /// table shows the level of detail shown when details-level is set to standard.
         /// </para>
         /// </summary>
-        [JsonProperty(PropertyName = "objects", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-        public List<T> Objects { get => _Objects; internal set => _Objects = value; }
+        [JsonProperty(PropertyName = "objects-dictionary", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+        public List<IObjectSummary> Objects { get; internal set; }
+
+        /// <summary>
+        /// <para type="description">
+        /// How much details are returned depends on the details-level field of the request. This
+        /// table shows the level of detail shown when details-level is set to standard.
+        /// </para>
+        /// </summary>
+        [JsonProperty(PropertyName = "rulebase", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+        public List<AccessRule> Rulebase { get => _Objects; internal set => _Objects = value; }
 
         #endregion Properties
     }

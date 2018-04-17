@@ -4789,24 +4789,49 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Finds the access rule by rule number.
+        /// Finds the access rule base.
         /// </summary>
         /// <param name="detailLevel">The detail level.</param>
-        /// <returns>AccessRule</returns>
-        public AccessRule FindAccessRulebase(string name, DetailLevels detailLevel = Find.Defaults.DetailLevel)
+        /// <returns>AccessRulebasePagingResults</returns>
+        public AccessRulebasePagingResults FindAccessRulebase(
+            string name,
+            string filter = null,
+            DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+            int limit = Finds.Defaults.Limit,
+            int offset = Finds.Defaults.Offset,
+            IOrder order = Finds.Defaults.Order)
         {
             var data = new Dictionary<string, dynamic>
             {
                 { "name", name },
+                { "filter", filter },
                 { "use-object-dictionary", true },
-                { "details-level", detailLevel.ToString() }
+                { "details-level", detailLevel.ToString() },
+                { "limit", limit },
+                { "offset", offset },
+                { "order", (order == null)? null:new IOrder[] { order } }
             };
 
             string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
 
             string result = Post("show-access-rulebase", jsonData);
 
-            return JsonConvert.DeserializeObject<AccessRule>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(this, DetailLevels.Full, detailLevel) } });
+            var objectConverter = new ObjectConverter(this, DetailLevels.Full, detailLevel);
+
+            var ruleBase = JsonConvert.DeserializeObject<AccessRulebasePagingResults>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            if (ruleBase != null)
+            {
+                objectConverter.PostDeserilization(ruleBase.Objects);
+                objectConverter.PostDeserilization(ruleBase.Rulebase);
+                ruleBase.Next = delegate ()
+                {
+                    if (ruleBase.To == ruleBase.Total) return null;
+                    return FindAccessRulebase(name, filter, detailLevel, limit, ruleBase.To, order);
+                };
+            }
+
+            return ruleBase;
         }
 
         #endregion Access Rule Methods

@@ -37,7 +37,7 @@ namespace Koopman.CheckPoint.Common
         /// </para>
         /// </summary>
         [JsonProperty(PropertyName = "access-layers", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-        public List<AccessLayer> AccessLayers { get => _Objects; set => _Objects = value; }
+        public List<AccessLayer> AccessLayers { get => _Objects; internal set => _Objects = value; }
 
         #endregion Properties
     }

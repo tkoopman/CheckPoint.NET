@@ -47,6 +47,13 @@ namespace Tests
         }
 
         [TestMethod]
+        public void FindRulebase()
+        {
+            var a = Session.FindAccessRulebase("TestLayer", detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(a);
+        }
+
+        [TestMethod]
         public void New()
         {
             var a = new AccessRule(Session, "TestLayer", new Position(1))

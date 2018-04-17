@@ -190,7 +190,7 @@ namespace Koopman.CheckPoint.Common
                 /// <param name="position">The position.</param>
                 /// <param name="layer">The layer.</param>
                 [JsonConstructor]
-                private Rules(IObjectSummary rule, string[] ruleColumns, int position, IObjectSummary layer)
+                private Rules(IObjectSummary rule, string[] ruleColumns, string position, IObjectSummary layer)
                 {
                     Rule = rule;
                     RuleColumns = ruleColumns;
@@ -214,7 +214,7 @@ namespace Koopman.CheckPoint.Common
                 /// </summary>
                 /// <value>The position.</value>
                 [JsonProperty(PropertyName = "position", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-                public int Position { get; }
+                public string Position { get; }
 
                 /// <summary>
                 /// Access control rule found
