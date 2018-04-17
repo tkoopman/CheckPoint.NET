@@ -4794,7 +4794,7 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level.</param>
         /// <returns>AccessRulebasePagingResults</returns>
         public AccessRulebasePagingResults FindAccessRulebase(
-            string name,
+            string value,
             string filter = null,
             DetailLevels detailLevel = Finds.Defaults.DetailLevel,
             int limit = Finds.Defaults.Limit,
@@ -4803,7 +4803,7 @@ namespace Koopman.CheckPoint
         {
             var data = new Dictionary<string, dynamic>
             {
-                { "name", name },
+                { value.IsUID() ? "uid" : "name", value },
                 { "filter", filter },
                 { "use-object-dictionary", true },
                 { "details-level", detailLevel.ToString() },
@@ -4827,7 +4827,7 @@ namespace Koopman.CheckPoint
                 ruleBase.Next = delegate ()
                 {
                     if (ruleBase.To == ruleBase.Total) return null;
-                    return FindAccessRulebase(name, filter, detailLevel, limit, ruleBase.To, order);
+                    return FindAccessRulebase(value, filter, detailLevel, limit, ruleBase.To, order);
                 };
             }
 

@@ -31,25 +31,22 @@ namespace Tests
         [TestMethod]
         public void Find()
         {
-            for (int x = 1; x < 7; x++)
-            {
-                var a = Session.FindAccessRule("TestLayer", x, DetailLevels.Full);
-                Assert.IsNotNull(a);
-                Assert.IsNotNull(a.Action);
-                Assert.IsNotNull(a.Layer);
-                Assert.IsTrue(a.Source.Count > 0);
-                Assert.IsTrue(a.Destination.Count > 0);
-                Assert.IsTrue(a.Service.Count > 0);
-                Assert.IsTrue(a.Content.Count > 0);
-                Assert.IsTrue((a.Action == RulebaseAction.InlineLayer && a.InlineLayer != null) ||
-                              (a.Action != RulebaseAction.InlineLayer && a.InlineLayer == null));
-            }
+            var a = Session.FindAccessRule("TestLayer", 1, DetailLevels.Full);
+            Assert.IsNotNull(a);
+            Assert.IsNotNull(a.Action);
+            Assert.IsNotNull(a.Layer);
+            Assert.IsTrue(a.Source.Count > 0);
+            Assert.IsTrue(a.Destination.Count > 0);
+            Assert.IsTrue(a.Service.Count > 0);
+            Assert.IsTrue(a.Content.Count > 0);
         }
 
         [TestMethod]
         public void FindRulebase()
         {
             var a = Session.FindAccessRulebase("TestLayer", detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(a);
+            a = Session.FindAccessRulebase(a.UID, detailLevel: DetailLevels.Standard);
             Assert.IsNotNull(a);
         }
 

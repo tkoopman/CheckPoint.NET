@@ -31,6 +31,13 @@ namespace Koopman.CheckPoint.Common
         #region Properties
 
         /// <summary>
+        /// Object unique identifier.
+        /// </summary>
+        /// <value>The uid.</value>
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; private set; }
+
+        /// <summary>
         /// <para type="description">
         /// How much details are returned depends on the details-level field of the request. This
         /// table shows the level of detail shown when details-level is set to standard.
@@ -47,6 +54,13 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         [JsonProperty(PropertyName = "rulebase", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public List<AccessRule> Rulebase { get => _Objects; internal set => _Objects = value; }
+
+        /// <summary>
+        /// Object unique identifier.
+        /// </summary>
+        /// <value>The uid.</value>
+        [JsonProperty(PropertyName = "uid")]
+        public string UID { get; private set; }
 
         #endregion Properties
     }
