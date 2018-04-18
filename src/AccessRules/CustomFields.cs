@@ -19,6 +19,8 @@
 
 using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Koopman.CheckPoint.AccessRules
 {
@@ -26,15 +28,38 @@ namespace Koopman.CheckPoint.AccessRules
     /// Custom fields assigned to rule
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
-    public class CustomFields : ChangeTracking
+    public class CustomFields : ChangeTracking, IEnumerable<string>
     {
         #region Fields
 
-        private string _field1;
-        private string _field2;
-        private string _field3;
+        /// <summary>
+        /// The number of custom fields allowed
+        /// </summary>
+        private const int Size = 3;
+
+        private string[] fields = new string[Size];
 
         #endregion Fields
+
+        #region Indexers
+
+        /// <summary>
+        /// Gets or sets the custom field at the specified index.
+        /// </summary>
+        /// <value>The custom field value.</value>
+        /// <param name="index">The index.</param>
+        /// <returns>The custom field value.</returns>
+        public string this[int index]
+        {
+            get => fields[index];
+            set
+            {
+                fields[index] = value;
+                OnPropertyChanged($"Field{index}");
+            }
+        }
+
+        #endregion Indexers
 
         #region Properties
 
@@ -45,10 +70,10 @@ namespace Koopman.CheckPoint.AccessRules
         [JsonProperty(PropertyName = "field-1")]
         public string Field1
         {
-            get => _field1;
+            get => fields[0];
             set
             {
-                _field1 = value;
+                fields[0] = value;
                 OnPropertyChanged();
             }
         }
@@ -60,10 +85,10 @@ namespace Koopman.CheckPoint.AccessRules
         [JsonProperty(PropertyName = "field-2")]
         public string Field2
         {
-            get => _field2;
+            get => fields[1];
             set
             {
-                _field2 = value;
+                fields[1] = value;
                 OnPropertyChanged();
             }
         }
@@ -75,13 +100,28 @@ namespace Koopman.CheckPoint.AccessRules
         [JsonProperty(PropertyName = "field-3")]
         public string Field3
         {
-            get => _field3;
+            get => fields[2];
             set
             {
-                _field3 = value;
+                fields[2] = value;
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<string> GetEnumerator() => ((IEnumerable<string>)fields).GetEnumerator();
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate
+        /// through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<string>)fields).GetEnumerator();
 
         #endregion Properties
     }

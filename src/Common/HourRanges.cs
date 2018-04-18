@@ -19,6 +19,8 @@
 
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -27,14 +29,14 @@ namespace Koopman.CheckPoint.Common
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.SimpleChangeTracking" />
     [JsonConverter(typeof(HourRangesConverter))]
-    public class HourRanges : SimpleChangeTracking
+    public class HourRanges : SimpleChangeTracking, IEnumerable<TimeRange>
     {
         #region Fields
 
         /// <summary>
         /// The number of hour ranges allowed
         /// </summary>
-        public const int Size = 3;
+        internal const int Size = 3;
 
         private TimeRange[] items = new TimeRange[Size];
 
@@ -61,6 +63,21 @@ namespace Koopman.CheckPoint.Common
         #endregion Indexers
 
         #region Methods
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<TimeRange> GetEnumerator() => ((IEnumerable<TimeRange>)items).GetEnumerator();
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate
+        /// through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<TimeRange>)items).GetEnumerator();
 
         /// <summary>
         /// Called when deserializing.
