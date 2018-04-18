@@ -28,6 +28,7 @@ namespace Koopman.CheckPoint.AccessRules
     /// Custom fields assigned to rule
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.ChangeTracking" />
+    [JsonObject]
     public class CustomFields : ChangeTracking, IEnumerable<string>
     {
         #region Fields
