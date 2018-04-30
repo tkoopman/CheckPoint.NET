@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -190,7 +191,7 @@ namespace Koopman.CheckPoint.Common
                 /// <param name="position">The position.</param>
                 /// <param name="layer">The layer.</param>
                 [JsonConstructor]
-                private Rules(IObjectSummary rule, string[] ruleColumns, string position, IObjectSummary layer)
+                private Rules(AccessRule rule, string[] ruleColumns, string position, AccessLayer layer)
                 {
                     Rule = rule;
                     RuleColumns = ruleColumns;
@@ -206,28 +207,28 @@ namespace Koopman.CheckPoint.Common
                 /// Layer rule exists in.
                 /// </summary>
                 /// <value>The layer.</value>
-                [JsonProperty(PropertyName = "layer", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-                public IObjectSummary Layer { get; }
+                [JsonProperty(PropertyName = "layer")]
+                public AccessLayer Layer { get; }
 
                 /// <summary>
                 /// Rule position
                 /// </summary>
                 /// <value>The position.</value>
-                [JsonProperty(PropertyName = "position", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+                [JsonProperty(PropertyName = "position")]
                 public string Position { get; }
 
                 /// <summary>
                 /// Access control rule found
                 /// </summary>
                 /// <value>The rule.</value>
-                [JsonProperty(PropertyName = "rule", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-                public IObjectSummary Rule { get; }
+                [JsonProperty(PropertyName = "rule")]
+                public AccessRule Rule { get; }
 
                 /// <summary>
                 /// Columns where object is used in rule.
                 /// </summary>
                 /// <value>The rule columns.</value>
-                [JsonProperty(PropertyName = "rule-columns", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+                [JsonProperty(PropertyName = "rule-columns")]
                 public string[] RuleColumns { get; }
 
                 #endregion Properties

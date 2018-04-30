@@ -17,26 +17,41 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint
 {
-    /// <summary>
-    /// Result from Session.FindAccessRulebase
-    /// </summary>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectsPagingResults{T,U}" />
-    public class AccessRulebasePagingResults : ObjectsPagingResults<IRulebaseEntry, AccessRulebasePagingResults>
+    public class AccessSection : ObjectBase<AccessSection>, IRulebaseEntry
     {
-        #region Properties
+        #region Constructors
 
         /// <summary>
-        /// Object unique identifier.
+        /// Initializes a new instance of the <see cref="AccessSection" /> class ready to be populated
+        /// with current data.
         /// </summary>
-        /// <value>The uid.</value>
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; private set; }
+        /// <param name="session">The current session.</param>
+        /// <param name="detailLevel">The detail level of data that will be populated.</param>
+        protected internal AccessSection(Session session) : base(session, DetailLevels.Full)
+        {
+        }
 
+        #endregion Constructors
+
+        /// <summary>
+        /// Section starting rule number.
+        /// </summary>
+        [JsonProperty(PropertyName = "from")]
+        public int From { get; set; }
+
+        /// <summary>
+        /// Section last rule number.
+        /// </summary>
+        [JsonProperty(PropertyName = "to")]
+        public int To { get; set; }
+        
         /// <summary>
         /// <para type="description">
         /// How much details are returned depends on the details-level field of the request. This
@@ -53,15 +68,37 @@ namespace Koopman.CheckPoint.Common
         /// </para>
         /// </summary>
         [JsonProperty(PropertyName = "rulebase", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-        public List<IRulebaseEntry> Rulebase { get => _Objects; internal set => _Objects = value; }
+        public List<IRulebaseEntry> Rulebase { get; internal set; }
+
+        internal override void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            base.UpdateGenericMembers(objectConverter);
+            objectConverter.PostDeserilization(Objects);
+            objectConverter.PostDeserilization(Rulebase);
+        }
+
+        #region Classes
 
         /// <summary>
-        /// Object unique identifier.
+        /// Valid sort orders for Security Zones
         /// </summary>
-        /// <value>The uid.</value>
-        [JsonProperty(PropertyName = "uid")]
-        public string UID { get; private set; }
+        public static class Order
+        {
+            #region Fields
 
-        #endregion Properties
+            /// <summary>
+            /// Sort by name in ascending order
+            /// </summary>
+            public readonly static IOrder NameAsc = new OrderAscending("name");
+
+            /// <summary>
+            /// Sort by name in descending order
+            /// </summary>
+            public readonly static IOrder NameDesc = new OrderDescending("name");
+
+            #endregion Fields
+        }
+
+        #endregion Classes
     }
 }

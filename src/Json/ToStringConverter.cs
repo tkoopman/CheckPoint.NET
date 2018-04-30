@@ -19,6 +19,7 @@
 
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 
 namespace Koopman.CheckPoint.Json
 {
@@ -30,13 +31,25 @@ namespace Koopman.CheckPoint.Json
         #region Fields
 
         internal static readonly ToStringConverter Instance = new ToStringConverter();
+        internal static readonly ToStringConverter UIDInstance = new ToStringConverter(true);
 
         #endregion Fields
+
+        #region Constructors
+
+        public ToStringConverter(bool forceUID = false)
+        {
+            ForceUID = forceUID;
+        }
+
+        #endregion Constructors
 
         #region Properties
 
         public override bool CanRead => false;
         public override bool CanWrite => true;
+
+        public bool ForceUID { get; }
 
         #endregion Properties
 
@@ -48,12 +61,34 @@ namespace Koopman.CheckPoint.Json
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value == null)
-                writer.WriteNull();
-            else if (value is IObjectSummary obj)
-                writer.WriteValue(obj.GetIdentifier());
-            else
-                writer.WriteValue(value.ToString());
+            switch (value)
+            {
+                case null:
+                    writer.WriteNull();
+                    break;
+
+                case IObjectSummary obj:
+                    if (ForceUID)
+                        writer.WriteValue(obj.UID);
+                    else
+                        writer.WriteValue(obj.ToString());
+                    break;
+
+                case IEnumerable e:
+                    writer.WriteStartArray();
+                    foreach (object v in e)
+                        WriteJson(writer, v, serializer);
+                    writer.WriteEndArray();
+                    break;
+
+                case DateTime dt:
+                    writer.WriteValue(dt.ToString("yyyy-MM-ddTHH:mm:sszzz"));
+                    break;
+
+                default:
+                    writer.WriteValue(value.ToString());
+                    break;
+            }
         }
 
         #endregion Methods

@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Tests
 {
@@ -26,6 +27,22 @@ namespace Tests
     public class ObjectTests : StandardTestsBase
     {
         #region Methods
+
+        [TestMethod]
+        public void ExportWhereUsed()
+        {
+            string a = Session.ExportWhereUsed(new string[] { "domain-udp" });
+            Assert.IsNotNull(a);
+            Console.Out.WriteLine(a);
+        }
+
+        [TestMethod]
+        public void ExportRulebase()
+        {
+            string a = Session.ExportRulebase("TestLayer");
+            Assert.IsNotNull(a);
+            Console.Out.WriteLine(a);
+        }
 
         [TestMethod]
         public void FindAll()

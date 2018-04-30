@@ -46,11 +46,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        public static readonly IObjectSummary RestrictCommonProtocolsAction = GenericObjectSummary.RestrictCommonProtocolsAction;
-
-        /// <summary>
-        /// The Trust_all_action object.
-        /// </summary>
         public static readonly IObjectSummary TrustAllAction = GenericObjectSummary.TrustAllAction;
 
         #endregion Static Fields
@@ -289,7 +284,7 @@ namespace Koopman.CheckPoint
 
             var data = new Dictionary<string, dynamic>
             {
-                { "uid", UID },
+                { UID != null ? "uid" : "name", UID ?? _name },
                 { "details-level", detailLevel.ToString() }
             };
 
@@ -314,12 +309,6 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
         /// <returns>IObjectSummary of reloaded object</returns>
         IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel) => Reload(OnlyIfPartial, detailLevel);
-
-        /// <summary>
-        /// Conditional Property Serialization for Domain
-        /// </summary>
-        /// <returns>true if Domain should be serialised.</returns>
-        public bool ShouldSerializeDomain() => Domain != null && !Domain.Equals(Domain.Default);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this object.

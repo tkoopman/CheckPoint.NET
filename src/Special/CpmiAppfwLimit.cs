@@ -20,22 +20,22 @@
 using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 
-namespace Koopman.CheckPoint.AccessRules
+namespace Koopman.CheckPoint.Special
 {
     /// <summary>
     /// Access Rule Limit object
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.GenericObjectSummary" />
-    public class Limit : GenericObjectSummary
+    public class CpmiAppfwLimit : GenericObjectSummary
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Limit" /> class.
+        /// Initializes a new instance of the <see cref="CpmiAppfwLimit" /> class.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="detailLevel">The detail level.</param>
-        internal Limit(Session session, DetailLevels detailLevel) : base(session, detailLevel, "CpmiAppfwLimit", false)
+        internal CpmiAppfwLimit(Session session, DetailLevels detailLevel) : base(session, detailLevel, "CpmiAppfwLimit", false)
         {
         }
 

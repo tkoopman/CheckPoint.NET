@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint.AccessRules;
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Special;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
@@ -52,7 +53,7 @@ namespace Koopman.CheckPoint.Json
 
             if (property.PropertyType == typeof(RulebaseAction) ||
                 property.PropertyType == typeof(TrackType) ||
-                property.PropertyType == typeof(Limit))
+                property.PropertyType == typeof(CpmiAppfwLimit))
                 property.Converter = ToStringConverter.Instance;
             else if (property.UnderlyingName.Equals(nameof(AccessRule.Layer)))
             {

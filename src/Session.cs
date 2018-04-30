@@ -4833,6 +4833,19 @@ namespace Koopman.CheckPoint
             {
                 objectConverter.PostDeserilization(ruleBase.Objects);
                 objectConverter.PostDeserilization(ruleBase.Rulebase);
+
+                var layer = new AccessLayer(this, DetailLevels.UID);
+                layer.OnDeserializingMethod(default);
+                if (value.IsUID())
+                    layer.UID = value;
+                else
+                    layer.Name = value;
+                layer.OnDeserializedMethod(default);
+
+                foreach (var rule in ruleBase.Rulebase)
+                    if (rule is AccessRule r)
+                        r.Layer = layer;
+
                 ruleBase.Next = delegate ()
                 {
                     if (ruleBase.To == ruleBase.Total) return null;
@@ -5035,6 +5048,17 @@ namespace Koopman.CheckPoint
         /// <returns>WhereUsed object</returns>
         public WhereUsed FindWhereUsed(string identifier, DetailLevels detailLevel = DetailLevels.Standard, bool indirect = false, int indirectMaxDepth = 5)
         {
+            return FindWhereUsed(
+                identifier: identifier,
+                objectConverter: null,
+                detailLevel: detailLevel,
+                indirect: indirect,
+                indirectMaxDepth: indirectMaxDepth
+                );
+        }
+
+        private WhereUsed FindWhereUsed(string identifier, ObjectConverter objectConverter, DetailLevels detailLevel, bool indirect, int indirectMaxDepth)
+        {
             var data = new JObject()
             {
                 { identifier.IsUID() ? "uid" : "name", identifier },
@@ -5051,7 +5075,8 @@ namespace Koopman.CheckPoint
 
             string result = Post("where-used", jsonData);
 
-            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+            if (objectConverter == null)
+                objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
 
             var whereUsed = JsonConvert.DeserializeObject<WhereUsed>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
@@ -5062,6 +5087,61 @@ namespace Koopman.CheckPoint
         }
 
         #endregion WhereUsed Methods
+
+        #region ExportWhereUsed Methods
+
+        /// <summary>
+        /// Exports all rules and objects where selected onjects are used. Export is in JSON format.
+        /// </summary>
+        /// <param name="identifiers">The object identifiers to search for.</param>
+        /// <param name="indirect">if set to <c>true</c> results will include indirect uses.</param>
+        /// <param name="indirectMaxDepth">The indirect maximum depth.</param>
+        /// <returns>Export JSON</returns>
+        public string ExportWhereUsed(string[] identifiers, bool indirect = false, int indirectMaxDepth = 5)
+        {
+            var objectConverter = new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full);
+            var export = new Export(this);
+
+            foreach (string identifier in identifiers)
+            {
+                export.WhereUsed[identifier] = FindWhereUsed(
+                        identifier: identifier,
+                        objectConverter: objectConverter,
+                        detailLevel: DetailLevels.Full,
+                        indirect: indirect,
+                        indirectMaxDepth: indirectMaxDepth
+                    );
+            }
+
+            export.Populate();
+
+            return JsonConvert.SerializeObject(export, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = ExportContractResolver.Instance, NullValueHandling = NullValueHandling.Ignore });
+        }
+
+        #endregion ExportWhereUsed Methods
+
+        #region ExportRulebase Methods
+
+        /// <summary>
+        /// Exports all rules and objects where selected onjects are used. Export is in JSON format.
+        /// </summary>
+        /// <returns>Export JSON</returns>
+        public string ExportRulebase(string value)
+        {
+            var export = new Export(this);
+
+            var ruleBase = FindAccessRulebase(value, detailLevel: DetailLevels.Standard, limit: 100);
+
+            while (ruleBase != null)
+            {
+                export.Populate(ruleBase);
+                ruleBase = ruleBase.NextPage();
+            }
+
+            return JsonConvert.SerializeObject(export, new JsonSerializerSettings() { ContractResolver = ExportContractResolver.Instance, NullValueHandling = NullValueHandling.Ignore });
+        }
+
+        #endregion ExportRulebase Methods
 
         #region Unused Methods
 

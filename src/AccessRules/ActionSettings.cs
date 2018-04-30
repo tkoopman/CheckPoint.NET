@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Internal;
+using Koopman.CheckPoint.Special;
 using Newtonsoft.Json;
 
 namespace Koopman.CheckPoint.AccessRules
@@ -32,7 +33,7 @@ namespace Koopman.CheckPoint.AccessRules
         #region Fields
 
         private bool _enableIdentityCaptivePortal;
-        private Limit _limit;
+        private CpmiAppfwLimit _limit;
 
         #endregion Fields
 
@@ -58,7 +59,7 @@ namespace Koopman.CheckPoint.AccessRules
         /// </summary>
         /// <value>The limit.</value>
         [JsonProperty(PropertyName = "limit")]
-        public Limit Limit
+        public CpmiAppfwLimit Limit
         {
             get => _limit;
             set
@@ -78,7 +79,7 @@ namespace Koopman.CheckPoint.AccessRules
         /// <param name="identifier">The name or UID of Limit object.</param>
         public void SetLimit(string identifier)
         {
-            var l = new Limit(null, DetailLevels.Full);
+            var l = new CpmiAppfwLimit(null, DetailLevels.Full);
             if (identifier.IsUID())
                 l.UID = identifier;
             else

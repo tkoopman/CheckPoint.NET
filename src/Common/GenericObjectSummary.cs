@@ -64,16 +64,6 @@ namespace Koopman.CheckPoint.Common
         };
 
         /// <summary>
-        /// The restrict common protocols action
-        /// </summary>
-        public static readonly GenericObjectSummary RestrictCommonProtocolsAction = new GenericObjectSummary(null, DetailLevels.Full, "", true)
-        {
-            UID = "ea3a425f-56b3-46de-98e7-bd88ce27a801",
-            Name = "Restrict_Common_Protocols_Action",
-            Domain = Domain.Default
-        };
-
-        /// <summary>
         /// The Trust_all_action object.
         /// </summary>
         public static readonly GenericObjectSummary TrustAllAction = new GenericObjectSummary(null, DetailLevels.Full, "", true)
@@ -83,7 +73,7 @@ namespace Koopman.CheckPoint.Common
             Domain = Domain.Default
         };
 
-        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, PolicyTargets, RestrictCommonProtocolsAction, TrustAllAction, AllGwToGw };
+        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, PolicyTargets, TrustAllAction, AllGwToGw };
 
         #endregion Fields
 
@@ -141,7 +131,7 @@ namespace Koopman.CheckPoint.Common
         /// values however to override existing values.
         /// </summary>
         /// <value>The current detail level.</value>
-        public DetailLevels DetailLevel { get; }
+        public DetailLevels DetailLevel { get; internal set; }
 
         /// <summary>
         /// Information about the domain the object belongs to.
@@ -195,6 +185,7 @@ namespace Koopman.CheckPoint.Common
         /// Object unique identifier.
         /// </summary>
         /// <value>The uid.</value>
+        [JsonProperty(PropertyName = "uid")]
         public string UID { get; internal set; }
 
         /// <summary>
@@ -225,6 +216,9 @@ namespace Koopman.CheckPoint.Common
         /// <returns>IObjectSummary of reloaded object</returns>
         public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel)
         {
+            if (Session == null)
+                return this;
+
             if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)
                 cache = Find.Invoke(Session, UID, detailLevel);
 

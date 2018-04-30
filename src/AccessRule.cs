@@ -31,7 +31,7 @@ namespace Koopman.CheckPoint
     /// Check Point Access Rule Object
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.Common.ObjectBase{T}" />
-    public class AccessRule : ObjectBase<AccessRule>
+    public class AccessRule : ObjectBase<AccessRule>, IRulebaseEntry
     {
         #region Constructors
 
@@ -41,7 +41,7 @@ namespace Koopman.CheckPoint
         /// <param name="session">The session.</param>
         /// <param name="layer">The layer.</param>
         /// <param name="position">The position.</param>
-        public AccessRule(Session session, string layer, Position position) : this(session, DetailLevels.Full)
+        public AccessRule(Session session, string layer, Position position) : this(session)
         {
             Layer = session.UpdateAccessLayer(layer);
             Position = position;
@@ -55,7 +55,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
-        protected internal AccessRule(Session session, DetailLevels detailLevel) : base(session, detailLevel)
+        protected internal AccessRule(Session session) : base(session, DetailLevels.Full)
         {
             _content = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _destination = new MemberMembershipChangeTracking<IObjectSummary>(this);
@@ -265,8 +265,21 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of <see cref="DetailLevels.Full" /></remarks>
         [JsonProperty(PropertyName = "layer", ObjectCreationHandling = ObjectCreationHandling.Replace)]
-        public AccessLayer Layer { get; private set; }
+        public AccessLayer Layer { get; internal set; }
 
+        /// <summary>
+        /// Gets the rule number.
+        /// </summary>
+        /// <value>
+        /// The rule number.
+        /// </value>
+        [JsonProperty(PropertyName = "rule-number", ObjectCreationHandling = ObjectCreationHandling.Replace)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string RuleNumber
+        {
+            get;
+            internal set;
+        }
         /// <summary>
         /// Service objects.
         /// </summary>

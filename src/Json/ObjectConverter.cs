@@ -20,6 +20,7 @@
 using Koopman.CheckPoint.AccessRules;
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Internal;
+using Koopman.CheckPoint.Special;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -158,7 +159,11 @@ namespace Koopman.CheckPoint.Json
                             break;
 
                         case "access-rule":
-                            result = (existingValue == null) ? new AccessRule(Session, GetDetailLevel(reader)) : (AccessRule)existingValue;
+                            result = (existingValue == null) ? new AccessRule(Session) : (AccessRule)existingValue;
+                            break;
+
+                        case "access-section":
+                            result = (existingValue == null) ? new AccessSection(Session) : (AccessSection)existingValue;
                             break;
 
                         case "address-range":
@@ -254,11 +259,43 @@ namespace Koopman.CheckPoint.Json
                             break;
 
                         case "CpmiAppfwLimit":
-                            result = (existingValue == null) ? new Limit(Session, GetDetailLevel(reader)) : (Limit)existingValue;
+                            result = (existingValue == null) ? new CpmiAppfwLimit(Session, GetDetailLevel(reader)) : (CpmiAppfwLimit)existingValue;
+                            break;
+
+                        case "CpmiGatewayCluster":
+                            result = (existingValue == null) ? new CpmiGatewayCluster(Session, GetDetailLevel(reader)) : (CpmiGatewayCluster)existingValue;
+                            break;
+
+                        case "CpmiClusterMember":
+                            result = (existingValue == null) ? new CpmiClusterMember(Session, GetDetailLevel(reader)) : (CpmiClusterMember)existingValue;
+                            break;
+
+                        case "CpmiVsxClusterNetobj":
+                            result = (existingValue == null) ? new CpmiVsxClusterNetobj(Session, GetDetailLevel(reader)) : (CpmiVsxClusterNetobj)existingValue;
+                            break;
+
+                        case "CpmiVsClusterMember":
+                            result = (existingValue == null) ? new CpmiVsClusterMember(Session, GetDetailLevel(reader)) : (CpmiVsClusterMember)existingValue;
+                            break;
+
+                        case "CpmiVsClusterNetobj":
+                            result = (existingValue == null) ? new CpmiVsClusterNetobj(Session, GetDetailLevel(reader)) : (CpmiVsClusterNetobj)existingValue;
+                            break;
+
+                        case "CpmiVsxClusterMember":
+                            result = (existingValue == null) ? new CpmiVsxClusterMember(Session, GetDetailLevel(reader)) : (CpmiVsxClusterMember)existingValue;
+                            break;
+
+                        case "CpmiHostCkp":
+                            result = (existingValue == null) ? new CpmiHostCkp(Session, GetDetailLevel(reader)) : (CpmiHostCkp)existingValue;
+                            break;
+
+                        case "CpmiGatewayPlain":
+                            result = (existingValue == null) ? new CpmiGatewayPlain(Session, GetDetailLevel(reader)) : (CpmiGatewayPlain)existingValue;
                             break;
 
                         case "":
-                            throw new NotImplementedException("Empty type objects not implemented");
+                            return null;
 
                         default:
                             result = (existingValue == null) ? new GenericObjectSummary(Session, GetDetailLevel(reader), type) : (GenericObjectSummary)existingValue;
@@ -266,8 +303,11 @@ namespace Koopman.CheckPoint.Json
                     }
 
                     if (result.UID == null)
-                        SetProperty(result, "UID", uid);
+                        SetProperty(result, nameof(IObjectSummary.UID), uid);
                     cache.Add(result);
+                } else
+                {
+                    SetProperty(result, nameof(IObjectSummary.DetailLevel), GetDetailLevel(reader));
                 }
 
                 serializer.Populate(obj.CreateReader(), result);
@@ -284,7 +324,10 @@ namespace Koopman.CheckPoint.Json
                 if (result != null) return result;
 
                 foreach (var obj in cacheGeneric)
-                    if (obj.UID.Equals(uid)) return obj;
+                    if (
+                        obj.UID.Equals(uid) && 
+                        objectType.GetTypeInfo().IsAssignableFrom(obj.GetType())
+                       ) return obj;
 
                 if (objectType.GetTypeInfo().IsClass)
                 {
