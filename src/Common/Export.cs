@@ -128,22 +128,17 @@ namespace Koopman.CheckPoint.Common
         public void Add(IObjectSummary objectSummary, int maxDepth = int.MaxValue)
         {
             if (objectSummary == null) return;
-            try
-            {
-                if (objectSummary.UID == null)
-                    objectSummary = objectSummary.Reload(true);
-            }
-            catch (GenericException ge) { Session.WriteDebug(ge.ToString(true)); }
+            if (objectSummary.UID == null)
+                objectSummary = Reload(objectSummary);
 
             if (objectSummary.UID != null && !Objects.ContainsKey(objectSummary.UID))
             {
+                if (objectSummary.DetailLevel == DetailLevels.UID)
+                    objectSummary = objectSummary.Reload(true);
+
                 if (Contains(objectSummary.Name, ExcludeByName) || Contains(objectSummary.Type, ExcludeByType)) return;
 
-                try
-                {
-                    objectSummary = objectSummary.Reload(true);
-                }
-                catch (GenericException ge) { Session.WriteDebug(ge.ToString(true)); }
+                objectSummary = objectSummary.Reload(true);
 
                 Objects.Add(objectSummary.UID, objectSummary);
 
@@ -262,6 +257,17 @@ namespace Koopman.CheckPoint.Common
                         break;
                 }
             }
+        }
+
+        private IObjectSummary Reload(IObjectSummary objectSummary)
+        {
+            try
+            {
+                objectSummary = objectSummary.Reload(true);
+            }
+            catch (GenericException ge) { Session.WriteDebug(ge.ToString(true)); }
+
+            return objectSummary;
         }
 
         /// <summary>

@@ -131,7 +131,7 @@ namespace Koopman.CheckPoint
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string Name
         {
-            get => (TestDetailLevel(DetailLevels.Standard)) ? _name : null;
+            get => (_name != null || TestDetailLevel(DetailLevels.Standard)) ? _name : null;
 
             set
             {
