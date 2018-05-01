@@ -256,7 +256,8 @@ namespace Koopman.CheckPoint
         {
             string jsonData = UIDToJson(uid);
             Post("continue-session-in-smartconsole", jsonData);
-            if (uid == null || uid.Equals(UID)) { Dispose(); }
+            if (uid == null || uid.Equals(UID))
+                Dispose();
         }
 
         /// <summary>
@@ -345,18 +346,15 @@ namespace Koopman.CheckPoint
         public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken = default)
         {
             if (_isDisposed)
-            {
                 throw new ObjectDisposedException("Session", "This session has already been disposed!");
-            }
+
             string result = null;
 
             string debugIP = WriteDebug(command, json);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             if (command != "login")
-            {
                 content.Headers.Add("X-chkp-sid", SID);
-            }
 
             var response = await GetHttpClient().PostAsync(command, content, cancellationToken);
 
@@ -367,9 +365,7 @@ namespace Koopman.CheckPoint
                 WriteDebug(debugIP, response.StatusCode, result);
 
                 if (!response.IsSuccessStatusCode)
-                {
                     throw CheckPointError.CreateException(result, response.StatusCode);
-                }
             }
             finally
             {
@@ -421,31 +417,22 @@ namespace Koopman.CheckPoint
         internal HttpClient GetHttpClient()
         {
             if (_isDisposed)
-            {
                 throw new ObjectDisposedException("Session", "This session has already been disposed!");
-            }
+
             if (_httpClient == null)
             {
                 var handler = new HttpClientHandler();
                 if (handler.SupportsAutomaticDecompression)
-                {
                     handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                }
 
 #if NET45
                 if (!CertificateValidation)
-                {
                     ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
-                }
                 else
-                {
                     ServicePointManager.ServerCertificateValidationCallback = null;
-                }
 #else
                 if (!CertificateValidation)
-                {
                     handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                }
 #endif
 
                 _httpClient = new HttpClient(handler)
@@ -460,16 +447,15 @@ namespace Koopman.CheckPoint
 
         internal void WriteDebug(string message)
         {
-            if (DebugWriter != null)
-            {
-                DebugWriter.WriteLine(message);
-                DebugWriter.Flush();
-            }
+            var writer = DebugWriter;
+            if (writer == null) return;
+            writer.WriteLine(message);
+            writer.Flush();
         }
 
         private static string RandomString(int length)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
@@ -477,36 +463,34 @@ namespace Koopman.CheckPoint
         private string UIDToJson(string uid)
         {
             var jObject = new JObject();
-            if (uid != null) { jObject.Add("uid", uid); }
+            if (uid != null)
+                jObject.Add("uid", uid);
             string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting); ;
             return jsonData;
         }
 
         private string WriteDebug(string command, string data)
         {
-            if (DebugWriter != null)
-            {
-                string id = RandomString(8);
+            var writer = DebugWriter;
+            if (writer == null) return null;
+            string id = RandomString(8);
 
-                DebugWriter.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
+            writer.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
 {data}
 ");
-                DebugWriter.Flush();
+            writer.Flush();
 
-                return id;
-            }
-            else return null;
+            return id;
         }
 
         private void WriteDebug(string id, HttpStatusCode code, string data)
         {
-            if (DebugWriter != null)
-            {
-                DebugWriter.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
+            var writer = DebugWriter;
+            if (writer == null) return;
+            writer.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
 {data}
 ");
-                DebugWriter.Flush();
-            }
+            writer.Flush();
         }
 
         #region SessionInfo Methods
@@ -4606,6 +4590,356 @@ namespace Koopman.CheckPoint
 
         #endregion Service Methods
 
+        #region Access Control and NAT Methods
+
+        #region Access Layer Methods
+
+        /// <summary>
+        /// Deletes an access layer.
+        /// </summary>
+        /// <param name="value">The name or UID to delete.</param>
+        /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        public void DeleteAccessLayer
+            (
+                string value,
+                Ignore ignore = Delete.Defaults.ignore
+            )
+        {
+            Delete.Invoke
+                (
+                    Session: this,
+                    Command: "delete-access-layer",
+                    Value: value,
+                    Ignore: ignore
+                );
+        }
+
+        /// <summary>
+        /// Finds an access layer.
+        /// </summary>
+        /// <param name="value">The name or UID to find.</param>
+        /// <param name="detailLevel">The detail level of child objects to return.</param>
+        /// <returns>AccessLayer object</returns>
+        public AccessLayer FindAccessLayer
+            (
+                string value,
+                DetailLevels detailLevel = Find.Defaults.DetailLevel
+            )
+        {
+            return Find.Invoke<AccessLayer>
+                (
+                    Session: this,
+                    Command: "show-access-layer",
+                    Value: value,
+                    DetailLevel: detailLevel
+                );
+        }
+
+        /// <summary>
+        /// Finds access layers that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>NetworkObjectsPagingResults of AccessLayers</returns>
+        public NetworkObjectsPagingResults<AccessLayer> FindAccessLayers
+            (
+                string filter,
+                bool ipOnly = Finds.Defaults.IPOnly,
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<AccessLayer>
+                (
+                    Session: this,
+                    Type: "access-layer",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds access layers.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>AccessLayersPagingResults</returns>
+        public AccessLayersPagingResults FindAccessLayers
+            (
+                DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+                int limit = Finds.Defaults.Limit,
+                int offset = Finds.Defaults.Offset,
+                IOrder order = Finds.Defaults.Order
+            )
+        {
+            return Finds.Invoke<AccessLayer, AccessLayersPagingResults>
+                (
+                    Session: this,
+                    Command: "show-access-layers",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Offset: offset,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all access layers that match filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="ipOnly">
+        /// if set to <c>true</c> will search objects by their IP address only, without involving the
+        /// textual search.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of AccessLayer</returns>
+        public AccessLayer[] FindAllAccessLayers
+            (
+                string filter,
+                bool ipOnly = FindAll.Defaults.IPOnly,
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<AccessLayer>
+                (
+                    Session: this,
+                    Type: "access-layer",
+                    Filter: filter,
+                    IPOnly: ipOnly,
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        /// <summary>
+        /// Finds all access layers.
+        /// </summary>
+        /// <param name="detailLevel">The detail level to return.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>Array of AccessLayer</returns>
+        public AccessLayer[] FindAllAccessLayers
+            (
+                DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
+                int limit = FindAll.Defaults.Limit,
+                IOrder order = FindAll.Defaults.Order
+            )
+        {
+            return FindAll.Invoke<AccessLayer, AccessLayersPagingResults>
+                (
+                    Session: this,
+                    Command: "show-access-layers",
+                    DetailLevel: detailLevel,
+                    Limit: limit,
+                    Order: order
+                );
+        }
+
+        #endregion Access Layer Methods
+
+        #region Access Rule Methods
+
+        /// <summary>
+        /// Finds the access rule by rule number.
+        /// </summary>
+        /// <param name="layer">The layer.</param>
+        /// <param name="ruleNumber">The rule number.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <returns>AccessRule</returns>
+        public AccessRule FindAccessRule(string layer, int ruleNumber, DetailLevels detailLevel = Find.Defaults.DetailLevel)
+        {
+            var data = new Dictionary<string, dynamic>
+            {
+                { "layer", layer },
+                { "rule-number", ruleNumber },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-access-rule", jsonData);
+
+            var objectConverter = new ObjectConverter(this, DetailLevels.Full, detailLevel);
+
+            var accessRule = JsonConvert.DeserializeObject<AccessRule>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            objectConverter.PostDeserilization(accessRule);
+
+            return accessRule;
+        }
+
+        /// <summary>
+        /// Finds the access rule base.
+        /// </summary>
+        /// <param name="value">The name or UID to layer to get rulebase of.</param>
+        /// <param name="filter">
+        /// Search expression to filter the rulebase. The provided text should be exactly the same as
+        /// it would be given in Smart Console. The logical operators in the expression ('AND', 'OR')
+        /// should be provided in capital letters.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The sort order.</param>
+        /// <returns>AccessRulebasePagingResults</returns>
+        public AccessRulebasePagingResults FindAccessRulebase(
+            string value,
+            string filter = null,
+            DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+            int limit = Finds.Defaults.Limit,
+            int offset = Finds.Defaults.Offset,
+            IOrder order = Finds.Defaults.Order)
+        {
+            var data = new Dictionary<string, dynamic>
+            {
+                { value.IsUID() ? "uid" : "name", value },
+                { "filter", filter },
+                { "use-object-dictionary", true },
+                { "details-level", detailLevel.ToString() },
+                { "limit", limit },
+                { "offset", offset },
+                { "order", (order == null)? null:new IOrder[] { order } }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = Post("show-access-rulebase", jsonData);
+
+            var objectConverter = new ObjectConverter(this, DetailLevels.Full, detailLevel);
+
+            var ruleBase = JsonConvert.DeserializeObject<AccessRulebasePagingResults>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            if (ruleBase != null)
+            {
+                objectConverter.PostDeserilization(ruleBase.Objects);
+                objectConverter.PostDeserilization(ruleBase.Rulebase);
+
+                var layer = new AccessLayer(this, DetailLevels.UID);
+                layer.OnDeserializingMethod(default);
+                if (value.IsUID())
+                    layer.UID = value;
+                else
+                    layer.Name = value;
+                layer.OnDeserializedMethod(default);
+
+                foreach (var rule in ruleBase.Rulebase)
+                    if (rule is AccessRule r)
+                        r.Layer = layer;
+
+                ruleBase.Next = delegate ()
+                {
+                    if (ruleBase.To == ruleBase.Total) return null;
+                    return FindAccessRulebase(value, filter, detailLevel, limit, ruleBase.To, order);
+                };
+            }
+
+            return ruleBase;
+        }
+
+        /// <summary>
+        /// Finds the access rule base.
+        /// </summary>
+        /// <param name="value">The name or UID to layer to get rulebase of.</param>
+        /// <param name="filter">
+        /// Search expression to filter the rulebase. The provided text should be exactly the same as
+        /// it would be given in Smart Console. The logical operators in the expression ('AND', 'OR')
+        /// should be provided in capital letters.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The sort order.</param>
+        /// <returns>AccessRulebasePagingResults</returns>
+        public AccessRulebasePagingResults FindAllAccessRulebase(
+            string value,
+            string filter = null,
+            DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+            int limit = Finds.Defaults.Limit,
+            IOrder order = Finds.Defaults.Order)
+        {
+            int offset = 0;
+            var ruleBase = new AccessRulebasePagingResults
+            {
+                From = 1,
+                Objects = new List<IObjectSummary>(),
+                Rulebase = new List<IRulebaseEntry>()
+            };
+            var objectConverter = new ObjectConverter(this, DetailLevels.Full, detailLevel);
+
+            while (true)
+            {
+                var data = new Dictionary<string, dynamic>
+                {
+                    { value.IsUID() ? "uid" : "name", value },
+                    { "filter", filter },
+                    { "use-object-dictionary", true },
+                    { "details-level", detailLevel.ToString() },
+                    { "limit", limit },
+                    { "offset", offset },
+                    { "order", (order == null)? null:new IOrder[] { order } }
+                };
+
+                string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+                string result = Post("show-access-rulebase", jsonData);
+
+                var rb = JsonConvert.DeserializeObject<AccessRulebasePagingResults>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+                ruleBase.Objects.AddRange(rb.Objects);
+                ruleBase.Rulebase.AddRange(rb.Rulebase);
+                ruleBase.To = rb.To;
+                ruleBase.Total = rb.Total;
+                ruleBase.UID = rb.UID;
+                ruleBase.Name = rb.Name;
+
+                if (ruleBase.To == ruleBase.Total) break;
+
+                offset = rb.To;
+            }
+            if (ruleBase != null)
+            {
+                objectConverter.PostDeserilization(ruleBase.Objects);
+                objectConverter.PostDeserilization(ruleBase.Rulebase);
+
+                var layer = new AccessLayer(this, DetailLevels.UID);
+                layer.OnDeserializingMethod(default);
+                if (value.IsUID())
+                    layer.UID = value;
+                else
+                    layer.Name = value;
+                layer.OnDeserializedMethod(default);
+
+                foreach (var rule in ruleBase.Rulebase)
+                    if (rule is AccessRule r)
+                        r.Layer = layer;
+            }
+
+            return ruleBase;
+        }
+
+        #endregion Access Rule Methods
+
+        #endregion Access Control and NAT Methods
+
         #region Misc. Methods
 
         #region Task Methods
@@ -4794,6 +5128,17 @@ namespace Koopman.CheckPoint
         /// <returns>WhereUsed object</returns>
         public WhereUsed FindWhereUsed(string identifier, DetailLevels detailLevel = DetailLevels.Standard, bool indirect = false, int indirectMaxDepth = 5)
         {
+            return FindWhereUsed(
+                identifier: identifier,
+                objectConverter: null,
+                detailLevel: detailLevel,
+                indirect: indirect,
+                indirectMaxDepth: indirectMaxDepth
+                );
+        }
+
+        private WhereUsed FindWhereUsed(string identifier, ObjectConverter objectConverter, DetailLevels detailLevel, bool indirect, int indirectMaxDepth)
+        {
             var data = new JObject()
             {
                 { identifier.IsUID() ? "uid" : "name", identifier },
@@ -4810,7 +5155,8 @@ namespace Koopman.CheckPoint
 
             string result = Post("where-used", jsonData);
 
-            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+            if (objectConverter == null)
+                objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
 
             var whereUsed = JsonConvert.DeserializeObject<WhereUsed>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 

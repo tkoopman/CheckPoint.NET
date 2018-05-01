@@ -50,7 +50,7 @@ namespace Koopman.CheckPoint.Json
 
             if (typeof(GroupWithExclusion).GetTypeInfo().IsAssignableFrom(property.DeclaringType) &&
                 (property.UnderlyingName.Equals(nameof(GroupWithExclusion.Include)) || property.UnderlyingName.Equals(nameof(GroupWithExclusion.Except))))
-                property.Converter = new NameOrUIDConverter();
+                property.Converter = ToStringConverter.Instance;
 
             return property;
         }

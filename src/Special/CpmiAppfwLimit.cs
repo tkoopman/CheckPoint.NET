@@ -17,60 +17,53 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Json;
+using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
-using System.Runtime.Serialization;
-using static Koopman.CheckPoint.Json.EnumConverter;
 
-namespace Koopman.CheckPoint.Common
+namespace Koopman.CheckPoint.Special
 {
     /// <summary>
-    /// Type of Check Point Alert to raise
+    /// Access Rule Limit object
     /// </summary>
-    [JsonConverter(typeof(EnumConverter), StringCases.Lowercase, " ")]
-    public enum AlertType
+    /// <seealso cref="Koopman.CheckPoint.Common.GenericObjectSummary" />
+    public class CpmiAppfwLimit : GenericObjectSummary
     {
-        /// <summary>
-        /// No alerts
-        /// </summary>
-        None,
+        #region Constructors
 
         /// <summary>
-        /// Log alerts
+        /// Initializes a new instance of the <see cref="CpmiAppfwLimit" /> class.
         /// </summary>
-        Log,
+        /// <param name="session">The session.</param>
+        /// <param name="detailLevel">The detail level.</param>
+        internal CpmiAppfwLimit(Session session, DetailLevels detailLevel) : base(session, detailLevel, "CpmiAppfwLimit", false)
+        {
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         /// <summary>
-        /// Pop-up alert
+        /// Gets the color.
         /// </summary>
-        PopupAlert,
+        /// <value>The color.</value>
+        [JsonProperty(PropertyName = "color")]
+        public Colors Color { get; private set; }
 
         /// <summary>
-        /// E-mail alert
+        /// Gets the maximum download limit.
         /// </summary>
-        MailAlert,
+        /// <value>The maximum download limit.</value>
+        [JsonProperty(PropertyName = "maxDownloadLimit")]
+        public string MaxDownloadLimit { get; private set; }
 
         /// <summary>
-        /// Send SNMP trap alert
+        /// Gets the maximum upload limit.
         /// </summary>
-        SnmpTrapAlert,
+        /// <value>The maximum upload limit.</value>
+        [JsonProperty(PropertyName = "maxUploadLimit")]
+        public string MaxUploadLimit { get; private set; }
 
-        /// <summary>
-        /// User defined alert No1
-        /// </summary>
-        [EnumMember(Value = "user defined alert no.1")]
-        UserDefinedAlertNo1,
-
-        /// <summary>
-        /// User defined alert No2
-        /// </summary>
-        [EnumMember(Value = "user defined alert no.2")]
-        UserDefinedAlertNo2,
-
-        /// <summary>
-        /// User defined alert No3
-        /// </summary>
-        [EnumMember(Value = "user defined alert no.3")]
-        UserDefinedAlertNo3
+        #endregion Properties
     }
 }

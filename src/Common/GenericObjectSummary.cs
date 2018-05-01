@@ -1,25 +1,52 @@
-﻿using Koopman.CheckPoint.Common;
+﻿// MIT License
+//
+// Copyright (c) 2018 Tim Koopman
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace Koopman.CheckPoint.Internal
+namespace Koopman.CheckPoint.Common
 {
     /// <summary>
     /// Used to represent an unknown object type.
     /// </summary>
     /// <seealso cref="Koopman.CheckPoint.IObjectSummary" />
-    /// <seealso cref="Koopman.CheckPoint.Common.IGroupMember" />
-    /// <seealso cref="Koopman.CheckPoint.Common.IServiceGroupMember" />
-    internal class GenericObjectSummary : IObjectSummary
+    public class GenericObjectSummary : IObjectSummary
     {
         #region Fields
 
         /// <summary>
+        /// The All gateway to gateway VPNs.
+        /// </summary>
+        public static readonly GenericObjectSummary AllGwToGw = new GenericObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
+        {
+            UID = "97aeb36a-9aed-11d5-bd16-0090272ccb30",
+            Name = "All_GwToGw",
+            Domain = Domain.DataDomain
+        };
+
+        /// <summary>
         /// The Any object.
         /// </summary>
-        internal static readonly GenericObjectSummary Any = new GenericObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
+        public static readonly GenericObjectSummary Any = new GenericObjectSummary(null, DetailLevels.Full, "CpmiAnyObject")
         {
             UID = "97aeb369-9aea-11d5-bd16-0090272ccb30",
             Name = "Any",
@@ -27,52 +54,59 @@ namespace Koopman.CheckPoint.Internal
         };
 
         /// <summary>
-        /// The restrict common protocols action
+        /// The Policy Targets object.
         /// </summary>
-        internal static readonly GenericObjectSummary RestrictCommonProtocolsAction = new GenericObjectSummary(null, DetailLevels.Full, "")
+        public static readonly GenericObjectSummary PolicyTargets = new GenericObjectSummary(null, DetailLevels.Full, "Global")
         {
-            UID = "ea3a425f-56b3-46de-98e7-bd88ce27a801",
-            Name = "Restrict_Common_Protocols_Action",
-            Domain = Domain.Default
+            UID = "6c488338-8eec-4103-ad21-cd461ac2c476",
+            Name = "Policy Targets",
+            Domain = Domain.DataDomain
         };
 
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        internal static readonly GenericObjectSummary TrustAllAction = new GenericObjectSummary(null, DetailLevels.Full, "")
+        public static readonly GenericObjectSummary TrustAllAction = new GenericObjectSummary(null, DetailLevels.Full, "", true)
         {
             UID = "226b5ee1-69ce-4bdb-a53f-3a01e68885b4",
             Name = "Trust_all_action",
             Domain = Domain.Default
         };
 
+        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, PolicyTargets, TrustAllAction, AllGwToGw };
+
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericMember" /> class.
+        /// Initializes a new instance of the <see cref="GenericObjectSummary" /> class.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="type">The type.</param>
-        internal GenericObjectSummary(Session session, DetailLevels detailLevel, string type)
+        /// <param name="allowNullResult">if set to <c>true</c> allow null result.</param>
+        internal GenericObjectSummary(Session session, DetailLevels detailLevel, string type, bool allowNullResult = false)
         {
             Session = session;
             DetailLevel = detailLevel;
             Type = type;
+            AllowNullResult = allowNullResult;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericMember" /> class with just UID detail level.
+        /// Initializes a new instance of the <see cref="GenericObjectSummary" /> class with just UID
+        /// detail level.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="uid">The uid.</param>
-        internal GenericObjectSummary(Session session, string uid)
+        /// <param name="allowNullResult">if set to <c>true</c> allow null result.</param>
+        internal GenericObjectSummary(Session session, string uid, bool allowNullResult = false)
         {
             Session = session;
             DetailLevel = DetailLevels.UID;
             UID = uid;
+            AllowNullResult = allowNullResult;
         }
 
         #endregion Constructors
@@ -97,7 +131,7 @@ namespace Koopman.CheckPoint.Internal
         /// values however to override existing values.
         /// </summary>
         /// <value>The current detail level.</value>
-        public DetailLevels DetailLevel { get; }
+        public DetailLevels DetailLevel { get; internal set; }
 
         /// <summary>
         /// Information about the domain the object belongs to.
@@ -130,7 +164,7 @@ namespace Koopman.CheckPoint.Internal
         public string Name
         {
             get => (TestDetailLevel(DetailLevels.Standard)) ? _name : null;
-            private set => _name = value;
+            internal set => _name = value;
         }
 
         /// <summary>
@@ -151,7 +185,14 @@ namespace Koopman.CheckPoint.Internal
         /// Object unique identifier.
         /// </summary>
         /// <value>The uid.</value>
-        public string UID { get; private set; }
+        [JsonProperty(PropertyName = "uid")]
+        public string UID { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether null can be returned if class cast error.
+        /// </summary>
+        /// <value><c>true</c> if allow null result; otherwise, <c>false</c>.</value>
+        internal bool AllowNullResult { get; }
 
         private Session Session { get; }
 
@@ -163,7 +204,7 @@ namespace Koopman.CheckPoint.Internal
         /// Gets the identifier that is used when adding this object to a group.
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
-        public string GetMembershipID() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
+        public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
         /// <summary>
         /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
@@ -175,6 +216,9 @@ namespace Koopman.CheckPoint.Internal
         /// <returns>IObjectSummary of reloaded object</returns>
         public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel)
         {
+            if (Session == null)
+                return this;
+
             if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)
                 cache = Find.Invoke(Session, UID, detailLevel);
 
@@ -185,7 +229,7 @@ namespace Koopman.CheckPoint.Internal
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => GetMembershipID();
+        public override string ToString() => GetIdentifier();
 
         internal IObjectSummary GetFromCache(ObjectConverter objectConverter)
         {

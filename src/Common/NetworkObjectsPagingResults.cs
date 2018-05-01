@@ -26,8 +26,8 @@ namespace Koopman.CheckPoint.Common
     /// Result from methods that return multiple Network Objects.
     /// </summary>
     /// <typeparam name="T">The type of object the results include</typeparam>
-    /// <seealso cref="Koopman.CheckPoint.Common.ObjectsPagingResults{T}" />
-    public class NetworkObjectsPagingResults<T> : ObjectsPagingResults<T>
+    /// <seealso cref="Koopman.CheckPoint.Common.ObjectsPagingResults{T,U}" />
+    public class NetworkObjectsPagingResults<T> : ObjectsPagingResults<T, NetworkObjectsPagingResults<T>>
     {
         #region Properties
 
@@ -38,7 +38,7 @@ namespace Koopman.CheckPoint.Common
         /// </para>
         /// </summary>
         [JsonProperty(PropertyName = "objects", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-        public List<T> Objects { get => _Objects; set => _Objects = value; }
+        public List<T> Objects { get => _Objects; internal set => _Objects = value; }
 
         #endregion Properties
     }

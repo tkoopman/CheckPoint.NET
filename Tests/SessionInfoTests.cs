@@ -54,7 +54,7 @@ namespace Tests
         {
             string name = "Session Name";
             string description = "Session Description";
-            Colors color = Colors.DarkBlue;
+            var color = Colors.DarkBlue;
             string[] tags = new string[] { "ATag" };
 
             var a = Session.SetSessionInfo(

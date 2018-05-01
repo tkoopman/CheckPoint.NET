@@ -90,5 +90,12 @@ namespace Koopman.CheckPoint.Common
         public ValidationStates ValidationState { get; }
 
         #endregion Properties
+
+        #region Methods
+
+        /// <inheritdoc />
+        public override string ToString() => $"Last modified by {LastModifier} on {LastModifyTime}";
+
+        #endregion Methods
     }
 }

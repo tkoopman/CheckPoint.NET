@@ -41,10 +41,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectDeletionException))]
-        public void Delete()
-        {
-            Session.DeleteAddressRange(v4Name);
-        }
+        public void Delete() => Session.DeleteAddressRange(v4Name);
 
         [TestMethod]
         public void FastUpdate()
@@ -86,10 +83,7 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound()
-        {
-            Session.FindAddressRange("I Don't Exist!");
-        }
+        public void FindNotFound() => Session.FindAddressRange("I Don't Exist!");
 
         [TestMethod]
         public void New()

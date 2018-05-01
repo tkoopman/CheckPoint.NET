@@ -1,4 +1,24 @@
-﻿using Newtonsoft.Json;
+﻿// MIT License
+//
+// Copyright (c) 2018 Tim Koopman
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -170,13 +190,19 @@ namespace Koopman.CheckPoint.Common
                 /// <param name="ruleColumns">The rule columns.</param>
                 /// <param name="position">The position.</param>
                 /// <param name="layer">The layer.</param>
+                /// <param name="package">The package.</param>
+                /// <exception cref="System.Exception">Should never hit this</exception>
                 [JsonConstructor]
-                private Rules(IObjectSummary rule, string[] ruleColumns, int position, IObjectSummary layer)
+                private Rules(AccessRule rule, string[] ruleColumns, string position, AccessLayer layer, IObjectSummary package)
                 {
                     Rule = rule;
                     RuleColumns = ruleColumns;
                     Position = position;
                     Layer = layer;
+                    Package = package;
+
+                    if (rule.Layer == null) rule.Layer = layer;
+                    else if (rule.Layer != layer) throw new System.Exception("Should never hit this");
                 }
 
                 #endregion Constructors
@@ -187,28 +213,35 @@ namespace Koopman.CheckPoint.Common
                 /// Layer rule exists in.
                 /// </summary>
                 /// <value>The layer.</value>
-                [JsonProperty(PropertyName = "layer", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-                public IObjectSummary Layer { get; }
+                [JsonProperty(PropertyName = "layer")]
+                public AccessLayer Layer { get; }
 
                 /// <summary>
                 /// Rule position
                 /// </summary>
                 /// <value>The position.</value>
-                [JsonProperty(PropertyName = "position", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-                public int Position { get; }
+                [JsonProperty(PropertyName = "position")]
+                public string Position { get; }
 
                 /// <summary>
                 /// Access control rule found
                 /// </summary>
                 /// <value>The rule.</value>
-                [JsonProperty(PropertyName = "rule", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-                public IObjectSummary Rule { get; }
+                [JsonProperty(PropertyName = "rule")]
+                public AccessRule Rule { get; }
+
+                /// <summary>
+                /// Access control rule found
+                /// </summary>
+                /// <value>The rule.</value>
+                [JsonProperty(PropertyName = "package")]
+                public IObjectSummary Package { get; }
 
                 /// <summary>
                 /// Columns where object is used in rule.
                 /// </summary>
                 /// <value>The rule columns.</value>
-                [JsonProperty(PropertyName = "rule-columns", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+                [JsonProperty(PropertyName = "rule-columns")]
                 public string[] RuleColumns { get; }
 
                 #endregion Properties

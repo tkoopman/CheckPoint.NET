@@ -145,6 +145,26 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID of object.</param>
         public void SetInclude(string value) => Include = new AddAsString(value);
 
+        internal override void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            base.UpdateGenericMembers(objectConverter);
+            if (DetailLevel >= DetailLevels.Standard)
+            {
+                if (_include is GenericMember i)
+                {
+                    var summary = i.GetFromCache(objectConverter);
+                    if (summary != null)
+                        _include = summary;
+                }
+                if (_except is GenericMember e)
+                {
+                    var summary = e.GetFromCache(objectConverter);
+                    if (summary != null)
+                        _except = summary;
+                }
+            }
+        }
+
         /// <inheritdoc />
         protected override void OnDeserializing()
         {
@@ -209,12 +229,12 @@ namespace Koopman.CheckPoint
 
             #region Methods
 
-            public string GetMembershipID() => Name ?? UID;
+            public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
             public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) =>
                 throw new System.NotImplementedException();
 
-            public override string ToString() => GetMembershipID();
+            public override string ToString() => GetIdentifier();
 
             #endregion Methods
         }

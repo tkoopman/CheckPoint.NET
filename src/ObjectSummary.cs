@@ -46,11 +46,6 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// The Trust_all_action object.
         /// </summary>
-        public static readonly IObjectSummary RestrictCommonProtocolsAction = GenericObjectSummary.RestrictCommonProtocolsAction;
-
-        /// <summary>
-        /// The Trust_all_action object.
-        /// </summary>
         public static readonly IObjectSummary TrustAllAction = GenericObjectSummary.TrustAllAction;
 
         #endregion Static Fields
@@ -267,12 +262,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
         /// <exception cref="InvalidOperationException">Cannot add unsaved object.</exception>
-        public string GetMembershipID()
-        {
-            if (IsNew) throw new InvalidOperationException("Cannot add unsaved object.");
-
-            return (IsPropertyChanged(nameof(Name)) || string.IsNullOrWhiteSpace(Name)) ? UID : Name;
-        }
+        public string GetIdentifier() => (IsPropertyChanged(nameof(Name)) || string.IsNullOrWhiteSpace(_name)) ? UID : _name;
 
         /// <summary>
         /// Reloads the current object. Used to either reset changes made without saving, or to
@@ -287,14 +277,14 @@ namespace Koopman.CheckPoint
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
         /// <exception cref="Exception">Cannot reload a new object.</exception>
-        public T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
+        public virtual T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
         {
             if (IsNew) { throw new Exception("Cannot reload a new object."); }
             if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return (T)(IObjectSummary)this; }
 
             var data = new Dictionary<string, dynamic>
             {
-                { "uid", UID },
+                { UID != null ? "uid" : "name", UID ?? _name },
                 { "details-level", detailLevel.ToString() }
             };
 
@@ -321,16 +311,10 @@ namespace Koopman.CheckPoint
         IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel) => Reload(OnlyIfPartial, detailLevel);
 
         /// <summary>
-        /// Conditional Property Serialization for Domain
-        /// </summary>
-        /// <returns>true if Domain should be serialised.</returns>
-        public bool ShouldSerializeDomain() => Domain != null && !Domain.Equals(Domain.Default);
-
-        /// <summary>
         /// Returns a <see cref="System.String" /> that represents this object.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this object.</returns>
-        public override string ToString() => (string.IsNullOrEmpty(Name)) ? UID : Name;
+        public override string ToString() => (string.IsNullOrEmpty(_name)) ? UID : _name;
 
         /// <summary>
         /// Update any GenericMembers with ObjectConverter cache if exists.
@@ -353,6 +337,9 @@ namespace Koopman.CheckPoint
         {
             if (DetailLevel < minValue)
             {
+                if (IsDeserializing || IsSerializing)
+                    return false;
+
                 var action =
                     (detailLevelAction == DetailLevelActions.SessionDefault) ?
                         Session.DetailLevelAction :

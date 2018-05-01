@@ -1,4 +1,23 @@
-﻿using Koopman.CheckPoint.Internal;
+﻿// MIT License
+//
+// Copyright (c) 2018 Tim Koopman
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+using Koopman.CheckPoint.Internal;
 
 namespace Koopman.CheckPoint.FastUpdate
 {
@@ -8,6 +27,17 @@ namespace Koopman.CheckPoint.FastUpdate
     public static class FastUpdate
     {
         #region Methods
+
+        /// <summary>
+        /// Updates the Access Layer without finding it first.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <param name="identifier">The identifier, can by name or UID of Access Layer to update.</param>
+        /// <returns>
+        /// AccessLayer object ready for you to set properties to change and then use
+        /// <see cref="ObjectSummary{T}.AcceptChanges()" /> to send set request.
+        /// </returns>
+        public static AccessLayer UpdateAccessLayer(this Session session, string identifier) => AddIdentifier(identifier, new AccessLayer(session, DetailLevels.Full));
 
         /// <summary>
         /// Updates the Address Range without finding it first.

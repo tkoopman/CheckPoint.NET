@@ -1,4 +1,23 @@
-﻿using Koopman.CheckPoint.Common;
+﻿// MIT License
+//
+// Copyright (c) 2018 Tim Koopman
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+// OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Json;
 
@@ -89,7 +108,7 @@ namespace Koopman.CheckPoint.Internal
         /// Gets the identifier that is used when adding this object to a group.
         /// </summary>
         /// <returns>Name if not null else the UID</returns>
-        public string GetMembershipID() => UID;
+        public string GetIdentifier() => UID;
 
         /// <summary>
         /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
@@ -106,6 +125,8 @@ namespace Koopman.CheckPoint.Internal
 
             return cache;
         }
+
+        public override string ToString() => UID;
 
         internal IObjectSummary GetFromCache(ObjectConverter objectConverter)
         {

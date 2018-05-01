@@ -17,7 +17,10 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.AccessRules;
+using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Internal;
+using Koopman.CheckPoint.Special;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -151,6 +154,18 @@ namespace Koopman.CheckPoint.Json
                     string type = obj.GetValue("type").ToString();
                     switch (type)
                     {
+                        case "access-layer":
+                            result = (existingValue == null) ? new AccessLayer(Session, GetDetailLevel(reader)) : (AccessLayer)existingValue;
+                            break;
+
+                        case "access-rule":
+                            result = (existingValue == null) ? new AccessRule(Session, GetDetailLevel(reader)) : (AccessRule)existingValue;
+                            break;
+
+                        case "access-section":
+                            result = (existingValue == null) ? new AccessSection(Session) : (AccessSection)existingValue;
+                            break;
+
                         case "address-range":
                             result = (existingValue == null) ? new AddressRange(Session, GetDetailLevel(reader)) : (AddressRange)existingValue;
                             break;
@@ -243,8 +258,44 @@ namespace Koopman.CheckPoint.Json
                             result = (existingValue == null) ? new TimeGroup(Session, GetDetailLevel(reader)) : (TimeGroup)existingValue;
                             break;
 
+                        case "CpmiAppfwLimit":
+                            result = (existingValue == null) ? new CpmiAppfwLimit(Session, GetDetailLevel(reader)) : (CpmiAppfwLimit)existingValue;
+                            break;
+
+                        case "CpmiGatewayCluster":
+                            result = (existingValue == null) ? new CpmiGatewayCluster(Session, GetDetailLevel(reader)) : (CpmiGatewayCluster)existingValue;
+                            break;
+
+                        case "CpmiClusterMember":
+                            result = (existingValue == null) ? new CpmiClusterMember(Session, GetDetailLevel(reader)) : (CpmiClusterMember)existingValue;
+                            break;
+
+                        case "CpmiVsxClusterNetobj":
+                            result = (existingValue == null) ? new CpmiVsxClusterNetobj(Session, GetDetailLevel(reader)) : (CpmiVsxClusterNetobj)existingValue;
+                            break;
+
+                        case "CpmiVsClusterMember":
+                            result = (existingValue == null) ? new CpmiVsClusterMember(Session, GetDetailLevel(reader)) : (CpmiVsClusterMember)existingValue;
+                            break;
+
+                        case "CpmiVsClusterNetobj":
+                            result = (existingValue == null) ? new CpmiVsClusterNetobj(Session, GetDetailLevel(reader)) : (CpmiVsClusterNetobj)existingValue;
+                            break;
+
+                        case "CpmiVsxClusterMember":
+                            result = (existingValue == null) ? new CpmiVsxClusterMember(Session, GetDetailLevel(reader)) : (CpmiVsxClusterMember)existingValue;
+                            break;
+
+                        case "CpmiHostCkp":
+                            result = (existingValue == null) ? new CpmiHostCkp(Session, GetDetailLevel(reader)) : (CpmiHostCkp)existingValue;
+                            break;
+
+                        case "CpmiGatewayPlain":
+                            result = (existingValue == null) ? new CpmiGatewayPlain(Session, GetDetailLevel(reader)) : (CpmiGatewayPlain)existingValue;
+                            break;
+
                         case "":
-                            throw new NotImplementedException("Empty type objects not implemented");
+                            return null;
 
                         default:
                             result = (existingValue == null) ? new GenericObjectSummary(Session, GetDetailLevel(reader), type) : (GenericObjectSummary)existingValue;
@@ -252,8 +303,11 @@ namespace Koopman.CheckPoint.Json
                     }
 
                     if (result.UID == null)
-                        SetProperty(result, "UID", uid);
+                        SetProperty(result, nameof(IObjectSummary.UID), uid);
                     cache.Add(result);
+                } else
+                {
+                    SetProperty(result, nameof(IObjectSummary.DetailLevel), GetDetailLevel(reader));
                 }
 
                 serializer.Populate(obj.CreateReader(), result);
@@ -270,7 +324,10 @@ namespace Koopman.CheckPoint.Json
                 if (result != null) return result;
 
                 foreach (var obj in cacheGeneric)
-                    if (obj.UID.Equals(uid)) return obj;
+                    if (
+                        obj.UID.Equals(uid) && 
+                        objectType.GetTypeInfo().IsAssignableFrom(obj.GetType())
+                       ) return obj;
 
                 if (objectType.GetTypeInfo().IsClass)
                 {
@@ -282,6 +339,11 @@ namespace Koopman.CheckPoint.Json
                     if (ci == null) { throw new Exception("Unable to find constructor that accepts Session, DetailLevels parameters"); }
                     result = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
                     SetProperty(result, "UID", uid);
+                    if (result is SimpleChangeTracking sct)
+                    {
+                        sct.OnDeserializingMethod(default);
+                        sct.OnDeserializedMethod(default);
+                    }
                     cache.Add(result);
 
                     return result;
@@ -320,21 +382,39 @@ namespace Koopman.CheckPoint.Json
 
         private bool IsSpecialObject(string uid, Type objectType, out IObjectSummary obj)
         {
-            if (uid.Equals(ObjectSummary.Any.UID))
+            if (objectType.Equals(typeof(RulebaseAction)))
             {
-                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.Any : null;
-                return true;
+                foreach (var action in RulebaseAction.Actions)
+                    if (action.UID.Equals(uid))
+                    {
+                        obj = action;
+                        return true;
+                    }
+                throw new JsonException($"Invalid rulebase action uid: {uid}");
             }
-            if (uid.Equals(ObjectSummary.RestrictCommonProtocolsAction.UID))
+
+            if (objectType.Equals(typeof(TrackType)))
             {
-                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.RestrictCommonProtocolsAction : null;
-                return true;
+                foreach (var t in TrackType.Types)
+                    if (t.UID.Equals(uid))
+                    {
+                        obj = t;
+                        return true;
+                    }
+                throw new JsonException($"Invalid track type uid: {uid}");
             }
-            if (uid.Equals(ObjectSummary.TrustAllAction.UID))
-            {
-                obj = (objectType.GetTypeInfo().IsInterface) ? ObjectSummary.TrustAllAction : null;
-                return true;
-            }
+
+            foreach (var inbuilt in GenericObjectSummary.InBuilt)
+                if (inbuilt.UID.Equals(uid))
+                {
+                    if (objectType.GetTypeInfo().IsAssignableFrom(inbuilt.GetType()))
+                        obj = inbuilt;
+                    else if (inbuilt.AllowNullResult)
+                        obj = null;
+                    else
+                        throw new InvalidCastException($"Unable to cast {inbuilt.GetType()} to {objectType}.");
+                    return true;
+                }
 
             obj = null;
             return false;

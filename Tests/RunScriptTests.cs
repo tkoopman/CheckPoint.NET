@@ -34,14 +34,14 @@ namespace Tests
         {
             string run = Session.RunScript("Sleep", "sleep 4", null, "mgmt");
 
-            Task task = Session.FindTask(run);
+            var task = Session.FindTask(run);
 
-            CancellationTokenSource cts = new CancellationTokenSource();
-            Progress<int> p = new Progress<int>(i => Console.Out.WriteLine($"Progress: {i}%"));
+            var cts = new CancellationTokenSource();
+            var p = new Progress<int>(i => Console.Out.WriteLine($"Progress: {i}%"));
             bool caught = false;
             try
             {
-                System.Threading.Tasks.Task<bool> t = task.WaitAsync(cancellationToken: cts.Token, progress: p);
+                var t = task.WaitAsync(cancellationToken: cts.Token, progress: p);
                 cts.CancelAfter(new TimeSpan(0, 0, 1));
                 t.Wait();
             }
@@ -62,7 +62,7 @@ namespace Tests
             string run = Session.RunScript("LS", "ls -l /", null, "mgmt");
             Assert.IsNotNull(run);
 
-            Task task = Session.FindTask(run);
+            var task = Session.FindTask(run);
             Assert.IsNotNull(task);
 
             bool s = task.WaitAsync().Result;

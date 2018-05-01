@@ -149,7 +149,7 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "nat-settings")]
         public NATSettings NATSettings
         {
-            get => (TestDetailLevel(DetailLevels.Full)) ? _natSettings : null;
+            get => (TestDetailLevel(DetailLevels.Full, DetailLevelActions.ReturnNull)) ? _natSettings : null;
 
             set
             {
@@ -159,6 +159,16 @@ namespace Koopman.CheckPoint
         }
 
         #endregion Properties
+
+        #region Methods
+
+        internal override void UpdateGenericMembers(ObjectConverter objectConverter)
+        {
+            base.UpdateGenericMembers(objectConverter);
+            Groups.UpdateGenericMembers(objectConverter);
+        }
+
+        #endregion Methods
 
         #region Classes
 

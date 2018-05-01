@@ -47,10 +47,11 @@ namespace Koopman.CheckPoint.Common
         public override void Add(T item)
         {
             if (item == null) return;
+            if (item.IsNew) throw new System.Exception("Unable to add new objects.");
             if (IsDeserializing)
                 Members.Add(item);
             else
-                Add(item.GetMembershipID());
+                Add(item.GetIdentifier());
         }
 
         /// <summary>
@@ -65,8 +66,9 @@ namespace Koopman.CheckPoint.Common
         /// </returns>
         public override bool Remove(T item)
         {
-            if (item == null) { return false; }
-            return Remove(item.GetMembershipID());
+            if (item == null) return false;
+            if (item.IsNew) throw new System.Exception("Unable to remove new objects.");
+            return Remove(item.GetIdentifier());
         }
 
         internal void UpdateGenericMembers(ObjectConverter objectConverter)

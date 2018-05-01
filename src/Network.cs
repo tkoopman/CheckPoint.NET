@@ -175,7 +175,7 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "nat-settings")]
         public NATSettings NATSettings
         {
-            get => (TestDetailLevel(DetailLevels.Full)) ? _natSettings : null;
+            get => (TestDetailLevel(DetailLevels.Full, DetailLevelActions.ReturnNull)) ? _natSettings : null;
 
             set
             {
