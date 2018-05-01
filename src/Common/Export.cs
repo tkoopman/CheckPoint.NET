@@ -20,7 +20,9 @@
 using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -36,9 +38,22 @@ namespace Koopman.CheckPoint.Common
         /// Initializes a new instance of the <see cref="JsonExport" /> class.
         /// </summary>
         /// <param name="session">The session.</param>
-        public JsonExport(Session session)
+        /// <param name="excludeDetailsByType">Types to exclude details of.</param>
+        /// <param name="excludeDetailsByName">Names to exclude details of.</param>
+        /// <param name="excludeByType">Types to exclude.</param>
+        /// <param name="excludeByName">Names to exclude.</param>
+        public JsonExport(
+            Session session,
+            string[] excludeDetailsByType = null,
+            string[] excludeDetailsByName = null,
+            string[] excludeByType = null,
+            string[] excludeByName = null)
         {
             Session = session;
+            ExcludeDetailsByType = excludeDetailsByType;
+            ExcludeDetailsByName = excludeDetailsByName;
+            ExcludeByType = excludeByType;
+            ExcludeByName = excludeByName;
         }
 
         #endregion Constructors
@@ -53,6 +68,26 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <value>The number of objects to export.</value>
         public int Count => Objects.Count;
+
+        /// <summary>
+        /// Gets the names to exclude.
+        /// </summary>
+        public string[] ExcludeByName { get; }
+
+        /// <summary>
+        /// Gets the types to exclude.
+        /// </summary>
+        public string[] ExcludeByType { get; }
+
+        /// <summary>
+        /// Gets the names to exclude details of.
+        /// </summary>
+        public string[] ExcludeDetailsByName { get; }
+
+        /// <summary>
+        /// Gets the types to exclude details of.
+        /// </summary>
+        public string[] ExcludeDetailsByType { get; }
 
         [JsonProperty(PropertyName = "objects")]
         internal IEnumerable<IObjectSummary> ExportObjects => Objects.Values;
@@ -102,6 +137,8 @@ namespace Koopman.CheckPoint.Common
 
             if (objectSummary.UID != null && !Objects.ContainsKey(objectSummary.UID))
             {
+                if (Contains(objectSummary.Name, ExcludeByName) || Contains(objectSummary.Type, ExcludeByType)) return;
+
                 try
                 {
                     objectSummary = objectSummary.Reload(true);
@@ -110,7 +147,7 @@ namespace Koopman.CheckPoint.Common
 
                 Objects.Add(objectSummary.UID, objectSummary);
 
-                if (maxDepth <= 0) return;
+                if (maxDepth <= 0 || Contains(objectSummary.Name, ExcludeDetailsByName) || Contains(objectSummary.Type, ExcludeDetailsByType)) return;
                 maxDepth -= 1;
                 switch (objectSummary)
                 {
@@ -247,8 +284,15 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Exports this instance.
         /// </summary>
+        /// <param name="indent">if set to <c>true</c> JSON output will be formatted with indents.</param>
         /// <returns>JSON data of all included export data</returns>
-        public string Export() => JsonConvert.SerializeObject(this, new JsonSerializerSettings() { ContractResolver = ExportContractResolver.Instance, NullValueHandling = NullValueHandling.Ignore });
+        public string Export(bool indent = false) =>
+            JsonConvert.SerializeObject(this, new JsonSerializerSettings()
+            {
+                ContractResolver = ExportContractResolver.Instance,
+                NullValueHandling = NullValueHandling.Ignore,
+                Formatting = (indent) ? Formatting.Indented : Formatting.None
+            });
 
         private void Add(WhereUsed.WhereUsedResults results, int maxDepth)
         {
@@ -271,6 +315,12 @@ namespace Koopman.CheckPoint.Common
                 Add(rule.Layer, maxDepth);
                 Add(rule.Rule, maxDepth);
             }
+        }
+
+        private bool Contains(string value, string[] array)
+        {
+            if (array == null) return false;
+            return array.Contains(value, StringComparer.CurrentCultureIgnoreCase);
         }
 
         #endregion Methods

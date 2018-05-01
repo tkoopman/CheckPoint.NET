@@ -42,9 +42,9 @@ namespace Tests
         public void ExportWhereUsed()
         {
             var wu = Session.FindWhereUsed("domain-udp");
-            var export = new JsonExport(Session);
+            var export = new JsonExport(Session, excludeByName: new string[] { "domain-tcp" });
             export.Add("domain-udp", wu);
-            Console.Out.WriteLine(export.Export());
+            Console.Out.WriteLine(export.Export(true));
         }
 
         [TestMethod]
