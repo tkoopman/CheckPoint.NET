@@ -114,6 +114,13 @@ namespace Koopman.CheckPoint.Common
                 Add(obj, maxDepth);
         }
 
+        public void Add(AccessRulebasePagingResults accessRules, int maxDepth = int.MaxValue)
+        {
+            if (accessRules == null) return;
+            Add(accessRules.Objects, maxDepth);
+            Add(accessRules.Rulebase, maxDepth);
+        }
+
         /// <summary>
         /// Adds the specified object to the export database if it not already included. Will also
         /// include any related objects to this object like groups. Calling this will also
@@ -160,11 +167,6 @@ namespace Koopman.CheckPoint.Common
                     case AccessSection accessSection:
                         Add(accessSection.Objects, maxDepth);
                         Add(accessSection.Rulebase, maxDepth);
-                        break;
-
-                    case AccessRulebasePagingResults accessRules:
-                        Add(accessRules.Objects, maxDepth);
-                        Add(accessRules.Rulebase, maxDepth);
                         break;
 
                     case AddressRange addressRange:
