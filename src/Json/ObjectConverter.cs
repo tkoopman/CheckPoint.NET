@@ -159,7 +159,7 @@ namespace Koopman.CheckPoint.Json
                             break;
 
                         case "access-rule":
-                            result = (existingValue == null) ? new AccessRule(Session) : (AccessRule)existingValue;
+                            result = (existingValue == null) ? new AccessRule(Session, GetDetailLevel(reader)) : (AccessRule)existingValue;
                             break;
 
                         case "access-section":

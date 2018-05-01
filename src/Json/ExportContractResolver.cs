@@ -44,10 +44,8 @@ namespace Koopman.CheckPoint.Json
 
         #region Methods
 
-        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-        {
-            return base.CreateProperties(type, memberSerialization).OrderBy(p => p.Order).ThenBy(p => p.PropertyName).ToList();
-        }
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization) =>
+            base.CreateProperties(type, memberSerialization).OrderBy(p => p.Order).ThenBy(p => p.PropertyName).ToList();
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
@@ -88,6 +86,7 @@ namespace Koopman.CheckPoint.Json
                         break;
 
                     case nameof(IObjectSummary.Domain):
+                    case nameof(ObjectBase<IObjectSummary>.Tags):
                     case nameof(AccessRule.Action):
                         property.Converter = ToStringConverter.Instance;
                         break;
@@ -117,7 +116,9 @@ namespace Koopman.CheckPoint.Json
                 property.Converter = ToStringConverter.UIDInstance;
             }
             else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.Rules) &&
-                (member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Layer)) || member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Rule))))
+                (member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Layer)) ||
+                member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Rule)) ||
+                member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Package))))
             {
                 property.Converter = ToStringConverter.UIDInstance;
             }
@@ -133,6 +134,16 @@ namespace Koopman.CheckPoint.Json
             else if (member.DeclaringType == typeof(AccessRules.Track) && member.Name.Equals(nameof(AccessRules.Track.Type)))
             {
                 property.Converter = ToStringConverter.Instance;
+            }
+            else if (member.DeclaringType == typeof(JsonExport) && member.Name.Equals(nameof(JsonExport.WhereUsed)))
+            {
+                property.ShouldSerialize = instance =>
+                {
+                    if (instance is JsonExport export)
+                        return export.WhereUsed.Count > 0;
+
+                    throw new Exception("Should not hit this, ever");
+                };
             }
 
             if (property.Converter?.GetType() == typeof(CheckPointDateTimeConverter))

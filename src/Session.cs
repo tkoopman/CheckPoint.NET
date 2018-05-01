@@ -4856,6 +4856,86 @@ namespace Koopman.CheckPoint
             return ruleBase;
         }
 
+        /// <summary>
+        /// Finds the access rule base.
+        /// </summary>
+        /// <param name="value">The name or UID to layer to get rulebase of.</param>
+        /// <param name="filter">
+        /// Search expression to filter the rulebase. The provided text should be exactly the same as
+        /// it would be given in Smart Console. The logical operators in the expression ('AND', 'OR')
+        /// should be provided in capital letters.
+        /// </param>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The sort order.</param>
+        /// <returns>AccessRulebasePagingResults</returns>
+        public AccessRulebasePagingResults FindAllAccessRulebase(
+            string value,
+            string filter = null,
+            DetailLevels detailLevel = Finds.Defaults.DetailLevel,
+            int limit = Finds.Defaults.Limit,
+            IOrder order = Finds.Defaults.Order)
+        {
+            int offset = 0;
+            var ruleBase = new AccessRulebasePagingResults
+            {
+                From = 1,
+                Objects = new List<IObjectSummary>(),
+                Rulebase = new List<IRulebaseEntry>()
+            };
+            var objectConverter = new ObjectConverter(this, DetailLevels.Full, detailLevel);
+
+            while (true)
+            {
+                var data = new Dictionary<string, dynamic>
+                {
+                    { value.IsUID() ? "uid" : "name", value },
+                    { "filter", filter },
+                    { "use-object-dictionary", true },
+                    { "details-level", detailLevel.ToString() },
+                    { "limit", limit },
+                    { "offset", offset },
+                    { "order", (order == null)? null:new IOrder[] { order } }
+                };
+
+                string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+                string result = Post("show-access-rulebase", jsonData);
+
+                var rb = JsonConvert.DeserializeObject<AccessRulebasePagingResults>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+                ruleBase.Objects.AddRange(rb.Objects);
+                ruleBase.Rulebase.AddRange(rb.Rulebase);
+                ruleBase.To = rb.To;
+                ruleBase.Total = rb.Total;
+                ruleBase.UID = rb.UID;
+                ruleBase.Name = rb.Name;
+
+                if (ruleBase.To == ruleBase.Total) break;
+
+                offset = rb.To;
+            }
+            if (ruleBase != null)
+            {
+                objectConverter.PostDeserilization(ruleBase.Objects);
+                objectConverter.PostDeserilization(ruleBase.Rulebase);
+
+                var layer = new AccessLayer(this, DetailLevels.UID);
+                layer.OnDeserializingMethod(default);
+                if (value.IsUID())
+                    layer.UID = value;
+                else
+                    layer.Name = value;
+                layer.OnDeserializedMethod(default);
+
+                foreach (var rule in ruleBase.Rulebase)
+                    if (rule is AccessRule r)
+                        r.Layer = layer;
+            }
+
+            return ruleBase;
+        }
+
         #endregion Access Rule Methods
 
         #endregion Access Control and NAT Methods
@@ -5087,61 +5167,6 @@ namespace Koopman.CheckPoint
         }
 
         #endregion WhereUsed Methods
-
-        #region ExportWhereUsed Methods
-
-        /// <summary>
-        /// Exports all rules and objects where selected onjects are used. Export is in JSON format.
-        /// </summary>
-        /// <param name="identifiers">The object identifiers to search for.</param>
-        /// <param name="indirect">if set to <c>true</c> results will include indirect uses.</param>
-        /// <param name="indirectMaxDepth">The indirect maximum depth.</param>
-        /// <returns>Export JSON</returns>
-        public string ExportWhereUsed(string[] identifiers, bool indirect = false, int indirectMaxDepth = 5)
-        {
-            var objectConverter = new ObjectConverter(this, DetailLevels.Full, DetailLevels.Full);
-            var export = new Export(this);
-
-            foreach (string identifier in identifiers)
-            {
-                export.WhereUsed[identifier] = FindWhereUsed(
-                        identifier: identifier,
-                        objectConverter: objectConverter,
-                        detailLevel: DetailLevels.Full,
-                        indirect: indirect,
-                        indirectMaxDepth: indirectMaxDepth
-                    );
-            }
-
-            export.Populate();
-
-            return JsonConvert.SerializeObject(export, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = ExportContractResolver.Instance, NullValueHandling = NullValueHandling.Ignore });
-        }
-
-        #endregion ExportWhereUsed Methods
-
-        #region ExportRulebase Methods
-
-        /// <summary>
-        /// Exports all rules and objects where selected onjects are used. Export is in JSON format.
-        /// </summary>
-        /// <returns>Export JSON</returns>
-        public string ExportRulebase(string value)
-        {
-            var export = new Export(this);
-
-            var ruleBase = FindAccessRulebase(value, detailLevel: DetailLevels.Standard, limit: 100);
-
-            while (ruleBase != null)
-            {
-                export.Populate(ruleBase);
-                ruleBase = ruleBase.NextPage();
-            }
-
-            return JsonConvert.SerializeObject(export, new JsonSerializerSettings() { ContractResolver = ExportContractResolver.Instance, NullValueHandling = NullValueHandling.Ignore });
-        }
-
-        #endregion ExportRulebase Methods
 
         #region Unused Methods
 

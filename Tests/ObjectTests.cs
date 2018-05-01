@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -29,19 +30,21 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void ExportWhereUsed()
+        public void ExportRulebase()
         {
-            string a = Session.ExportWhereUsed(new string[] { "domain-udp" });
-            Assert.IsNotNull(a);
-            Console.Out.WriteLine(a);
+            var a = Session.FindAllAccessRulebase("TestLayer");
+            var export = new JsonExport(Session);
+            export.Add(a);
+            Console.Out.WriteLine(export.Export());
         }
 
         [TestMethod]
-        public void ExportRulebase()
+        public void ExportWhereUsed()
         {
-            string a = Session.ExportRulebase("TestLayer");
-            Assert.IsNotNull(a);
-            Console.Out.WriteLine(a);
+            var wu = Session.FindWhereUsed("domain-udp");
+            var export = new JsonExport(Session);
+            export.Add("domain-udp", wu);
+            Console.Out.WriteLine(export.Export());
         }
 
         [TestMethod]

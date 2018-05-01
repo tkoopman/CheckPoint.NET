@@ -23,6 +23,8 @@ using Koopman.CheckPoint.FastUpdate;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Koopman.CheckPoint
@@ -41,7 +43,7 @@ namespace Koopman.CheckPoint
         /// <param name="session">The session.</param>
         /// <param name="layer">The layer.</param>
         /// <param name="position">The position.</param>
-        public AccessRule(Session session, string layer, Position position) : this(session)
+        public AccessRule(Session session, string layer, Position position) : this(session, DetailLevels.Full)
         {
             Layer = session.UpdateAccessLayer(layer);
             Position = position;
@@ -55,7 +57,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
-        protected internal AccessRule(Session session) : base(session, DetailLevels.Full)
+        protected internal AccessRule(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _content = new MemberMembershipChangeTracking<IObjectSummary>(this);
             _destination = new MemberMembershipChangeTracking<IObjectSummary>(this);
@@ -396,6 +398,31 @@ namespace Koopman.CheckPoint
             Service.UpdateGenericMembers(objectConverter);
             Source.UpdateGenericMembers(objectConverter);
             VPN.UpdateGenericMembers(objectConverter);
+        }
+
+        /// <inheritdoc />
+        public override AccessRule Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
+        {
+            if (IsNew) throw new Exception("Cannot reload a new object.");
+            if (Layer == null) throw new Exception("Cannot reload when layer is null.");
+            if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return this; }
+
+            var data = new Dictionary<string, dynamic>
+            {
+                { UID != null ? "uid" : "name", UID ?? _name },
+                { "layer", Layer.GetIdentifier() },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
+
+            string result = Session.Post($"show-{Type}", jsonData);
+
+            DetailLevel = DetailLevels.Full;
+
+            JsonConvert.PopulateObject(result, this, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, detailLevel) } });
+
+            return this;
         }
 
         #endregion Methods

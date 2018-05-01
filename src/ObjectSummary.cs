@@ -277,7 +277,7 @@ namespace Koopman.CheckPoint
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
         /// <exception cref="Exception">Cannot reload a new object.</exception>
-        public T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
+        public virtual T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
         {
             if (IsNew) { throw new Exception("Cannot reload a new object."); }
             if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return (T)(IObjectSummary)this; }

@@ -35,7 +35,7 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <value>The uid.</value>
         [JsonProperty(PropertyName = "name")]
-        public string Name { get; private set; }
+        public string Name { get; internal set; }
 
         /// <summary>
         /// <para type="description">
@@ -60,7 +60,7 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <value>The uid.</value>
         [JsonProperty(PropertyName = "uid")]
-        public string UID { get; private set; }
+        public string UID { get; internal set; }
 
         #endregion Properties
     }

@@ -190,13 +190,19 @@ namespace Koopman.CheckPoint.Common
                 /// <param name="ruleColumns">The rule columns.</param>
                 /// <param name="position">The position.</param>
                 /// <param name="layer">The layer.</param>
+                /// <param name="package">The package.</param>
+                /// <exception cref="System.Exception">Should never hit this</exception>
                 [JsonConstructor]
-                private Rules(AccessRule rule, string[] ruleColumns, string position, AccessLayer layer)
+                private Rules(AccessRule rule, string[] ruleColumns, string position, AccessLayer layer, IObjectSummary package)
                 {
                     Rule = rule;
                     RuleColumns = ruleColumns;
                     Position = position;
                     Layer = layer;
+                    Package = package;
+
+                    if (rule.Layer == null) rule.Layer = layer;
+                    else if (rule.Layer != layer) throw new System.Exception("Should never hit this");
                 }
 
                 #endregion Constructors
@@ -223,6 +229,13 @@ namespace Koopman.CheckPoint.Common
                 /// <value>The rule.</value>
                 [JsonProperty(PropertyName = "rule")]
                 public AccessRule Rule { get; }
+
+                /// <summary>
+                /// Access control rule found
+                /// </summary>
+                /// <value>The rule.</value>
+                [JsonProperty(PropertyName = "package")]
+                public IObjectSummary Package { get; }
 
                 /// <summary>
                 /// Columns where object is used in rule.
