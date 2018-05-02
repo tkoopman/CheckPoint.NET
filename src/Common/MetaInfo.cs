@@ -93,7 +93,12 @@ namespace Koopman.CheckPoint.Common
 
         #region Methods
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString() => $"Last modified by {LastModifier} on {LastModifyTime}";
 
         #endregion Methods

@@ -24,6 +24,10 @@ using System.Collections.Generic;
 
 namespace Koopman.CheckPoint
 {
+    /// <summary>
+    /// Access Rule Section
+    /// </summary>
+    /// <seealso cref="Koopman.CheckPoint.Common.IRulebaseEntry" />
     public class AccessSection : ObjectBase<AccessSection>, IRulebaseEntry
     {
         #region Constructors
@@ -33,7 +37,6 @@ namespace Koopman.CheckPoint
         /// with current data.
         /// </summary>
         /// <param name="session">The current session.</param>
-        /// <param name="detailLevel">The detail level of data that will be populated.</param>
         protected internal AccessSection(Session session) : base(session, DetailLevels.Full)
         {
         }

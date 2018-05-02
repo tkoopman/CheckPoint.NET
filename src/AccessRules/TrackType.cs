@@ -94,7 +94,12 @@ namespace Koopman.CheckPoint.AccessRules
         /// <inheritdoc />
         public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) => this;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString() => GetIdentifier();
 
         #endregion Methods

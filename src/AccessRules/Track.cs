@@ -119,7 +119,12 @@ namespace Koopman.CheckPoint.AccessRules
 
         #region Methods
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString() => _type?.ToString();
 
         #endregion Methods

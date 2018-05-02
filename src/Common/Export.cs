@@ -114,6 +114,14 @@ namespace Koopman.CheckPoint.Common
                 Add(obj, maxDepth);
         }
 
+        /// <summary>
+        /// Adds the specified access rule base and all related objects to export.
+        /// </summary>
+        /// <param name="accessRules">The access rule base.</param>
+        /// <param name="maxDepth">
+        /// The maximum depth of finding related objects. A value of 0 or less will just add this
+        /// object and no related objects.
+        /// </param>
         public void Add(AccessRulebasePagingResults accessRules, int maxDepth = int.MaxValue)
         {
             if (accessRules == null) return;
