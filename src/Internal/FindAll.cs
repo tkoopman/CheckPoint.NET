@@ -21,6 +21,8 @@ using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.Internal
 {
@@ -43,8 +45,10 @@ namespace Koopman.CheckPoint.Internal
         /// returned by method just how many returned by each call to the management server.
         /// </param>
         /// <param name="Order">The sort order.</param>
-        internal static T[] Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order) =>
-            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Command, DetailLevel, Limit, Order);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        internal static Task<T[]> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) =>
+            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Command, DetailLevel, Limit, Order, cancellationToken);
 
         /// <summary>
         /// Invokes the FindAll command. This is the API commands like show-hosts
@@ -59,8 +63,9 @@ namespace Koopman.CheckPoint.Internal
         /// returned by method just how many returned by each call to the management server.
         /// </param>
         /// <param name="Order">The sort order.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static T[] Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order) where U : ObjectsPagingResults<T, U>
+        internal async static Task<T[]> Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) where U : ObjectsPagingResults<T, U>
         {
             int Offset = 0;
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
@@ -78,7 +83,7 @@ namespace Koopman.CheckPoint.Internal
 
                 string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
-                string result = Session.Post(Command, jsonData);
+                string result = await Session.PostAsync(Command, jsonData, cancellationToken);
 
                 var results = JsonConvert.DeserializeObject<U>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
@@ -106,9 +111,10 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="DetailLevel">The detail level to return.</param>
         /// <param name="Limit">The number of objects to be returned.</param>
         /// <param name="Order">The sort order.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static T[] Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order) =>
-            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Type, Filter, IPOnly, DetailLevel, Limit, Order);
+        internal static Task<T[]> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) =>
+            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Type, Filter, IPOnly, DetailLevel, Limit, Order, cancellationToken);
 
         /// <summary>
         /// Invokes the FindAll using the show-objects API command.
@@ -122,8 +128,9 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="DetailLevel">The detail level to return.</param>
         /// <param name="Limit">The number of objects to be returned.</param>
         /// <param name="Order">The sort order.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static T[] Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order) where U : ObjectsPagingResults<T, U>
+        internal async static Task<T[]> Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) where U : ObjectsPagingResults<T, U>
         {
             int Offset = 0;
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
@@ -144,7 +151,7 @@ namespace Koopman.CheckPoint.Internal
 
                 string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
-                string result = Session.Post("show-objects", jsonData);
+                string result = await Session.PostAsync("show-objects", jsonData, cancellationToken);
 
                 var results = JsonConvert.DeserializeObject<U>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 

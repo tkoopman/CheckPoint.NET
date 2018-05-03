@@ -22,6 +22,8 @@ using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint
 {
@@ -215,15 +217,21 @@ namespace Koopman.CheckPoint
 
             public DetailLevels DetailLevel => throw new System.NotImplementedException();
 
+            DetailLevels IObjectSummary.DetailLevel => throw new System.NotImplementedException();
             public Domain Domain => throw new System.NotImplementedException();
 
+            Domain IObjectSummary.Domain => throw new System.NotImplementedException();
             public bool IsNew => throw new System.NotImplementedException();
 
+            bool IObjectSummary.IsNew => throw new System.NotImplementedException();
             public string Name { get; }
 
+            string IObjectSummary.Name => throw new System.NotImplementedException();
             public string Type => throw new System.NotImplementedException();
 
+            string IObjectSummary.Type => throw new System.NotImplementedException();
             public string UID { get; }
+            string IObjectSummary.UID => throw new System.NotImplementedException();
 
             #endregion Properties
 
@@ -231,7 +239,12 @@ namespace Koopman.CheckPoint
 
             public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
+            string IObjectSummary.GetIdentifier() => throw new System.NotImplementedException();
+
             public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) =>
+                throw new System.NotImplementedException();
+
+            public Task<IObjectSummary> ReloadAsync(bool OnlyIfPartial, DetailLevels detailLevel, CancellationToken cancellationToken) =>
                 throw new System.NotImplementedException();
 
             public override string ToString() => GetIdentifier();

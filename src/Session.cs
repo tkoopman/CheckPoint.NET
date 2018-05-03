@@ -58,6 +58,7 @@ namespace Koopman.CheckPoint
         private static Random random = new Random();
         private HttpClient _httpClient = null;
         private bool _isDisposed = false;
+        private SemaphoreSlim HttpSemaphore;
 
         #endregion Fields
 
@@ -89,6 +90,9 @@ namespace Koopman.CheckPoint
         /// <param name="indentJson">if set to <c>true</c> json data sent to server will be indented.</param>
         /// <param name="port">The management server port.</param>
         /// <param name="timeout">The timeout.</param>
+        /// <param name="maxConnections">
+        /// The maximum concurrent connections to management server allowed.
+        /// </param>
         /// <param name="debugWriter">
         /// The debug writer. WARNING: If set here the debug output WILL include your password in the
         /// clear! Should only set here if trying to debug the login calls. Use
@@ -108,12 +112,15 @@ namespace Koopman.CheckPoint
             bool indentJson = false,
             int port = 443,
             int? timeout = null,
+            int maxConnections = 5,
             TextWriter debugWriter = null)
         {
             DebugWriter = debugWriter;
             CertificateValidation = certificateValidation;
             DetailLevelAction = detailLevelAction;
             IndentJson = indentJson;
+            MaxConnections = maxConnections;
+            HttpSemaphore = new SemaphoreSlim(MaxConnections + 1);
 
             URL = $"https://{managementServer}:{port}/web_api/";
 
@@ -195,6 +202,12 @@ namespace Koopman.CheckPoint
         /// <value>The login message.</value>
         [JsonProperty(PropertyName = "login-message")]
         public LoginMessage LoginMessage { get; private set; }
+
+        /// <summary>
+        /// Gets the max number of connections to management server allowed.
+        /// </summary>
+        /// <value>The maximum connections.</value>
+        public int MaxConnections { get; }
 
         /// <summary>
         /// Session is read only status.
@@ -348,31 +361,40 @@ namespace Koopman.CheckPoint
             if (_isDisposed)
                 throw new ObjectDisposedException("Session", "This session has already been disposed!");
 
-            string result = null;
-
-            string debugIP = WriteDebug(command, json);
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            if (command != "login")
-                content.Headers.Add("X-chkp-sid", SID);
-
-            var response = await GetHttpClient().PostAsync(command, content, cancellationToken);
+            await HttpSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 
             try
             {
-                result = await response.Content.ReadAsStringAsync();
+                string result = null;
 
-                WriteDebug(debugIP, response.StatusCode, result);
+                string debugIP = WriteDebug(command, json);
 
-                if (!response.IsSuccessStatusCode)
-                    throw CheckPointError.CreateException(result, response.StatusCode);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                if (command != "login")
+                    content.Headers.Add("X-chkp-sid", SID);
+
+                var response = await GetHttpClient().PostAsync(command, content, cancellationToken).ConfigureAwait(false);
+
+                try
+                {
+                    result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    WriteDebug(debugIP, response.StatusCode, result);
+
+                    if (!response.IsSuccessStatusCode)
+                        throw CheckPointError.CreateException(result, response.StatusCode);
+                }
+                finally
+                {
+                    response.Dispose();
+                }
+
+                return result;
             }
             finally
             {
-                response.Dispose();
+                HttpSemaphore.Release();
             }
-
-            return result;
         }
 
         /// <summary>
@@ -430,9 +452,11 @@ namespace Koopman.CheckPoint
                     ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
                 else
                     ServicePointManager.ServerCertificateValidationCallback = null;
+                ServicePointManager.DefaultConnectionLimit = MaxConnections;
 #else
                 if (!CertificateValidation)
                     handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                handler.MaxConnectionsPerServer = MaxConnections;
 #endif
 
                 _httpClient = new HttpClient(handler)
@@ -701,7 +725,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -716,12 +740,12 @@ namespace Koopman.CheckPoint
                 DetailLevels detailLevel = Find.Defaults.DetailLevel
             )
         {
-            return Find.Invoke
+            return Find.InvokeAsync
                 (
                     Session: this,
                     uid: uid,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -759,7 +783,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion Get Object(s)
@@ -783,7 +807,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-address-range",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -804,7 +828,7 @@ namespace Koopman.CheckPoint
                     Command: "show-address-range",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -831,7 +855,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -867,7 +891,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -891,7 +915,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -924,7 +948,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion AddressRange Methods
@@ -948,7 +972,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-group",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -981,7 +1005,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1005,7 +1029,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1026,7 +1050,7 @@ namespace Koopman.CheckPoint
                     Command: "show-group",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1062,7 +1086,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1089,7 +1113,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion Group Methods
@@ -1113,7 +1137,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-group-with-exclusion",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -1146,7 +1170,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1170,7 +1194,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1206,7 +1230,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1233,7 +1257,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1254,7 +1278,7 @@ namespace Koopman.CheckPoint
                     Command: "show-group-with-exclusion",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         #endregion GroupWithExclusion Methods
@@ -1278,7 +1302,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-host",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -1311,7 +1335,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1335,7 +1359,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1356,7 +1380,7 @@ namespace Koopman.CheckPoint
                     Command: "show-host",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1392,7 +1416,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1419,7 +1443,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion Host Methods
@@ -1443,7 +1467,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-multicast-address-range",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -1476,7 +1500,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1500,7 +1524,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1521,7 +1545,7 @@ namespace Koopman.CheckPoint
                     Command: "show-multicast-address-range",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1557,7 +1581,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1584,7 +1608,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion MulticastAddressRange Methods
@@ -1608,7 +1632,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-network",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -1641,7 +1665,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1665,7 +1689,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1686,7 +1710,7 @@ namespace Koopman.CheckPoint
                     Command: "show-network",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1722,7 +1746,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1749,7 +1773,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion Network Methods
@@ -1773,7 +1797,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-simple-gateway",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -1806,7 +1830,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1830,7 +1854,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1851,7 +1875,7 @@ namespace Koopman.CheckPoint
                     Command: "show-simple-gateway",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1887,7 +1911,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1914,7 +1938,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion SimpleGateway Methods
@@ -1938,7 +1962,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-security-zone",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -1971,7 +1995,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -1995,7 +2019,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2016,7 +2040,7 @@ namespace Koopman.CheckPoint
                     Command: "show-security-zone",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2052,7 +2076,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2079,7 +2103,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion SecurityZone Methods
@@ -2103,7 +2127,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-tag",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -2136,7 +2160,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2160,7 +2184,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2181,7 +2205,7 @@ namespace Koopman.CheckPoint
                     Command: "show-tag",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2217,7 +2241,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2244,7 +2268,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion Tag Methods
@@ -2268,7 +2292,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-time",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -2301,7 +2325,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2325,7 +2349,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2346,7 +2370,7 @@ namespace Koopman.CheckPoint
                     Command: "show-time",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2382,7 +2406,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2409,7 +2433,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion Time Methods
@@ -2433,7 +2457,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-time-group",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -2466,7 +2490,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2490,7 +2514,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2511,7 +2535,7 @@ namespace Koopman.CheckPoint
                     Command: "show-time-group",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2547,7 +2571,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2574,7 +2598,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion TimeGroup Methods
@@ -2602,7 +2626,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-application-site-category",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -2635,7 +2659,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2659,7 +2683,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2695,7 +2719,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2722,7 +2746,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2743,7 +2767,7 @@ namespace Koopman.CheckPoint
                     Command: "show-application-site-category",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         #endregion ApplicationCategory Methods
@@ -2767,7 +2791,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-application-site-group",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -2800,7 +2824,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2824,7 +2848,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2845,7 +2869,7 @@ namespace Koopman.CheckPoint
                     Command: "show-application-site-group",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2881,7 +2905,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2908,7 +2932,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ApplicationGroup Methods
@@ -2932,7 +2956,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-application-site",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -2965,7 +2989,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -2989,7 +3013,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3010,7 +3034,7 @@ namespace Koopman.CheckPoint
                     Command: "show-application-site",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3071,7 +3095,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3098,7 +3122,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ApplicationSite Methods
@@ -3122,7 +3146,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-dce-rpc",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -3155,7 +3179,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3179,7 +3203,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3200,7 +3224,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-dce-rpc",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3236,7 +3260,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3263,7 +3287,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ServiceDceRpc Methods
@@ -3287,7 +3311,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-icmp",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -3320,7 +3344,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3344,7 +3368,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3365,7 +3389,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-icmp",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3401,7 +3425,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3428,7 +3452,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ICMP Methods
@@ -3452,7 +3476,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-icmp6",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -3485,7 +3509,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3509,7 +3533,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3530,7 +3554,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-icmp6",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3566,7 +3590,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3593,7 +3617,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ICMP6 Methods
@@ -3617,7 +3641,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-other",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -3650,7 +3674,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3674,7 +3698,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3695,7 +3719,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-other",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3731,7 +3755,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3758,7 +3782,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ServiceOther Methods
@@ -3782,7 +3806,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-rpc",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -3815,7 +3839,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3839,7 +3863,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3860,7 +3884,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-rpc",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3896,7 +3920,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -3923,7 +3947,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ServiceRPC Methods
@@ -3947,7 +3971,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-sctp",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -3980,7 +4004,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4004,7 +4028,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4025,7 +4049,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-sctp",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4061,7 +4085,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4088,7 +4112,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ServiceSCTP Methods
@@ -4112,7 +4136,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-tcp",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -4145,7 +4169,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4169,7 +4193,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4205,7 +4229,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4232,7 +4256,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4253,7 +4277,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-tcp",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         #endregion ServiceTCP Methods
@@ -4277,7 +4301,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-udp",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -4310,7 +4334,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4334,7 +4358,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4370,7 +4394,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4397,7 +4421,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4418,7 +4442,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-udp",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         #endregion ServiceUDP Methods
@@ -4442,7 +4466,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-service-group",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -4475,7 +4499,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4499,7 +4523,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4520,7 +4544,7 @@ namespace Koopman.CheckPoint
                     Command: "show-service-group",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4556,7 +4580,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4583,7 +4607,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion ServiceGroup Methods
@@ -4611,7 +4635,7 @@ namespace Koopman.CheckPoint
                     Command: "delete-access-layer",
                     Value: value,
                     Ignore: ignore
-                );
+                ).Wait();
         }
 
         /// <summary>
@@ -4632,7 +4656,7 @@ namespace Koopman.CheckPoint
                     Command: "show-access-layer",
                     Value: value,
                     DetailLevel: detailLevel
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4668,7 +4692,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4695,7 +4719,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4728,7 +4752,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         /// <summary>
@@ -4752,7 +4776,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order
-                );
+                ).Result;
         }
 
         #endregion Access Layer Methods

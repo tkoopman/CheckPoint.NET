@@ -18,6 +18,8 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.AccessRules
 {
@@ -94,12 +96,15 @@ namespace Koopman.CheckPoint.AccessRules
         /// <inheritdoc />
         public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) => this;
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        /// <inheritdoc />
+        public async Task<IObjectSummary> ReloadAsync(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default) => this;
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() => GetIdentifier();
 
         #endregion Methods

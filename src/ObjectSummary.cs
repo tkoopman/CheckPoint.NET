@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint
 {
@@ -299,6 +301,9 @@ namespace Koopman.CheckPoint
             return (T)(IObjectSummary)this;
         }
 
+        /// <inheritdoc />
+        IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel) => Reload(OnlyIfPartial, detailLevel);
+
         /// <summary>
         /// Reloads the current object. Used to either reset changes made without saving, or to
         /// increased the <paramref name="detailLevel" /> to <see cref="DetailLevels.Full" />
@@ -306,9 +311,37 @@ namespace Koopman.CheckPoint
         /// <param name="OnlyIfPartial">
         /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
         /// </param>
-        /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
-        /// <returns>IObjectSummary of reloaded object</returns>
-        IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel) => Reload(OnlyIfPartial, detailLevel);
+        /// <param name="detailLevel">The detail level to retrieve.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns><c>this</c></returns>
+        /// <exception cref="System.NotImplementedException">
+        /// Thrown when the objects of this Type have not been fully implemented yet.
+        /// </exception>
+        /// <exception cref="Exception">Cannot reload a new object.</exception>
+        public async virtual System.Threading.Tasks.Task<T> ReloadAsync(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
+        {
+            if (IsNew) { throw new Exception("Cannot reload a new object."); }
+            if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return (T)(IObjectSummary)this; }
+
+            var data = new Dictionary<string, dynamic>
+            {
+                { UID != null ? "uid" : "name", UID ?? _name },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
+
+            string result = await Session.PostAsync($"show-{Type}", jsonData, cancellationToken);
+
+            DetailLevel = DetailLevels.Full;
+
+            JsonConvert.PopulateObject(result, this, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, detailLevel) } });
+
+            return (T)(IObjectSummary)this;
+        }
+
+        /// <inheritdoc />
+        async Task<IObjectSummary> IObjectSummary.ReloadAsync(bool OnlyIfPartial, DetailLevels detailLevel, CancellationToken cancellationToken) => await ReloadAsync(OnlyIfPartial, detailLevel, cancellationToken);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this object.

@@ -20,6 +20,8 @@
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.Internal
 {
@@ -118,10 +120,13 @@ namespace Koopman.CheckPoint.Internal
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
         /// <returns>IObjectSummary of reloaded object</returns>
-        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel)
+        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel) => ReloadAsync(OnlyIfPartial, detailLevel).Result;
+
+        /// <inheritdoc />
+        public async Task<IObjectSummary> ReloadAsync(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
         {
             if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)
-                cache = Find.Invoke(Session, UID, detailLevel);
+                cache = await Find.InvokeAsync(Session, UID, detailLevel);
 
             return cache;
         }

@@ -34,8 +34,8 @@ namespace Tests
         {
             var a = Session.FindAllAccessRulebase("TestLayer");
             var export = new JsonExport(Session);
-            export.Add(a);
-            Console.Out.WriteLine(export.Export());
+            export.AddAsync(a).Wait();
+            Console.Out.WriteLine(export.Export().Result);
         }
 
         [TestMethod]
@@ -43,8 +43,8 @@ namespace Tests
         {
             var wu = Session.FindWhereUsed("domain-udp");
             var export = new JsonExport(Session, excludeByName: new string[] { "domain-tcp" });
-            export.Add("domain-udp", wu);
-            Console.Out.WriteLine(export.Export(true));
+            export.AddAsync("domain-udp", wu).Wait();
+            Console.Out.WriteLine(export.Export(true).Result);
         }
 
         [TestMethod]
