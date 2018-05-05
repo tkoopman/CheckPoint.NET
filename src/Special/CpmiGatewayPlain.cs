@@ -52,7 +52,6 @@ namespace Koopman.CheckPoint.Special
         [JsonProperty(PropertyName = "color")]
         public Colors Color { get; private set; }
 
-
         /// <summary>
         /// Group memberships.
         /// </summary>
