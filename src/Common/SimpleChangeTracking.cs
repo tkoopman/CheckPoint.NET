@@ -22,6 +22,8 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -68,7 +70,9 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Resets the object’s state to unchanged by accepting the modifications.
         /// </summary>
-        public virtual void AcceptChanges() => throw new NotImplementedException("Use AcceptChanges from Parent Object.");
+        public virtual Task AcceptChanges(CancellationToken cancellationToken = default) => throw new NotImplementedException("Use AcceptChanges from Parent Object.");
+
+        void IChangeTracking.AcceptChanges() => AcceptChanges().GetAwaiter().GetResult();
 
         /// <summary>
         /// Called when deserialized.

@@ -21,6 +21,7 @@ using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -38,7 +39,7 @@ namespace Koopman.CheckPoint
     /// group.Groups.Add("AnotherGroup");
     /// group.AcceptChanges();
     /// </code>
-    /// Find group using <see cref="Session.FindGroup(string, DetailLevels)" />
+    /// Find group using <see cref="Session.FindGroup(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var group = Session.FindGroup("MyGroup");
     /// </code>

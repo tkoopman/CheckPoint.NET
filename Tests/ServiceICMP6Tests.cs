@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -35,30 +36,30 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindServiceICMP6(Name);
+            var a = await Session.FindServiceICMP6(Name);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindServicesICMP6(limit: 5, order: ServiceICMP.Order.NameAsc);
+            var a = await Session.FindServicesICMP6(limit: 5, order: ServiceICMP.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindServicesICMP6(filter: Filter, limit: 5, order: ServiceICMP.Order.NameAsc);
+            var a = await Session.FindServicesICMP6(filter: Filter, limit: 5, order: ServiceICMP.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New{Name}";
 
@@ -71,7 +72,7 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }

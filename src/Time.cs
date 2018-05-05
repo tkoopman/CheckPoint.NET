@@ -22,6 +22,7 @@ using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -44,7 +45,7 @@ namespace Koopman.CheckPoint
     /// };
     /// t.AcceptChanges();
     /// </code>
-    /// Find time object using <see cref="Session.FindTime(string, DetailLevels)" />
+    /// Find time object using <see cref="Session.FindTime(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var t = Session.FindTime("MyTime");
     /// </code>

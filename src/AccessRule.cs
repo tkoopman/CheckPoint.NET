@@ -26,6 +26,8 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint
 {
@@ -272,9 +274,7 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Gets the rule number.
         /// </summary>
-        /// <value>
-        /// The rule number.
-        /// </value>
+        /// <value>The rule number.</value>
         [JsonProperty(PropertyName = "rule-number", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string RuleNumber
@@ -282,6 +282,7 @@ namespace Koopman.CheckPoint
             get;
             internal set;
         }
+
         /// <summary>
         /// Service objects.
         /// </summary>
@@ -379,6 +380,31 @@ namespace Koopman.CheckPoint
 
         #region Methods
 
+        /// <inheritdoc />
+        public async override Task<AccessRule> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
+        {
+            if (IsNew) throw new Exception("Cannot reload a new object.");
+            if (Layer == null) throw new Exception("Cannot reload when layer is null.");
+            if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return this; }
+
+            var data = new Dictionary<string, dynamic>
+            {
+                { UID != null ? "uid" : "name", UID ?? _name },
+                { "layer", Layer.GetIdentifier() },
+                { "details-level", detailLevel.ToString() }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
+
+            string result = await Session.PostAsync($"show-{Type}", jsonData, cancellationToken);
+
+            DetailLevel = DetailLevels.Full;
+
+            JsonConvert.PopulateObject(result, this, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, detailLevel) } });
+
+            return this;
+        }
+
         /// <summary>
         /// Sets the new position.
         /// </summary>
@@ -398,31 +424,6 @@ namespace Koopman.CheckPoint
             Service.UpdateGenericMembers(objectConverter);
             Source.UpdateGenericMembers(objectConverter);
             VPN.UpdateGenericMembers(objectConverter);
-        }
-
-        /// <inheritdoc />
-        public override AccessRule Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
-        {
-            if (IsNew) throw new Exception("Cannot reload a new object.");
-            if (Layer == null) throw new Exception("Cannot reload when layer is null.");
-            if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return this; }
-
-            var data = new Dictionary<string, dynamic>
-            {
-                { UID != null ? "uid" : "name", UID ?? _name },
-                { "layer", Layer.GetIdentifier() },
-                { "details-level", detailLevel.ToString() }
-            };
-
-            string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
-
-            string result = Session.Post($"show-{Type}", jsonData);
-
-            DetailLevel = DetailLevels.Full;
-
-            JsonConvert.PopulateObject(result, this, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, detailLevel) } });
-
-            return this;
         }
 
         #endregion Methods

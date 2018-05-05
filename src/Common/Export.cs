@@ -21,8 +21,11 @@ using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -58,10 +61,19 @@ namespace Koopman.CheckPoint.Common
 
         #endregion Constructors
 
+        #region Fields
+
+        private SemaphoreSlim ExportLock = new SemaphoreSlim(0);
+
+        #endregion Fields
+
         #region Properties
 
-        [JsonProperty(PropertyName = "where-used")]
-        internal Dictionary<string, WhereUsed> WhereUsed = new Dictionary<string, WhereUsed>();
+        /// <summary>
+        /// Gets or sets the cancellation token for async operations.
+        /// </summary>
+        /// <value>The cancellation token.</value>
+        public CancellationToken CancellationToken { get; set; } = default;
 
         /// <summary>
         /// Gets the number of objects to be exported.
@@ -89,10 +101,21 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         public string[] ExcludeDetailsByType { get; }
 
+        /// <summary>
+        /// Gets or sets the provider for progress updates. Progress is given in number of objects
+        /// added to export.
+        /// </summary>
+        /// <value>The provider for progress updates.</value>
+        public IProgress<int> Progress { get; set; }
+
         [JsonProperty(PropertyName = "objects")]
         internal IEnumerable<IObjectSummary> ExportObjects => Objects.Values;
 
-        internal Dictionary<string, IObjectSummary> Objects { get; } = new Dictionary<string, IObjectSummary>();
+        internal ConcurrentDictionary<string, IObjectSummary> Objects { get; } = new ConcurrentDictionary<string, IObjectSummary>();
+
+        [JsonProperty(PropertyName = "where-used")]
+        internal ConcurrentDictionary<string, WhereUsed> WhereUsed { get; } = new ConcurrentDictionary<string, WhereUsed>();
+
         private Session Session { get; }
 
         #endregion Properties
@@ -100,18 +123,29 @@ namespace Koopman.CheckPoint.Common
         #region Methods
 
         /// <summary>
-        /// Adds all objects by calling <see cref="Add(IObjectSummary, int)" /> for each object
+        /// Adds all objects by calling <see cref="AddAsync(IObjectSummary, int)" /> for each object
         /// </summary>
         /// <param name="objs">The objects.</param>
         /// <param name="maxDepth">
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public void Add(IEnumerable<IObjectSummary> objs, int maxDepth = int.MaxValue)
+        public async Task AddAsync(IEnumerable<IObjectSummary> objs, int maxDepth = int.MaxValue)
         {
-            if (objs == null) return;
-            foreach (var obj in objs)
-                Add(obj, maxDepth);
+            ExportLock.Release();
+            try
+            {
+                var tasks = new List<Task>();
+                if (objs != null)
+                    foreach (var obj in objs)
+                        tasks.Add(AddAsync(obj, maxDepth));
+
+                await Task.WhenAll(tasks.ToArray());
+            }
+            finally
+            {
+                ExportLock.Wait();
+            }
         }
 
         /// <summary>
@@ -122,11 +156,21 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public void Add(AccessRulebasePagingResults accessRules, int maxDepth = int.MaxValue)
+        public async Task AddAsync(AccessRulebasePagingResults accessRules, int maxDepth = int.MaxValue)
         {
             if (accessRules == null) return;
-            Add(accessRules.Objects, maxDepth);
-            Add(accessRules.Rulebase, maxDepth);
+            ExportLock.Release();
+            try
+            {
+                var tasks = new Task[2];
+                tasks[0] = AddAsync(accessRules.Objects, maxDepth);
+                tasks[1] = AddAsync(accessRules.Rulebase, maxDepth);
+                await Task.WhenAll(tasks);
+            }
+            finally
+            {
+                ExportLock.Wait();
+            }
         }
 
         /// <summary>
@@ -140,144 +184,147 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public void Add(IObjectSummary objectSummary, int maxDepth = int.MaxValue)
+        public async Task AddAsync(IObjectSummary objectSummary, int maxDepth = int.MaxValue)
         {
-            if (objectSummary == null) return;
-            if (objectSummary.UID == null)
-                objectSummary = Reload(objectSummary);
+            CancellationToken.ThrowIfCancellationRequested();
+            ExportLock.Release();
 
-            if (objectSummary.UID != null && !Objects.ContainsKey(objectSummary.UID))
-            {
-                if (objectSummary.DetailLevel == DetailLevels.UID)
-                    objectSummary = objectSummary.Reload(true);
-
-                if (Contains(objectSummary.Name, ExcludeByName) || Contains(objectSummary.Type, ExcludeByType)) return;
-
-                objectSummary = objectSummary.Reload(true);
-
-                Objects.Add(objectSummary.UID, objectSummary);
-
-                if (maxDepth <= 0 || Contains(objectSummary.Name, ExcludeDetailsByName) || Contains(objectSummary.Type, ExcludeDetailsByType)) return;
-                maxDepth -= 1;
-                switch (objectSummary)
-                {
-                    case AccessRule accessRule:
-                        Add(accessRule.Layer, maxDepth);
-                        Add(accessRule.Source, maxDepth);
-                        Add(accessRule.Destination, maxDepth);
-                        Add(accessRule.Service, maxDepth);
-                        Add(accessRule.InstallOn, maxDepth);
-                        Add(accessRule.InlineLayer, maxDepth);
-                        Add(accessRule.Content, maxDepth);
-                        Add(accessRule.VPN, maxDepth);
-                        break;
-
-                    case AccessSection accessSection:
-                        Add(accessSection.Objects, maxDepth);
-                        Add(accessSection.Rulebase, maxDepth);
-                        break;
-
-                    case AddressRange addressRange:
-                        Add(addressRange.Groups, maxDepth);
-                        break;
-
-                    case ApplicationCategory applicationCategory:
-                        Add(applicationCategory.Groups, maxDepth);
-                        break;
-
-                    case ApplicationGroup applicationGroup:
-                        Add(applicationGroup.Groups, maxDepth);
-                        Add(applicationGroup.Members, maxDepth);
-                        break;
-
-                    case ApplicationSite applicationSite:
-                        Add(applicationSite.Groups, maxDepth);
-                        break;
-
-                    case Group group:
-                        Add(group.Groups, maxDepth);
-                        Add(group.Members, maxDepth);
-                        break;
-
-                    case GroupWithExclusion groupWithExclusion:
-                        Add(groupWithExclusion.Include, maxDepth);
-                        Add(groupWithExclusion.Except, maxDepth);
-                        break;
-
-                    case Host host:
-                        Add(host.Groups, maxDepth);
-                        break;
-
-                    case MulticastAddressRange multicastAddressRange:
-                        Add(multicastAddressRange.Groups, maxDepth);
-                        break;
-
-                    case Network network:
-                        Add(network.Groups, maxDepth);
-                        break;
-
-                    case ServiceDceRpc serviceDceRpc:
-                        Add(serviceDceRpc.Groups, maxDepth);
-                        break;
-
-                    case ServiceGroup serviceGroup:
-                        Add(serviceGroup.Groups, maxDepth);
-                        Add(serviceGroup.Members, maxDepth);
-                        break;
-
-                    case ServiceICMP serviceICMP:
-                        Add(serviceICMP.Groups, maxDepth);
-                        break;
-
-                    case ServiceICMP6 serviceICMP6:
-                        Add(serviceICMP6.Groups, maxDepth);
-                        break;
-
-                    case ServiceOther serviceOther:
-                        Add(serviceOther.Groups, maxDepth);
-                        break;
-
-                    case ServiceRPC serviceRPC:
-                        Add(serviceRPC.Groups, maxDepth);
-                        break;
-
-                    case ServiceSCTP serviceSCTP:
-                        Add(serviceSCTP.Groups, maxDepth);
-                        break;
-
-                    case ServiceTCP serviceTCP:
-                        Add(serviceTCP.Groups, maxDepth);
-                        break;
-
-                    case ServiceUDP serviceUDP:
-                        Add(serviceUDP.Groups, maxDepth);
-                        break;
-
-                    case SimpleGateway simpleGateway:
-                        Add(simpleGateway.Groups, maxDepth);
-                        break;
-
-                    case Time time:
-                        Add(time.Groups, maxDepth);
-                        break;
-
-                    case TimeGroup timeGroup:
-                        Add(timeGroup.Groups, maxDepth);
-                        Add(timeGroup.Members, maxDepth);
-                        break;
-                }
-            }
-        }
-
-        private IObjectSummary Reload(IObjectSummary objectSummary)
-        {
             try
             {
-                objectSummary = objectSummary.Reload(true);
-            }
-            catch (GenericException ge) { Session.WriteDebug(ge.ToString(true)); }
+                if (objectSummary == null) return;
+                if (objectSummary.UID == null)
+                    objectSummary = await Reload(objectSummary);
 
-            return objectSummary;
+                if (objectSummary.UID != null && !Objects.ContainsKey(objectSummary.UID))
+                {
+                    if (objectSummary.DetailLevel == DetailLevels.UID)
+                        objectSummary = await Reload(objectSummary);
+
+                    if (Contains(objectSummary.Name, ExcludeByName) || Contains(objectSummary.Type, ExcludeByType)) return;
+
+                    objectSummary = await Reload(objectSummary);
+
+                    if (!Objects.TryAdd(objectSummary.UID, objectSummary)) return;
+                    Progress?.Report(Count);
+
+                    if (maxDepth <= 0 || Contains(objectSummary.Name, ExcludeDetailsByName) || Contains(objectSummary.Type, ExcludeDetailsByType)) return;
+                    maxDepth -= 1;
+                    var tasks = new List<Task>();
+                    switch (objectSummary)
+                    {
+                        case AccessRule accessRule:
+                            tasks.Add(AddAsync(accessRule.Layer, maxDepth));
+                            tasks.Add(AddAsync(accessRule.Source, maxDepth));
+                            tasks.Add(AddAsync(accessRule.Destination, maxDepth));
+                            tasks.Add(AddAsync(accessRule.Service, maxDepth));
+                            tasks.Add(AddAsync(accessRule.InstallOn, maxDepth));
+                            tasks.Add(AddAsync(accessRule.InlineLayer, maxDepth));
+                            tasks.Add(AddAsync(accessRule.Content, maxDepth));
+                            tasks.Add(AddAsync(accessRule.VPN, maxDepth));
+                            break;
+
+                        case AccessSection accessSection:
+                            tasks.Add(AddAsync(accessSection.Objects, maxDepth));
+                            tasks.Add(AddAsync(accessSection.Rulebase, maxDepth));
+                            break;
+
+                        case AddressRange addressRange:
+                            tasks.Add(AddAsync(addressRange.Groups, maxDepth));
+                            break;
+
+                        case ApplicationCategory applicationCategory:
+                            tasks.Add(AddAsync(applicationCategory.Groups, maxDepth));
+                            break;
+
+                        case ApplicationGroup applicationGroup:
+                            tasks.Add(AddAsync(applicationGroup.Groups, maxDepth));
+                            tasks.Add(AddAsync(applicationGroup.Members, maxDepth));
+                            break;
+
+                        case ApplicationSite applicationSite:
+                            tasks.Add(AddAsync(applicationSite.Groups, maxDepth));
+                            break;
+
+                        case Group group:
+                            tasks.Add(AddAsync(group.Groups, maxDepth));
+                            tasks.Add(AddAsync(group.Members, maxDepth));
+                            break;
+
+                        case GroupWithExclusion groupWithExclusion:
+                            tasks.Add(AddAsync(groupWithExclusion.Include, maxDepth));
+                            tasks.Add(AddAsync(groupWithExclusion.Except, maxDepth));
+                            break;
+
+                        case Host host:
+                            tasks.Add(AddAsync(host.Groups, maxDepth));
+                            break;
+
+                        case MulticastAddressRange multicastAddressRange:
+                            tasks.Add(AddAsync(multicastAddressRange.Groups, maxDepth));
+                            break;
+
+                        case Network network:
+                            tasks.Add(AddAsync(network.Groups, maxDepth));
+                            break;
+
+                        case ServiceDceRpc serviceDceRpc:
+                            tasks.Add(AddAsync(serviceDceRpc.Groups, maxDepth));
+                            break;
+
+                        case ServiceGroup serviceGroup:
+                            tasks.Add(AddAsync(serviceGroup.Groups, maxDepth));
+                            tasks.Add(AddAsync(serviceGroup.Members, maxDepth));
+                            break;
+
+                        case ServiceICMP serviceICMP:
+                            tasks.Add(AddAsync(serviceICMP.Groups, maxDepth));
+                            break;
+
+                        case ServiceICMP6 serviceICMP6:
+                            tasks.Add(AddAsync(serviceICMP6.Groups, maxDepth));
+                            break;
+
+                        case ServiceOther serviceOther:
+                            tasks.Add(AddAsync(serviceOther.Groups, maxDepth));
+                            break;
+
+                        case ServiceRPC serviceRPC:
+                            tasks.Add(AddAsync(serviceRPC.Groups, maxDepth));
+                            break;
+
+                        case ServiceSCTP serviceSCTP:
+                            tasks.Add(AddAsync(serviceSCTP.Groups, maxDepth));
+                            break;
+
+                        case ServiceTCP serviceTCP:
+                            tasks.Add(AddAsync(serviceTCP.Groups, maxDepth));
+                            break;
+
+                        case ServiceUDP serviceUDP:
+                            tasks.Add(AddAsync(serviceUDP.Groups, maxDepth));
+                            break;
+
+                        case SimpleGateway simpleGateway:
+                            tasks.Add(AddAsync(simpleGateway.Groups, maxDepth));
+                            break;
+
+                        case Time time:
+                            tasks.Add(AddAsync(time.Groups, maxDepth));
+                            break;
+
+                        case TimeGroup timeGroup:
+                            tasks.Add(AddAsync(timeGroup.Groups, maxDepth));
+                            tasks.Add(AddAsync(timeGroup.Members, maxDepth));
+                            break;
+                    }
+
+                    await Task.WhenAll(tasks);
+                }
+            }
+            finally
+            {
+                ExportLock.Wait();
+            }
         }
 
         /// <summary>
@@ -290,53 +337,85 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public void Add(string identifier, WhereUsed whereUsed, int maxDepth = int.MaxValue)
+        public async Task AddAsync(string identifier, WhereUsed whereUsed, int maxDepth = int.MaxValue)
         {
-            WhereUsed[identifier] = whereUsed;
-            Add(whereUsed.UsedDirectly, maxDepth);
-            Add(whereUsed.UsedIndirectly, maxDepth);
+            ExportLock.Release();
+            try
+            {
+                WhereUsed[identifier] = whereUsed;
+                var tasks = new Task[2];
+                tasks[0] = AddAsync(whereUsed.UsedDirectly, maxDepth);
+                tasks[1] = AddAsync(whereUsed.UsedIndirectly, maxDepth);
+                await Task.WhenAll(tasks);
+            }
+            finally
+            {
+                ExportLock.Wait();
+            }
         }
 
         /// <summary>
-        /// Exports this instance.
+        /// Exports this instance. Will wait for all currently running AddAsync methods to complete
+        /// before exporting.
         /// </summary>
         /// <param name="indent">if set to <c>true</c> JSON output will be formatted with indents.</param>
         /// <returns>JSON data of all included export data</returns>
-        public string Export(bool indent = false) =>
-            JsonConvert.SerializeObject(this, new JsonSerializerSettings()
+        public async Task<string> Export(bool indent = false)
+        {
+            while (ExportLock.CurrentCount > 0)
+                await Task.Delay(1000, CancellationToken);
+
+            return JsonConvert.SerializeObject(this, new JsonSerializerSettings()
             {
                 ContractResolver = ExportContractResolver.Instance,
                 NullValueHandling = NullValueHandling.Ignore,
                 Formatting = (indent) ? Formatting.Indented : Formatting.None
             });
+        }
 
-        private void Add(WhereUsed.WhereUsedResults results, int maxDepth)
+        private async Task AddAsync(WhereUsed.WhereUsedResults results, int maxDepth)
         {
             if (results == null) return;
 
-            Add(results.Objects, maxDepth);
+            var tasks = new List<Task>
+            {
+                AddAsync(results.Objects, maxDepth)
+            };
 
             foreach (var rule in results.AccessControlRules)
             {
-                Add(rule.Layer, maxDepth);
-                Add(rule.Rule, maxDepth);
-                Add(rule.Package, maxDepth);
+                tasks.Add(AddAsync(rule.Layer, maxDepth));
+                tasks.Add(AddAsync(rule.Rule, maxDepth));
+                tasks.Add(AddAsync(rule.Package, maxDepth));
             }
 
             foreach (var rule in results.NatRules)
-                Add(rule.Rule, maxDepth);
+                tasks.Add(AddAsync(rule.Rule, maxDepth));
 
             foreach (var rule in results.ThreatPreventionRules)
             {
-                Add(rule.Layer, maxDepth);
-                Add(rule.Rule, maxDepth);
+                tasks.Add(AddAsync(rule.Layer, maxDepth));
+                tasks.Add(AddAsync(rule.Rule, maxDepth));
             }
+
+            await Task.WhenAll(tasks);
         }
 
         private bool Contains(string value, string[] array)
         {
             if (array == null) return false;
             return array.Contains(value, StringComparer.CurrentCultureIgnoreCase);
+        }
+
+        private async Task<IObjectSummary> Reload(IObjectSummary objectSummary)
+        {
+            try
+            {
+                objectSummary = await objectSummary.Reload(true);
+            }
+            catch (GenericException ge) { Session.WriteDebug(ge.ToString(true)); }
+
+            return objectSummary;
         }
 
         #endregion Methods

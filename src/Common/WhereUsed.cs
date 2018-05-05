@@ -18,12 +18,12 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Newtonsoft.Json;
-using System.Runtime.Serialization;
+using System.Threading;
 
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// Results from <see cref="Session.FindWhereUsed(string, DetailLevels, bool, int)" />
+    /// Results from <see cref="Session.FindWhereUsed(string, DetailLevels, bool, int, CancellationToken)" />
     /// </summary>
     public class WhereUsed
     {
@@ -217,6 +217,13 @@ namespace Koopman.CheckPoint.Common
                 public AccessLayer Layer { get; }
 
                 /// <summary>
+                /// Access control rule found
+                /// </summary>
+                /// <value>The rule.</value>
+                [JsonProperty(PropertyName = "package")]
+                public IObjectSummary Package { get; }
+
+                /// <summary>
                 /// Rule position
                 /// </summary>
                 /// <value>The position.</value>
@@ -229,13 +236,6 @@ namespace Koopman.CheckPoint.Common
                 /// <value>The rule.</value>
                 [JsonProperty(PropertyName = "rule")]
                 public AccessRule Rule { get; }
-
-                /// <summary>
-                /// Access control rule found
-                /// </summary>
-                /// <value>The rule.</value>
-                [JsonProperty(PropertyName = "package")]
-                public IObjectSummary Package { get; }
 
                 /// <summary>
                 /// Columns where object is used in rule.

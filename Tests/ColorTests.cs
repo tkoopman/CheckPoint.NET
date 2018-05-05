@@ -21,6 +21,7 @@ using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -36,13 +37,13 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void TestAllColors()
+        public async Task TestAllColors()
         {
             var a = Session.UpdateHost(Name);
             foreach (Colors c in Enum.GetValues(typeof(Colors)))
             {
                 a.Color = c;
-                a.AcceptChanges();
+                await a.AcceptChanges();
                 Assert.AreEqual(c, a.Color);
             }
         }

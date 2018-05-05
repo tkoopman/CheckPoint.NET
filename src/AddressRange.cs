@@ -22,6 +22,7 @@ using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -38,7 +39,7 @@ namespace Koopman.CheckPoint
     /// };
     /// ar.AcceptChanges();
     /// </code>
-    /// Find address range using <see cref="Session.FindAddressRange(string, DetailLevels)" />
+    /// Find address range using <see cref="Session.FindAddressRange(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var ar = Session.FindAddressRange("MyAddressRange");
     /// </code>

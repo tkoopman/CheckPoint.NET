@@ -44,8 +44,8 @@ namespace Tests
         {
             Session.DebugWriter = null;
             DebugWriter.WriteLine($" Completed test {TestContext.TestName} ".CenterString(60, '#'));
-            Session.Discard();
-            Session.Logout();
+            Session.Discard().GetAwaiter().GetResult();
+            Session.Logout().GetAwaiter().GetResult();
             if (DebugAll || TestContext.CurrentTestOutcome != UnitTestOutcome.Passed)
                 TestContext.WriteLine(DebugWriter.ToString());
             DebugWriter.Close();

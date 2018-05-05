@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -28,36 +29,36 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindSession();
+            var a = await Session.FindSession();
             Assert.IsNotNull(a);
             Assert.AreEqual(Session.UID, a.UID);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindAllSessions(limit: 5, viewPublishedSessions: true);
+            var a = await Session.FindAllSessions(limit: 5, viewPublishedSessions: true);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void Finds()
+        public async Task Finds()
         {
-            var a = Session.FindSessions(limit: 5, viewPublishedSessions: true);
+            var a = await Session.FindSessions(limit: 5, viewPublishedSessions: true);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void SetInfo()
+        public async Task SetInfo()
         {
             string name = "Session Name";
             string description = "Session Description";
             var color = Colors.DarkBlue;
             string[] tags = new string[] { "ATag" };
 
-            var a = Session.SetSessionInfo(
+            var a = await Session.SetSessionInfo(
                 name: name,
                 description: description,
                 color: color,
@@ -70,7 +71,7 @@ namespace Tests
             Assert.AreEqual(tags.Length, a.Tags.Length);
 
             // Make sure sending all nulls doesn't change values
-            a = Session.SetSessionInfo();
+            a = await Session.SetSessionInfo();
             Assert.IsNotNull(a.Name);
             Assert.AreEqual(name, a.Name);
             Assert.AreEqual(description, a.Description);

@@ -33,8 +33,8 @@ namespace Koopman.CheckPoint
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccessSection" /> class ready to be populated
-        /// with current data.
+        /// Initializes a new instance of the <see cref="AccessSection" /> class ready to be
+        /// populated with current data.
         /// </summary>
         /// <param name="session">The current session.</param>
         protected internal AccessSection(Session session) : base(session, DetailLevels.Full)
@@ -43,18 +43,14 @@ namespace Koopman.CheckPoint
 
         #endregion Constructors
 
+        #region Properties
+
         /// <summary>
         /// Section starting rule number.
         /// </summary>
         [JsonProperty(PropertyName = "from")]
         public int From { get; set; }
 
-        /// <summary>
-        /// Section last rule number.
-        /// </summary>
-        [JsonProperty(PropertyName = "to")]
-        public int To { get; set; }
-        
         /// <summary>
         /// <para type="description">
         /// How much details are returned depends on the details-level field of the request. This
@@ -73,12 +69,24 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "rulebase", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public List<IRulebaseEntry> Rulebase { get; internal set; }
 
+        /// <summary>
+        /// Section last rule number.
+        /// </summary>
+        [JsonProperty(PropertyName = "to")]
+        public int To { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
         internal override void UpdateGenericMembers(ObjectConverter objectConverter)
         {
             base.UpdateGenericMembers(objectConverter);
             objectConverter.PostDeserilization(Objects);
             objectConverter.PostDeserilization(Rulebase);
         }
+
+        #endregion Methods
 
         #region Classes
 

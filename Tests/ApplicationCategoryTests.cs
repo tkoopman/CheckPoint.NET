@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -37,40 +38,40 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(Koopman.CheckPoint.Exceptions.ObjectLockedException))]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not_{Name}";
             var a = Session.UpdateApplicationCategory(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindApplicationCategory(Name);
+            var a = await Session.FindApplicationCategory(Name);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindApplicationCategories(limit: 5);
+            var a = await Session.FindApplicationCategories(limit: 5);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindApplicationCategories(filter: Filter, limit: 5);
+            var a = await Session.FindApplicationCategories(filter: Filter, limit: 5);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New_{Name}";
 
@@ -81,20 +82,20 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Koopman.CheckPoint.Exceptions.ObjectLockedException))]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not_{Name}";
-            var a = Session.FindApplicationCategory(Name);
+            var a = await Session.FindApplicationCategory(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
         }
 
         #endregion Methods

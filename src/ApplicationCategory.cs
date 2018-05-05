@@ -21,6 +21,7 @@ using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -35,7 +36,7 @@ namespace Koopman.CheckPoint
     /// };
     /// cat.AcceptChanges();
     /// </code>
-    /// Find group using <see cref="Session.FindApplicationCategory(string, DetailLevels)" />
+    /// Find group using <see cref="Session.FindApplicationCategory(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var cat = Session.FindApplicationCategory("MyCategory");
     /// </code>

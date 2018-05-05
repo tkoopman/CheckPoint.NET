@@ -305,7 +305,8 @@ namespace Koopman.CheckPoint.Json
                     if (result.UID == null)
                         SetProperty(result, nameof(IObjectSummary.UID), uid);
                     cache.Add(result);
-                } else
+                }
+                else
                 {
                     SetProperty(result, nameof(IObjectSummary.DetailLevel), GetDetailLevel(reader));
                 }
@@ -325,7 +326,7 @@ namespace Koopman.CheckPoint.Json
 
                 foreach (var obj in cacheGeneric)
                     if (
-                        obj.UID.Equals(uid) && 
+                        obj.UID.Equals(uid) &&
                         objectType.GetTypeInfo().IsAssignableFrom(obj.GetType())
                        ) return obj;
 

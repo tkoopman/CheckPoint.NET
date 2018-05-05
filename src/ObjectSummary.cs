@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint
 {
@@ -194,19 +196,22 @@ namespace Koopman.CheckPoint
         #region Methods
 
         /// <summary>
-        /// Same as calling <see cref="ObjectSummary{T}.AcceptChanges(Ignore)" /> with a value of <see cref="Ignore.No" />;
+        /// Same as calling <see cref="ObjectSummary{T}.AcceptChanges(Ignore, CancellationToken)" />
+        /// with a value of <see cref="Ignore.No" />;
         /// </summary>
-        public override void AcceptChanges() => AcceptChanges(Ignore.No);
+        public override Task AcceptChanges(CancellationToken cancellationToken = default) => AcceptChanges(Ignore.No, cancellationToken);
 
         /// <summary>
         /// Posts all changes to Check Point server. If successful all object properties will be
         /// updated with results.
         /// </summary>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
-        public virtual void AcceptChanges(Ignore ignore)
+        public async virtual Task AcceptChanges(Ignore ignore, CancellationToken cancellationToken = default)
         {
             if (IsChanged)
             {
@@ -230,7 +235,7 @@ namespace Koopman.CheckPoint
 
                 string jsonData = JsonConvert.SerializeObject(jo, Session.JsonFormatting);
 
-                string result = Session.Post(command, jsonData);
+                string result = await Session.PostAsync(command, jsonData, cancellationToken);
 
                 DetailLevel = DetailLevels.Full;
 
@@ -242,19 +247,23 @@ namespace Koopman.CheckPoint
         /// Deletes the current object.
         /// </summary>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
         /// <exception cref="Exception">Cannot delete a new object.</exception>
-        public virtual void Delete(Ignore ignore = Internal.Delete.Defaults.ignore)
+        public virtual Task Delete(Ignore ignore = Internal.Delete.Defaults.ignore, CancellationToken cancellationToken = default)
         {
             if (IsNew) { throw new Exception("Cannot delete a new object."); }
 
-            Internal.Delete.Invoke(
+            return Internal.Delete.Invoke(
                 Session: Session,
                 Command: $"delete-{Type}",
                 Value: UID,
-                Ignore: ignore);
+                Ignore: ignore,
+                cancellationToken: cancellationToken
+                );
         }
 
         /// <summary>
@@ -272,12 +281,13 @@ namespace Koopman.CheckPoint
         /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
         /// </param>
         /// <param name="detailLevel">The detail level to retrieve.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns><c>this</c></returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
         /// <exception cref="Exception">Cannot reload a new object.</exception>
-        public virtual T Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard)
+        public async virtual Task<T> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
         {
             if (IsNew) { throw new Exception("Cannot reload a new object."); }
             if (OnlyIfPartial && DetailLevel == DetailLevels.Full) { return (T)(IObjectSummary)this; }
@@ -290,7 +300,7 @@ namespace Koopman.CheckPoint
 
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
-            string result = Session.Post($"show-{Type}", jsonData);
+            string result = await Session.PostAsync($"show-{Type}", jsonData, cancellationToken);
 
             DetailLevel = DetailLevels.Full;
 
@@ -307,8 +317,9 @@ namespace Koopman.CheckPoint
         /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>IObjectSummary of reloaded object</returns>
-        IObjectSummary IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel) => Reload(OnlyIfPartial, detailLevel);
+        async Task<IObjectSummary> IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel, CancellationToken cancellationToken) => await Reload(OnlyIfPartial, detailLevel, cancellationToken);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this object.
@@ -351,7 +362,7 @@ namespace Koopman.CheckPoint
                         return false;
 
                     case DetailLevelActions.AutoReload:
-                        Reload();
+                        Reload().GetAwaiter().GetResult();
                         return (DetailLevel == DetailLevels.Full);
 
                     default:

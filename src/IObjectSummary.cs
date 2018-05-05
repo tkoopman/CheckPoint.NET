@@ -18,6 +18,8 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint
 {
@@ -87,11 +89,12 @@ namespace Koopman.CheckPoint
         /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>IObjectSummary of reloaded object</returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
-        IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard);
+        Task<IObjectSummary> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default);
 
         #endregion Methods
     }

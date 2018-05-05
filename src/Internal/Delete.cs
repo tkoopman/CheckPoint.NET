@@ -19,6 +19,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace Koopman.CheckPoint.Internal
 {
@@ -36,7 +37,9 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Command">The delete command.</param>
         /// <param name="Value">The object name or UID.</param>
         /// <param name="Ignore">The ignore setting.</param>
-        internal static void Invoke(Session Session, string Command, string Value, Ignore Ignore)
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        internal async static System.Threading.Tasks.Task Invoke(Session Session, string Command, string Value, Ignore Ignore, CancellationToken cancellationToken)
         {
             var jo = new JObject
             {
@@ -47,7 +50,7 @@ namespace Koopman.CheckPoint.Internal
 
             string jsonData = JsonConvert.SerializeObject(jo, Session.JsonFormatting);
 
-            string result = Session.Post(Command, jsonData);
+            await Session.PostAsync(Command, jsonData, cancellationToken);
         }
 
         #endregion Methods

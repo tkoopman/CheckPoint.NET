@@ -23,6 +23,7 @@ using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -44,21 +45,21 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Delete() => Session.DeleteNetwork(v4Name);
+        public async Task Delete() => await Session.DeleteNetwork(v4Name);
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             var a = Session.UpdateNetwork(v4Name);
             a.Comments = "Blah";
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.AreEqual("Blah", a.Comments);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindNetwork(v4Name);
+            var a = await Session.FindNetwork(v4Name);
             Assert.IsNotNull(a);
             Assert.AreEqual(v4Subnet, a.Subnet4);
             Assert.AreEqual(v4MaskLen, a.MaskLength4);
@@ -71,52 +72,52 @@ namespace Tests
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindAllNetworks(limit: 5, order: Network.Order.NameDesc);
+            var a = await Session.FindAllNetworks(limit: 5, order: Network.Order.NameDesc);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAllUIDs()
+        public async Task FindAllUIDs()
         {
-            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.UID);
+            var a = await Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.UID);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound() => Session.FindNetwork("I Don't Exist!");
+        public async Task FindNotFound() => await Session.FindNetwork("I Don't Exist!");
 
         [TestMethod]
-        public void Finds()
+        public async Task Finds()
         {
-            var a = Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.Full);
+            var a = await Session.FindNetworks(limit: 5, order: Network.Order.NameDesc, detailLevel: DetailLevels.Full);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindsFiltered()
+        public async Task FindsFiltered()
         {
-            var a = Session.FindNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
+            var a = await Session.FindNetworks(filter: v4Filter, ipOnly: true, limit: 5, order: Network.Order.NameDesc);
             Assert.IsNotNull(a);
-            var b = a[0].Reload();
-            a = a.NextPage();
+            var b = await a[0].Reload();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindUID()
+        public async Task FindUID()
         {
-            var a = Session.FindNetwork("HQ LAN", DetailLevels.UID);
+            var a = await Session.FindNetwork("HQ LAN", DetailLevels.UID);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindV6()
+        public async Task FindV6()
         {
-            var a = Session.FindNetwork(v6Name);
+            var a = await Session.FindNetwork(v6Name);
             Assert.IsNotNull(a);
             Assert.AreEqual(v6Subnet, a.Subnet6);
             Assert.AreEqual(v6MaskLen, a.MaskLength6);
@@ -126,7 +127,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New {v4Name}";
 
@@ -139,17 +140,17 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
-            var a = Session.FindNetwork(v4Name);
+            var a = await Session.FindNetwork(v4Name);
             a.Comments = "Blah";
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.AreEqual("Blah", a.Comments);
         }
 

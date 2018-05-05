@@ -18,6 +18,8 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.AccessRules
 {
@@ -112,15 +114,12 @@ namespace Koopman.CheckPoint.AccessRules
         public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
         /// <inheritdoc />
-        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) => this;
-
+        public Task<IObjectSummary> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default) => Task.FromResult((IObjectSummary)this);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() => GetIdentifier();
 
         #endregion Methods

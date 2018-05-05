@@ -21,6 +21,7 @@ using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -30,57 +31,57 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void ExportRulebase()
+        public async Task ExportRulebase()
         {
-            var a = Session.FindAllAccessRulebase("TestLayer");
+            var a = await Session.FindAllAccessRulebase("TestLayer");
             var export = new JsonExport(Session);
-            export.Add(a);
-            Console.Out.WriteLine(export.Export());
+            await export.AddAsync(a);
+            Console.Out.WriteLine(await export.Export());
         }
 
         [TestMethod]
-        public void ExportWhereUsed()
+        public async Task ExportWhereUsed()
         {
-            var wu = Session.FindWhereUsed("domain-udp");
+            var wu = await Session.FindWhereUsed("domain-udp");
             var export = new JsonExport(Session, excludeByName: new string[] { "domain-tcp" });
-            export.Add("domain-udp", wu);
-            Console.Out.WriteLine(export.Export(true));
+            await export.AddAsync("domain-udp", wu);
+            Console.Out.WriteLine(await export.Export(true));
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindAllObjects(filter: "domain", detailLevel: DetailLevels.Full);
+            var a = await Session.FindAllObjects(filter: "domain", detailLevel: DetailLevels.Full);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Length > 0);
-            var b = Session.FindObject(a[0].UID);
+            var b = await Session.FindObject(a[0].UID);
             Assert.IsNotNull(b);
             Assert.AreEqual(a[0].UID, b.UID);
         }
 
         [TestMethod]
-        public void Finds()
+        public async Task Finds()
         {
-            var a = Session.FindObjects(limit: 5);
+            var a = await Session.FindObjects(limit: 5);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Total > 0);
-            var b = Session.FindObject(a[0].UID);
+            var b = await Session.FindObject(a[0].UID);
             Assert.IsNotNull(b);
             Assert.AreEqual(a[0].UID, b.UID);
         }
 
         [TestMethod]
-        public void Unused()
+        public async Task Unused()
         {
-            var a = Session.FindUnusedObjects(limit: 5, detailLevel: DetailLevels.Full);
+            var a = await Session.FindUnusedObjects(limit: 5, detailLevel: DetailLevels.Full);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Total > 0);
         }
 
         [TestMethod]
-        public void WhereUsed()
+        public async Task WhereUsed()
         {
-            var a = Session.FindWhereUsed("domain-udp", DetailLevels.Full);
+            var a = await Session.FindWhereUsed("domain-udp", DetailLevels.Full);
             Assert.IsNotNull(a);
         }
 

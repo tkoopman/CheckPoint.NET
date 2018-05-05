@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -35,30 +36,30 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindServiceDceRpc(Name);
+            var a = await Session.FindServiceDceRpc(Name);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindServicesDceRpc(limit: 5, order: ServiceDceRpc.Order.NameAsc);
+            var a = await Session.FindServicesDceRpc(limit: 5, order: ServiceDceRpc.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindServicesDceRpc(filter: Filter, limit: 5, order: ServiceDceRpc.Order.NameAsc);
+            var a = await Session.FindServicesDceRpc(filter: Filter, limit: 5, order: ServiceDceRpc.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New{Name}";
 
@@ -70,7 +71,7 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }

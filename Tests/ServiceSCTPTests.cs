@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -28,15 +29,15 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindServicesSCTP(limit: 5, order: ServiceRPC.Order.NameAsc);
+            var a = await Session.FindServicesSCTP(limit: 5, order: ServiceRPC.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"SCTPService";
 
@@ -48,7 +49,7 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }

@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.AccessRules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -29,9 +30,9 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindAccessRule("TestLayer", 1, DetailLevels.Full);
+            var a = await Session.FindAccessRule("TestLayer", 1, DetailLevels.Full);
             Assert.IsNotNull(a);
             Assert.IsNotNull(a.Action);
             Assert.IsNotNull(a.Layer);
@@ -42,16 +43,16 @@ namespace Tests
         }
 
         [TestMethod]
-        public void FindRulebase()
+        public async Task FindRulebase()
         {
-            var a = Session.FindAccessRulebase("TestLayer", detailLevel: DetailLevels.Full);
+            var a = await Session.FindAccessRulebase("TestLayer", detailLevel: DetailLevels.Full);
             Assert.IsNotNull(a);
-            a = Session.FindAccessRulebase(a.UID, detailLevel: DetailLevels.Standard);
+            a = await Session.FindAccessRulebase(a.UID, detailLevel: DetailLevels.Standard);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             var a = new AccessRule(Session, "TestLayer", new Position(1))
             {
@@ -62,7 +63,7 @@ namespace Tests
             a.Track.Type = TrackType.Log;
             a.Source.Add("DNS Server");
             a.VPN.Add("All_GwToGw");
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
             a.Source.Clear();
             a.Destination.Add("DNS Server");
@@ -73,7 +74,7 @@ namespace Tests
             a.Track.PerSession = true;
             a.Track.Alert = AlertType.SNMP;
             a.Name = "Test Rule";
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(TrackType.ExtendedLog, a.Track.Type);
             Assert.AreEqual(1, a.Destination.Count);

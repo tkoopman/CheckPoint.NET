@@ -30,15 +30,15 @@ namespace Koopman.CheckPoint
     /// <summary>
     /// Check Point Task
     /// </summary>
-    public class Task
+    public class CheckPointTask
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Task" /> class.
+        /// Initializes a new instance of the <see cref="CheckPointTask" /> class.
         /// </summary>
         /// <param name="session">The current session.</param>
-        protected internal Task(Session session)
+        protected internal CheckPointTask(Session session)
         {
             Session = session;
         }

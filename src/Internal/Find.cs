@@ -21,6 +21,8 @@ using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.Internal
 {
@@ -39,7 +41,9 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Command">The find command.</param>
         /// <param name="Value">The name or UID of the object to find.</param>
         /// <param name="DetailLevel">The detail level to be returned.</param>
-        internal static T Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel)
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        internal async static Task<T> Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel, CancellationToken cancellationToken)
         {
             var data = new Dictionary<string, dynamic>
             {
@@ -49,7 +53,7 @@ namespace Koopman.CheckPoint.Internal
 
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
-            string result = Session.Post(Command, jsonData);
+            string result = await Session.PostAsync(Command, jsonData, cancellationToken);
 
             return JsonConvert.DeserializeObject<T>(result, new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } });
         }
@@ -60,8 +64,9 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Session">The session.</param>
         /// <param name="uid">The uid to find.</param>
         /// <param name="DetailLevel">The detail level to be returned.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static IObjectSummary Invoke(Session Session, string uid, DetailLevels DetailLevel)
+        internal async static Task<IObjectSummary> InvokeAsync(Session Session, string uid, DetailLevels DetailLevel, CancellationToken cancellationToken)
         {
             var data = new Dictionary<string, dynamic>
             {
@@ -71,7 +76,7 @@ namespace Koopman.CheckPoint.Internal
 
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
-            string result = Session.Post("show-object", jsonData);
+            string result = await Session.PostAsync("show-object", jsonData, cancellationToken);
             var obj = JObject.Parse(result);
             return obj.GetValue("object").ToObject<IObjectSummary>(JsonSerializer.Create(new JsonSerializerSettings() { Converters = { new ObjectConverter(Session, DetailLevels.Full, DetailLevel) } }));
         }

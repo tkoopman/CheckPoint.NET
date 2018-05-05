@@ -22,6 +22,8 @@ using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -207,20 +209,22 @@ namespace Koopman.CheckPoint.Common
         public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
         /// <summary>
-        /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
+        /// Reloads the current object. Used to either reset changes made without saving, or to
+        /// increased the <paramref name="detailLevel" /> to <see cref="DetailLevels.Full" />
         /// </summary>
         /// <param name="OnlyIfPartial">
         /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>IObjectSummary of reloaded object</returns>
-        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel)
+        public async Task<IObjectSummary> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
         {
             if (Session == null)
                 return this;
 
             if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)
-                cache = Find.Invoke(Session, UID, detailLevel);
+                cache = await Find.InvokeAsync(Session, UID, detailLevel, cancellationToken);
 
             return cache;
         }
@@ -269,7 +273,7 @@ namespace Koopman.CheckPoint.Common
                         return false;
 
                     case DetailLevelActions.AutoReload:
-                        Reload();
+                        Reload().GetAwaiter().GetResult();
                         return (DetailLevel == DetailLevels.Full);
 
                     default:

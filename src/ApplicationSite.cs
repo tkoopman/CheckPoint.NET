@@ -21,6 +21,7 @@ using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -36,7 +37,7 @@ namespace Koopman.CheckPoint
     /// site.UrlList.Add("www.mysite.com");
     /// site.AcceptChanges();
     /// </code>
-    /// Find site using <see cref="Session.FindApplicationSite(string, DetailLevels)" />
+    /// Find site using <see cref="Session.FindApplicationSite(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var site = Session.FindApplicationSite("MySite");
     /// </code>

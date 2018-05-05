@@ -21,6 +21,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Koopman.CheckPoint.Common
 {
@@ -65,7 +67,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Gets or sets the function used to move to the next page of results.
         /// </summary>
-        protected internal Func<U> Next { get; set; }
+        protected internal Func<CancellationToken, Task<U>> Next { get; set; }
 
         #endregion Properties
 
@@ -98,12 +100,12 @@ namespace Koopman.CheckPoint.Common
         /// Gets the next page of results from management server.
         /// </summary>
         /// <returns>Returns the next page of results. Null if no next page to return.</returns>
-        public U NextPage()
+        public async Task<U> NextPage(CancellationToken ct = default)
         {
             if (Next == null)
                 return null;
 
-            return Next();
+            return await Next(ct);
         }
 
         #endregion Methods

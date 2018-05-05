@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -32,22 +33,22 @@ namespace Tests
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(GenericException))]
-        public void TestInstallPolicy()
+        public async Task TestInstallPolicy()
         {
-            string taskID = Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
+            string taskID = await Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
         }
 
         [TestMethod]
-        public void TestVerifyPolicy()
+        public async Task TestVerifyPolicy()
         {
-            string taskID = Session.VerifyPolicy("Corporate_Policy");
+            string taskID = await Session.VerifyPolicy("Corporate_Policy");
             Assert.IsNotNull(taskID);
 
-            var task = Session.FindTask(taskID);
+            var task = await Session.FindTask(taskID);
             Assert.IsNotNull(task);
 
             // Wait for task to finish
-            task.WaitAsync(delay: 2000).Wait();
+            await task.WaitAsync(delay: 2000);
         }
 
         #endregion Methods

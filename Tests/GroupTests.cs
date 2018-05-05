@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -36,63 +37,63 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not {Name}";
 
             var a = Session.UpdateGroup(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindGroup(Name);
+            var a = await Session.FindGroup(Name);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Members.Count > 0);
             Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindAllGroups(limit: 5, order: Group.Order.NameAsc);
+            var a = await Session.FindAllGroups(limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void Finds()
+        public async Task Finds()
         {
-            var a = Session.FindGroups(limit: 5, order: Group.Order.NameAsc);
+            var a = await Session.FindGroups(limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindsFiltered()
+        public async Task FindsFiltered()
         {
             string filter = Name.Substring(0, 3);
 
-            var a = Session.FindGroups(filter: filter, limit: 5, order: Group.Order.NameAsc);
+            var a = await Session.FindGroups(filter: filter, limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindUID()
+        public async Task FindUID()
         {
-            var a = Session.FindGroup(Name, DetailLevels.UID);
+            var a = await Session.FindGroup(Name, DetailLevels.UID);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Members.Count > 0);
             Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New {Name}";
 
@@ -103,55 +104,55 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not {Name}";
 
-            var a = Session.FindGroup(Name);
+            var a = await Session.FindGroup(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void SetMembers()
+        public async Task SetMembers()
         {
-            var a = Session.FindGroup(Name);
+            var a = await Session.FindGroup(Name);
             a.Members.Clear();
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
 
             a.Members.Add(Add);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(1, a.Members.Count);
 
             a.Members.Remove(a.Members[0]);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
 
             a.Members.Add(Add);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(1, a.Members.Count);
 
             a.Members.Clear();
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
         }

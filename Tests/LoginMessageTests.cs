@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -30,14 +31,14 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void SetLoginMessage()
+        public async Task SetLoginMessage()
         {
             string header = "Session header";
             string message = "Should you be here?";
             bool show = true;
             bool warn = false;
 
-            var a = Session.SetLoginMessage(
+            var a = await Session.SetLoginMessage(
                     header: header,
                     message: message,
                     showMessage: show,
@@ -51,7 +52,7 @@ namespace Tests
             Assert.AreEqual(warn, a.Warning);
 
             // Confirm sending nulls doesn't change anything
-            a = Session.SetLoginMessage();
+            a = await Session.SetLoginMessage();
             Assert.IsNotNull(a);
             Assert.AreEqual(header, a.Header);
             Assert.AreEqual(message, a.Message);
@@ -60,9 +61,9 @@ namespace Tests
         }
 
         [TestMethod]
-        public void ShowLoginMessage()
+        public async Task ShowLoginMessage()
         {
-            var a = Session.GetLoginMessage();
+            var a = await Session.GetLoginMessage();
             Assert.IsNotNull(a);
         }
 

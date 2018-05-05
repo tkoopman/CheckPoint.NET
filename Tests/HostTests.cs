@@ -23,6 +23,7 @@ using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -41,25 +42,25 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Delete() => Session.DeleteHost(Name);
+        public async Task Delete() => await Session.DeleteHost(Name);
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not {Name}";
 
             var a = Session.UpdateHost(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindHost(Name);
+            var a = await Session.FindHost(Name);
             Assert.IsNotNull(a);
             Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
             Assert.AreEqual(Name, a.Name);
@@ -69,29 +70,29 @@ namespace Tests
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindHosts(limit: 5, order: Host.Order.NameDesc);
+            var a = await Session.FindHosts(limit: 5, order: Host.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindHosts(filter: Filter, ipOnly: true, limit: 5, order: Host.Order.NameDesc);
+            var a = await Session.FindHosts(filter: Filter, ipOnly: true, limit: 5, order: Host.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound() => Session.FindHost("I Don't Exist!");
+        public async Task FindNotFound() => await Session.FindHost("I Don't Exist!");
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New {Name}";
 
@@ -102,46 +103,46 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not {Name}";
 
-            var a = Session.FindHost(Name);
+            var a = await Session.FindHost(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void SetGroups()
+        public async Task SetGroups()
         {
-            var a = Session.FindHost(Name);
+            var a = await Session.FindHost(Name);
             a.Groups.Clear();
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Groups.Count);
 
             a.Groups.Add(Group);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(1, a.Groups.Count);
             Assert.AreEqual(DetailLevels.Standard, a.Groups[0].DetailLevel);
-            a.Groups[0].Reload(OnlyIfPartial: true);
+            await a.Groups[0].Reload(OnlyIfPartial: true);
             Assert.AreEqual(DetailLevels.Full, a.Groups[0].DetailLevel);
 
             a.Groups.Remove(a.Groups[0]);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Groups.Count);
         }

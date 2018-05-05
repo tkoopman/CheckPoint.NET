@@ -22,6 +22,7 @@ using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -37,7 +38,7 @@ namespace Koopman.CheckPoint
     /// };
     /// h.AcceptChanges();
     /// </code>
-    /// Find host using <see cref="Session.FindHost(string, DetailLevels)" />
+    /// Find host using <see cref="Session.FindHost(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var h = Session.FindHost("MyHost");
     /// </code>
