@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -36,42 +37,42 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not_{Name}";
             var a = Session.UpdateSecurityZone(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindSecurityZone(Name);
+            var a = await Session.FindSecurityZone(Name);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindSecurityZones(limit: 5, order: Tag.Order.NameAsc);
+            var a = await Session.FindSecurityZones(limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindSecurityZones(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
+            var a = await Session.FindSecurityZones(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New_{Name}";
 
@@ -82,19 +83,19 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not_{Name}";
-            var a = Session.FindSecurityZone(Name);
+            var a = await Session.FindSecurityZone(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }

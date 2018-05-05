@@ -22,6 +22,7 @@ using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -38,7 +39,7 @@ namespace Koopman.CheckPoint
     /// };
     /// mar.AcceptChanges();
     /// </code>
-    /// Find multicast address range using <see cref="Session.FindMulticastAddressRange(string, DetailLevels)" />
+    /// Find multicast address range using <see cref="Session.FindMulticastAddressRange(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var ar = Session.FindMulticastAddressRange("MyMulticastAddressRange");
     /// </code>

@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -36,42 +37,42 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not{Name}";
             var a = Session.UpdateServiceUDP(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindServiceUDP(Name);
+            var a = await Session.FindServiceUDP(Name);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindServicesUDP(limit: 5, order: ServiceUDP.Order.NameAsc);
+            var a = await Session.FindServicesUDP(limit: 5, order: ServiceUDP.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindServicesUDP(filter: Filter, limit: 5, order: ServiceUDP.Order.NameAsc);
+            var a = await Session.FindServicesUDP(filter: Filter, limit: 5, order: ServiceUDP.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New{Name}";
 
@@ -89,19 +90,19 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not{Name}";
-            var a = Session.FindServiceUDP(Name);
+            var a = await Session.FindServiceUDP(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }

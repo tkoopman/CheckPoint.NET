@@ -40,7 +40,7 @@ namespace Koopman.CheckPoint
     /// };
     /// gwe.AcceptChanges();
     /// </code>
-    /// Find group with exclusion using <see cref="Session.FindGroupWithExclusion(string, DetailLevels)" />
+    /// Find group with exclusion using <see cref="Session.FindGroupWithExclusion(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var gwe = Session.FindGroupWithExclusion("MyGroupWithExclusion");
     /// </code>
@@ -241,11 +241,7 @@ namespace Koopman.CheckPoint
 
             string IObjectSummary.GetIdentifier() => throw new System.NotImplementedException();
 
-            public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) =>
-                throw new System.NotImplementedException();
-
-            public Task<IObjectSummary> ReloadAsync(bool OnlyIfPartial, DetailLevels detailLevel, CancellationToken cancellationToken) =>
-                throw new System.NotImplementedException();
+            Task<IObjectSummary> IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel, CancellationToken cancellationToken) => throw new System.NotImplementedException();
 
             public override string ToString() => GetIdentifier();
 

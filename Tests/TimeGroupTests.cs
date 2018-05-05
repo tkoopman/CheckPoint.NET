@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -36,46 +37,46 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"{Name}2";
 
             var a = Session.UpdateTimeGroup(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindTimeGroup(Name);
+            var a = await Session.FindTimeGroup(Name);
             Assert.IsNotNull(a);
             Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindTimeGroups(limit: 5);
+            var a = await Session.FindTimeGroups(limit: 5);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
             string filter = Name.Substring(0, 3);
 
-            var a = Session.FindTimeGroups(filter: filter, limit: 5);
+            var a = await Session.FindTimeGroups(filter: filter, limit: 5);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"{Name}2";
 
@@ -86,43 +87,43 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"{Name}2";
 
-            var a = Session.FindTimeGroup(Name);
+            var a = await Session.FindTimeGroup(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void SetMembers()
+        public async Task SetMembers()
         {
-            var a = Session.FindTimeGroup(Name);
+            var a = await Session.FindTimeGroup(Name);
             a.Members.Clear();
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
 
             a.Members.Add(Add);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(1, a.Members.Count);
 
             a.Members.Remove(a.Members[0]);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
         }

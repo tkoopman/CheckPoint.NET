@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Net;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -39,7 +40,7 @@ namespace Koopman.CheckPoint
     /// };
     /// n.AcceptChanges();
     /// </code>
-    /// Find network using <see cref="Session.FindNetwork(string, DetailLevels)" />
+    /// Find network using <see cref="Session.FindNetwork(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var n = Session.FindHost("MyNetwork");
     /// </code>

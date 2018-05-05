@@ -22,6 +22,7 @@ using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -41,21 +42,21 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectDeletionException))]
-        public void Delete() => Session.DeleteAddressRange(v4Name);
+        public async Task Delete() => await Session.DeleteAddressRange(v4Name);
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             var a = Session.UpdateAddressRange(v4Name);
             a.Comments = "Blah";
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.AreEqual("Blah", a.Comments);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindAddressRange(v4Name);
+            var a = await Session.FindAddressRange(v4Name);
             Assert.IsNotNull(a);
             Assert.AreEqual(v4First, a.IPv4AddressFirst);
             Assert.AreEqual(v4Last, a.IPv4AddressLast);
@@ -66,27 +67,27 @@ namespace Tests
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindAddressRanges(limit: 5, order: AddressRange.Order.NameDesc);
+            var a = await Session.FindAddressRanges(limit: 5, order: AddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindAddressRanges(filter: v4Filter, ipOnly: true, limit: 5, order: AddressRange.Order.NameDesc);
+            var a = await Session.FindAddressRanges(filter: v4Filter, ipOnly: true, limit: 5, order: AddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound() => Session.FindAddressRange("I Don't Exist!");
+        public async Task FindNotFound() => await Session.FindAddressRange("I Don't Exist!");
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New {v4Name}";
 
@@ -98,17 +99,17 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
-            var a = Session.FindAddressRange(v4Name);
+            var a = await Session.FindAddressRange(v4Name);
             a.Comments = "Blah";
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.AreEqual("Blah", a.Comments);
         }
 

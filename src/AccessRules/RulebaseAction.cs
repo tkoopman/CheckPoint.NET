@@ -114,10 +114,7 @@ namespace Koopman.CheckPoint.AccessRules
         public string GetIdentifier() => (string.IsNullOrWhiteSpace(Name)) ? UID : Name;
 
         /// <inheritdoc />
-        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) => this;
-
-        /// <inheritdoc />
-        public Task<IObjectSummary> ReloadAsync(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default) => System.Threading.Tasks.Task.FromResult((IObjectSummary)this);
+        public Task<IObjectSummary> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default) => Task.FromResult((IObjectSummary)this);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

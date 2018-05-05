@@ -130,24 +130,22 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public System.Threading.Tasks.Task AddAsync(IEnumerable<IObjectSummary> objs, int maxDepth = int.MaxValue)
+        public async Task AddAsync(IEnumerable<IObjectSummary> objs, int maxDepth = int.MaxValue)
         {
             ExportLock.Release();
             try
             {
-                var tasks = new List<System.Threading.Tasks.Task>();
+                var tasks = new List<Task>();
                 if (objs != null)
                     foreach (var obj in objs)
                         tasks.Add(AddAsync(obj, maxDepth));
 
-                System.Threading.Tasks.Task.WaitAll(tasks.ToArray(), CancellationToken);
+                await Task.WhenAll(tasks.ToArray());
             }
             finally
             {
                 ExportLock.Wait();
             }
-
-            return System.Threading.Tasks.Task.FromResult(0);
         }
 
         /// <summary>
@@ -158,22 +156,21 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public System.Threading.Tasks.Task AddAsync(AccessRulebasePagingResults accessRules, int maxDepth = int.MaxValue)
+        public async Task AddAsync(AccessRulebasePagingResults accessRules, int maxDepth = int.MaxValue)
         {
-            if (accessRules == null) return System.Threading.Tasks.Task.FromResult(0);
+            if (accessRules == null) return;
             ExportLock.Release();
             try
             {
-                var tasks = new System.Threading.Tasks.Task[2];
+                var tasks = new Task[2];
                 tasks[0] = AddAsync(accessRules.Objects, maxDepth);
                 tasks[1] = AddAsync(accessRules.Rulebase, maxDepth);
-                System.Threading.Tasks.Task.WaitAll(tasks, CancellationToken);
+                await Task.WhenAll(tasks);
             }
             finally
             {
                 ExportLock.Wait();
             }
-            return System.Threading.Tasks.Task.FromResult(0);
         }
 
         /// <summary>
@@ -187,7 +184,7 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public async System.Threading.Tasks.Task AddAsync(IObjectSummary objectSummary, int maxDepth = int.MaxValue)
+        public async Task AddAsync(IObjectSummary objectSummary, int maxDepth = int.MaxValue)
         {
             CancellationToken.ThrowIfCancellationRequested();
             ExportLock.Release();
@@ -196,23 +193,23 @@ namespace Koopman.CheckPoint.Common
             {
                 if (objectSummary == null) return;
                 if (objectSummary.UID == null)
-                    objectSummary = await ReloadAsync(objectSummary);
+                    objectSummary = await Reload(objectSummary);
 
                 if (objectSummary.UID != null && !Objects.ContainsKey(objectSummary.UID))
                 {
                     if (objectSummary.DetailLevel == DetailLevels.UID)
-                        objectSummary = await ReloadAsync(objectSummary);
+                        objectSummary = await Reload(objectSummary);
 
                     if (Contains(objectSummary.Name, ExcludeByName) || Contains(objectSummary.Type, ExcludeByType)) return;
 
-                    objectSummary = await ReloadAsync(objectSummary);
+                    objectSummary = await Reload(objectSummary);
 
                     if (!Objects.TryAdd(objectSummary.UID, objectSummary)) return;
                     Progress?.Report(Count);
 
                     if (maxDepth <= 0 || Contains(objectSummary.Name, ExcludeDetailsByName) || Contains(objectSummary.Type, ExcludeDetailsByType)) return;
                     maxDepth -= 1;
-                    var tasks = new List<System.Threading.Tasks.Task>();
+                    var tasks = new List<Task>();
                     switch (objectSummary)
                     {
                         case AccessRule accessRule:
@@ -321,7 +318,7 @@ namespace Koopman.CheckPoint.Common
                             break;
                     }
 
-                    System.Threading.Tasks.Task.WaitAll(tasks.ToArray(), CancellationToken);
+                    await Task.WhenAll(tasks);
                 }
             }
             finally
@@ -340,14 +337,16 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
-        public async System.Threading.Tasks.Task AddAsync(string identifier, WhereUsed whereUsed, int maxDepth = int.MaxValue)
+        public async Task AddAsync(string identifier, WhereUsed whereUsed, int maxDepth = int.MaxValue)
         {
             ExportLock.Release();
             try
             {
                 WhereUsed[identifier] = whereUsed;
-                await AddAsync(whereUsed.UsedDirectly, maxDepth);
-                await AddAsync(whereUsed.UsedIndirectly, maxDepth);
+                var tasks = new Task[2];
+                tasks[0] = AddAsync(whereUsed.UsedDirectly, maxDepth);
+                tasks[1] = AddAsync(whereUsed.UsedIndirectly, maxDepth);
+                await Task.WhenAll(tasks);
             }
             finally
             {
@@ -361,10 +360,10 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <param name="indent">if set to <c>true</c> JSON output will be formatted with indents.</param>
         /// <returns>JSON data of all included export data</returns>
-        public async System.Threading.Tasks.Task<string> Export(bool indent = false)
+        public async Task<string> Export(bool indent = false)
         {
             while (ExportLock.CurrentCount > 0)
-                await System.Threading.Tasks.Task.Delay(1000, CancellationToken);
+                await Task.Delay(1000, CancellationToken);
 
             return JsonConvert.SerializeObject(this, new JsonSerializerSettings()
             {
@@ -374,27 +373,32 @@ namespace Koopman.CheckPoint.Common
             });
         }
 
-        private async System.Threading.Tasks.Task AddAsync(WhereUsed.WhereUsedResults results, int maxDepth)
+        private async Task AddAsync(WhereUsed.WhereUsedResults results, int maxDepth)
         {
             if (results == null) return;
 
-            await AddAsync(results.Objects, maxDepth);
+            var tasks = new List<Task>
+            {
+                AddAsync(results.Objects, maxDepth)
+            };
 
             foreach (var rule in results.AccessControlRules)
             {
-                await AddAsync(rule.Layer, maxDepth);
-                await AddAsync(rule.Rule, maxDepth);
-                await AddAsync(rule.Package, maxDepth);
+                tasks.Add(AddAsync(rule.Layer, maxDepth));
+                tasks.Add(AddAsync(rule.Rule, maxDepth));
+                tasks.Add(AddAsync(rule.Package, maxDepth));
             }
 
             foreach (var rule in results.NatRules)
-                await AddAsync(rule.Rule, maxDepth);
+                tasks.Add(AddAsync(rule.Rule, maxDepth));
 
             foreach (var rule in results.ThreatPreventionRules)
             {
-                await AddAsync(rule.Layer, maxDepth);
-                await AddAsync(rule.Rule, maxDepth);
+                tasks.Add(AddAsync(rule.Layer, maxDepth));
+                tasks.Add(AddAsync(rule.Rule, maxDepth));
             }
+
+            await Task.WhenAll(tasks);
         }
 
         private bool Contains(string value, string[] array)
@@ -403,11 +407,11 @@ namespace Koopman.CheckPoint.Common
             return array.Contains(value, StringComparer.CurrentCultureIgnoreCase);
         }
 
-        private async Task<IObjectSummary> ReloadAsync(IObjectSummary objectSummary)
+        private async Task<IObjectSummary> Reload(IObjectSummary objectSummary)
         {
             try
             {
-                objectSummary = await objectSummary.ReloadAsync(true);
+                objectSummary = await objectSummary.Reload(true);
             }
             catch (GenericException ge) { Session.WriteDebug(ge.ToString(true)); }
 

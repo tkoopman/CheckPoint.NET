@@ -21,6 +21,7 @@ using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -36,7 +37,7 @@ namespace Koopman.CheckPoint
     /// tg.Members.Add("Weekend");
     /// tg.AcceptChanges();
     /// </code>
-    /// Find time group using <see cref="Session.FindTimeGroup(string, DetailLevels)" />
+    /// Find time group using <see cref="Session.FindTimeGroup(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var tg = Session.FindTimeGroup("MyTimeGroup");
     /// </code>

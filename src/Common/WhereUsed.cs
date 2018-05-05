@@ -18,11 +18,12 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Koopman.CheckPoint.Common
 {
     /// <summary>
-    /// Results from <see cref="Session.FindWhereUsed(string, DetailLevels, bool, int)" />
+    /// Results from <see cref="Session.FindWhereUsed(string, DetailLevels, bool, int, CancellationToken)" />
     /// </summary>
     public class WhereUsed
     {

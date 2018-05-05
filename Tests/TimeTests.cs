@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -38,7 +39,7 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             var a = Session.UpdateTime(SetName);
             a.Recurrence = new Time.RecurrenceClass()
@@ -51,36 +52,36 @@ namespace Tests
 
             a.Groups.Add(GroupName);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(Months.May, a.Recurrence.Month);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindTime(Name);
+            var a = await Session.FindTime(Name);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindTimes(limit: 5, order: Time.Order.NameAsc);
+            var a = await Session.FindTimes(limit: 5, order: Time.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindTimes(filter: Filter, limit: 5, order: Time.Order.NameAsc);
+            var a = await Session.FindTimes(filter: Filter, limit: 5, order: Time.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"NoTime";
 
@@ -104,7 +105,7 @@ namespace Tests
             a.Groups.Add(GroupName);
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.AreEqual(new System.DateTime(2018, 01, 01, 23, 50, 00), a.End);
             Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Saturday));
@@ -122,19 +123,19 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"NoTime";
-            var a = Session.FindTime(SetName);
+            var a = await Session.FindTime(SetName);
             a.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange(new Koopman.CheckPoint.Common.TimeOfDay("03:00"), new Koopman.CheckPoint.Common.TimeOfDay("04:00"));
-            a.AcceptChanges();
+            await a.AcceptChanges();
             a.Name = set;
             a.Start = new System.DateTime(2018, 01, 01, 00, 00, 00);
             a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
             a.Recurrence.Pattern = Time.RecurrencePattern.Weekly;
             a.Recurrence.Weekdays = Days.Monday | Days.Wednesday | Days.Friday;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
             Assert.AreEqual(Days.Monday | Days.Wednesday | Days.Friday, a.Recurrence.Weekdays);

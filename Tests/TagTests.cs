@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -37,42 +38,42 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not {Name}";
             var a = Session.UpdateTag(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindTag(Name);
+            var a = await Session.FindTag(Name);
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindTags(limit: 5, order: Tag.Order.NameAsc);
+            var a = await Session.FindTags(limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindTags(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
+            var a = await Session.FindTags(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New {Name}";
 
@@ -83,32 +84,32 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not {Name}";
-            var a = Session.FindTag(Name);
+            var a = await Session.FindTag(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void SetTags()
+        public async Task SetTags()
         {
-            var a = Session.FindHost(Host);
+            var a = await Session.FindHost(Host);
             a.Tags.Clear();
             a.Tags.Add(Name);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.AreEqual(DetailLevels.Standard, a.Tags[0].DetailLevel);
-            a.Tags[0].Reload();
+            await a.Tags[0].Reload();
             Assert.AreEqual(DetailLevels.Full, a.Tags[0].DetailLevel);
         }
 

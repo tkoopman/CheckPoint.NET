@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -34,43 +35,43 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindServiceGroup(Name);
+            var a = await Session.FindServiceGroup(Name);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Members.Count > 0);
             Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindServiceGroups(limit: 5, order: ServiceGroup.Order.NameAsc);
+            var a = await Session.FindServiceGroups(limit: 5, order: ServiceGroup.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
             string filter = Name.Substring(0, 3);
 
-            var a = Session.FindServiceGroups(filter: filter, limit: 5, order: ServiceGroup.Order.NameAsc);
+            var a = await Session.FindServiceGroups(filter: filter, limit: 5, order: ServiceGroup.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindNFS()
+        public async Task FindNFS()
         {
-            var a = Session.FindServiceGroup("NFS");
+            var a = await Session.FindServiceGroup("NFS");
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Members.Count > 0);
             Assert.IsFalse(a.IsChanged);
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New {Name}";
 
@@ -81,25 +82,25 @@ namespace Tests
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
 
             a.Members.Clear();
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
 
             a.Members.Add("domain-udp");
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(1, a.Members.Count);
 
             a.Members.Remove(a.Members[0]);
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
         }

@@ -381,10 +381,7 @@ namespace Koopman.CheckPoint
         #region Methods
 
         /// <inheritdoc />
-        public override AccessRule Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard) => ReloadAsync(OnlyIfPartial, detailLevel).Result;
-
-        /// <inheritdoc />
-        public async override Task<AccessRule> ReloadAsync(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
+        public async override Task<AccessRule> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
         {
             if (IsNew) throw new Exception("Cannot reload a new object.");
             if (Layer == null) throw new Exception("Cannot reload when layer is null.");
@@ -399,7 +396,7 @@ namespace Koopman.CheckPoint
 
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
-            string result = await Session.PostAsync($"show-{Type}", jsonData);
+            string result = await Session.PostAsync($"show-{Type}", jsonData, cancellationToken);
 
             DetailLevel = DetailLevels.Full;
 

@@ -22,6 +22,7 @@ using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -37,7 +38,7 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void HideGateway()
+        public async Task HideGateway()
         {
             var a = Session.UpdateHost(Name);
             a.NATSettings = new NATSettings()
@@ -46,19 +47,19 @@ namespace Tests
                 Method = NATSettings.NATMethods.Hide,
                 HideBehind = NATSettings.HideBehindValues.Gateway
             };
-            a.AcceptChanges();
+            await a.AcceptChanges();
         }
 
         [TestMethod]
-        public void None()
+        public async Task None()
         {
             var a = Session.UpdateHost(Name);
             a.NATSettings = new NATSettings();
-            a.AcceptChanges();
+            await a.AcceptChanges();
         }
 
         [TestMethod]
-        public void StaticIP()
+        public async Task StaticIP()
         {
             var a = Session.UpdateHost(Name);
             a.NATSettings = new NATSettings()
@@ -67,7 +68,7 @@ namespace Tests
                 Method = NATSettings.NATMethods.Static,
                 IPv4Address = IPAddress.Parse("1.1.1.1")
             };
-            a.AcceptChanges();
+            await a.AcceptChanges();
 
             Assert.AreEqual(IPAddress.Parse("1.1.1.1"), a.NATSettings.IPv4Address);
             Assert.IsNull(a.NATSettings.IPv6Address);

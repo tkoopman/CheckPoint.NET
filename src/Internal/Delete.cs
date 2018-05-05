@@ -39,7 +39,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Ignore">The ignore setting.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static System.Threading.Tasks.Task Invoke(Session Session, string Command, string Value, Ignore Ignore, CancellationToken cancellationToken = default)
+        internal async static System.Threading.Tasks.Task Invoke(Session Session, string Command, string Value, Ignore Ignore, CancellationToken cancellationToken)
         {
             var jo = new JObject
             {

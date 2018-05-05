@@ -20,6 +20,7 @@
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -37,44 +38,44 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not {Name}";
             var a = Session.UpdateGroupWithExclusion(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindGroupWithExclusion(Name);
+            var a = await Session.FindGroupWithExclusion(Name);
             Assert.IsNotNull(a);
             Assert.IsNotNull(a.Include);
             Assert.IsNotNull(a.Except);
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindGroupsWithExclusion(limit: 5, order: GroupWithExclusion.Order.NameAsc);
+            var a = await Session.FindGroupsWithExclusion(limit: 5, order: GroupWithExclusion.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindGroupsWithExclusion(filter: Filter, limit: 5, order: GroupWithExclusion.Order.NameAsc);
+            var a = await Session.FindGroupsWithExclusion(filter: Filter, limit: 5, order: GroupWithExclusion.Order.NameAsc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New {Name}";
 
@@ -83,17 +84,17 @@ namespace Tests
                 Name = name,
                 Color = Colors.Red,
                 Include = ObjectSummary.Any,
-                Except = Session.FindGroup(Except)
+                Except = await Session.FindGroup(Except)
             };
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void NewAsString()
+        public async Task NewAsString()
         {
             string name = $"New {Name}";
 
@@ -107,19 +108,19 @@ namespace Tests
             a.SetExcept(Except);
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not {Name}";
-            var a = Session.FindGroupWithExclusion(Name);
+            var a = await Session.FindGroupWithExclusion(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }

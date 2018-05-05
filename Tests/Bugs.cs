@@ -21,6 +21,7 @@ using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -39,20 +40,20 @@ namespace Tests
         /// Bug that shows no way to clear an IP address once one is set.
         /// </summary>
         [TestMethod]
-        public void ClearIPProperty()
+        public async Task ClearIPProperty()
         {
-            var a = Session.FindHost("DNS Server");
+            var a = await Session.FindHost("DNS Server");
             a.IPv6Address = System.Net.IPAddress.Parse("fe80::1");
-            a.AcceptChanges();
+            await a.AcceptChanges();
             a.IPv6Address = null;
-            a.AcceptChanges();
+            await a.AcceptChanges();
 
             // Should be null
             Assert.IsNotNull(a.IPv6Address);
 
             // Maybe by using quotes and not null
-            Session.Post("set-host", "{\"ipv6-address\": \"\", \"name\": \"DNS Server\"}");
-            a = Session.FindHost("DNS Server");
+            await Session.PostAsync("set-host", "{\"ipv6-address\": \"\", \"name\": \"DNS Server\"}", default);
+            a = await Session.FindHost("DNS Server");
             // Should be null
             Assert.IsNotNull(a.IPv6Address);
         }
@@ -62,27 +63,27 @@ namespace Tests
         /// but that fails with errors. Also tried null but that did same as empty array.
         /// </summary>
         [TestMethod]
-        public void ClearTags()
+        public async Task ClearTags()
         {
-            var a = Session.FindHost("DNS Server");
+            var a = await Session.FindHost("DNS Server");
             a.Tags.Clear();
             a.Tags.Add("TestTag");
-            a.AcceptChanges();
+            await a.AcceptChanges();
 
             a.Tags.Clear();
-            a.AcceptChanges();
+            await a.AcceptChanges();
             // Should equal 0
             Assert.AreEqual(1, a.Tags.Count);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindAppByID()
+        public async Task FindAppByID()
         {
             ApplicationSite a = null;
             try
             {
-                a = Session.FindApplicationSite("mycompany.com");
+                a = await Session.FindApplicationSite("mycompany.com");
             }
             catch (ObjectNotFoundException)
             {
@@ -92,7 +93,7 @@ namespace Tests
             Assert.IsNotNull(a);
 
             // ObjectNotFound error returned when it should be found
-            a = Session.FindApplicationSite((int)a.ApplicationID);
+            a = await Session.FindApplicationSite((int)a.ApplicationID);
             Assert.IsNotNull(a);
         }
 
@@ -103,15 +104,15 @@ namespace Tests
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InternalErrorException))]
-        public void HostSetGroupUsingUID()
+        public async Task HostSetGroupUsingUID()
         {
             string Name = "Web Server";
 
             // Fist do it the working way
-            var a = Session.FindHost(Name);
+            var a = await Session.FindHost(Name);
             a.Groups.Clear();
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Groups.Count);
 
@@ -120,10 +121,10 @@ namespace Tests
             try
             {
                 // Now this way will fail
-                a = Session.FindHost(Name);
+                a = await Session.FindHost(Name);
                 a.Groups.Clear();
                 Assert.IsTrue(a.IsChanged);
-                a.AcceptChanges();
+                await a.AcceptChanges();
                 Assert.IsFalse(a.IsChanged);
                 Assert.AreEqual(0, a.Groups.Count);
             }
@@ -137,7 +138,7 @@ namespace Tests
         /// This shows the bug when using posix values to set a date and time value.
         /// </summary>
         [TestMethod]
-        public void NewTimeUsingPosix()
+        public async Task NewTimeUsingPosix()
         {
             //First working way.
             var a = new Time(Session)
@@ -153,7 +154,7 @@ namespace Tests
             a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges();
+            await a.AcceptChanges();
 
             Assert.AreEqual(new System.DateTime(2018, 01, 01, 23, 50, 00), a.End);
 
@@ -175,7 +176,7 @@ namespace Tests
                 a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
 
                 Assert.IsTrue(a.IsNew);
-                a.AcceptChanges();
+                await a.AcceptChanges();
 
                 // While these should be equal for some reason the posix value changes by 40 seconds
                 // when sent to API. Yet when using ISO8601 the posix value returned by the API does

@@ -47,7 +47,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static Task<T[]> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) =>
+        internal static Task<T[]> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken) =>
             Invoke<T, NetworkObjectsPagingResults<T>>(Session, Command, DetailLevel, Limit, Order, cancellationToken);
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<T[]> Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) where U : ObjectsPagingResults<T, U>
+        internal async static Task<T[]> Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
         {
             int Offset = 0;
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
@@ -113,7 +113,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static Task<T[]> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) =>
+        internal static Task<T[]> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken) =>
             Invoke<T, NetworkObjectsPagingResults<T>>(Session, Type, Filter, IPOnly, DetailLevel, Limit, Order, cancellationToken);
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<T[]> Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken = default) where U : ObjectsPagingResults<T, U>
+        internal async static Task<T[]> Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, IOrder Order, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
         {
             int Offset = 0;
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);

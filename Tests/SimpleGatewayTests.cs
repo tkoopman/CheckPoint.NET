@@ -24,6 +24,7 @@ using Koopman.CheckPoint.FastUpdate;
 using Koopman.CheckPoint.SimpleGatewaySettings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -43,25 +44,25 @@ namespace Tests
 
         [TestMethod]
         [ExpectedException(typeof(ValidationFailedException))]
-        public void Delete() => Session.DeleteSimpleGateway(Name);
+        public async Task Delete() => await Session.DeleteSimpleGateway(Name);
 
         [TestMethod]
-        public void FastUpdate()
+        public async Task FastUpdate()
         {
             string set = $"Not_{Name}";
 
             var a = Session.UpdateSimpleGateway(Name);
             a.Name = set;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
         }
 
         [TestMethod]
-        public void Find()
+        public async Task Find()
         {
-            var a = Session.FindSimpleGateway(Name);
+            var a = await Session.FindSimpleGateway(Name);
             Assert.IsNotNull(a);
             Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
             Assert.AreEqual(Name, a.Name);
@@ -71,28 +72,28 @@ namespace Tests
         }
 
         [TestMethod]
-        public void FindAll()
+        public async Task FindAll()
         {
-            var a = Session.FindSimpleGateways(limit: 5, order: SimpleGateway.Order.NameDesc);
+            var a = await Session.FindSimpleGateways(limit: 5, order: SimpleGateway.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
         }
 
         [TestMethod]
-        public void FindAllFiltered()
+        public async Task FindAllFiltered()
         {
-            var a = Session.FindSimpleGateways(filter: Filter, ipOnly: true, limit: 5, order: SimpleGateway.Order.NameDesc);
+            var a = await Session.FindSimpleGateways(filter: Filter, ipOnly: true, limit: 5, order: SimpleGateway.Order.NameDesc);
             Assert.IsNotNull(a);
-            a = a.NextPage();
+            a = await a.NextPage();
             Assert.IsNotNull(a);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
-        public void FindNotFound() => Session.FindSimpleGateway("I Don't Exist!");
+        public async Task FindNotFound() => await Session.FindSimpleGateway("I Don't Exist!");
 
         [TestMethod]
-        public void New()
+        public async Task New()
         {
             string name = $"New_{Name}";
 
@@ -100,7 +101,7 @@ namespace Tests
             {
                 Name = name,
                 Firewall = true,
-                FirewallSettings = new Koopman.CheckPoint.SimpleGatewaySettings.Firewall()
+                FirewallSettings = new Firewall()
                 {
                     AutoCalculateConnectionsHashTableSizeAndMemoryPool = true,
                     AutoMaximumLimitForConcurrentConnections = false,
@@ -108,7 +109,7 @@ namespace Tests
                 },
                 IPv4Address = IP,
                 IPv6Address = IPv6,
-                LogsSettings = new Koopman.CheckPoint.SimpleGatewaySettings.Logs()
+                LogsSettings = new Logs()
                 {
                     AlertWhenFreeDiskSpaceBelow = true,
                     FreeDiskSpaceMetrics = Metrics.Percent,
@@ -126,7 +127,7 @@ namespace Tests
                     DeleteWhenFreeDiskSpaceBelowThreshold = 15
                 },
                 VPN = true,
-                VPNSettings = new Koopman.CheckPoint.SimpleGatewaySettings.VPN()
+                VPNSettings = new VPN()
                 {
                     MaximumConcurrentIKENegotiations = 5,
                     MaximumConcurrentTunnels = 1000
@@ -135,39 +136,39 @@ namespace Tests
 
             a.SendAlertsToServer.Add("mgmt");
             a.SendLogsToServer.Add("mgmt");
-            a.Interfaces.Add(new Koopman.CheckPoint.SimpleGatewaySettings.Interface()
+            a.Interfaces.Add(new Interface()
             {
                 Name = "eth0",
                 IPv4Address = IP,
                 IPv4MaskLength = 24,
                 AntiSpoofing = true,
-                AntiSpoofingSettings = new Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofing()
+                AntiSpoofingSettings = new AntiSpoofing()
                 {
-                    Action = Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofingAction.Detect
+                    Action = AntiSpoofingAction.Detect
                 },
                 SecurityZoneSettings = new Koopman.CheckPoint.SimpleGatewaySettings.SecurityZone.SpecificZone() { Name = "WirelessZone" },
-                Topology = Koopman.CheckPoint.SimpleGatewaySettings.Topology.Internal,
-                TopologySettings = new Koopman.CheckPoint.SimpleGatewaySettings.TopologySettings()
+                Topology = Topology.Internal,
+                TopologySettings = new TopologySettings()
                 {
                     InterfaceLeadsToDMZ = true,
-                    IPAddressBehindThisInterface = Koopman.CheckPoint.SimpleGatewaySettings.TopologyBehind.NetworkDefinedByTheInterfaceIPAndNetMask
+                    IPAddressBehindThisInterface = TopologyBehind.NetworkDefinedByTheInterfaceIPAndNetMask
                 }
             });
-            a.Interfaces.Add(new Koopman.CheckPoint.SimpleGatewaySettings.Interface()
+            a.Interfaces.Add(new Interface()
             {
                 Name = "eth1",
                 IPv4Address = IP,
                 IPv4MaskLength = 24,
                 AntiSpoofing = true,
-                AntiSpoofingSettings = new Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofing()
+                AntiSpoofingSettings = new AntiSpoofing()
                 {
-                    Action = Koopman.CheckPoint.SimpleGatewaySettings.AntiSpoofingAction.Detect
+                    Action = AntiSpoofingAction.Detect
                 },
                 SecurityZoneSettings = new Koopman.CheckPoint.SimpleGatewaySettings.SecurityZone.AutoCalculated()
             });
 
             Assert.IsTrue(a.IsNew);
-            a.AcceptChanges(Ignore.Warnings);
+            await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
             Assert.AreEqual(Metrics.Percent, a.LogsSettings.FreeDiskSpaceMetrics);
@@ -178,16 +179,16 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Set()
+        public async Task Set()
         {
             string set = $"Not_{Name}";
 
-            var a = Session.FindSimpleGateway(Name);
+            var a = await Session.FindSimpleGateway(Name);
             a.Name = set;
             a.LogsSettings.AlertWhenFreeDiskSpaceBelowType = AlertType.UserDefinedAlertNo1;
             a.Interfaces[0].IPv4MaskLength = 20;
             Assert.IsTrue(a.IsChanged);
-            a.AcceptChanges();
+            await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(set, a.Name);
             Assert.AreEqual(AlertType.UserDefinedAlertNo1, a.LogsSettings.AlertWhenFreeDiskSpaceBelowType);

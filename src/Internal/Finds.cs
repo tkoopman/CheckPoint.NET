@@ -45,7 +45,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken = default) =>
+        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) =>
             Invoke<T, NetworkObjectsPagingResults<T>>(Session, Command, DetailLevel, Limit, Offset, Order, cancellationToken);
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<U> Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken = default) where U : ObjectsPagingResults<T, U>
+        internal async static Task<U> Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
         {
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
 
@@ -82,10 +82,10 @@ namespace Koopman.CheckPoint.Internal
             if (results != null)
             {
                 objectConverter.PostDeserilization(results);
-                results.Next = delegate ()
+                results.Next = delegate (CancellationToken ct)
                 {
-                    if (results.To == results.Total) return null;
-                    return Invoke<T, U>(Session, Command, DetailLevel, Limit, results.To, Order).Result;
+                    if (results.To == results.Total) return Task.FromResult((U)null);
+                    return Invoke<T, U>(Session, Command, DetailLevel, Limit, results.To, Order, ct);
                 };
             }
 
@@ -106,7 +106,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken = default) =>
+        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) =>
             Invoke<T, NetworkObjectsPagingResults<T>>(Session, Type, Filter, IPOnly, DetailLevel, Limit, Offset, Order, cancellationToken);
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<U> Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken = default) where U : ObjectsPagingResults<T, U>
+        internal async static Task<U> Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
         {
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
 
@@ -148,10 +148,10 @@ namespace Koopman.CheckPoint.Internal
             if (results != null)
             {
                 objectConverter.PostDeserilization(results);
-                results.Next = delegate ()
+                results.Next = delegate (CancellationToken ct)
                 {
-                    if (results.To == results.Total) return null;
-                    return Invoke<T, U>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order).Result;
+                    if (results.To == results.Total) return Task.FromResult((U)null);
+                    return Invoke<T, U>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order, ct);
                 };
             }
 

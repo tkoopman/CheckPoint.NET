@@ -112,21 +112,11 @@ namespace Koopman.CheckPoint.Internal
         /// <returns>Name if not null else the UID</returns>
         public string GetIdentifier() => UID;
 
-        /// <summary>
-        /// Reloads the current object. This should return the full IOBjectSummary that matches this UID
-        /// </summary>
-        /// <param name="OnlyIfPartial">
-        /// Only perform reload if <paramref name="detailLevel" /> is not already <see cref="DetailLevels.Full" />
-        /// </param>
-        /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
-        /// <returns>IObjectSummary of reloaded object</returns>
-        public IObjectSummary Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = Find.Defaults.DetailLevel) => ReloadAsync(OnlyIfPartial, detailLevel).Result;
-
         /// <inheritdoc />
-        public async Task<IObjectSummary> ReloadAsync(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
+        public async Task<IObjectSummary> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)
         {
             if (cache == null || !OnlyIfPartial || cache.DetailLevel < detailLevel)
-                cache = await Find.InvokeAsync(Session, UID, detailLevel);
+                cache = await Find.InvokeAsync(Session, UID, detailLevel, cancellationToken);
 
             return cache;
         }

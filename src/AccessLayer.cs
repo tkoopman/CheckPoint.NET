@@ -20,6 +20,7 @@
 using Koopman.CheckPoint.Common;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -34,7 +35,7 @@ namespace Koopman.CheckPoint
     /// };
     /// al.AcceptChanges();
     /// </code>
-    /// Find access layer using <see cref="Session.FindAccessLayer(string, DetailLevels)" />
+    /// Find access layer using <see cref="Session.FindAccessLayer(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var al = Session.FindAccessLayer("MyAccessLayer");
     /// </code>

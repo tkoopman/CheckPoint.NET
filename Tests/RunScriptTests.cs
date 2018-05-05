@@ -21,6 +21,7 @@ using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -30,11 +31,11 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void RunCancel()
+        public async Task RunCancel()
         {
-            string run = Session.RunScript("Sleep", "sleep 4", null, "mgmt");
+            string run = await Session.RunScript("Sleep", "sleep 4", null, "mgmt");
 
-            var task = Session.FindTask(run);
+            var task = await Session.FindTask(run);
 
             var cts = new CancellationTokenSource();
             var p = new Progress<int>(i => Console.Out.WriteLine($"Progress: {i}%"));
@@ -51,21 +52,21 @@ namespace Tests
             }
 
             // Wait for task to finish
-            task.WaitAsync().Wait();
+            await task.WaitAsync();
 
             Assert.IsTrue(caught);
         }
 
         [TestMethod]
-        public void RunLS()
+        public async Task RunLS()
         {
-            string run = Session.RunScript("LS", "ls -l /", null, "mgmt");
+            string run = await Session.RunScript("LS", "ls -l /", null, "mgmt");
             Assert.IsNotNull(run);
 
-            var task = Session.FindTask(run);
+            var task = await Session.FindTask(run);
             Assert.IsNotNull(task);
 
-            bool s = task.WaitAsync().Result;
+            bool s = await task.WaitAsync();
             Assert.IsTrue(s);
 
             Console.Out.WriteLine(task.TaskDetails[0].ResponseMessage);

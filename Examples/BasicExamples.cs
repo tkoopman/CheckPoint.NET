@@ -2,6 +2,7 @@ using Koopman.CheckPoint;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Examples
 {
@@ -11,7 +12,7 @@ namespace Examples
         #region Methods
 
         [TestMethod]
-        public void BasicConnection()
+        public async Task BasicConnection()
         {
             #region Example: Basic Connection
 
@@ -24,7 +25,7 @@ namespace Examples
                      );
 
             // Get first 5 hosts
-            var hosts = session.FindHosts(limit: 5);
+            var hosts = await session.FindHosts(limit: 5);
 
             foreach (var host in hosts)
             {
@@ -32,13 +33,13 @@ namespace Examples
             }
 
             // Disconnect from server
-            session.Logout();
+            await session.Logout();
 
             #endregion Example: Basic Connection
         }
 
         [TestMethod]
-        public void NewHost()
+        public async Task NewHost()
         {
             // Login to Check Point Management Web Service
             var session = new Session(
@@ -49,7 +50,7 @@ namespace Examples
                      );
 
             // Create group used for example
-            new Group(session)
+            await new Group(session)
             {
                 Name = "Web Servers"
             }.AcceptChanges();
@@ -70,14 +71,14 @@ namespace Examples
             // Send request to create new host to server and check for any errors
             try
             {
-                host.AcceptChanges();
+                await host.AcceptChanges();
 
                 Console.WriteLine($"Name: {host.Name}");
                 Console.WriteLine($"IP: {host.IPv4Address}");
                 Console.WriteLine($"UID: {host.UID}");
 
                 /// Uncomment the below line to publish change
-                // session.Publish();
+                // await session.Publish();
             }
             catch (Koopman.CheckPoint.Exceptions.ValidationFailedException e)
             {
@@ -103,8 +104,8 @@ namespace Examples
 
             #endregion Example: New Host
 
-            session.Discard();
-            session.Logout();
+            await session.Discard();
+            await session.Logout();
         }
 
         #endregion Methods

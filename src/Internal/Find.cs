@@ -43,7 +43,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="DetailLevel">The detail level to be returned.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<T> Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel, CancellationToken cancellationToken = default)
+        internal async static Task<T> Invoke<T>(Session Session, string Command, string Value, DetailLevels DetailLevel, CancellationToken cancellationToken)
         {
             var data = new Dictionary<string, dynamic>
             {
@@ -66,7 +66,7 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="DetailLevel">The detail level to be returned.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<IObjectSummary> InvokeAsync(Session Session, string uid, DetailLevels DetailLevel, CancellationToken cancellationToken = default)
+        internal async static Task<IObjectSummary> InvokeAsync(Session Session, string uid, DetailLevels DetailLevel, CancellationToken cancellationToken)
         {
             var data = new Dictionary<string, dynamic>
             {

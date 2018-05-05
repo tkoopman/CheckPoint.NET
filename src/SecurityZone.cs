@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using System.Threading;
 
 namespace Koopman.CheckPoint
 {
@@ -32,7 +33,7 @@ namespace Koopman.CheckPoint
     /// };
     /// sz.AcceptChanges();
     /// </code>
-    /// Find security zone using <see cref="Session.FindSecurityZone(string, DetailLevels)" />
+    /// Find security zone using <see cref="Session.FindSecurityZone(string, DetailLevels, CancellationToken)" />
     /// <code>
     /// var sz = Session.FindSecurityZone("MySecurityZone");
     /// </code>

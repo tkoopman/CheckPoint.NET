@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -27,12 +28,12 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public void TestSession()
+        public async Task TestSession()
         {
             Assert.IsNotNull(Session.SID);
             Assert.IsFalse(Session.ReadOnly);
             Assert.AreEqual("1.1", Session.APIServerVersion);
-            Session.SendKeepAlive();
+            await Session.SendKeepAlive();
         }
 
         #endregion Methods
