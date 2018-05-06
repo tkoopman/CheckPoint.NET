@@ -450,10 +450,9 @@ namespace Koopman.CheckPoint
 
         internal void WriteDebug(string message)
         {
-            var writer = DebugWriter;
-            if (writer == null) return;
-            writer.WriteLine(message);
-            writer.Flush();
+            if (DebugWriter == null) return;
+            DebugWriter?.WriteLine(message);
+            DebugWriter?.Flush();
         }
 
         private static string RandomString(int length)
@@ -468,32 +467,26 @@ namespace Koopman.CheckPoint
             var jObject = new JObject();
             if (uid != null)
                 jObject.Add("uid", uid);
-            string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting); ;
+            string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting);
             return jsonData;
         }
 
         private string WriteDebug(string command, string data)
         {
-            var writer = DebugWriter;
-            if (writer == null) return null;
+            if (DebugWriter == null) return null;
             string id = RandomString(8);
-
-            writer.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
+            WriteDebug($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
 {data}
 ");
-            writer.Flush();
-
             return id;
         }
 
         private void WriteDebug(string id, HttpStatusCode code, string data)
         {
-            var writer = DebugWriter;
-            if (writer == null) return;
-            writer.WriteLine($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
+            if (DebugWriter == null) return;
+            WriteDebug($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
 {data}
 ");
-            writer.Flush();
         }
 
         #endregion Methods
