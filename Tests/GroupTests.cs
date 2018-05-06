@@ -29,33 +29,22 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Add = "DNS Server";
-        private static readonly string Name = "Corporate LANs";
+        private static readonly string Name = "TestGroup.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task FastUpdate()
+        public static async Task<Group> CreateTestGroup(Session session)
         {
-            string set = $"Not {Name}";
+            var a = new Group(session)
+            {
+                Name = Name,
+                Color = Colors.Red
+            };
 
-            var a = Session.UpdateGroup(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindGroup(Name);
-            Assert.IsNotNull(a);
-            Assert.IsTrue(a.Members.Count > 0);
-            Assert.IsFalse(a.IsChanged);
+            return a;
         }
 
         [TestMethod]
@@ -74,87 +63,44 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindsFiltered()
+        public async Task GroupTest()
         {
-            string filter = Name.Substring(0, 3);
-
-            var a = await Session.FindGroups(filter: filter, limit: 5, order: Group.Order.NameAsc);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task FindUID()
-        {
-            var a = await Session.FindGroup(Name, DetailLevels.UID);
-            Assert.IsNotNull(a);
-            Assert.IsTrue(a.Members.Count > 0);
-            Assert.IsFalse(a.IsChanged);
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New {Name}";
-
-            var a = new Group(Session)
-            {
-                Name = name,
-                Color = Colors.Red
-            };
-
-            Assert.IsTrue(a.IsNew);
-            await a.AcceptChanges();
+            // Create Group
+            var a = await CreateTestGroup(Session);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
-
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not {Name}";
-
-            var a = await Session.FindGroup(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
-
-        [TestMethod]
-        public async Task SetMembers()
-        {
-            var a = await Session.FindGroup(Name);
-            a.Members.Clear();
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
 
-            a.Members.Add(Add);
-            Assert.IsTrue(a.IsChanged);
+            // Add member
+            var host = await HostTests.CreateTestHost(Session);
+            a.Members.Add(host);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(1, a.Members.Count);
 
-            a.Members.Remove(a.Members[0]);
-            Assert.IsTrue(a.IsChanged);
+            // Remove Member Fast Update
+            a = Session.UpdateGroup(Name);
+            a.Members.Remove(host.Name);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
 
-            a.Members.Add(Add);
-            Assert.IsTrue(a.IsChanged);
+            // Find by name
+            a = await Session.FindGroup(Name);
+            a.Members.Add(host.UID);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
+
+            host = await host.Reload(false, DetailLevels.UID);
+            Assert.AreEqual(a.UID, host.Groups[0].UID);
+
+            // Find by UID
+            a = await Session.FindGroup(a.UID, DetailLevels.UID);
+            Assert.AreEqual(Name, a.Name);
             Assert.AreEqual(1, a.Members.Count);
-
             a.Members.Clear();
-            Assert.IsTrue(a.IsChanged);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
+
+            // Delete group
+            await a.Delete();
         }
 
         #endregion Methods

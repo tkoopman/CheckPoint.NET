@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -28,62 +29,80 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "Layer";
-        private static readonly string Name = "Web Control Layer";
+        private static readonly Colors color = Colors.Red;
+        private static readonly string name = $"TestLayer.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task Find()
+        public static async Task<AccessLayer> CreateTestAccessLayer(Session session)
         {
-            var a = await Session.FindAccessLayer(Name);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
-        {
-            var a = await Session.FindAllAccessLayers(limit: 5, detailLevel: DetailLevels.Full);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task FindAllFiltered()
-        {
-            var a = await Session.FindAccessLayers(filter: Filter, limit: 5, order: AccessLayer.Order.NameAsc);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New_{Name}";
-
-            var a = new AccessLayer(Session, false)
+            var a = new AccessLayer(session, true)
             {
                 Name = name,
-                Color = Colors.Red
+                Color = color,
+                Firewall = true,
+                ApplicationsAndUrlFiltering = true
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsNew);
-            Assert.IsNotNull(a.UID);
+
+            return a;
         }
 
         [TestMethod]
-        public async Task Set()
+        public async Task AccessLayerTest()
         {
-            string set = $"Not_{Name}";
-            var a = await Session.FindAccessLayer(Name);
-            a.Name = set;
+            // Create Layer
+            var a = await CreateTestAccessLayer(Session);
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
+            Assert.AreEqual(name, a.Name);
+            Assert.AreEqual(color, a.Color);
+
+            // Find Layer by name
+            a = await Session.FindAccessLayer(name);
+            Assert.IsNotNull(a);
+            Assert.AreEqual(name, a.Name);
+            Assert.AreEqual(color, a.Color);
+
+            // Find Layer by UID
+            a = await Session.FindAccessLayer(a.UID);
+            Assert.IsNotNull(a);
+            Assert.AreEqual(name, a.Name);
+            Assert.AreEqual(color, a.Color);
+
+            // Set Layer
+            a.Comments = name;
             Assert.IsTrue(a.IsChanged);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
+            Assert.AreEqual(name, a.Comments);
+
+            // Fast Update
+            Assert.IsFalse((bool)a.ContentAwareness);
+            a = Session.UpdateAccessLayer(name);
+            a.ContentAwareness = true;
+            await a.AcceptChanges();
+            Assert.IsTrue((bool)a.ContentAwareness);
+
+            // Delete
+            await Session.DeleteAccessLayer(name);
+        }
+
+        [TestMethod]
+        public async Task FindAllLayers()
+        {
+            var a = await Session.FindAllAccessLayers(limit: 5, detailLevel: DetailLevels.Standard);
+            Assert.IsNotNull(a);
+        }
+
+        [TestMethod]
+        public async Task FindFilteredLayers()
+        {
+            var a = await Session.FindAccessLayers("Layer", limit: 5, order: AccessLayer.Order.NameAsc);
+            Assert.IsNotNull(a);
+            a = await a.NextPage();
         }
 
         #endregion Methods

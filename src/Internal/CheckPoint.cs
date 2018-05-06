@@ -29,6 +29,13 @@ namespace Koopman.CheckPoint.Internal
     {
         #region Methods
 
+        /// <summary>
+        /// Adds the identifier as name or uid.
+        /// </summary>
+        /// <param name="jo">The request.</param>
+        /// <param name="identifier">The identifier.</param>
+        internal static void AddIdentifier(this JObject jo, string identifier) => jo.Add(identifier.IsUID() ? "uid" : "name", identifier);
+
         internal static void AddIfNotNull(this JObject jo, string name, string value)
         {
             if (value == null) return;
