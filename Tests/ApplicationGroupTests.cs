@@ -29,30 +29,43 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "Sites";
-        private static readonly string Name = "Inappropriate Sites";
+        private const string Name = "TestAppGroup.NET";
 
         #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        public async Task FastUpdate()
+        public async Task AppGroupTest()
         {
-            string set = $"Not_{Name}";
-            var a = Session.UpdateApplicationGroup(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            // Create
+            var a = new ApplicationGroup(Session)
+            {
+                Name = Name,
+                Color = Colors.Red
+            };
+            a.Members.Add("Alcohol");
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
 
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindApplicationGroup(Name);
-            Assert.IsNotNull(a);
+            // Set
+            a.Members.Add("Email");
+            a.Members.Remove("Alcohol");
+            await a.AcceptChanges();
+            Assert.AreEqual("Email", a.Members[0].Name);
+
+            // Fast Update
+            a = Session.UpdateApplicationGroup(Name);
+            a.Comments = "Test comments";
+            await a.AcceptChanges();
+
+            // Find
+            a = await Session.FindApplicationGroup(Name);
+            Assert.AreEqual("Test comments", a.Comments);
+
+            // Delete
+            await a.Delete();
         }
 
         [TestMethod]
@@ -61,46 +74,6 @@ namespace Tests
             var a = await Session.FindApplicationGroups(limit: 5);
             Assert.IsNotNull(a);
             a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task FindAllFiltered()
-        {
-            var a = await Session.FindApplicationGroups(filter: Filter, limit: 5);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New_{Name}";
-
-            var a = new ApplicationGroup(Session)
-            {
-                Name = name,
-                Color = Colors.Red
-            };
-
-            a.Members.Add("Alcohol");
-
-            Assert.IsTrue(a.IsNew);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsNew);
-            Assert.IsNotNull(a.UID);
-        }
-
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not_{Name}";
-            var a = await Session.FindApplicationGroup(Name);
-            a.Name = set;
-            a.Members.Add("Alcohol");
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
         }
 
         #endregion Methods

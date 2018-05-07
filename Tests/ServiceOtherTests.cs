@@ -28,19 +28,11 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "dhcp";
-        private static readonly string Name = "dhcp-reply";
+        private static readonly string Name = "TestServiceOther.NET";
 
         #endregion Fields
 
         #region Methods
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindServiceOther(Name);
-            Assert.IsNotNull(a);
-        }
 
         [TestMethod]
         public async Task FindAll()
@@ -53,19 +45,18 @@ namespace Tests
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            var a = await Session.FindServicesOther(filter: Filter, limit: 5, order: ServiceOther.Order.NameAsc);
+            var a = await Session.FindServicesOther(filter: "dhcp", limit: 5, order: ServiceOther.Order.NameAsc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task ServiceOtherTest()
         {
-            string name = $"New{Name}";
-
+            // Create
             var a = new ServiceOther(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red,
                 IPProtocol = 17,
                 Match = "dhcp-rep-match",
@@ -74,11 +65,17 @@ namespace Tests
                     Enable = true
                 }
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
+
+            // Find
+            a = await Session.FindServiceOther(Name);
+            a.Comments = "Blah";
+            await a.AcceptChanges();
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

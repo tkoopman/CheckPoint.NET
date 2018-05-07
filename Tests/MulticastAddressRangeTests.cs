@@ -34,40 +34,18 @@ namespace Tests
         private static readonly string v6Filter = "ff05::1:3";
         private static readonly IPAddress v6First = IPAddress.Parse(v6Filter);
         private static readonly IPAddress v6Last = IPAddress.Parse(v6Filter);
-        private static readonly string v6Name = "All_DHCPv6_Servers";
+        private static readonly string v6Name = "TestMulticastAddressRange.NET";
 
         #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        [ExpectedException(typeof(GenericException))]
-        public async Task DeleteAsync() => await Session.DeleteMulticastAddressRange(v6Name);
+        [ExpectedException(typeof(ObjectNotFoundException))]
+        public async Task FindNotFound() => await Session.FindMulticastAddressRange("I Don't Exist!");
 
         [TestMethod]
-        [ExpectedException(typeof(ObjectLockedException))]
-        public async Task FastUpdate()
-        {
-            var a = Session.UpdateMulticastAddressRange(v6Name);
-            a.Comments = "Blah";
-            await a.AcceptChanges();
-            Assert.AreEqual("Blah", a.Comments);
-        }
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindMulticastAddressRange(v6Name);
-            Assert.IsNotNull(a);
-            Assert.AreEqual(v6First, a.IPv6AddressFirst);
-            Assert.AreEqual(v6Last, a.IPv6AddressLast);
-            Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
-            Assert.AreEqual(v6Name, a.Name);
-            Assert.IsFalse(a.IsChanged);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
+        public async Task Finds()
         {
             var a = await Session.FindMulticastAddressRanges(limit: 5, order: MulticastAddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
@@ -75,7 +53,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindAllFiltered()
+        public async Task FindsFiltered()
         {
             var a = await Session.FindMulticastAddressRanges(filter: v6Filter, ipOnly: true, limit: 5, order: MulticastAddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
@@ -83,35 +61,36 @@ namespace Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ObjectNotFoundException))]
-        public async Task FindNotFound() => await Session.FindMulticastAddressRange("I Don't Exist!");
-
-        [TestMethod]
-        public async Task New()
+        public async Task MulticastAddressRangeTest()
         {
-            string name = $"New {v6Name}";
-
-            var a = new AddressRange(Session)
+            // Create
+            var a = new MulticastAddressRange(Session)
             {
-                Name = name,
+                Name = v6Name,
                 IPv6AddressFirst = v6First,
                 IPv6AddressLast = v6Last
             };
 
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        [ExpectedException(typeof(ObjectLockedException))]
-        public async Task Set()
-        {
-            var a = await Session.FindMulticastAddressRange(v6Name);
+            // Set
             a.Comments = "Blah";
             await a.AcceptChanges();
             Assert.AreEqual("Blah", a.Comments);
+
+            // Fast Update
+            a = Session.UpdateMulticastAddressRange(v6Name);
+            a.Color = Colors.Purple;
+            await a.AcceptChanges();
+
+            // Find
+            a = await Session.FindMulticastAddressRange(a.UID);
+            Assert.AreEqual(Colors.Purple, a.Color);
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

@@ -20,8 +20,10 @@
 using Koopman.CheckPoint.AccessRules;
 using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.FastUpdate;
+using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -379,6 +381,24 @@ namespace Koopman.CheckPoint
         #endregion Properties
 
         #region Methods
+
+        /// <inheritdoc />
+        public override async Task Delete(Ignore ignore = Ignore.No, CancellationToken cancellationToken = default)
+        {
+            if (IsNew) throw new Exception("Cannot delete a new object.");
+            if (Layer == null) throw new Exception("Cannot delete when layer is null.");
+
+            var jo = new JObject
+            {
+                { "layer", Layer.GetIdentifier() }
+            };
+            jo.AddIdentifier(GetIdentifier());
+            jo.AddIgnore(ignore);
+
+            string jsonData = JsonConvert.SerializeObject(jo, Session.JsonFormatting);
+
+            await Session.PostAsync("delete-access-rule", jsonData, cancellationToken);
+        }
 
         /// <inheritdoc />
         public async override Task<AccessRule> Reload(bool OnlyIfPartial = false, DetailLevels detailLevel = DetailLevels.Standard, CancellationToken cancellationToken = default)

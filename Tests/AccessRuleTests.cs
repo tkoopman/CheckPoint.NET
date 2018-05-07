@@ -19,6 +19,7 @@
 
 using Koopman.CheckPoint;
 using Koopman.CheckPoint.AccessRules;
+using Koopman.CheckPoint.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -30,45 +31,30 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public async Task Find()
+        public async Task AccessRuleTest()
         {
-            var a = await Session.FindAccessRule("TestLayer", 1, DetailLevels.Full);
-            Assert.IsNotNull(a);
-            Assert.IsNotNull(a.Action);
-            Assert.IsNotNull(a.Layer);
-            Assert.IsTrue(a.Source.Count > 0);
-            Assert.IsTrue(a.Destination.Count > 0);
-            Assert.IsTrue(a.Service.Count > 0);
-            Assert.IsTrue(a.Content.Count > 0);
-        }
+            var layer = await AccessLayerTests.CreateTestAccessLayer(Session);
+            var host = await HostTests.CreateTestHost(Session);
+            var service = await ServiceGroupTests.CreateTestGroup(Session);
 
-        [TestMethod]
-        public async Task FindRulebase()
-        {
-            var a = await Session.FindAccessRulebase("TestLayer", detailLevel: DetailLevels.Full);
-            Assert.IsNotNull(a);
-            a = await Session.FindAccessRulebase(a.UID, detailLevel: DetailLevels.Standard);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            var a = new AccessRule(Session, "TestLayer", new Position(1))
+            // Create Rule
+            var a = new AccessRule(Session, layer.Name, new Position(2))
             {
                 Action = RulebaseAction.Accept,
                 CustomFields = new CustomFields() { Field1 = "TestNew" }
             };
             a.ActionSettings.SetLimit("Upload_1Gbps");
             a.Track.Type = TrackType.Log;
-            a.Source.Add("DNS Server");
-            a.VPN.Add("All_GwToGw");
+            a.Source.Add(host);
+            a.Service.Add(service);
             await a.AcceptChanges();
             Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
+
+            // Set Rule
             a.Source.Clear();
-            a.Destination.Add("DNS Server");
-            a.CustomFields.Field1 = "Test";
-            a.SetPosition(new Position(Positions.Bottom));
+            a.Destination.Add(host);
+            a.CustomFields.Field2 = "Test";
+            a.SetPosition(new Position(Positions.Top));
             a.Track.Type = TrackType.ExtendedLog;
             a.Track.PerConnection = false;
             a.Track.PerSession = true;
@@ -80,6 +66,28 @@ namespace Tests
             Assert.AreEqual(1, a.Destination.Count);
             Assert.IsFalse(a.Track.PerConnection);
             Assert.IsTrue(a.Track.PerSession);
+
+            // Find by rule#
+            a = await Session.FindAccessRule(layer.Name, 1, DetailLevels.Full);
+            Assert.AreEqual("Test Rule", a.Name);
+
+            // Find rule base
+            var b = await Session.FindAccessRulebase(layer.Name, detailLevel: DetailLevels.Full);
+            Assert.IsNotNull(b);
+            Assert.AreEqual(2, b.Total);
+
+            // Export Rule base
+            var export = new JsonExport(Session);
+            await export.AddAsync(b);
+            string e = await export.Export();
+            Assert.IsTrue(e.StartsWith("{"));
+            Assert.IsTrue(e.EndsWith("}"));
+            Assert.IsTrue(e.Contains(service.UID));
+            foreach (var m in service.Members)
+                Assert.IsTrue(e.Contains(m.UID));
+
+            // Delete Rule
+            await a.Delete();
         }
 
         #endregion Methods

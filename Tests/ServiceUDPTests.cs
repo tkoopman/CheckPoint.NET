@@ -29,30 +29,29 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "domain";
-        private static readonly string Name = "domain-udp";
+        private static readonly string Name = "TestUDP.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task FastUpdate()
+        public static async Task<ServiceUDP> CreateTestUDP(Session session)
         {
-            string set = $"Not{Name}";
-            var a = Session.UpdateServiceUDP(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
+            var a = new ServiceUDP(session)
+            {
+                Name = Name,
+                Color = Colors.Red,
+                Port = "53",
+                AggressiveAging = new Koopman.CheckPoint.Common.AggressiveAging()
+                {
+                    Enable = true,
+                    UseDefaultTimeout = false,
+                    Timeout = 5
+                }
+            };
 
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindServiceUDP(Name);
-            Assert.IsNotNull(a);
+            await a.AcceptChanges(Ignore.Warnings);
+            return a;
         }
 
         [TestMethod]
@@ -66,45 +65,36 @@ namespace Tests
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            var a = await Session.FindServicesUDP(filter: Filter, limit: 5, order: ServiceUDP.Order.NameAsc);
+            var a = await Session.FindServicesUDP(filter: "domain", limit: 5, order: ServiceUDP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task ServiceUDPTest()
         {
-            string name = $"New{Name}";
+            var g = await ServiceGroupTests.CreateTestGroup(Session);
 
-            var a = new ServiceUDP(Session)
-            {
-                Name = name,
-                Color = Colors.Red,
-                Port = "53",
-                AggressiveAging = new Koopman.CheckPoint.Common.AggressiveAging()
-                {
-                    Enable = true,
-                    UseDefaultTimeout = false,
-                    Timeout = 5
-                }
-            };
-
-            Assert.IsTrue(a.IsNew);
+            // Create
+            var a = await CreateTestUDP(Session);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not{Name}";
-            var a = await Session.FindServiceUDP(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            // Fast Update
+            a = Session.UpdateServiceUDP(Name);
+            a.Comments = "Blah";
+            a.Groups.Add(g);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
+
+            // Find
+            a = await Session.FindServiceUDP(Name, DetailLevels.UID);
+            Assert.AreEqual(1, a.Groups.Count);
+            a.Groups.Clear();
+            await a.AcceptChanges();
+
+            // Delete
+            await a.Delete(Ignore.Warnings);
         }
 
         #endregion Methods

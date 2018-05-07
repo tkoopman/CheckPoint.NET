@@ -17,9 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint;
 using Koopman.CheckPoint.Common;
-using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.Threading.Tasks;
@@ -29,18 +27,12 @@ namespace Tests
     [TestClass]
     public class NATSettingsTests : StandardTestsBase
     {
-        #region Fields
-
-        private static readonly string Name = "DNS Server";
-
-        #endregion Fields
-
         #region Methods
 
         [TestMethod]
         public async Task HideGateway()
         {
-            var a = Session.UpdateHost(Name);
+            var a = await HostTests.CreateTestHost(Session);
             a.NATSettings = new NATSettings()
             {
                 AutoRule = true,
@@ -53,7 +45,7 @@ namespace Tests
         [TestMethod]
         public async Task None()
         {
-            var a = Session.UpdateHost(Name);
+            var a = await HostTests.CreateTestHost(Session);
             a.NATSettings = new NATSettings();
             await a.AcceptChanges();
         }
@@ -61,17 +53,17 @@ namespace Tests
         [TestMethod]
         public async Task StaticIP()
         {
-            var a = Session.UpdateHost(Name);
+            var a = await HostTests.CreateTestHost(Session);
             a.NATSettings = new NATSettings()
             {
                 AutoRule = true,
                 Method = NATSettings.NATMethods.Static,
-                IPv4Address = IPAddress.Parse("1.1.1.1")
+                IPv4Address = IPAddress.Parse("1.1.1.1"),
+                IPv6Address = IPAddress.Parse("fe80::1:1")
             };
             await a.AcceptChanges();
 
             Assert.AreEqual(IPAddress.Parse("1.1.1.1"), a.NATSettings.IPv4Address);
-            Assert.IsNull(a.NATSettings.IPv6Address);
             Assert.IsFalse(a.IsChanged);
         }
 

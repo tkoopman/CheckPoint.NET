@@ -17,38 +17,55 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Koopman.CheckPoint.Exceptions;
+using Koopman.CheckPoint.AccessRules;
+using Koopman.CheckPoint.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
 namespace Tests
 {
     [TestClass]
-    public class PolicyTests : StandardTestsBase
+    public class StaticObjectsTests : StandardTestsBase
     {
         #region Methods
 
-        /// <summary>
-        /// Tests the install policy. Not great test as cannot install policy in Demo mode
-        /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(GenericException))]
-        public async Task TestInstallPolicy()
+        public async Task GenericObjects()
         {
-            string taskID = await Session.InstallPolicy("Corporate_Policy", new string[] { "Corporate-GW" }, true, true, prepareOnly: true);
+            foreach (var a in GenericObjectSummary.InBuilt)
+            {
+                var b = await Session.FindObject(a.UID);
+                Assert.AreEqual(a.Name, b.Name);
+                Assert.AreEqual(a.Type, b.Type);
+                Assert.AreEqual(a.Domain.Name, b.Domain.Name);
+                Assert.AreEqual(a.Domain.UID, b.Domain.UID);
+            }
         }
 
         [TestMethod]
-        public async Task TestVerifyPolicy()
+        public async Task RulebaseActions()
         {
-            string taskID = await Session.VerifyPolicy("Corporate_Policy");
-            Assert.IsNotNull(taskID);
+            foreach (var a in RulebaseAction.Actions)
+            {
+                var b = await Session.FindObject(a.UID);
+                Assert.AreEqual(a.Name, b.Name);
+                Assert.AreEqual(a.Type, b.Type);
+                Assert.AreEqual(a.Domain.Name, b.Domain.Name);
+                Assert.AreEqual(a.Domain.UID, b.Domain.UID);
+            }
+        }
 
-            var task = await Session.FindTask(taskID);
-            Assert.IsNotNull(task);
-
-            // Wait for task to finish
-            await task.WaitAsync(delay: 2000);
+        [TestMethod]
+        public async Task TrackTypes()
+        {
+            foreach (var a in TrackType.Types)
+            {
+                var b = await Session.FindObject(a.UID);
+                Assert.AreEqual(a.Name, b.Name);
+                Assert.AreEqual(a.Type, b.Type);
+                Assert.AreEqual(a.Domain.Name, b.Domain.Name);
+                Assert.AreEqual(a.Domain.UID, b.Domain.UID);
+            }
         }
 
         #endregion Methods

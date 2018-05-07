@@ -41,11 +41,8 @@ namespace Koopman.CheckPoint.Internal
         /// <returns></returns>
         internal async static System.Threading.Tasks.Task Invoke(Session Session, string Command, string Value, Ignore Ignore, CancellationToken cancellationToken)
         {
-            var jo = new JObject
-            {
-                { Value.IsUID() ? "uid" : "name", Value }
-            };
-
+            var jo = new JObject();
+            jo.AddIdentifier(Value);
             jo.AddIgnore(Ignore);
 
             string jsonData = JsonConvert.SerializeObject(jo, Session.JsonFormatting);

@@ -1,5 +1,8 @@
 ﻿using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.Internal;
+using Koopman.CheckPoint.Json;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -45,6 +48,55 @@ namespace Koopman.CheckPoint
                     Order: order,
                     cancellationToken: cancellationToken
                 );
+        }
+
+        /// <summary>
+        /// Searches for unusage objects.
+        /// </summary>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="order">The order.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>Array of IObjectSummary objects</returns>
+        public async Task<IObjectSummary[]> FindAllUnusedObjects
+            (
+                DetailLevels detailLevel = DetailLevels.Standard,
+                int limit = 50,
+                IOrder order = null,
+                CancellationToken cancellationToken = default
+            )
+        {
+            int offset = 0;
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+            var objs = new List<IObjectSummary>();
+
+            while (true)
+            {
+                var data = new Dictionary<string, dynamic>
+                {
+                    { "details-level", detailLevel.ToString() },
+                    { "limit", limit },
+                    { "offset", offset },
+                    { "order", (order == null)? null:new IOrder[] { order } }
+                };
+
+                string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+                string result = await PostAsync("show-unused-objects", jsonData, cancellationToken);
+
+                var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<IObjectSummary>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+                foreach (var o in results)
+                    objs.Add(o);
+
+                if (results.To == results.Total)
+                {
+                    objectConverter.PostDeserilization(objs);
+                    return objs.ToArray();
+                }
+
+                offset = results.To;
+            }
         }
 
         /// <summary>
@@ -109,6 +161,53 @@ namespace Koopman.CheckPoint
                     Order: order,
                     cancellationToken: cancellationToken
                 );
+        }
+
+        /// <summary>
+        /// Searches for unusage objects.
+        /// </summary>
+        /// <param name="detailLevel">The detail level.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="order">The order.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>NetworkObjectsPagingResults of IObjectSummary objects</returns>
+        public async Task<NetworkObjectsPagingResults<IObjectSummary>> FindUnusedObjects
+            (
+                DetailLevels detailLevel = DetailLevels.Standard,
+                int limit = 50,
+                int offset = 0,
+                IOrder order = null,
+                CancellationToken cancellationToken = default
+            )
+        {
+            var objectConverter = new ObjectConverter(this, detailLevel, detailLevel);
+
+            var data = new Dictionary<string, dynamic>
+            {
+                { "details-level", detailLevel.ToString() },
+                { "limit", limit },
+                { "offset", offset },
+                { "order", (order == null)? null:new IOrder[] { order } }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
+
+            string result = await PostAsync("show-unused-objects", jsonData, cancellationToken);
+
+            var results = JsonConvert.DeserializeObject<NetworkObjectsPagingResults<IObjectSummary>>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
+
+            if (results != null)
+            {
+                objectConverter.PostDeserilization(results);
+                results.Next = delegate (CancellationToken ct)
+                {
+                    if (results.To == results.Total) return Task.FromResult((NetworkObjectsPagingResults<IObjectSummary>)null);
+                    return FindUnusedObjects(detailLevel, limit, results.To, order, ct);
+                };
+            }
+
+            return results;
         }
 
         #endregion Methods

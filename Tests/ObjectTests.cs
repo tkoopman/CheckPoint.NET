@@ -31,15 +31,6 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public async Task ExportRulebase()
-        {
-            var a = await Session.FindAllAccessRulebase("TestLayer");
-            var export = new JsonExport(Session);
-            await export.AddAsync(a);
-            Console.Out.WriteLine(await export.Export());
-        }
-
-        [TestMethod]
         public async Task ExportWhereUsed()
         {
             var wu = await Session.FindWhereUsed("domain-udp");
@@ -51,7 +42,7 @@ namespace Tests
         [TestMethod]
         public async Task FindAll()
         {
-            var a = await Session.FindAllObjects(filter: "domain", detailLevel: DetailLevels.Full);
+            var a = await Session.FindAllObjects(filter: "domain", detailLevel: DetailLevels.UID);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Length > 0);
             var b = await Session.FindObject(a[0].UID);
@@ -73,15 +64,14 @@ namespace Tests
         [TestMethod]
         public async Task Unused()
         {
-            var a = await Session.FindUnusedObjects(limit: 5, detailLevel: DetailLevels.Full);
+            var a = await Session.FindUnusedObjects(limit: 5, detailLevel: DetailLevels.UID);
             Assert.IsNotNull(a);
-            Assert.IsTrue(a.Total > 0);
         }
 
         [TestMethod]
         public async Task WhereUsed()
         {
-            var a = await Session.FindWhereUsed("domain-udp", DetailLevels.Full);
+            var a = await Session.FindWhereUsed("domain-udp", DetailLevels.UID);
             Assert.IsNotNull(a);
         }
 

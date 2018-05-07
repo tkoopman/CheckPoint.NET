@@ -58,7 +58,7 @@ namespace Koopman.CheckPoint.AccessRules
         /// <summary>
         /// The inline layer action
         /// </summary>
-        public static readonly RulebaseAction InlineLayer = new RulebaseAction(Domain.DataDomain, "Inline Layer", "ea28da66-c5ed-11e2-bc66-aa5c6188709b", "Global");
+        public static readonly RulebaseAction InnerLayer = new RulebaseAction(Domain.DataDomain, "Inner Layer", "ea28da66-c5ed-11e2-bc66-aa5c6188709b", "Global");
 
         /// <summary>
         /// The reject action
@@ -70,7 +70,7 @@ namespace Koopman.CheckPoint.AccessRules
         /// </summary>
         public static readonly RulebaseAction UserAuth = new RulebaseAction(Domain.DataDomain, "User Auth", "641ce709-989a-4941-8ab4-2f9bcb9d17dd");
 
-        internal static readonly RulebaseAction[] Actions = new RulebaseAction[] { Accept, Drop, InlineLayer, Reject, Ask, Inform, UserAuth, ClientAuth };
+        internal static readonly RulebaseAction[] Actions = new RulebaseAction[] { Accept, Drop, InnerLayer, Reject, Ask, Inform, UserAuth, ClientAuth };
 
         #endregion Fields
 

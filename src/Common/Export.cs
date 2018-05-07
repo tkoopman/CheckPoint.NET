@@ -113,6 +113,8 @@ namespace Koopman.CheckPoint.Common
 
         internal ConcurrentDictionary<string, IObjectSummary> Objects { get; } = new ConcurrentDictionary<string, IObjectSummary>();
 
+        internal ConcurrentDictionary<string, object> ProcessedUIDs { get; } = new ConcurrentDictionary<string, object>();
+
         [JsonProperty(PropertyName = "where-used")]
         internal ConcurrentDictionary<string, WhereUsed> WhereUsed { get; } = new ConcurrentDictionary<string, WhereUsed>();
 
@@ -195,12 +197,20 @@ namespace Koopman.CheckPoint.Common
                 if (objectSummary.UID == null)
                     objectSummary = await Reload(objectSummary);
 
-                if (objectSummary.UID != null && !Objects.ContainsKey(objectSummary.UID))
+                if (objectSummary.UID != null && ProcessedUIDs.TryAdd(objectSummary.UID, null))
                 {
                     if (objectSummary.DetailLevel == DetailLevels.UID)
                         objectSummary = await Reload(objectSummary);
 
-                    if (Contains(objectSummary.Name, ExcludeByName) || Contains(objectSummary.Type, ExcludeByType)) return;
+                    try
+                    {
+                        if (Contains(objectSummary.Name, ExcludeByName) || Contains(objectSummary.Type, ExcludeByType)) return;
+                    }
+                    catch (DetailLevelException e)
+                    { // May happen on special objects that don't have static UIDs like Restrict_Common_Protocols_Action
+                        Session.WriteDebug($"Error exporting UID {{{ objectSummary.UID }}}\n{ e.ToString() }\n");
+                        return;
+                    }
 
                     objectSummary = await Reload(objectSummary);
 

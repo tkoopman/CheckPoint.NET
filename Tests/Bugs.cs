@@ -42,9 +42,7 @@ namespace Tests
         [TestMethod]
         public async Task ClearIPProperty()
         {
-            var a = await Session.FindHost("DNS Server");
-            a.IPv6Address = System.Net.IPAddress.Parse("fe80::1");
-            await a.AcceptChanges();
+            var a = await HostTests.CreateTestHost(Session);
             a.IPv6Address = null;
             await a.AcceptChanges();
 
@@ -52,8 +50,8 @@ namespace Tests
             Assert.IsNotNull(a.IPv6Address);
 
             // Maybe by using quotes and not null
-            await Session.PostAsync("set-host", "{\"ipv6-address\": \"\", \"name\": \"DNS Server\"}", default);
-            a = await Session.FindHost("DNS Server");
+            await Session.PostAsync("set-host", $"{{\"ipv6-address\": \"\", \"name\": \"{a.Name}\"}}", default);
+            a = await Session.FindHost(a.Name);
             // Should be null
             Assert.IsNotNull(a.IPv6Address);
         }
@@ -65,10 +63,8 @@ namespace Tests
         [TestMethod]
         public async Task ClearTags()
         {
-            var a = await Session.FindHost("DNS Server");
-            a.Tags.Clear();
-            a.Tags.Add("TestTag");
-            await a.AcceptChanges();
+            var a = await HostTests.CreateTestHost(Session);
+            Assert.AreEqual(1, a.Tags.Count);
 
             a.Tags.Clear();
             await a.AcceptChanges();
@@ -83,14 +79,12 @@ namespace Tests
             ApplicationSite a = null;
             try
             {
-                a = await Session.FindApplicationSite("mycompany.com");
+                a = await Session.FindApplicationSite("Check Point User Center");
             }
             catch (ObjectNotFoundException)
             {
-                Assert.Fail("Initial find should return result.");
+                Assert.Fail("Failed to create test site.");
             }
-
-            Assert.IsNotNull(a);
 
             // ObjectNotFound error returned when it should be found
             a = await Session.FindApplicationSite((int)a.ApplicationID);
@@ -106,10 +100,8 @@ namespace Tests
         [ExpectedException(typeof(InternalErrorException))]
         public async Task HostSetGroupUsingUID()
         {
-            string Name = "Web Server";
-
             // Fist do it the working way
-            var a = await Session.FindHost(Name);
+            var a = await HostTests.CreateTestHost(Session);
             a.Groups.Clear();
             Assert.IsTrue(a.IsChanged);
             await a.AcceptChanges();
@@ -121,7 +113,6 @@ namespace Tests
             try
             {
                 // Now this way will fail
-                a = await Session.FindHost(Name);
                 a.Groups.Clear();
                 Assert.IsTrue(a.IsChanged);
                 await a.AcceptChanges();
@@ -143,11 +134,10 @@ namespace Tests
             //First working way.
             var a = new Time(Session)
             {
-                Name = "ISOTest",
-                Color = Colors.Red
+                Name = "ISOTest"
             };
 
-            a.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange(new Koopman.CheckPoint.Common.TimeOfDay("03:00"), new Koopman.CheckPoint.Common.TimeOfDay("04:00"));
+            a.HourRanges[0] = new TimeRange(new TimeOfDay("03:00"), new TimeOfDay("04:00"));
             a.StartNow = true;
             a.Start = new System.DateTime(2019, 01, 01, 00, 00, 00);
             a.EndNever = false;
@@ -169,7 +159,7 @@ namespace Tests
                     Color = Colors.Red
                 };
 
-                a.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange(new Koopman.CheckPoint.Common.TimeOfDay("03:00"), new Koopman.CheckPoint.Common.TimeOfDay("04:00"));
+                a.HourRanges[0] = new TimeRange(new TimeOfDay("03:00"), new TimeOfDay("04:00"));
                 a.StartNow = true;
                 a.Start = new System.DateTime(2019, 01, 01, 00, 00, 00);
                 a.EndNever = false;

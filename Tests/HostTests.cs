@@ -32,41 +32,28 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "10.0.0.0/8";
-        private static readonly string Group = "Corporate LANs";
-        private static readonly IPAddress IP = IPAddress.Parse("4.3.2.1");
-        private static readonly string Name = "InterfacesTestHost";
+        private static readonly IPAddress IPv4 = IPAddress.Parse("4.3.2.1");
+        private static readonly IPAddress IPv6 = IPAddress.Parse("fe80::1");
+        private static readonly string Name = "TestHost.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task Delete() => await Session.DeleteHost(Name);
-
-        [TestMethod]
-        public async Task FastUpdate()
+        public static async Task<Host> CreateTestHost(Session session)
         {
-            string set = $"Not {Name}";
+            var a = new Host(session, true)
+            {
+                Name = Name,
+                IPv4Address = IPv4,
+                IPv6Address = IPv6
+            };
 
-            var a = Session.UpdateHost(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
+            a.Tags.Add("CheckPoint.NET");
 
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindHost(Name);
-            Assert.IsNotNull(a);
-            Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
-            Assert.AreEqual(Name, a.Name);
-            Assert.AreEqual(Domain.Default, a.Domain);
-            Assert.IsFalse(a.IsChanged);
-            Assert.IsNotNull(a.NATSettings);
+            await a.AcceptChanges(Ignore.Warnings);
+
+            return a;
         }
 
         [TestMethod]
@@ -75,16 +62,14 @@ namespace Tests
             var a = await Session.FindHosts(limit: 5, order: Host.Order.NameDesc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
-            Assert.IsNotNull(a);
         }
 
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            var a = await Session.FindHosts(filter: Filter, ipOnly: true, limit: 5, order: Host.Order.NameDesc);
+            var a = await Session.FindHosts(filter: "10.0.0.0/8", ipOnly: true, limit: 5, order: Host.Order.NameDesc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
-            Assert.IsNotNull(a);
         }
 
         [TestMethod]
@@ -92,46 +77,26 @@ namespace Tests
         public async Task FindNotFound() => await Session.FindHost("I Don't Exist!");
 
         [TestMethod]
-        public async Task New()
+        public async Task HostTest()
         {
-            string name = $"New {Name}";
-
-            var a = new Host(Session, true)
-            {
-                Name = name,
-                IPv4Address = IP
-            };
-
-            Assert.IsTrue(a.IsNew);
+            // Create Host
+            var a = await CreateTestHost(Session);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
+            Assert.AreEqual(Name, a.Name);
 
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not {Name}";
-
-            var a = await Session.FindHost(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
+            // Find host by name
+            a = await Session.FindHost(Name);
+            Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
+            Assert.AreEqual(Domain.Default, a.Domain);
             Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
+            Assert.IsNotNull(a.NATSettings);
 
-        [TestMethod]
-        public async Task SetGroups()
-        {
-            var a = await Session.FindHost(Name);
-            a.Groups.Clear();
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(0, a.Groups.Count);
+            // Group Membership
+            var g = await GroupTests.CreateTestGroup(Session);
 
-            a.Groups.Add(Group);
+            a.Groups.Add(g);
             Assert.IsTrue(a.IsChanged);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
@@ -140,11 +105,23 @@ namespace Tests
             await a.Groups[0].Reload(OnlyIfPartial: true);
             Assert.AreEqual(DetailLevels.Full, a.Groups[0].DetailLevel);
 
+            a.Groups.Clear();
+            Assert.IsTrue(a.IsChanged);
+            await a.AcceptChanges();
+            Assert.IsFalse(a.IsChanged);
+            Assert.AreEqual(0, a.Groups.Count);
+
+            a = Session.UpdateHost(Name); // Test Fast Update
+            a.Groups.Add(g);
+            await a.AcceptChanges();
             a.Groups.Remove(a.Groups[0]);
             Assert.IsTrue(a.IsChanged);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Groups.Count);
+
+            // Delete
+            await Session.DeleteHost(Name);
         }
 
         #endregion Methods

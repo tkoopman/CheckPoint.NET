@@ -45,11 +45,6 @@ namespace Koopman.CheckPoint
         /// </summary>
         public static readonly IObjectSummary Any = GenericObjectSummary.Any;
 
-        /// <summary>
-        /// The Trust_all_action object.
-        /// </summary>
-        public static readonly IObjectSummary TrustAllAction = GenericObjectSummary.TrustAllAction;
-
         #endregion Static Fields
     }
 

@@ -28,12 +28,18 @@ namespace Tests
     [TestClass]
     public class RunScriptTests : StandardTestsBase
     {
+        #region Properties
+
+        public string MgmtName => TestContext.Properties["MgmtName"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtName");
+
+        #endregion Properties
+
         #region Methods
 
         [TestMethod]
         public async Task RunCancel()
         {
-            string run = await Session.RunScript("Sleep", "sleep 4", null, "mgmt");
+            string run = await Session.RunScript("Sleep", "sleep 4", null, MgmtName);
 
             var task = await Session.FindTask(run);
 
@@ -60,7 +66,7 @@ namespace Tests
         [TestMethod]
         public async Task RunLS()
         {
-            string run = await Session.RunScript("LS", "ls -l /", null, "mgmt");
+            string run = await Session.RunScript("LS", "ls -l /", null, MgmtName);
             Assert.IsNotNull(run);
 
             var task = await Session.FindTask(run);
@@ -69,7 +75,7 @@ namespace Tests
             bool s = await task.WaitAsync();
             Assert.IsTrue(s);
 
-            Console.Out.WriteLine(task.TaskDetails[0].ResponseMessage);
+            Assert.IsTrue(task.TaskDetails[0].ResponseMessage.Contains("etc"));
         }
 
         #endregion Methods

@@ -18,7 +18,6 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
-using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -29,65 +28,17 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "Day";
-        private static readonly string GroupName = "TimeGroup";
-        private static readonly string Name = "Off_Work";
-        private static readonly string SetName = "Temp Access";
+        private static readonly string Name = "Time.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task FastUpdate()
+        public static async Task<Time> CreateTestTime(Session session)
         {
-            var a = Session.UpdateTime(SetName);
-            a.Recurrence = new Time.RecurrenceClass()
+            var a = new Time(session)
             {
-                Pattern = Time.RecurrencePattern.Monthly,
-                Month = Months.May
-            };
-
-            a.Recurrence.Days.Add("1");
-
-            a.Groups.Add(GroupName);
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(Months.May, a.Recurrence.Month);
-        }
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindTime(Name);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
-        {
-            var a = await Session.FindTimes(limit: 5, order: Time.Order.NameAsc);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task FindAllFiltered()
-        {
-            var a = await Session.FindTimes(filter: Filter, limit: 5, order: Time.Order.NameAsc);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"NoTime";
-
-            var a = new Time(Session)
-            {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red
             };
 
@@ -102,43 +53,43 @@ namespace Tests
                 Weekdays = Days.Saturday | Days.Sunday
             };
 
-            a.Groups.Add(GroupName);
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges();
+            return a;
+        }
+
+        [TestMethod]
+        public async Task Finds()
+        {
+            var a = await Session.FindTimes(limit: 5, order: Time.Order.NameAsc);
+            Assert.IsNotNull(a);
+            a = await a.NextPage();
+        }
+
+        [TestMethod]
+        public async Task TimeTest()
+        {
+            // Create
+            var a = await CreateTestTime(Session);
             Assert.IsFalse(a.IsNew);
             Assert.AreEqual(new System.DateTime(2018, 01, 01, 23, 50, 00), a.End);
             Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Saturday));
             Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Sunday));
             Assert.IsTrue(a.Recurrence.Weekdays.HasFlag(Days.Weekend));
-
             Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Monday));
             Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Tuesday));
             Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Wednesday));
             Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Thursday));
             Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Friday));
             Assert.IsFalse(a.Recurrence.Weekdays.HasFlag(Days.Weekdays));
-
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"NoTime";
-            var a = await Session.FindTime(SetName);
-            a.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange(new Koopman.CheckPoint.Common.TimeOfDay("03:00"), new Koopman.CheckPoint.Common.TimeOfDay("04:00"));
+            // Set
+            a.Recurrence.Weekdays |= Days.Friday;
             await a.AcceptChanges();
-            a.Name = set;
-            a.Start = new System.DateTime(2018, 01, 01, 00, 00, 00);
-            a.End = new System.DateTime(2018, 01, 01, 23, 50, 00);
-            a.Recurrence.Pattern = Time.RecurrencePattern.Weekly;
-            a.Recurrence.Weekdays = Days.Monday | Days.Wednesday | Days.Friday;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-            Assert.AreEqual(Days.Monday | Days.Wednesday | Days.Friday, a.Recurrence.Weekdays);
+            Assert.AreEqual(Days.Sunday | Days.Saturday | Days.Friday, a.Recurrence.Weekdays);
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

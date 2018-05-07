@@ -60,7 +60,7 @@ namespace Tests
 
             DebugAll = Environment.GetEnvironmentVariable("APPVEYOR") == null;
 
-            Session = new Session(
+            Session = Session.Login(
                          managementServer: ManagementServer,
                          userName: User,
                          password: Password,
@@ -68,10 +68,9 @@ namespace Tests
                          indentJson: true,
                          sessionName: "CheckPoint.NET Test",
                          description: TestContext.TestName
-                     )
-            {
-                DebugWriter = DebugWriter
-            };
+                     ).GetAwaiter().GetResult();
+
+            Session.DebugWriter = DebugWriter;
             DebugWriter.WriteLine($" Starting test {TestContext.TestName} ".CenterString(60, '#'));
         }
 

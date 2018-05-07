@@ -30,33 +30,14 @@ namespace Tests
         #region Fields
 
         private static readonly string Filter = "DMZ";
-        private static readonly string Name = "Finance";
+        private static readonly string Name = "TestZone.NET";
 
         #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        public async Task FastUpdate()
-        {
-            string set = $"Not_{Name}";
-            var a = Session.UpdateSecurityZone(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindSecurityZone(Name);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
+        public async Task Finds()
         {
             var a = await Session.FindSecurityZones(limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
@@ -64,7 +45,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindAllFiltered()
+        public async Task FindsFiltered()
         {
             var a = await Session.FindSecurityZones(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
@@ -72,32 +53,30 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task ZoneTest()
         {
-            string name = $"New_{Name}";
-
+            // Create
             var a = new SecurityZone(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red
             };
 
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not_{Name}";
-            var a = await Session.FindSecurityZone(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            // Fast Update
+            a = Session.UpdateSecurityZone(Name);
+            a.Comments = "Blah";
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
+
+            // Find
+            a = await Session.FindSecurityZone(Name);
+            Assert.AreEqual("Blah", a.Comments);
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

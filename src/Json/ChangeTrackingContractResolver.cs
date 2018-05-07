@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
@@ -69,8 +70,11 @@ namespace Koopman.CheckPoint.Json
                         instance =>
                         {
                             var o = (IObjectSummary)instance;
-                            return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID;
+                            bool hasOldName = o.TryGetProperty("OldName", out object oldName, BindingFlags.NonPublic | BindingFlags.Instance);
+                            hasOldName = (hasOldName && oldName != null);
+                            return !o.IsNew && (GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.UID || !hasOldName);
                         };
+                    property.NullValueHandling = NullValueHandling.Ignore;
                 }
                 else if (property.UnderlyingName.Equals("OldName"))
                 {
@@ -78,8 +82,10 @@ namespace Koopman.CheckPoint.Json
                             instance =>
                             {
                                 var o = (IObjectSummary)instance;
-                                return !o.IsNew && GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.Name;
+                                bool hasUID = o.UID != null;
+                                return !o.IsNew && (GlobalOptions.IdentifierForSetCalls == GlobalOptions.Identifier.Name || !hasUID);
                             };
+                    property.NullValueHandling = NullValueHandling.Ignore;
                     if (SetMethod)
                         property.PropertyName = "name";
                 }

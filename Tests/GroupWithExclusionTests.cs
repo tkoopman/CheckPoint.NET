@@ -29,34 +29,11 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Except = "Corporate LANs";
-        private static readonly string Filter = "Test Objects";
-        private static readonly string Name = "TestGroupWithExlusion";
+        private static readonly string Name = "TestGroupWithExlusion.NET";
 
         #endregion Fields
 
         #region Methods
-
-        [TestMethod]
-        public async Task FastUpdate()
-        {
-            string set = $"Not {Name}";
-            var a = Session.UpdateGroupWithExclusion(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindGroupWithExclusion(Name);
-            Assert.IsNotNull(a);
-            Assert.IsNotNull(a.Include);
-            Assert.IsNotNull(a.Except);
-        }
 
         [TestMethod]
         public async Task FindAll()
@@ -67,62 +44,51 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindAllFiltered()
+        public async Task GroupWithExclusionTest()
         {
-            var a = await Session.FindGroupsWithExclusion(filter: Filter, limit: 5, order: GroupWithExclusion.Order.NameAsc);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
+            var g = await GroupTests.CreateTestGroup(Session);
 
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New {Name}";
-
+            // Create
             var a = new GroupWithExclusion(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red,
                 Include = ObjectSummary.Any,
-                Except = await Session.FindGroup(Except)
+                Except = g
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public async Task NewAsString()
-        {
-            string name = $"New {Name}";
+            // Set
+            a.Comments = "Test";
+            await a.AcceptChanges();
 
-            var a = new GroupWithExclusion(Session)
+            // Fast Update
+            a = Session.UpdateGroupWithExclusion(Name);
+            a.Tags.Add("CheckPoint.NET");
+            await a.AcceptChanges();
+
+            // Find
+            a = await Session.FindGroupWithExclusion(Name);
+            Assert.AreEqual(1, a.Tags.Count);
+            Assert.AreEqual("Test", a.Comments);
+
+            // Delete
+            await Session.DeleteGroupWithExclusion(Name);
+
+            // Create as string
+            a = new GroupWithExclusion(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red
             };
-
             a.SetInclude("any");
-            a.SetExcept(Except);
+            a.SetExcept(g.Name);
 
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
-
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not {Name}";
-            var a = await Session.FindGroupWithExclusion(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
         }
 
         #endregion Methods

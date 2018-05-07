@@ -65,17 +65,7 @@ namespace Koopman.CheckPoint.Common
             Domain = Domain.DataDomain
         };
 
-        /// <summary>
-        /// The Trust_all_action object.
-        /// </summary>
-        public static readonly GenericObjectSummary TrustAllAction = new GenericObjectSummary(null, DetailLevels.Full, "", true)
-        {
-            UID = "226b5ee1-69ce-4bdb-a53f-3a01e68885b4",
-            Name = "Trust_all_action",
-            Domain = Domain.Default
-        };
-
-        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, PolicyTargets, TrustAllAction, AllGwToGw };
+        internal static readonly GenericObjectSummary[] InBuilt = new GenericObjectSummary[] { Any, PolicyTargets, AllGwToGw };
 
         #endregion Fields
 

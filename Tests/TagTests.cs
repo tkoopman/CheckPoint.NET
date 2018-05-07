@@ -18,7 +18,6 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
-using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -29,35 +28,14 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "gw";
-        private static readonly string Host = "DNS Server";
-        private static readonly string Name = "Europe_gw";
+        private const string Name = "TestTag.NET";
 
         #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        public async Task FastUpdate()
-        {
-            string set = $"Not {Name}";
-            var a = Session.UpdateTag(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindTag(Name);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
+        public async Task Finds()
         {
             var a = await Session.FindTags(limit: 5, order: Tag.Order.NameAsc);
             Assert.IsNotNull(a);
@@ -65,52 +43,30 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindAllFiltered()
+        public async Task TagTest()
         {
-            var a = await Session.FindTags(filter: Filter, limit: 5, order: Tag.Order.NameAsc);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New {Name}";
-
+            // Create
             var a = new Tag(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not {Name}";
-            var a = await Session.FindTag(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            // Set
+            a.Comments = "This is an awesome tag";
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
 
-        [TestMethod]
-        public async Task SetTags()
-        {
-            var a = await Session.FindHost(Host);
-            a.Tags.Clear();
-            a.Tags.Add(Name);
-            await a.AcceptChanges();
-            Assert.AreEqual(DetailLevels.Standard, a.Tags[0].DetailLevel);
-            await a.Tags[0].Reload();
-            Assert.AreEqual(DetailLevels.Full, a.Tags[0].DetailLevel);
+            // Set Tags
+            var h = await HostTests.CreateTestHost(Session);
+            h.Tags.Add(a);
+            await h.AcceptChanges();
+            Assert.AreEqual(2, h.Tags.Count);
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods
