@@ -31,7 +31,7 @@ namespace Tests
         #region Methods
 
         [TestMethod]
-        public async Task SetLoginMessage()
+        public async Task LoginMessageTest()
         {
             string header = "Session header";
             string message = "Should you be here?";
@@ -58,13 +58,13 @@ namespace Tests
             Assert.AreEqual(message, a.Message);
             Assert.AreEqual(show, a.ShowMessage);
             Assert.AreEqual(warn, a.Warning);
-        }
 
-        [TestMethod]
-        public async Task ShowLoginMessage()
-        {
-            var a = await Session.GetLoginMessage();
-            Assert.IsNotNull(a);
+            // Get Login Message
+            a = await Session.GetLoginMessage();
+            Assert.AreEqual(header, a.Header);
+            Assert.AreEqual(message, a.Message);
+            Assert.AreEqual(show, a.ShowMessage);
+            Assert.AreEqual(warn, a.Warning);
         }
 
         #endregion Methods

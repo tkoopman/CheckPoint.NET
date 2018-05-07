@@ -18,7 +18,6 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
-using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -28,18 +27,12 @@ namespace Tests
     [TestClass]
     public class ColorTests : StandardTestsBase
     {
-        #region Fields
-
-        private static readonly string Name = "DNS Server";
-
-        #endregion Fields
-
         #region Methods
 
         [TestMethod]
         public async Task TestAllColors()
         {
-            var a = Session.UpdateHost(Name);
+            var a = await HostTests.CreateTestHost(Session);
             foreach (Colors c in Enum.GetValues(typeof(Colors)))
             {
                 a.Color = c;

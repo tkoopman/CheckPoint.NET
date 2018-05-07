@@ -139,7 +139,7 @@ namespace Koopman.CheckPoint.Json
                     return result;
 
                 if (existingValue != null)
-                    SetProperty((IObjectSummary)existingValue, "DetailLevel", GetDetailLevel(reader));
+                    ((IObjectSummary)existingValue).SetProperty("DetailLevel", GetDetailLevel(reader));
                 else
                 {
                     result = GetFromCache(uid);
@@ -303,12 +303,12 @@ namespace Koopman.CheckPoint.Json
                     }
 
                     if (result.UID == null)
-                        SetProperty(result, nameof(IObjectSummary.UID), uid);
+                        result.SetProperty(nameof(IObjectSummary.UID), uid);
                     cache.Add(result);
                 }
                 else
                 {
-                    SetProperty(result, nameof(IObjectSummary.DetailLevel), GetDetailLevel(reader));
+                    result.SetProperty(nameof(IObjectSummary.DetailLevel), GetDetailLevel(reader));
                 }
 
                 serializer.Populate(obj.CreateReader(), result);
@@ -339,7 +339,7 @@ namespace Koopman.CheckPoint.Json
 
                     if (ci == null) { throw new Exception("Unable to find constructor that accepts Session, DetailLevels parameters"); }
                     result = (IObjectSummary)ci.Invoke(new object[] { Session, DetailLevels.UID });
-                    SetProperty(result, "UID", uid);
+                    result.SetProperty("UID", uid);
                     if (result is SimpleChangeTracking sct)
                     {
                         sct.OnDeserializingMethod(default);
@@ -358,18 +358,6 @@ namespace Koopman.CheckPoint.Json
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
-
-        private static void SetProperty(IObjectSummary obj, string name, object value)
-        {
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
-            if (name == null) throw new ArgumentNullException(nameof(name));
-
-            var prop = obj.GetType().GetTypeInfo().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
-            if (prop != null && prop.CanWrite)
-                prop.SetValue(obj, value, null);
-            else
-                throw new ArgumentException("No writeable property found.");
-        }
 
         private JsonReaderException CreateJsonReaderException(JsonReader reader, string message)
         {

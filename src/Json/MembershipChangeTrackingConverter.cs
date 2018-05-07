@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
+using Koopman.CheckPoint.Internal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -52,8 +53,8 @@ namespace Koopman.CheckPoint.Json
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var Action = (ChangeAction)value.GetType().GetTypeInfo().GetProperty("Action", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
-            var ChangedMembers = (List<string>)value.GetType().GetTypeInfo().GetProperty("ChangedMembers", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(value);
+            var Action = (ChangeAction)value.GetProperty("Action", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var ChangedMembers = (List<string>)value.GetProperty("ChangedMembers", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
             if (Action == ChangeAction.Set)
             {

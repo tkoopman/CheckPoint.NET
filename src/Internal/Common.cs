@@ -17,7 +17,9 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Koopman.CheckPoint.Internal
@@ -96,6 +98,47 @@ namespace Koopman.CheckPoint.Internal
             return stringToCenter.PadLeft(
                 ((totalLength - stringToCenter.Length) / 2) + stringToCenter.Length,
                   paddingCharacter).PadRight(totalLength, paddingCharacter);
+        }
+
+        internal static object GetProperty(this object obj, string name, BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance)
+        {
+            if (!TryGetProperty(obj, name, out object value, bindingFlags)) throw new ArgumentException("No readable property found.");
+
+            return value;
+        }
+
+        internal static void SetProperty(this object obj, string name, object value, BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance)
+        {
+            if (!TrySetProperty(obj, name, value, bindingFlags)) throw new ArgumentException("No writeable property found.");
+        }
+
+        internal static bool TryGetProperty(this object obj, string name, out object value, BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            value = null;
+
+            var prop = obj.GetType().GetTypeInfo().GetProperty(name, bindingFlags);
+            if (prop != null && prop.CanRead)
+                value = prop.GetValue(obj);
+            else
+                return false;
+
+            return true;
+        }
+
+        internal static bool TrySetProperty(this object obj, string name, object value, BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (name == null) throw new ArgumentNullException(nameof(name));
+
+            var prop = obj.GetType().GetTypeInfo().GetProperty(name, bindingFlags);
+            if (prop != null && prop.CanWrite)
+                prop.SetValue(obj, value, null);
+            else
+                return false;
+
+            return true;
         }
 
         #endregion Methods

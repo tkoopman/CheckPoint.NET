@@ -32,7 +32,8 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly IPAddress IP = IPAddress.Parse("4.3.2.1");
+        private static readonly IPAddress IPv4 = IPAddress.Parse("4.3.2.1");
+        private static readonly IPAddress IPv6 = IPAddress.Parse("fe80::1");
         private static readonly string Name = "TestHost.NET";
 
         #endregion Fields
@@ -44,8 +45,11 @@ namespace Tests
             var a = new Host(session, true)
             {
                 Name = Name,
-                IPv4Address = IP
+                IPv4Address = IPv4,
+                IPv6Address = IPv6
             };
+
+            a.Tags.Add("CheckPoint.NET");
 
             await a.AcceptChanges(Ignore.Warnings);
 

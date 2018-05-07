@@ -29,34 +29,58 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "mycompany.com";
-        private static readonly string Name = "mycompany.com";
+        private static readonly string Name = "TestSite.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task FastUpdate()
+        public static async Task<ApplicationSite> CreateTestAppSite(Session session)
         {
-            string set = $"Not_{Name}";
-            var a = Session.UpdateApplicationSite(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            var a = new ApplicationSite(session)
+            {
+                Name = Name,
+                Color = Colors.Red,
+                PrimaryCategory = "Custom_Application_Site"
+            };
+
+            a.UrlList.Add("www.purple.com");
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
+
+            return a;
         }
 
         [TestMethod]
-        public async Task Find()
+        public async Task ApplicationSiteTest()
         {
-            var a = await Session.FindApplicationSite(Name);
-            Assert.IsNotNull(a);
+            // Create
+            var a = await CreateTestAppSite(Session);
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
+            Assert.AreEqual(1, a.UrlList.Count);
+
+            // Set
+            a.UrlList.Add("www.testsite.net");
+            a.Comments = "Test";
+            await a.AcceptChanges();
+            Assert.AreEqual(2, a.UrlList.Count);
+            Assert.AreEqual("Test", a.Comments);
+
+            // Fast Update
+            a = Session.UpdateApplicationSite(Name);
+            a.UrlList.Remove("www.testsite.net");
+            await a.AcceptChanges();
+            Assert.AreEqual(1, a.UrlList.Count);
+
+            // Find
+            a = await Session.FindApplicationSite(Name);
+
+            // Delete
+            await a.Delete();
         }
 
         [TestMethod]
-        public async Task FindAll()
+        public async Task Finds()
         {
             var a = await Session.FindApplicationSites(limit: 5);
             Assert.IsNotNull(a);
@@ -64,45 +88,12 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindAllFiltered()
+        public async Task FindsFiltered()
         {
-            var a = await Session.FindApplicationSites(filter: Filter, limit: 5);
+            var a = await Session.FindApplicationSites(filter: "Check Point", limit: 5, detailLevel: DetailLevels.UID);
             Assert.IsNotNull(a);
             Assert.IsTrue(a.Total > 0);
             a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New_{Name}";
-
-            var a = new ApplicationSite(Session)
-            {
-                Name = name,
-                Color = Colors.Red,
-                PrimaryCategory = "Custom_Application_Site"
-            };
-
-            a.UrlList.Add("www.purple.com");
-
-            Assert.IsTrue(a.IsNew);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsNew);
-            Assert.IsNotNull(a.UID);
-        }
-
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not_{Name}";
-            var a = await Session.FindApplicationSite(Name);
-            a.Name = set;
-            a.UrlList.Add(Name);
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
         }
 
         #endregion Methods

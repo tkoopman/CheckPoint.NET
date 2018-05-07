@@ -31,39 +31,41 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string v4Filter = "0.0.0.0";
+        private static readonly string Name = "TestAddressRange.NET";
         private static readonly IPAddress v4First = IPAddress.Parse("0.0.0.0");
         private static readonly IPAddress v4Last = IPAddress.Parse("255.255.255.255");
-        private static readonly string v4Name = "All_Internet";
 
         #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        [ExpectedException(typeof(ObjectDeletionException))]
-        public async Task Delete() => await Session.DeleteAddressRange(v4Name);
-
-        [TestMethod]
-        public async Task FastUpdate()
+        public async Task AddressRangeTest()
         {
-            var a = Session.UpdateAddressRange(v4Name);
+            var a = new AddressRange(Session)
+            {
+                Name = Name,
+                IPv4AddressFirst = v4First,
+                IPv4AddressLast = v4Last
+            };
+            await a.AcceptChanges(Ignore.Warnings);
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
+
+            // Fast Update
+            a = Session.UpdateAddressRange(Name);
             a.Comments = "Blah";
             await a.AcceptChanges();
-            Assert.AreEqual("Blah", a.Comments);
-        }
 
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindAddressRange(v4Name);
-            Assert.IsNotNull(a);
+            // Find
+            a = await Session.FindAddressRange(Name);
+            Assert.AreEqual("Blah", a.Comments);
             Assert.AreEqual(v4First, a.IPv4AddressFirst);
             Assert.AreEqual(v4Last, a.IPv4AddressLast);
-            Assert.AreEqual(DetailLevels.Full, a.DetailLevel);
-            Assert.AreEqual(v4Name, a.Name);
-            Assert.IsFalse(a.IsChanged);
             Assert.IsNotNull(a.NATSettings);
+
+            // Delete
+            await Session.DeleteAddressRange(Name);
         }
 
         [TestMethod]
@@ -77,7 +79,7 @@ namespace Tests
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            var a = await Session.FindAddressRanges(filter: v4Filter, ipOnly: true, limit: 5, order: AddressRange.Order.NameDesc);
+            var a = await Session.FindAddressRanges(filter: "0.0.0.0", ipOnly: true, limit: 5, order: AddressRange.Order.NameDesc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
         }
@@ -85,33 +87,6 @@ namespace Tests
         [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
         public async Task FindNotFound() => await Session.FindAddressRange("I Don't Exist!");
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New {v4Name}";
-
-            var a = new AddressRange(Session)
-            {
-                Name = name,
-                IPv4AddressFirst = v4First,
-                IPv4AddressLast = v4Last
-            };
-
-            Assert.IsTrue(a.IsNew);
-            await a.AcceptChanges(Ignore.Warnings);
-            Assert.IsFalse(a.IsNew);
-            Assert.IsNotNull(a.UID);
-        }
-
-        [TestMethod]
-        public async Task Set()
-        {
-            var a = await Session.FindAddressRange(v4Name);
-            a.Comments = "Blah";
-            await a.AcceptChanges();
-            Assert.AreEqual("Blah", a.Comments);
-        }
 
         #endregion Methods
     }

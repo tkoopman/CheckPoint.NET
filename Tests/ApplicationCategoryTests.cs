@@ -29,33 +29,46 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "Facebook";
-        private static readonly string Name = "Custom_Application_Site";
+        private static readonly string Name = "TestCategory.NET";
 
         #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        [ExpectedException(typeof(Koopman.CheckPoint.Exceptions.ObjectLockedException))]
-        public async Task FastUpdate()
+        public async Task CategoryTest()
         {
-            string set = $"Not_{Name}";
-            var a = Session.UpdateApplicationCategory(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            // Create
+            var a = new ApplicationCategory(Session)
+            {
+                Name = Name,
+                Color = Colors.Red
+            };
             await a.AcceptChanges();
+            Assert.IsFalse(a.IsNew);
+            Assert.IsNotNull(a.UID);
+
+            // Set
+            string name = "TestCategory2.NET";
+            a.Name = name;
+            await a.AcceptChanges();
+
+            // Fast Update
+            a = Session.UpdateApplicationCategory(a.UID);
+            a.Comments = "Test comments";
+            await a.AcceptChanges();
+            Assert.AreEqual(name, a.Name);
+
+            // Find
+            a = await Session.FindApplicationCategory(name);
+            Assert.AreEqual("Test comments", a.Comments);
+
+            // Delete
+            await a.Delete();
         }
 
         [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindApplicationCategory(Name);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
+        public async Task Finds()
         {
             var a = await Session.FindApplicationCategories(limit: 5);
             Assert.IsNotNull(a);
@@ -63,39 +76,11 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindAllFiltered()
+        public async Task FindsFiltered()
         {
-            var a = await Session.FindApplicationCategories(filter: Filter, limit: 5);
+            var a = await Session.FindApplicationCategories(filter: "Facebook", limit: 5);
             Assert.IsNotNull(a);
             a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New_{Name}";
-
-            var a = new ApplicationCategory(Session)
-            {
-                Name = name,
-                Color = Colors.Red
-            };
-
-            Assert.IsTrue(a.IsNew);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsNew);
-            Assert.IsNotNull(a.UID);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Koopman.CheckPoint.Exceptions.ObjectLockedException))]
-        public async Task Set()
-        {
-            string set = $"Not_{Name}";
-            var a = await Session.FindApplicationCategory(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
         }
 
         #endregion Methods
