@@ -28,19 +28,11 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "echo";
-        private static readonly string Name = "echo-request6";
+        private static readonly string Name = "TestICMP6.Net";
 
         #endregion Fields
 
         #region Methods
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindServiceICMP6(Name);
-            Assert.IsNotNull(a);
-        }
 
         [TestMethod]
         public async Task FindAll()
@@ -53,28 +45,33 @@ namespace Tests
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            var a = await Session.FindServicesICMP6(filter: Filter, limit: 5, order: ServiceICMP.Order.NameAsc);
+            var a = await Session.FindServicesICMP6(filter: "echo", limit: 5, order: ServiceICMP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task ICMP6Test()
         {
-            string name = $"New{Name}";
-
+            // Create
             var a = new ServiceICMP6(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red,
                 ICMPCode = 0,
                 ICMPType = 8
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
+
+            // Find
+            a = await Session.FindServiceICMP6(Name);
+            a.Comments = "Blah";
+            await a.AcceptChanges();
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

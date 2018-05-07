@@ -29,26 +29,11 @@ namespace Tests
         #region Fields
 
         private static readonly string Filter = "MS";
-        private static readonly string Name = "MSExchangeADL";
+        private static readonly string Name = "TestServiceDceRpc.NET";
 
         #endregion Fields
 
         #region Methods
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindServiceDceRpc(Name);
-            Assert.IsNotNull(a);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
-        {
-            var a = await Session.FindServicesDceRpc(limit: 5, order: ServiceDceRpc.Order.NameAsc);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
 
         [TestMethod]
         public async Task FindAllFiltered()
@@ -59,21 +44,33 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task Finds()
         {
-            string name = $"New{Name}";
+            var a = await Session.FindServicesDceRpc(limit: 5, order: ServiceDceRpc.Order.NameAsc);
+            Assert.IsNotNull(a);
+            a = await a.NextPage();
+        }
 
+        [TestMethod]
+        public async Task ServiceDceRpcTest()
+        {
+            // Create
             var a = new ServiceDceRpc(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red,
                 InterfaceUUID = "12345678-1234-abcd-ef00-01234567cffb"
             };
 
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
+
+            // Find
+            a = await Session.FindServiceDceRpc(Name);
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

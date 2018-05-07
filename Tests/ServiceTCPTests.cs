@@ -29,30 +29,27 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "http";
-        private static readonly string Name = "http";
+        private static readonly string Name = "TestTCP.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task FastUpdate()
+        public static async Task<ServiceTCP> CreateTestTCP(Session session)
         {
-            string set = $"Not{Name}";
-            var a = Session.UpdateServiceTCP(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
+            var a = new ServiceTCP(session)
+            {
+                Name = Name,
+                Color = Colors.Red,
+                Port = "80",
+                AggressiveAging = new Koopman.CheckPoint.Common.AggressiveAging()
+                {
+                    Enable = true
+                }
+            };
 
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindServiceTCP(Name);
-            Assert.IsNotNull(a);
+            await a.AcceptChanges(Ignore.Warnings);
+            return a;
         }
 
         [TestMethod]
@@ -66,43 +63,36 @@ namespace Tests
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            var a = await Session.FindServicesTCP(filter: Filter, limit: 5, order: ServiceTCP.Order.NameAsc);
+            var a = await Session.FindServicesTCP(filter: "http", limit: 5, order: ServiceTCP.Order.NameAsc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task ServiceTCPTest()
         {
-            string name = $"New{Name}";
+            var g = await ServiceGroupTests.CreateTestGroup(Session);
 
-            var a = new ServiceTCP(Session)
-            {
-                Name = name,
-                Color = Colors.Red,
-                Port = "80",
-                AggressiveAging = new Koopman.CheckPoint.Common.AggressiveAging()
-                {
-                    Enable = true
-                }
-            };
-
-            Assert.IsTrue(a.IsNew);
+            // Create
+            var a = await CreateTestTCP(Session);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"Not{Name}";
-            var a = await Session.FindServiceTCP(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            // Fast Update
+            a = Session.UpdateServiceTCP(Name);
+            a.Comments = "Blah";
+            a.Groups.Add(g);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
+
+            // Find
+            a = await Session.FindServiceTCP(Name, DetailLevels.UID);
+            Assert.AreEqual(1, a.Groups.Count);
+            a.Groups.Clear();
+            await a.AcceptChanges();
+
+            // Delete
+            await a.Delete(Ignore.Warnings);
         }
 
         #endregion Methods

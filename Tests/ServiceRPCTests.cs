@@ -28,19 +28,11 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Filter = "yp";
-        private static readonly string Name = "mountd";
+        private static readonly string Name = "TestRPC.NET";
 
         #endregion Fields
 
         #region Methods
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindServiceRPC(Name);
-            Assert.IsNotNull(a);
-        }
 
         [TestMethod]
         public async Task FindAll()
@@ -53,27 +45,32 @@ namespace Tests
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            var a = await Session.FindServicesRPC(filter: Filter, limit: 5, order: ServiceRPC.Order.NameAsc);
+            var a = await Session.FindServicesRPC(filter: "yp", limit: 5, order: ServiceRPC.Order.NameAsc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task ServiceRPCTest()
         {
-            string name = $"New{Name}";
-
+            // Create
             var a = new ServiceRPC(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red,
                 ProgramNumber = 100005
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
+
+            // Find
+            a = await Session.FindServiceRPC(Name);
+            a.Comments = "Blah";
+            await a.AcceptChanges();
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

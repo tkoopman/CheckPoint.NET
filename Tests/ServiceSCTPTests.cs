@@ -26,6 +26,12 @@ namespace Tests
     [TestClass]
     public class ServiceSCTPTests : StandardTestsBase
     {
+        #region Fields
+
+        private const string Name = "TestSCTP.NET";
+
+        #endregion Fields
+
         #region Methods
 
         [TestMethod]
@@ -37,21 +43,26 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task New()
+        public async Task ServiceSCTPTest()
         {
-            string name = $"SCTPService";
-
+            // Create
             var a = new ServiceSCTP(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red,
                 Port = "55"
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges(Ignore.Warnings);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
+
+            // Find
+            a = await Session.FindServiceSCTP(Name);
+            a.Comments = "Blah";
+            await a.AcceptChanges();
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

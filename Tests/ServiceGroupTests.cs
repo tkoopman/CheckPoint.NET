@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -28,19 +29,25 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Name = "DAIP_Control_services";
+        private static readonly string[] Members = { "http", "domain-udp", "echo-request" };
+        private static readonly string Name = "TestServiceGroup.NET";
 
         #endregion Fields
 
         #region Methods
 
-        [TestMethod]
-        public async Task Find()
+        public static async Task<ServiceGroup> CreateTestGroup(Session session)
         {
-            var a = await Session.FindServiceGroup(Name);
-            Assert.IsNotNull(a);
-            Assert.IsTrue(a.Members.Count > 0);
-            Assert.IsFalse(a.IsChanged);
+            var a = new ServiceGroup(session)
+            {
+                Name = Name,
+                Color = Colors.Red
+            };
+            foreach (string m in Members)
+                a.Members.Add(m);
+            await a.AcceptChanges();
+
+            return a;
         }
 
         [TestMethod]
@@ -54,37 +61,18 @@ namespace Tests
         [TestMethod]
         public async Task FindAllFiltered()
         {
-            string filter = Name.Substring(0, 3);
-
-            var a = await Session.FindServiceGroups(filter: filter, limit: 5, order: ServiceGroup.Order.NameAsc);
+            var a = await Session.FindServiceGroups(filter: "MS", limit: 5, order: ServiceGroup.Order.NameAsc);
             Assert.IsNotNull(a);
             a = await a.NextPage();
         }
 
         [TestMethod]
-        public async Task FindNFS()
+        public async Task ServiceGroupTest()
         {
-            var a = await Session.FindServiceGroup("NFS");
-            Assert.IsNotNull(a);
-            Assert.IsTrue(a.Members.Count > 0);
-            Assert.IsFalse(a.IsChanged);
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"New {Name}";
-
-            var a = new ServiceGroup(Session)
-            {
-                Name = name,
-                Color = Colors.Red
-            };
-
-            Assert.IsTrue(a.IsNew);
-            await a.AcceptChanges();
+            var a = await CreateTestGroup(Session);
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
+            Assert.AreEqual(Members.Length, a.Members.Count);
 
             a.Members.Clear();
             Assert.IsTrue(a.IsChanged);
@@ -98,11 +86,19 @@ namespace Tests
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(1, a.Members.Count);
 
-            a.Members.Remove(a.Members[0]);
+            // Fast Update
+            a = Session.UpdateServiceGroup(Name);
+            a.Members.Remove("domain-udp");
             Assert.IsTrue(a.IsChanged);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsChanged);
             Assert.AreEqual(0, a.Members.Count);
+
+            // Find
+            a = await Session.FindServiceGroup(Name);
+
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods

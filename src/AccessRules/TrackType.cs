@@ -56,7 +56,7 @@ namespace Koopman.CheckPoint.AccessRules
 
         #region Constructors
 
-        private TrackType(Domain domain, string name, string uID, string type = "RulebaseAction")
+        private TrackType(Domain domain, string name, string uID, string type = "Track")
         {
             Domain = domain;
             Name = name;
