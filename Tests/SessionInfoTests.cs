@@ -39,7 +39,7 @@ namespace Tests
         [TestMethod]
         public async Task FindAll()
         {
-            var a = await Session.FindAllSessions(limit: 5, viewPublishedSessions: true);
+            var a = await Session.FindAllSessions();
             Assert.IsNotNull(a);
         }
 
@@ -53,10 +53,10 @@ namespace Tests
         [TestMethod]
         public async Task SetInfo()
         {
-            string name = "Session Name";
-            string description = "Session Description";
+            string name = "CheckPoint.NET Session";
+            string description = "CheckPoint.NET Session Description";
             var color = Colors.DarkBlue;
-            string[] tags = new string[] { "ATag" };
+            string[] tags = new string[] { "CheckPoint.NET" };
 
             var a = await Session.SetSessionInfo(
                 name: name,

@@ -30,7 +30,7 @@ namespace Tests
     {
         #region Properties
 
-        public string RunScriptHostName => TestContext.Properties["RunScriptHostName"]?.ToString() ?? Environment.GetEnvironmentVariable("TestRunScriptHostName");
+        public string MgmtName => TestContext.Properties["MgmtName"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtName");
 
         #endregion Properties
 
@@ -39,7 +39,7 @@ namespace Tests
         [TestMethod]
         public async Task RunCancel()
         {
-            string run = await Session.RunScript("Sleep", "sleep 4", null, RunScriptHostName);
+            string run = await Session.RunScript("Sleep", "sleep 4", null, MgmtName);
 
             var task = await Session.FindTask(run);
 
@@ -66,7 +66,7 @@ namespace Tests
         [TestMethod]
         public async Task RunLS()
         {
-            string run = await Session.RunScript("LS", "ls -l /", null, RunScriptHostName);
+            string run = await Session.RunScript("LS", "ls -l /", null, MgmtName);
             Assert.IsNotNull(run);
 
             var task = await Session.FindTask(run);

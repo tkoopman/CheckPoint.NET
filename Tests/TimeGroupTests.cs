@@ -29,36 +29,14 @@ namespace Tests
     {
         #region Fields
 
-        private static readonly string Add = "Weekend";
-        private static readonly string Name = "TimeGroup";
+        private static readonly string Name = "TG.NET";
 
         #endregion Fields
 
         #region Methods
 
         [TestMethod]
-        public async Task FastUpdate()
-        {
-            string set = $"{Name}2";
-
-            var a = Session.UpdateTimeGroup(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
-
-        [TestMethod]
-        public async Task Find()
-        {
-            var a = await Session.FindTimeGroup(Name);
-            Assert.IsNotNull(a);
-            Assert.IsFalse(a.IsChanged);
-        }
-
-        [TestMethod]
-        public async Task FindAll()
+        public async Task Finds()
         {
             var a = await Session.FindTimeGroups(limit: 5);
             Assert.IsNotNull(a);
@@ -66,66 +44,34 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task FindAllFiltered()
+        public async Task TimeGroupTest()
         {
-            string filter = Name.Substring(0, 3);
-
-            var a = await Session.FindTimeGroups(filter: filter, limit: 5);
-            Assert.IsNotNull(a);
-            a = await a.NextPage();
-        }
-
-        [TestMethod]
-        public async Task New()
-        {
-            string name = $"{Name}2";
-
+            // Create
             var a = new TimeGroup(Session)
             {
-                Name = name,
+                Name = Name,
                 Color = Colors.Red
             };
-
-            Assert.IsTrue(a.IsNew);
             await a.AcceptChanges();
             Assert.IsFalse(a.IsNew);
             Assert.IsNotNull(a.UID);
-        }
 
-        [TestMethod]
-        public async Task Set()
-        {
-            string set = $"{Name}2";
-
-            var a = await Session.FindTimeGroup(Name);
-            a.Name = set;
-            Assert.IsTrue(a.IsChanged);
+            // Fast Update
+            a = Session.UpdateTimeGroup(Name);
+            a.Comments = "Test";
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(set, a.Name);
-        }
 
-        [TestMethod]
-        public async Task SetMembers()
-        {
-            var a = await Session.FindTimeGroup(Name);
-            a.Members.Clear();
-            Assert.IsTrue(a.IsChanged);
+            // Add member
+            var time = await TimeTests.CreateTestTime(Session);
+            a.Members.Add(time);
             await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(0, a.Members.Count);
+            await time.Reload();
+            Assert.AreEqual(1, time.Groups.Count);
+            time.Groups.Clear();
+            await time.AcceptChanges();
 
-            a.Members.Add(Add);
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(1, a.Members.Count);
-
-            a.Members.Remove(a.Members[0]);
-            Assert.IsTrue(a.IsChanged);
-            await a.AcceptChanges();
-            Assert.IsFalse(a.IsChanged);
-            Assert.AreEqual(0, a.Members.Count);
+            // Delete
+            await a.Delete();
         }
 
         #endregion Methods
