@@ -39,7 +39,7 @@ environment:
     secure: G+bmyM6HBj6hQg0noejtiQ==
   TestMgmtPassword:
     secure: j5oFpdeVkXe0izAo73pe6Q==
-  TestMgmtName: mgmt
+  TestMgmtName: testgw
 test:
   assemblies:
     only:

@@ -66,7 +66,6 @@ namespace Tests
         {
             var a = await Session.FindUnusedObjects(limit: 5, detailLevel: DetailLevels.UID);
             Assert.IsNotNull(a);
-            Assert.IsTrue(a.Total > 0);
         }
 
         [TestMethod]
