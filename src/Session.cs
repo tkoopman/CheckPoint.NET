@@ -41,7 +41,7 @@ namespace Koopman.CheckPoint
     /// </summary>
     /// <example>
     /// <code>
-    /// var session = new Session(
+    /// var session = Session.Login(
     ///     managementServer: "192.168.1.1",
     ///     userName: "admin",
     ///     password: "***",
@@ -63,87 +63,12 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
-        /// <summary>
-        /// Establishes and logs in to new management session.
-        /// </summary>
-        /// <param name="managementServer">The management server.</param>
-        /// <param name="userName">Name of the user.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="readOnly">if set to <c>true</c> a read only connection is made.</param>
-        /// <param name="sessionName">Name of the session.</param>
-        /// <param name="comments">The session comments.</param>
-        /// <param name="description">The session description.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="continueLastSession">
-        /// When <c>true</c> the new session would continue where the last session was stopped. This
-        /// option is available when the administrator has only one session that can be continued. If
-        /// there is more than one session, see <see cref="Session.SwitchSession(string, CancellationToken)" />
-        /// </param>
-        /// <param name="enterLastPublishedSession">
-        /// Login to the last published session. Such login is done with the Read Only permissions.
-        /// </param>
-        /// <param name="certificateValidation">
-        /// if set to <c>true</c> certificate validation is performed.
-        /// </param>
-        /// <param name="detailLevelAction">The detail level action.</param>
-        /// <param name="indentJson">if set to <c>true</c> json data sent to server will be indented.</param>
-        /// <param name="port">The management server port.</param>
-        /// <param name="timeout">The timeout.</param>
-        /// <param name="maxConnections">
-        /// The maximum concurrent connections to management server allowed.
-        /// </param>
-        /// <param name="debugWriter">
-        /// The debug writer. WARNING: If set here the debug output WILL include your password in the
-        /// clear! Should only set here if trying to debug the login calls. Use
-        /// <see cref="Session.DebugWriter" /> to set after the login has completed to avoid
-        /// including your password.
-        /// </param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        public Session(string managementServer, string userName, string password,
-            bool? readOnly = null,
-            string sessionName = null,
-            string comments = null,
-            string description = null,
-            string domain = null,
-            bool? continueLastSession = null,
-            bool? enterLastPublishedSession = null,
-            bool certificateValidation = true,
-            DetailLevelActions detailLevelAction = DetailLevelActions.ThrowException,
-            bool indentJson = false,
-            int port = 443,
-            int? timeout = null,
-            int maxConnections = 5,
-            TextWriter debugWriter = null,
-            CancellationToken cancellationToken = default)
+        private Session(bool certificateValidation, DetailLevelActions detailLevelAction, bool indentJson, int maxConnections)
         {
-            DebugWriter = debugWriter;
             CertificateValidation = certificateValidation;
             DetailLevelAction = detailLevelAction;
             IndentJson = indentJson;
             MaxConnections = maxConnections;
-            HttpSemaphore = new SemaphoreSlim(MaxConnections + 1);
-
-            URL = $"https://{managementServer}:{port}/web_api/";
-
-            var data = new JObject()
-            {
-                { "user", userName },
-                { "password", password }
-            };
-            data.AddIfNotNull("read-only", readOnly);
-            data.AddIfNotNull("session-name", sessionName);
-            data.AddIfNotNull("session-comments", comments);
-            data.AddIfNotNull("session-description", description);
-            data.AddIfNotNull("session-timeout", timeout);
-            data.AddIfNotNull("domain", domain);
-            data.AddIfNotNull("continue-last-session", continueLastSession);
-            data.AddIfNotNull("enter-last-published-session", enterLastPublishedSession);
-
-            string jsonData = JsonConvert.SerializeObject(data, JsonFormatting);
-
-            string result = PostAsync("login", jsonData, cancellationToken).GetAwaiter().GetResult();
-
-            JsonConvert.PopulateObject(result, this);
         }
 
         #endregion Constructors
@@ -261,6 +186,89 @@ namespace Koopman.CheckPoint
         #endregion Properties
 
         #region Methods
+
+        /// <summary>
+        /// Logins the specified management server, creating a new session.
+        /// </summary>
+        /// <param name="managementServer">The management server.</param>
+        /// <param name="userName">Administrator user name.</param>
+        /// <param name="password">The administrator password.</param>
+        /// <param name="readOnly">Weather session should be read only.</param>
+        /// <param name="sessionName">Name of the session.</param>
+        /// <param name="comments">Session comments.</param>
+        /// <param name="description">Session description.</param>
+        /// <param name="domain">Domain to connect to.</param>
+        /// <param name="continueLastSession">Weather to continue last session.</param>
+        /// <param name="enterLastPublishedSession">Weather to enter last published session.</param>
+        /// <param name="certificateValidation">
+        /// if set to <c>true</c> certificate validation is performed.
+        /// </param>
+        /// <param name="detailLevelAction">
+        /// Action to take when performing actions on objects and the current detail level is too low.
+        /// </param>
+        /// <param name="indentJson">
+        /// if set to <c>true</c> json data sent to server will be indented. Helpful with debugging.
+        /// </param>
+        /// <param name="port">The management server API port.</param>
+        /// <param name="timeout">The session timeout.</param>
+        /// <param name="maxConnections">The maximum connections to establish to management server.</param>
+        /// <param name="debugWriter">
+        /// The debug writer. WARNING: Setting debug writer here will output you login credentials to
+        /// the debug writer in the clear. Set <see cref="DebugWriter" /> after Login to prevent this.
+        /// </param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>New Logged in Session</returns>
+        public static async Task<Session> Login(string managementServer, string userName, string password,
+                    bool? readOnly = null,
+                    string sessionName = null,
+                    string comments = null,
+                    string description = null,
+                    string domain = null,
+                    bool? continueLastSession = null,
+                    bool? enterLastPublishedSession = null,
+                    bool certificateValidation = true,
+                    DetailLevelActions detailLevelAction = DetailLevelActions.ThrowException,
+                    bool indentJson = false,
+                    int port = 443,
+                    int? timeout = null,
+                    int maxConnections = 5,
+                    TextWriter debugWriter = null,
+                    CancellationToken cancellationToken = default)
+        {
+            var session = new Session(
+                    certificateValidation: certificateValidation,
+                    detailLevelAction: detailLevelAction,
+                    indentJson: indentJson,
+                    maxConnections: maxConnections
+                )
+            {
+                DebugWriter = debugWriter,
+                HttpSemaphore = new SemaphoreSlim(maxConnections + 1),
+                URL = $"https://{managementServer}:{port}/web_api/"
+            };
+
+            var data = new JObject()
+            {
+                { "user", userName },
+                { "password", password }
+            };
+            data.AddIfNotNull("read-only", readOnly);
+            data.AddIfNotNull("session-name", sessionName);
+            data.AddIfNotNull("session-comments", comments);
+            data.AddIfNotNull("session-description", description);
+            data.AddIfNotNull("session-timeout", timeout);
+            data.AddIfNotNull("domain", domain);
+            data.AddIfNotNull("continue-last-session", continueLastSession);
+            data.AddIfNotNull("enter-last-published-session", enterLastPublishedSession);
+
+            string jsonData = JsonConvert.SerializeObject(data, session.JsonFormatting);
+
+            string result = await session.PostAsync("login", jsonData, cancellationToken);
+
+            JsonConvert.PopulateObject(result, session);
+
+            return session;
+        }
 
         /// <summary>
         /// Logout of session and continue the session in smartconsole.

@@ -52,13 +52,13 @@ namespace Tests
         [ExpectedException(typeof(LoginFailedException))]
         public void WrongCredentials()
         {
-            using (var session = new Session(
+            using (Session.Login(
                          managementServer: TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer"),
                          userName: "dummy",
                          password: "***",
                          certificateValidation: false,
                          debugWriter: DebugWriter
-                     ))
+                     ).GetAwaiter().GetResult())
             {
             }
         }

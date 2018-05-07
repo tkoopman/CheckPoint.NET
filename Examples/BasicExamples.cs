@@ -17,7 +17,7 @@ namespace Examples
             #region Example: Basic Connection
 
             // Login to Check Point Management Web Service
-            var session = new Session(
+            var session = await Session.Login(
                          managementServer: ManagementServer,
                          userName: Username,
                          password: Password,
@@ -42,7 +42,7 @@ namespace Examples
         public async Task NewHost()
         {
             // Login to Check Point Management Web Service
-            var session = new Session(
+            var session = await Session.Login(
                          managementServer: ManagementServer,
                          userName: Username,
                          password: Password,
