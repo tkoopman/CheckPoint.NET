@@ -22,6 +22,7 @@ using Koopman.CheckPoint.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Net;
 
 namespace Tests
 {
@@ -53,15 +54,25 @@ namespace Tests
             string Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
             string CertificateHash = TestContext.Properties["CertificateHash"]?.ToString() ?? Environment.GetEnvironmentVariable("TestCertificateHash");
 
-            var session = Session.Login(
-                         managementServer: ManagementServer,
-                         userName: User,
-                         password: Password,
-                         certificateHash: "00000000",
-                         indentJson: true,
-                         sessionName: "CheckPoint.NET Test",
-                         description: TestContext.TestName
-                     ).GetAwaiter().GetResult();
+            // Setting as tests running under .NET 4.5 which don't allow different pinning as
+            // statically assigned.
+            ServicePointManager.ServerCertificateValidationCallback = null;
+            try
+            {
+                var session = Session.Login(
+                             managementServer: ManagementServer,
+                             userName: User,
+                             password: Password,
+                             certificateHash: "00000000",
+                             indentJson: true,
+                             sessionName: "CheckPoint.NET Test",
+                             description: TestContext.TestName
+                         ).GetAwaiter().GetResult();
+            }
+            finally
+            {
+                ServicePointManager.ServerCertificateValidationCallback = null;
+            }
         }
 
         /// <summary>
@@ -72,11 +83,13 @@ namespace Tests
         [ExpectedException(typeof(LoginFailedException))]
         public void WrongCredentials()
         {
+            string ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
+            string CertificateHash = TestContext.Properties["CertificateHash"]?.ToString() ?? Environment.GetEnvironmentVariable("TestCertificateHash");
             using (Session.Login(
-                         managementServer: TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer"),
+                         managementServer: ManagementServer,
                          userName: "dummy",
                          password: "***",
-                         certificateValidation: CertificateValidation.None,
+                         certificateHash: CertificateHash,
                          debugWriter: DebugWriter
                      ).GetAwaiter().GetResult())
             {
