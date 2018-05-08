@@ -44,6 +44,26 @@ namespace Tests
             DebugWriter.Close();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(System.Net.Http.HttpRequestException))]
+        public void WrongCertificateHash()
+        {
+            string ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
+            string User = TestContext.Properties["User"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtUser");
+            string Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
+            string CertificateHash = TestContext.Properties["CertificateHash"]?.ToString() ?? Environment.GetEnvironmentVariable("TestCertificateHash");
+
+            var session = Session.Login(
+                         managementServer: ManagementServer,
+                         userName: User,
+                         password: Password,
+                         certificateHash: "00000000",
+                         indentJson: true,
+                         sessionName: "CheckPoint.NET Test",
+                         description: TestContext.TestName
+                     ).GetAwaiter().GetResult();
+        }
+
         /// <summary>
         /// While one would expect this to throw LoginFailedWrongUsernameOrPasswordException
         /// Currently API only returns LoginFailedException

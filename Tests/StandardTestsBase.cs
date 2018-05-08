@@ -57,6 +57,7 @@ namespace Tests
             string ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
             string User = TestContext.Properties["User"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtUser");
             string Password = TestContext.Properties["Password"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtPassword");
+            string CertificateHash = TestContext.Properties["CertificateHash"]?.ToString() ?? Environment.GetEnvironmentVariable("TestCertificateHash");
 
             DebugAll = Environment.GetEnvironmentVariable("APPVEYOR") == null;
 
@@ -65,6 +66,7 @@ namespace Tests
                          userName: User,
                          password: Password,
                          certificateValidation: false,
+                         certificateHash: CertificateHash,
                          indentJson: true,
                          sessionName: "CheckPoint.NET Test",
                          description: TestContext.TestName

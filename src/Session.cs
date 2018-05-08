@@ -30,6 +30,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,12 +64,13 @@ namespace Koopman.CheckPoint
 
         #region Constructors
 
-        private Session(bool certificateValidation, DetailLevelActions detailLevelAction, bool indentJson, int maxConnections)
+        private Session(bool certificateValidation, DetailLevelActions detailLevelAction, bool indentJson, int maxConnections, string certificateHash)
         {
             CertificateValidation = certificateValidation;
             DetailLevelAction = detailLevelAction;
             IndentJson = indentJson;
             MaxConnections = maxConnections;
+            ExpectedCertificateHash = certificateHash;
         }
 
         #endregion Constructors
@@ -81,6 +83,18 @@ namespace Koopman.CheckPoint
         /// <value>The API server version.</value>
         [JsonProperty(PropertyName = "api-server-version")]
         public string APIServerVersion { get; private set; }
+
+        /// <summary>
+        /// Gets the expected server SSL certificate hash.
+        /// </summary>
+        /// <value>Expected Server SSL certificate hash.</value>
+        private string ExpectedCertificateHash { get; }
+
+        /// <summary>
+        /// Gets the server SSL certificate hash.
+        /// </summary>
+        /// <value>Server SSL certificate hash.</value>
+        public string CertificateHash { get; internal set; }
 
         /// <summary>
         /// Gets a value indicating whether SSL certificate should be valid.
@@ -216,6 +230,10 @@ namespace Koopman.CheckPoint
         /// The debug writer. WARNING: Setting debug writer here will output you login credentials to
         /// the debug writer in the clear. Set <see cref="DebugWriter" /> after Login to prevent this.
         /// </param>
+        /// <param name="certificateHash">
+        /// Used to check the the server SSL certificate matches this hash. Using this forces
+        /// certificateValidation to false.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the New
@@ -236,13 +254,15 @@ namespace Koopman.CheckPoint
                     int? timeout = null,
                     int maxConnections = 5,
                     TextWriter debugWriter = null,
+                    string certificateHash = null,
                     CancellationToken cancellationToken = default)
         {
             var session = new Session(
-                    certificateValidation: certificateValidation,
+                    certificateValidation: (certificateHash == null) ? certificateValidation : false,
                     detailLevelAction: detailLevelAction,
                     indentJson: indentJson,
-                    maxConnections: maxConnections
+                    maxConnections: maxConnections,
+                    certificateHash: certificateHash
                 )
             {
                 DebugWriter = debugWriter,
@@ -450,13 +470,13 @@ namespace Koopman.CheckPoint
 
 #if NET45
                 if (!CertificateValidation)
-                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
+                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(ValidateServerCertficate);
                 else
                     ServicePointManager.ServerCertificateValidationCallback = null;
                 ServicePointManager.DefaultConnectionLimit = MaxConnections;
 #else
                 if (!CertificateValidation)
-                    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => ValidateServerCertficate(message, cert, chain, errors);
                 handler.MaxConnectionsPerServer = MaxConnections;
 #endif
 
@@ -491,6 +511,23 @@ namespace Koopman.CheckPoint
                 jObject.Add("uid", uid);
             string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting);
             return jsonData;
+        }
+
+        private bool ValidateServerCertficate(
+                    object sender,
+            X509Certificate certificate,
+            X509Chain chain,
+            SslPolicyErrors sslPolicyErrors
+        )
+        {
+#if NETSTANDARD1_6
+            CertificateHash = BitConverter.ToString(certificate?.GetCertHash()).Replace("-", "");
+#else
+            CertificateHash = certificate?.GetCertHashString();
+#endif
+            if (string.IsNullOrEmpty(ExpectedCertificateHash)) return true;
+
+            return ExpectedCertificateHash == CertificateHash;
         }
 
         private string WriteDebug(string command, string data)

@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Threading.Tasks;
 
 namespace Tests
@@ -30,9 +31,13 @@ namespace Tests
         [TestMethod]
         public async Task TestSession()
         {
+            string CertificateHash = TestContext.Properties["CertificateHash"]?.ToString() ?? Environment.GetEnvironmentVariable("TestCertificateHash");
+
             Assert.IsNotNull(Session.SID);
             Assert.IsFalse(Session.ReadOnly);
             Assert.AreEqual("1.1", Session.APIServerVersion);
+            if (!string.IsNullOrEmpty(CertificateHash))
+                Assert.AreEqual(CertificateHash, Session.CertificateHash);
             await Session.SendKeepAlive();
         }
 
