@@ -18,7 +18,7 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous delete operation.</returns>
         public Task DeleteApplicationSite
             (
                 string value,
@@ -48,7 +48,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of ApplicationSite</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of ApplicationSite
+        /// </returns>
         public Task<ApplicationSite[]> FindAllApplicationSites
             (
                 string filter,
@@ -79,7 +81,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of ApplicationSite</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of ApplicationSite
+        /// </returns>
         public Task<ApplicationSite[]> FindAllApplicationSites
             (
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
@@ -105,7 +109,10 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>ApplicationSite object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// ApplicationSite object
+        /// </returns>
         public Task<ApplicationSite> FindApplicationSite
             (
                 string value,
@@ -129,7 +136,10 @@ namespace Koopman.CheckPoint
         /// <param name="applicationID">The application identifier.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>ApplicationSite object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// ApplicationSite object
+        /// </returns>
         public async Task<ApplicationSite> FindApplicationSite
             (
                 int applicationID,
@@ -163,7 +173,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of ApplicationSite</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of ApplicationSite
+        /// </returns>
         public Task<NetworkObjectsPagingResults<ApplicationSite>> FindApplicationSites
             (
                 string filter,
@@ -197,7 +210,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of ApplicationSite</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of ApplicationSite
+        /// </returns>
         public Task<NetworkObjectsPagingResults<ApplicationSite>> FindApplicationSites
             (
                 DetailLevels detailLevel = Finds.Defaults.DetailLevel,

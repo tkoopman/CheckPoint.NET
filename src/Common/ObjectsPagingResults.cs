@@ -99,6 +99,7 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Gets the next page of results from management server.
         /// </summary>
+        /// <param name="ct">The cancellation token.</param>
         /// <returns>Returns the next page of results. Null if no next page to return.</returns>
         public async Task<U> NextPage(CancellationToken ct = default)
         {

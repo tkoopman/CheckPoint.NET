@@ -217,7 +217,10 @@ namespace Koopman.CheckPoint
         /// the debug writer in the clear. Set <see cref="DebugWriter" /> after Login to prevent this.
         /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>New Logged in Session</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the New
+        /// Logged in Session object
+        /// </returns>
         public static async Task<Session> Login(string managementServer, string userName, string password,
                     bool? readOnly = null,
                     string sessionName = null,
@@ -275,7 +278,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="uid">The session uid. <c>null</c> for current session.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task ContinueSessionInSmartconsole(string uid = null, CancellationToken cancellationToken = default)
         {
             string jsonData = UIDToJson(uid);
@@ -289,7 +292,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="uid">The session uid. <c>null</c> for current session.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Discard(string uid = null, CancellationToken cancellationToken = default)
         {
             string jsonData = UIDToJson(uid);
@@ -315,7 +318,9 @@ namespace Koopman.CheckPoint
         /// Gets the login message.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>LoginMessageDetails</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the LoginMessageDetails
+        /// </returns>
         public async Task<LoginMessageDetails> GetLoginMessage(CancellationToken cancellationToken = default)
         {
             string result = await PostAsync("show-login-message", "{ }", cancellationToken);
@@ -324,8 +329,10 @@ namespace Koopman.CheckPoint
         }
 
         /// <summary>
-        /// Logout of this instance.
+        /// Logout of this instance. Also disposes this current session object.
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Logout(CancellationToken cancellationToken = default)
         {
             await PostAsync("logout", "{}", cancellationToken);
@@ -339,7 +346,10 @@ namespace Koopman.CheckPoint
         /// <param name="command">The command.</param>
         /// <param name="json">The json.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>JSON Response Data</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the JSON
+        /// Response Data
+        /// </returns>
         public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken)
         {
             if (_isDisposed)
@@ -386,7 +396,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="uid">The session uid. <c>null</c> for current session.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task Publish(string uid = null, CancellationToken cancellationToken = default)
         {
             string jsonData = UIDToJson(uid);
@@ -396,6 +406,8 @@ namespace Koopman.CheckPoint
         /// <summary>
         /// Sends the keep alive.
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public Task SendKeepAlive(CancellationToken cancellationToken = default) => PostAsync("keepalive", "{}", cancellationToken);
 
         /// <summary>
@@ -406,7 +418,9 @@ namespace Koopman.CheckPoint
         /// <param name="showMessage">Whether to show login message.</param>
         /// <param name="warning">Add warning sign.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>LoginMessageDetails</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the LoginMessageDetails
+        /// </returns>
         public async Task<LoginMessageDetails> SetLoginMessage(string header = null, string message = null, bool? showMessage = null, bool? warning = null, CancellationToken cancellationToken = default)
         {
             var data = new JObject();

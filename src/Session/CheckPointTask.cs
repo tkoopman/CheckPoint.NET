@@ -18,7 +18,9 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="taskID">The task identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the CheckPointTask
+        /// </returns>
         public async Task<CheckPointTask> FindTask
             (
                 string taskID,
@@ -52,7 +54,10 @@ namespace Koopman.CheckPoint
         /// <param name="targets">The targets.</param>
         /// <param name="comments">Script comments.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A read-only dictionary detailing the task ID for each target.</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains a read-only
+        /// dictionary detailing the Check Point task ID for each target.
+        /// </returns>
         public async Task<IReadOnlyDictionary<string, string>> RunScript
             (
                 string scriptName,
@@ -99,7 +104,10 @@ namespace Koopman.CheckPoint
         /// <param name="target">The target.</param>
         /// <param name="comments">The script comments.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task ID</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Check
+        /// Point task ID
+        /// </returns>
         public async Task<string> RunScript
             (
                 string scriptName,

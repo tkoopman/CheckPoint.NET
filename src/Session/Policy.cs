@@ -26,7 +26,10 @@ namespace Koopman.CheckPoint
         /// <param name="prepareOnly">if set to <c>true</c> will prepare only.</param>
         /// <param name="revision">The revision of the policy to install.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task ID</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Check
+        /// Point Task ID
+        /// </returns>
         public async Task<string> InstallPolicy
             (
                 string policy,
@@ -64,7 +67,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="policy">The policy.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task ID</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Check
+        /// Point Task ID
+        /// </returns>
         public async Task<string> VerifyPolicy
             (
                 string policy,

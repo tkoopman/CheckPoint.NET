@@ -15,7 +15,7 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous delete operation.</returns>
         public Task DeleteAccessLayer
             (
                 string value,
@@ -39,7 +39,10 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>AccessLayer object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// AccessLayer object
+        /// </returns>
         public Task<AccessLayer> FindAccessLayer
             (
                 string value,
@@ -70,7 +73,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of AccessLayers</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of AccessLayers
+        /// </returns>
         public Task<NetworkObjectsPagingResults<AccessLayer>> FindAccessLayers
             (
                 string filter,
@@ -104,7 +110,9 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>AccessLayersPagingResults</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the AccessLayersPagingResults
+        /// </returns>
         public Task<AccessLayersPagingResults> FindAccessLayers
             (
                 DetailLevels detailLevel = Finds.Defaults.DetailLevel,
@@ -138,7 +146,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of AccessLayer</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of AccessLayers
+        /// </returns>
         public Task<AccessLayer[]> FindAllAccessLayers
             (
                 string filter,
@@ -169,7 +179,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of AccessLayer</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of AccessLayers
+        /// </returns>
         public Task<AccessLayer[]> FindAllAccessLayers
             (
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,

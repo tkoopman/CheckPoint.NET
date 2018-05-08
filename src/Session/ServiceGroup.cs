@@ -15,7 +15,7 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous delete operation.</returns>
         public Task DeleteServiceGroup
             (
                 string value,
@@ -45,7 +45,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of ServiceTCP</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of ServiceTCP
+        /// </returns>
         public Task<ServiceGroup[]> FindAllServiceGroups
             (
                 string filter,
@@ -76,7 +78,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of ServiceTCP</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of ServiceTCP
+        /// </returns>
         public Task<ServiceGroup[]> FindAllServiceGroups
             (
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
@@ -102,7 +106,10 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>ServiceGroup object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// ServiceGroup object
+        /// </returns>
         public Task<ServiceGroup> FindServiceGroup
             (
                 string value,
@@ -133,7 +140,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of ServiceTCP
+        /// </returns>
         public Task<NetworkObjectsPagingResults<ServiceGroup>> FindServiceGroups
             (
                 string filter,
@@ -167,7 +177,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of ServiceTCP</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of ServiceTCP
+        /// </returns>
         public Task<NetworkObjectsPagingResults<ServiceGroup>> FindServiceGroups
             (
                 DetailLevels detailLevel = Finds.Defaults.DetailLevel,

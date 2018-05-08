@@ -25,7 +25,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of IObjectSummary</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of IObjectSummary
+        /// </returns>
         public Task<IObjectSummary[]> FindAllObjects
             (
                 string filter = null,
@@ -57,7 +59,10 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of IObjectSummary objects</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of
+        /// IObjectSummary objects
+        /// </returns>
         public async Task<IObjectSummary[]> FindAllUnusedObjects
             (
                 DetailLevels detailLevel = DetailLevels.Standard,
@@ -105,7 +110,10 @@ namespace Koopman.CheckPoint
         /// <param name="uid">The UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>IObjectSummary object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// IObjectSummary object
+        /// </returns>
         public Task<IObjectSummary> FindObject
             (
                 string uid,
@@ -136,7 +144,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of IObjectSummary</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of IObjectSummary
+        /// </returns>
         public Task<NetworkObjectsPagingResults<IObjectSummary>> FindObjects
             (
                 string filter = null,
@@ -171,7 +182,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of IObjectSummary objects</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of IObjectSummary objects
+        /// </returns>
         public async Task<NetworkObjectsPagingResults<IObjectSummary>> FindUnusedObjects
             (
                 DetailLevels detailLevel = DetailLevels.Standard,

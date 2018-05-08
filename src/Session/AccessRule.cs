@@ -19,7 +19,9 @@ namespace Koopman.CheckPoint
         /// <param name="ruleNumber">The rule number.</param>
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>AccessRule</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the AccessRule
+        /// </returns>
         public async Task<AccessRule> FindAccessRule(string layer, int ruleNumber, DetailLevels detailLevel = Find.Defaults.DetailLevel, CancellationToken cancellationToken = default)
         {
             var data = new Dictionary<string, dynamic>
@@ -56,7 +58,9 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>AccessRulebasePagingResults</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the AccessRulebasePagingResults
+        /// </returns>
         public async Task<AccessRulebasePagingResults> FindAccessRulebase
             (
                 string value,
@@ -127,7 +131,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The sort order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>AccessRulebasePagingResults</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the AccessRulebasePagingResults
+        /// </returns>
         public async Task<AccessRulebasePagingResults> FindAllAccessRulebase
             (
                 string value,

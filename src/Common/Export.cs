@@ -132,6 +132,7 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddAsync(IEnumerable<IObjectSummary> objs, int maxDepth = int.MaxValue)
         {
             ExportLock.Release();
@@ -158,6 +159,7 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddAsync(AccessRulebasePagingResults accessRules, int maxDepth = int.MaxValue)
         {
             if (accessRules == null) return;
@@ -186,6 +188,7 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddAsync(IObjectSummary objectSummary, int maxDepth = int.MaxValue)
         {
             CancellationToken.ThrowIfCancellationRequested();
@@ -347,6 +350,7 @@ namespace Koopman.CheckPoint.Common
         /// The maximum depth of finding related objects. A value of 0 or less will just add this
         /// object and no related objects.
         /// </param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task AddAsync(string identifier, WhereUsed whereUsed, int maxDepth = int.MaxValue)
         {
             ExportLock.Release();
@@ -369,7 +373,10 @@ namespace Koopman.CheckPoint.Common
         /// before exporting.
         /// </summary>
         /// <param name="indent">if set to <c>true</c> JSON output will be formatted with indents.</param>
-        /// <returns>JSON data of all included export data</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the JSON data
+        /// of all included export data
+        /// </returns>
         public async Task<string> Export(bool indent = false)
         {
             while (ExportLock.CurrentCount > 0)

@@ -14,7 +14,8 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous delete operation.</returns>
         public Task DeleteGroup
             (
                 string value,
@@ -44,7 +45,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of Groups</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of Groups
+        /// </returns>
         public Task<Group[]> FindAllGroups
             (
                 string filter,
@@ -75,7 +78,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of Groups</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of Groups
+        /// </returns>
         public Task<Group[]> FindAllGroups
             (
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
@@ -101,7 +106,9 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Group object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Group object
+        /// </returns>
         public Task<Group> FindGroup
             (
                 string value,
@@ -132,7 +139,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of Groups</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of Groups
+        /// </returns>
         public Task<NetworkObjectsPagingResults<Group>> FindGroups
             (
                 string filter,
@@ -166,7 +176,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of Groups</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of Groups
+        /// </returns>
         public Task<NetworkObjectsPagingResults<Group>> FindGroups
             (
                 DetailLevels detailLevel = Finds.Defaults.DetailLevel,

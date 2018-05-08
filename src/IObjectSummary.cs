@@ -90,7 +90,10 @@ namespace Koopman.CheckPoint
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>IObjectSummary of reloaded object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// IObjectSummary of reloaded object
+        /// </returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>

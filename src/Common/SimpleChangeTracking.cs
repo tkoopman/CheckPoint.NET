@@ -70,8 +70,13 @@ namespace Koopman.CheckPoint.Common
         /// <summary>
         /// Resets the object’s state to unchanged by accepting the modifications.
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public virtual Task AcceptChanges(CancellationToken cancellationToken = default) => throw new NotImplementedException("Use AcceptChanges from Parent Object.");
 
+        /// <summary>
+        /// Resets the object’s state to unchanged by accepting the modifications.
+        /// </summary>
         void IChangeTracking.AcceptChanges() => AcceptChanges().GetAwaiter().GetResult();
 
         /// <summary>

@@ -20,7 +20,9 @@ namespace Koopman.CheckPoint
         /// <param name="indirect">if set to <c>true</c> results will include indirect uses.</param>
         /// <param name="indirectMaxDepth">The indirect maximum depth.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>WhereUsed object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the WhereUsed object
+        /// </returns>
         public Task<WhereUsed> FindWhereUsed
             (
                 string identifier,

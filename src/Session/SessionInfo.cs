@@ -20,7 +20,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of SessionInfos</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of SessionInfos
+        /// </returns>
         public async Task<SessionInfo[]> FindAllSessions
             (
                 bool viewPublishedSessions = false,
@@ -64,7 +66,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="uid">The UID to find. <c>null</c> for current session information</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>SessionInfo object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// SessionInfo object
+        /// </returns>
         public async Task<SessionInfo> FindSession
             (
                 string uid = null,
@@ -91,7 +96,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of SessionInfos</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of SessionInfos
+        /// </returns>
         public async Task<NetworkObjectsPagingResults<SessionInfo>> FindSessions
             (
                 bool viewPublishedSessions = false,
@@ -138,7 +146,9 @@ namespace Koopman.CheckPoint
         /// <param name="comments">The session comments.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Updated SessionInfo</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Updated SessionInfo
+        /// </returns>
         public async Task<SessionInfo> SetSessionInfo(string name = null, string description = null, string[] tags = null, Colors? color = null, string comments = null, Ignore ignore = Ignore.No, CancellationToken cancellationToken = default)
         {
             var data = new JObject()
@@ -165,7 +175,10 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="uid">The UID to switch to.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>SessionInfo object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// SessionInfo object
+        /// </returns>
         public async Task<SessionInfo> SwitchSession
             (
                 string uid,

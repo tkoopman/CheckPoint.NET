@@ -14,7 +14,8 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous delete operation.</returns>
         public Task DeleteGroupWithExclusion
             (
                 string value,
@@ -44,7 +45,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of GroupWithExclusions</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of GroupWithExclusions
+        /// </returns>
         public Task<GroupWithExclusion[]> FindAllGroupsWithExclusion
             (
                 string filter,
@@ -75,7 +78,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of GroupWithExclusions</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of GroupWithExclusions
+        /// </returns>
         public Task<GroupWithExclusion[]> FindAllGroupsWithExclusion
             (
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
@@ -108,7 +113,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of GroupWithExclusions</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of GroupWithExclusions
+        /// </returns>
         public Task<NetworkObjectsPagingResults<GroupWithExclusion>> FindGroupsWithExclusion
             (
                 string filter,
@@ -142,7 +150,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of GroupWithExclusions</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of GroupWithExclusions
+        /// </returns>
         public Task<NetworkObjectsPagingResults<GroupWithExclusion>> FindGroupsWithExclusion
             (
                 DetailLevels detailLevel = Finds.Defaults.DetailLevel,
@@ -170,7 +181,10 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>GroupWithExclusion object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// GroupWithExclusion object
+        /// </returns>
         public Task<GroupWithExclusion> FindGroupWithExclusion
             (
                 string value,

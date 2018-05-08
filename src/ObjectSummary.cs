@@ -194,6 +194,8 @@ namespace Koopman.CheckPoint
         /// Same as calling <see cref="ObjectSummary{T}.AcceptChanges(Ignore, CancellationToken)" />
         /// with a value of <see cref="Ignore.No" />;
         /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public override Task AcceptChanges(CancellationToken cancellationToken = default) => AcceptChanges(Ignore.No, cancellationToken);
 
         /// <summary>
@@ -202,7 +204,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
@@ -243,7 +245,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
@@ -277,7 +279,9 @@ namespace Koopman.CheckPoint
         /// </param>
         /// <param name="detailLevel">The detail level to retrieve.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns><c>this</c></returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the <c>this</c>
+        /// </returns>
         /// <exception cref="System.NotImplementedException">
         /// Thrown when the objects of this Type have not been fully implemented yet.
         /// </exception>
@@ -313,7 +317,10 @@ namespace Koopman.CheckPoint
         /// </param>
         /// <param name="detailLevel">The detail level of child objects to retrieve.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>IObjectSummary of reloaded object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// IObjectSummary of reloaded object
+        /// </returns>
         async Task<IObjectSummary> IObjectSummary.Reload(bool OnlyIfPartial, DetailLevels detailLevel, CancellationToken cancellationToken) => await Reload(OnlyIfPartial, detailLevel, cancellationToken);
 
         /// <summary>

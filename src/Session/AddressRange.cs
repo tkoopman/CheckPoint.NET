@@ -14,7 +14,8 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="value">The name or UID to delete.</param>
         /// <param name="ignore">Weather warnings or errors should be ignored</param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous delete operation.</returns>
         public Task DeleteAddressRange
             (
                 string value,
@@ -38,7 +39,10 @@ namespace Koopman.CheckPoint
         /// <param name="value">The name or UID to find.</param>
         /// <param name="detailLevel">The detail level of child objects to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>AddressRange object</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// AddressRange object
+        /// </returns>
         public Task<AddressRange> FindAddressRange
             (
                 string value,
@@ -64,7 +68,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of AddressRanges</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of AddressRanges
+        /// </returns>
         public Task<NetworkObjectsPagingResults<AddressRange>> FindAddressRanges
             (
                 DetailLevels detailLevel = Finds.Defaults.DetailLevel,
@@ -99,7 +106,10 @@ namespace Koopman.CheckPoint
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>NetworkObjectsPagingResults of AddressRanges</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// NetworkObjectsPagingResults of AddressRanges
+        /// </returns>
         public Task<NetworkObjectsPagingResults<AddressRange>> FindAddressRanges
             (
                 string filter,
@@ -132,7 +142,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of AddressRanges</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of AddressRanges
+        /// </returns>
         public Task<AddressRange[]> FindAllAddressRanges
             (
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
@@ -164,7 +176,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Array of AddressRanges</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the Array of AddressRanges
+        /// </returns>
         public Task<AddressRange[]> FindAllAddressRanges
             (
                 string filter,
