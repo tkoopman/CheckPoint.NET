@@ -30,7 +30,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -66,11 +65,10 @@ namespace Koopman.CheckPoint
 
         private Session(CertificateValidation certificateValidation, DetailLevelActions detailLevelAction, bool indentJson, int maxConnections, string certificateHash)
         {
-            CertificateValidation = certificateValidation;
+            CertificateValidator = new CertificateValidator(certificateValidation, certificateHash);
             DetailLevelAction = detailLevelAction;
             IndentJson = indentJson;
             MaxConnections = maxConnections;
-            ExpectedCertificateHash = certificateHash;
         }
 
         #endregion Constructors
@@ -85,20 +83,8 @@ namespace Koopman.CheckPoint
         public string APIServerVersion { get; private set; }
 
         /// <summary>
-        /// Gets the server SSL certificate hash.
-        /// </summary>
-        /// <value>Server SSL certificate hash.</value>
-        public string CertificateHash { get; internal set; }
-
-        /// <summary>
-        /// Gets a value indicating whether SSL certificate should be valid.
-        /// </summary>
-        /// <value><c>true</c> if certificate validation enabled otherwise, <c>false</c>.</value>
-        public CertificateValidation CertificateValidation { get; }
-
-        /// <summary>
         /// Gets or sets the debug writer. All API posts and responses will be sent to this writer.
-        /// They are sent in the RAW JSON format as sent and recived to/from the server.
+        /// They are sent in the RAW JSON format as sent and received to/from the server.
         /// </summary>
         /// <value>The text writer to send all debug output to.</value>
         public TextWriter DebugWriter { get; set; }
@@ -191,11 +177,7 @@ namespace Koopman.CheckPoint
         /// <value>The JSON formatting.</value>
         protected internal Formatting JsonFormatting => (IndentJson) ? Formatting.Indented : Formatting.None;
 
-        /// <summary>
-        /// Gets the expected server SSL certificate hash.
-        /// </summary>
-        /// <value>Expected Server SSL certificate hash.</value>
-        private string ExpectedCertificateHash { get; }
+        private CertificateValidator CertificateValidator { get; }
 
         #endregion Properties
 
@@ -257,12 +239,8 @@ namespace Koopman.CheckPoint
                     string certificateHash = null,
                     CancellationToken cancellationToken = default)
         {
-            var certValid = certificateValidation;
-            if (certificateValidation.HasFlag(CertificateValidation.Auto))
-                certValid = (string.IsNullOrEmpty(certificateHash)) ? CertificateValidation.ValidCertificate : CertificateValidation.CertificatePinning;
-
             var session = new Session(
-                    certificateValidation: certValid,
+                    certificateValidation: certificateValidation,
                     detailLevelAction: detailLevelAction,
                     indentJson: indentJson,
                     maxConnections: maxConnections,
@@ -473,10 +451,17 @@ namespace Koopman.CheckPoint
                     handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
 #if NET45
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(ValidateServerCertficate);
+                if (ServicePointManager.ServerCertificateValidationCallback?.Target is CertificateValidator validator)
+                {
+                    if (validator.CertificateValidation != CertificateValidator.CertificateValidation)
+                        throw new Exception("Cannot use different certificate validation methods under .NET 4.5.");
+                    if (validator.CertificateValidation.HasFlag(CertificateValidation.CertificatePinning) && validator.ExpectedCertificateHash != CertificateValidator.ExpectedCertificateHash)
+                        throw new Exception("Cannot have two differently pinned certificates under .NET 4.5.");
+                }
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CertificateValidator.ValidateServerCertficate);
                 ServicePointManager.DefaultConnectionLimit = MaxConnections;
 #else
-                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => ValidateServerCertficate(message, cert, chain, errors);
+                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => CertificateValidator.ValidateServerCertficate(message, cert, chain, errors);
                 handler.MaxConnectionsPerServer = MaxConnections;
 #endif
 
@@ -511,27 +496,6 @@ namespace Koopman.CheckPoint
                 jObject.Add("uid", uid);
             string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting);
             return jsonData;
-        }
-
-        private bool ValidateServerCertficate(
-                    object sender,
-            X509Certificate certificate,
-            X509Chain chain,
-            SslPolicyErrors sslPolicyErrors
-        )
-        {
-#if NETSTANDARD1_6
-            CertificateHash = BitConverter.ToString(certificate?.GetCertHash()).Replace("-", "");
-#else
-            CertificateHash = certificate?.GetCertHashString();
-#endif
-
-            if (CertificateValidation.HasFlag(CertificateValidation.ValidCertificate) && sslPolicyErrors != SslPolicyErrors.None)
-                return false;
-            if (CertificateValidation.HasFlag(CertificateValidation.CertificatePinning) && ExpectedCertificateHash != CertificateHash)
-                return false;
-
-            return true;
         }
 
         private string WriteDebug(string command, string data)
