@@ -43,7 +43,7 @@ namespace Examples
             ManagementServer = (TestContext.Properties.ContainsKey("ManagementServer")) ? TestContext.Properties["ManagementServer"].ToString() : Environment.GetEnvironmentVariable("TestMgmtServer");
             Username = (TestContext.Properties.ContainsKey("User")) ? TestContext.Properties["User"].ToString() : Environment.GetEnvironmentVariable("TestMgmtUser");
             Password = (TestContext.Properties.ContainsKey("Password")) ? TestContext.Properties["Password"].ToString() : Environment.GetEnvironmentVariable("TestMgmtPassword");
-            CertificateHash = TestContext.Properties["CertificateHash"]?.ToString() ?? Environment.GetEnvironmentVariable("TestCertificateHash");
+            CertificateHash = (TestContext.Properties.ContainsKey("CertificateHash")) ? TestContext.Properties["CertificateHash"].ToString() : Environment.GetEnvironmentVariable("TestCertificateHash");
         }
 
         #endregion Methods
