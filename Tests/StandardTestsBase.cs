@@ -65,7 +65,7 @@ namespace Tests
                          managementServer: ManagementServer,
                          userName: User,
                          password: Password,
-                         certificateValidation: false,
+                         certificateValidation: CertificateValidation.CertificatePinning,
                          certificateHash: CertificateHash,
                          indentJson: true,
                          sessionName: "CheckPoint.NET Test",

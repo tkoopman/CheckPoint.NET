@@ -76,7 +76,7 @@ namespace Tests
                          managementServer: TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer"),
                          userName: "dummy",
                          password: "***",
-                         certificateValidation: false,
+                         certificateValidation: CertificateValidation.None,
                          debugWriter: DebugWriter
                      ).GetAwaiter().GetResult())
             {
