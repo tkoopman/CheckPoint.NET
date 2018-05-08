@@ -21,7 +21,7 @@ namespace Examples
                          managementServer: ManagementServer,
                          userName: Username,
                          password: Password,
-                         certificateValidation: false
+                         certificateHash: CertificateHash
                      );
 
             // Get first 5 hosts
@@ -46,7 +46,7 @@ namespace Examples
                          managementServer: ManagementServer,
                          userName: Username,
                          password: Password,
-                         certificateValidation: false
+                         certificateHash: CertificateHash
                      );
 
             // Create group used for example

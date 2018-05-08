@@ -5,6 +5,7 @@
     <Parameter name="ManagementServer" value="192.168.1.1" />
     <Parameter name="User" value="admin" />
     <Parameter name="Password" value="password" />
+    <Parameter name="CertificateHash" value="" />
     <Parameter name="MgmtName" value="mgmt" />
   </TestRunParameters>
 </RunSettings>
