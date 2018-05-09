@@ -42,6 +42,12 @@ namespace Koopman.CheckPoint.Internal
             jo.Add(name, value);
         }
 
+        internal static void AddIfNotNull(this JObject jo, string name, string[] values)
+        {
+            if (values == null) return;
+            jo.Add(name, new JArray(values));
+        }
+
         internal static void AddIfNotNull(this JObject jo, string name, bool? value)
         {
             if (value == null) return;
