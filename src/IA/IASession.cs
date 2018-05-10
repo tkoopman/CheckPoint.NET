@@ -120,17 +120,19 @@ namespace Koopman.CheckPoint.IA
             string[] roles = null, string machineOS = null, string hostType = null,
             CancellationToken cancellationToken = default)
         {
-            var req = new JObject();
-            req.AddIfNotNull("ip-address", ipAddress);
+            var req = new JObject()
+            {
+                { "ip-address", ipAddress }
+            };
             req.AddIfNotNull("user", user);
             req.AddIfNotNull("machine", machine);
             req.AddIfNotNull("domain", domain);
             req.AddIfNotNull("session-timeout", sessionTimeout);
-            req.AddIfNotNull("fetch-user-groups", fetchUserGroups);
-            req.AddIfNotNull("fetch-machine-groups", fetchMachineGroups);
+            req.AddIfNotNull01("fetch-user-groups", fetchUserGroups);
+            req.AddIfNotNull01("fetch-machine-groups", fetchMachineGroups);
             req.AddIfNotNull("user-groups", userGroups);
             req.AddIfNotNull("machine-groups", machineGroups);
-            req.AddIfNotNull("calculate-roles", calculateRoles);
+            req.AddIfNotNull01("calculate-roles", calculateRoles);
             req.AddIfNotNull("roles", roles);
             req.AddIfNotNull("machine-os", machineOS);
             req.AddIfNotNull("host-type", hostType);
@@ -152,6 +154,9 @@ namespace Koopman.CheckPoint.IA
         /// Deletes an identity.
         /// </summary>
         /// <param name="ipAddress">The ip address.</param>
+        /// <param name="clientType">
+        /// Deletes only associations created by the specified identity source.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains will contain
@@ -159,10 +164,67 @@ namespace Koopman.CheckPoint.IA
         /// <see cref="StartDeleteBatch(Action{DeleteIdentityResponse}, int)" />, otherwise it will
         /// contain the response from the gateway.
         /// </returns>
-        public Task<DeleteIdentityResponse> DeleteIdentity(string ipAddress, CancellationToken cancellationToken = default)
+        public Task<DeleteIdentityResponse> DeleteIdentity(string ipAddress, ClientTypes clientType = ClientTypes.Any, CancellationToken cancellationToken = default)
         {
-            var req = new JObject();
-            req.AddIfNotNull("ip-address", ipAddress);
+            var req = new JObject()
+            {
+                { "client-type",  clientType.ToString().CamelCaseToRegular("-").ToLower() },
+                { "ip-address", ipAddress }
+            };
+            return DeleteIdentity(req, cancellationToken);
+        }
+
+        /// <summary>
+        /// Deletes an identity.
+        /// </summary>
+        /// <param name="subnet">The subnet.</param>
+        /// <param name="subnetMask">The subnet mask.</param>
+        /// <param name="clientType">
+        /// Deletes only associations created by the specified identity source.
+        /// </param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains will contain
+        /// <c>null</c> if you have started a batch processing with
+        /// <see cref="StartDeleteBatch(Action{DeleteIdentityResponse}, int)" />, otherwise it will
+        /// contain the response from the gateway.
+        /// </returns>
+        public Task<DeleteIdentityResponse> DeleteIdentityMask(string subnet, string subnetMask, ClientTypes clientType = ClientTypes.Any, CancellationToken cancellationToken = default)
+        {
+            var req = new JObject()
+            {
+                { "revoke-method", "mask" },
+                { "client-type",  clientType.ToString().CamelCaseToRegular("-").ToLower()},
+                { "subnet", subnet },
+                { "subnet-mask", subnetMask }
+            };
+            return DeleteIdentity(req, cancellationToken);
+        }
+
+        /// <summary>
+        /// Deletes an identity.
+        /// </summary>
+        /// <param name="firstIP">The first ip.</param>
+        /// <param name="lastIP">The last ip.</param>
+        /// <param name="clientType">
+        /// Deletes only associations created by the specified identity source.
+        /// </param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains will contain
+        /// <c>null</c> if you have started a batch processing with
+        /// <see cref="StartDeleteBatch(Action{DeleteIdentityResponse}, int)" />, otherwise it will
+        /// contain the response from the gateway.
+        /// </returns>
+        public Task<DeleteIdentityResponse> DeleteIdentityRange(string firstIP, string lastIP, ClientTypes clientType = ClientTypes.Any, CancellationToken cancellationToken = default)
+        {
+            var req = new JObject()
+            {
+                { "revoke-method", "range" },
+                { "client-type",  clientType.ToString().CamelCaseToRegular("-").ToLower()},
+                { "ip-address-first", firstIP },
+                { "ip-address-last", lastIP }
+            };
             return DeleteIdentity(req, cancellationToken);
         }
 
@@ -244,7 +306,9 @@ namespace Koopman.CheckPoint.IA
         }
 
         /// <summary>
-        /// Starts batch processing for <see cref="DeleteIdentity(string, CancellationToken)" />.
+        /// Starts batch processing for
+        /// <see cref="DeleteIdentity(string, ClientTypes, CancellationToken)" />,
+        /// <see cref="DeleteIdentityMask(string, string, ClientTypes, CancellationToken)" /> and <see cref="DeleteIdentityRange(string, string, ClientTypes, CancellationToken)" />.
         /// </summary>
         /// <param name="outputAction">
         /// The output action is call for each individual response when the batch is processed.

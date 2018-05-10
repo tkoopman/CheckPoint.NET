@@ -60,6 +60,12 @@ namespace Koopman.CheckPoint.Internal
             jo.Add(name, value);
         }
 
+        internal static void AddIfNotNull01(this JObject jo, string name, bool? value)
+        {
+            if (value == null) return;
+            jo.Add(name, ((bool)value) ? 1 : 0);
+        }
+
         /// <summary>
         /// Adds the ignore values to a request.
         /// </summary>

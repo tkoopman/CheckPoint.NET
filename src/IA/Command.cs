@@ -17,11 +17,15 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Json;
+using Newtonsoft.Json;
+
 namespace Koopman.CheckPoint.IA
 {
     /// <summary>
     /// IA Batch Commands
     /// </summary>
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, "-")]
     public enum Command
     {
         /// <summary>
