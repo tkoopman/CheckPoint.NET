@@ -60,7 +60,10 @@ namespace Koopman.CheckPoint.Common
         /// <param name="maxConnections">The maximum connections to server.</param>
         protected HttpSession(string url, CertificateValidation certificateValidation, string certificateHash, TextWriter debugWriter, bool indentJson, int maxConnections)
         {
-            CertificateValidator = new CertificateValidator(certificateValidation, certificateHash);
+            var uri = new Uri(url);
+            HostName = uri.Host;
+            CertificateHash = certificateHash;
+            CertificateValidation = certificateValidation;
             DebugWriter = debugWriter;
             IndentJson = indentJson;
             MaxConnections = maxConnections;
@@ -69,6 +72,10 @@ namespace Koopman.CheckPoint.Common
         }
 
         #endregion Constructors
+
+        private readonly string CertificateHash;
+        private readonly CertificateValidation CertificateValidation;
+        private readonly string HostName;
 
         #region Properties
 
@@ -109,8 +116,6 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <value>The HTTP headers.</value>
         protected Dictionary<string, string> HttpHeaders { get; } = new Dictionary<string, string>();
-
-        private CertificateValidator CertificateValidator { get; }
 
         #endregion Properties
 
@@ -211,15 +216,27 @@ namespace Koopman.CheckPoint.Common
 #if NET45
                 if (ServicePointManager.ServerCertificateValidationCallback?.Target is CertificateValidator validator)
                 {
-                    if (validator.CertificateValidation != CertificateValidator.CertificateValidation)
-                        throw new Exception("Cannot use different certificate validation methods under .NET 4.5.");
-                    if (validator.CertificateValidation.HasFlag(CertificateValidation.CertificatePinning) && validator.ExpectedCertificateHash != CertificateValidator.ExpectedCertificateHash)
-                        throw new Exception("Cannot have two differently pinned certificates under .NET 4.5.");
+                    bool valid = validator.ValidateHosts.TryGetValue(HostName, out var value);
+
+                    if (valid)
+                    {
+                        if (value.Item1 != CertificateValidation)
+                            throw new Exception("Cannot use different certificate validation methods under .NET 4.5.");
+                        if (value.Item1.HasFlag(CertificateValidation.CertificatePinning) && value.Item2 != CertificateHash)
+                            throw new Exception("Cannot have two differently pinned certificates under .NET 4.5.");
+                    } else
+                    {
+                        if (!validator.ValidateHosts.TryAdd(HostName, new Tuple<CertificateValidation, string>(CertificateValidation, CertificateHash)))
+                            throw new Exception("Failed to add new host name to CertificateValidator");
+                    }
                 }
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CertificateValidator.ValidateServerCertficate);
+                else
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(new CertificateValidator(CertificateValidation, HostName, CertificateHash).ValidateServerCertificate);
+                }
                 ServicePointManager.DefaultConnectionLimit = MaxConnections;
 #else
-                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => CertificateValidator.ValidateServerCertficate(message, cert, chain, errors);
+                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => new CertificateValidator(CertificateValidation, HostName, CertificateHash).ValidateServerCertificate(message, cert, chain, errors);
                 handler.MaxConnectionsPerServer = MaxConnections;
 #endif
 

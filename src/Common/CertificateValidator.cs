@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
 using System.Net.Security;
@@ -36,38 +37,23 @@ namespace Koopman.CheckPoint.Common
         /// Initializes a new instance of the <see cref="CertificateValidator" /> class.
         /// </summary>
         /// <param name="certificateValidation">The certificate validation method(s) to use.</param>
+        /// <param name="hostName">Host name for validation.</param>
         /// <param name="expectedCertificateHash">The expected certificate hash if pinning.</param>
-        public CertificateValidator(CertificateValidation certificateValidation, string expectedCertificateHash)
+        public CertificateValidator(CertificateValidation certificateValidation, string hostName, string expectedCertificateHash)
         {
             var certValid = certificateValidation;
             if (certificateValidation.HasFlag(CertificateValidation.Auto))
                 certValid = (string.IsNullOrEmpty(expectedCertificateHash)) ? CertificateValidation.ValidCertificate : CertificateValidation.CertificatePinning;
 
-            CertificateValidation = certValid;
-            ExpectedCertificateHash = expectedCertificateHash;
+            if (!ValidateHosts.TryAdd(hostName, new Tuple<CertificateValidation, string>(certValid, expectedCertificateHash)))
+                throw new Exception("Failed to create CertificateValidator");
         }
 
         #endregion Constructors
 
         #region Properties
 
-        /// <summary>
-        /// Gets the server SSL certificate hash.
-        /// </summary>
-        /// <value>Server SSL certificate hash.</value>
-        public string CertificateHash { get; internal set; }
-
-        /// <summary>
-        /// Gets a value indicating whether SSL certificate should be valid.
-        /// </summary>
-        /// <value><c>true</c> if certificate validation enabled otherwise, <c>false</c>.</value>
-        public CertificateValidation CertificateValidation { get; }
-
-        /// <summary>
-        /// Gets the expected server SSL certificate hash.
-        /// </summary>
-        /// <value>Expected Server SSL certificate hash.</value>
-        public string ExpectedCertificateHash { get; }
+        internal readonly ConcurrentDictionary<string, Tuple<CertificateValidation, string>> ValidateHosts = new ConcurrentDictionary<string, Tuple<CertificateValidation, string>>();
 
         #endregion Properties
 
@@ -116,22 +102,35 @@ namespace Koopman.CheckPoint.Common
         /// <param name="chain">The chain.</param>
         /// <param name="sslPolicyErrors">The SSL policy errors.</param>
         /// <returns><c>true</c> if server's certificate passes validation; otherwise <c>false</c></returns>
-        public bool ValidateServerCertficate(
+        public bool ValidateServerCertificate(
                     object sender,
             X509Certificate certificate,
             X509Chain chain,
             SslPolicyErrors sslPolicyErrors
         )
         {
+            string hostName;
+
+            if (sender is HttpRequestMessage r1)
+                hostName = r1.RequestUri.Host;
+#if (NETSTANDARD1_6 == false)
+            else if (sender is HttpWebRequest r2)
+                hostName = r2.Address.Host;
+#endif
+            else return sslPolicyErrors == SslPolicyErrors.None;
+
+            if (!ValidateHosts.TryGetValue(hostName, out var value) || value == null)
+                return sslPolicyErrors == SslPolicyErrors.None;
+
 #if NETSTANDARD1_6
-            CertificateHash = BitConverter.ToString(certificate?.GetCertHash()).Replace("-", "");
+            string CertificateHash = BitConverter.ToString(certificate?.GetCertHash()).Replace("-", "");
 #else
-            CertificateHash = certificate?.GetCertHashString();
+            string CertificateHash = certificate?.GetCertHashString();
 #endif
 
-            if (CertificateValidation.HasFlag(CertificateValidation.ValidCertificate) && sslPolicyErrors != SslPolicyErrors.None)
+            if (value.Item1.HasFlag(CertificateValidation.ValidCertificate) && sslPolicyErrors != SslPolicyErrors.None)
                 return false;
-            if (CertificateValidation.HasFlag(CertificateValidation.CertificatePinning) && ExpectedCertificateHash != CertificateHash)
+            if (value.Item1.HasFlag(CertificateValidation.CertificatePinning) && value.Item2 != CertificateHash)
                 return false;
 
             return true;
