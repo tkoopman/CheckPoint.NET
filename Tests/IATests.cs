@@ -34,6 +34,7 @@ namespace Tests
         #region Fields
 
         private const string Added = "Association sent to PDP.";
+        private static readonly object Lock = new object();
 
         #endregion Fields
 
@@ -75,7 +76,7 @@ namespace Tests
                 Assert.AreEqual(Added, result.Message);
 
                 int count = 0;
-                session.StartAddBatch((r) => { if (r.Message == Added) count++; else throw new Exception(r.Message); }, 50);
+                session.StartAddBatch((r) => { if (r.Message == Added) lock (Lock) { count++; } else throw new Exception(r.Message); }, 50);
                 var tasks = new List<Task>(255);
                 for (int x = 1; x < 255; x++)
                     tasks.Add(session.AddIdentity($"10.1.2.{x}", machine: "IATestMachine", fetchMachineGroups: false, calculateRoles: false, roles: new string[] { "TestIARole" }));
@@ -83,13 +84,11 @@ namespace Tests
                 await Task.WhenAll(tasks);
                 Assert.AreEqual(254, count);
 
-                // await Task.Delay(1000);
-
                 var showResult = await session.ShowIdentity("10.1.1.1");
                 Assert.IsNotNull(showResult);
 
                 count = 0;
-                session.StartShowBatch((r) => { if (r.CombinedRoles.Contains("TestIARole")) count++; else throw new Exception($"Failed show on {r.IPv4Address}"); }, 50);
+                session.StartShowBatch((r) => { if (r.CombinedRoles.Contains("TestIARole")) lock (Lock) { count++; } else throw new Exception($"Failed show on {r.IPv4Address}"); }, 50);
                 tasks = new List<Task>(255);
                 for (int x = 1; x < 255; x++)
                     tasks.Add(session.ShowIdentity($"10.1.2.{x}"));
@@ -101,7 +100,7 @@ namespace Tests
                 Assert.IsTrue(delResult.Count > 0);
 
                 count = 0;
-                session.StartDeleteBatch((r) => { if (r.Count > 0) count++; else throw new Exception($"Failed delete on {r.IPv4Address}"); }, 50);
+                session.StartDeleteBatch((r) => { if (r.Count > 0) lock (Lock) { count++; } else throw new Exception($"Failed delete on {r.IPv4Address}"); }, 50);
                 tasks = new List<Task>(255);
                 for (int x = 1; x < 255; x++)
                     tasks.Add(session.DeleteIdentity($"10.1.2.{x}"));
