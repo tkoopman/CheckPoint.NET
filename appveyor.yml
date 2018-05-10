@@ -41,6 +41,11 @@ environment:
     secure: j5oFpdeVkXe0izAo73pe6Q==
   TestCertificateHash: 9141948B07E09B13E6B980EFD7FFCB968A2DCB13
   TestMgmtName: testgw
+  TestIAGateway:
+    secure: UCJ1RE6XfDNrlnauuyM7wQ==
+  TestIASecret:
+    secure: j5oFpdeVkXe0izAo73pe6Q==
+  TestIACertificateHash: 9141948B07E09B13E6B980EFD7FFCB968A2DCB13
 test:
   assemblies:
     only:

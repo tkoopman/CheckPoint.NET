@@ -17,39 +17,35 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
+using Koopman.CheckPoint.Json;
+using Newtonsoft.Json;
 
-namespace Koopman.CheckPoint
+namespace Koopman.CheckPoint.IA
 {
     /// <summary>
-    /// What server certificatate validation should be performed.
+    /// IA Batch Commands
     /// </summary>
-    [Flags]
-    public enum CertificateValidation
+    [JsonConverter(typeof(EnumConverter), EnumConverter.StringCases.Lowercase, "-")]
+    public enum Command
     {
         /// <summary>
-        /// Trust any certificate. NOTE: Highly recommended not to use this for security reasons.
+        /// No active batch
         /// </summary>
-        None = 0,
+        None,
 
         /// <summary>
-        /// Validates the server's certificate and chain.
+        /// The add identity command
         /// </summary>
-        ValidCertificate = 1,
+        AddIdentity,
 
         /// <summary>
-        /// Validates server's certificate hash matches the provided hash.
+        /// The show identity command
         /// </summary>
-        CertificatePinning = 2,
+        ShowIdentity,
 
         /// <summary>
-        /// Server's certificate must be valid and also match the provided hash.
+        /// The delete identity command
         /// </summary>
-        All = 3,
-
-        /// <summary>
-        /// If certificate hash provided then it will be checked, else any valid certificate will be allowed.
-        /// </summary>
-        Auto = 4
+        DeleteIdentity
     }
 }

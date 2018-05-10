@@ -17,6 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Koopman.CheckPoint.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -29,6 +30,16 @@ namespace Tests
         #region Methods
 
         [TestMethod]
+        public void GetCertificateHash()
+        {
+            string ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
+
+            var data = CertificateValidator.GetServerCertificateHash($"https://{ManagementServer}");
+            Console.WriteLine($"Subject: {data.Item1}");
+            Console.WriteLine($"Hash: {data.Item2}");
+        }
+
+        [TestMethod]
         public async Task TestSession()
         {
             string CertificateHash = TestContext.Properties["CertificateHash"]?.ToString() ?? Environment.GetEnvironmentVariable("TestCertificateHash");
@@ -36,8 +47,6 @@ namespace Tests
             Assert.IsNotNull(Session.SID);
             Assert.IsFalse(Session.ReadOnly);
             Assert.AreEqual("1.1", Session.APIServerVersion);
-            if (!string.IsNullOrEmpty(CertificateHash))
-                Assert.AreEqual(CertificateHash, Session.CertificateHash);
             await Session.SendKeepAlive();
         }
 

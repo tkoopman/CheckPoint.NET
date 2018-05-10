@@ -17,39 +17,36 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
+using Newtonsoft.Json;
 
-namespace Koopman.CheckPoint
+namespace Koopman.CheckPoint.IA
 {
     /// <summary>
-    /// What server certificatate validation should be performed.
+    /// <para type="synopsis">Response from AddIdentity calls</para>
+    /// <para type="description"></para>
     /// </summary>
-    [Flags]
-    public enum CertificateValidation
+    public class AddIdentityResponse
     {
-        /// <summary>
-        /// Trust any certificate. NOTE: Highly recommended not to use this for security reasons.
-        /// </summary>
-        None = 0,
+        #region Properties
 
         /// <summary>
-        /// Validates the server's certificate and chain.
+        /// <para type="description">Created IPv4 identity</para>
         /// </summary>
-        ValidCertificate = 1,
+        [JsonProperty(PropertyName = "ipv4-address")]
+        public string IPv4Address { get; set; }
 
         /// <summary>
-        /// Validates server's certificate hash matches the provided hash.
+        /// <para type="description">Created IPv6 identity</para>
         /// </summary>
-        CertificatePinning = 2,
+        [JsonProperty(PropertyName = "ipv6-address")]
+        public string IPv6Address { get; set; }
 
         /// <summary>
-        /// Server's certificate must be valid and also match the provided hash.
+        /// <para type="description">Textual description of the command’s result</para>
         /// </summary>
-        All = 3,
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
 
-        /// <summary>
-        /// If certificate hash provided then it will be checked, else any valid certificate will be allowed.
-        /// </summary>
-        Auto = 4
+        #endregion Properties
     }
 }

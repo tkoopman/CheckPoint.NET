@@ -1,4 +1,5 @@
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net;
@@ -36,6 +37,14 @@ namespace Examples
             await session.Logout();
 
             #endregion Example: Basic Connection
+        }
+
+        [TestMethod]
+        public void GetCertificateHash()
+        {
+            var data = CertificateValidator.GetServerCertificateHash($"https://{ManagementServer}");
+            Console.WriteLine($"Subject: {data.Item1}");
+            Console.WriteLine($"Hash: {data.Item2}");
         }
 
         [TestMethod]

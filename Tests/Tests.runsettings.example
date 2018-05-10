@@ -7,5 +7,8 @@
     <Parameter name="Password" value="password" />
     <Parameter name="CertificateHash" value="" />
     <Parameter name="MgmtName" value="mgmt" />
+    <Parameter name="IAGateway" value="192.168.1.1" />
+    <Parameter name="IASecret" value="secret" />
+    <Parameter name="IACertificateHash" value="" />
   </TestRunParameters>
 </RunSettings>

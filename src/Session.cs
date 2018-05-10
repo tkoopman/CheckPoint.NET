@@ -30,7 +30,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,26 +50,14 @@ namespace Koopman.CheckPoint
     /// </code>
     /// </example>
     /// <seealso cref="System.IDisposable" />
-    public partial class Session : IDisposable
+    public partial class Session : HttpSession
     {
-        #region Fields
-
-        private static Random random = new Random();
-        private HttpClient _httpClient = null;
-        private bool _isDisposed = false;
-        private SemaphoreSlim HttpSemaphore;
-
-        #endregion Fields
-
         #region Constructors
 
-        private Session(CertificateValidation certificateValidation, DetailLevelActions detailLevelAction, bool indentJson, int maxConnections, string certificateHash)
+        private Session(string url, DetailLevelActions detailLevelAction, CertificateValidation certificateValidation, string certificateHash, TextWriter debugWriter, bool indentJson, int maxConnections) :
+            base(url, certificateValidation, certificateHash, debugWriter, indentJson, maxConnections)
         {
-            CertificateValidation = certificateValidation;
             DetailLevelAction = detailLevelAction;
-            IndentJson = indentJson;
-            MaxConnections = maxConnections;
-            ExpectedCertificateHash = certificateHash;
         }
 
         #endregion Constructors
@@ -83,25 +70,6 @@ namespace Koopman.CheckPoint
         /// <value>The API server version.</value>
         [JsonProperty(PropertyName = "api-server-version")]
         public string APIServerVersion { get; private set; }
-
-        /// <summary>
-        /// Gets the server SSL certificate hash.
-        /// </summary>
-        /// <value>Server SSL certificate hash.</value>
-        public string CertificateHash { get; internal set; }
-
-        /// <summary>
-        /// Gets a value indicating whether SSL certificate should be valid.
-        /// </summary>
-        /// <value><c>true</c> if certificate validation enabled otherwise, <c>false</c>.</value>
-        public CertificateValidation CertificateValidation { get; }
-
-        /// <summary>
-        /// Gets or sets the debug writer. All API posts and responses will be sent to this writer.
-        /// They are sent in the RAW JSON format as sent and recived to/from the server.
-        /// </summary>
-        /// <value>The text writer to send all debug output to.</value>
-        public TextWriter DebugWriter { get; set; }
 
         /// <summary>
         /// Gets the action to be taken when current detail level is too low.
@@ -117,12 +85,6 @@ namespace Koopman.CheckPoint
         public string DiskSpaceMessage { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether JSON data sent to server should be indented. Useful for debugging.
-        /// </summary>
-        /// <value><c>true</c> to indent json; otherwise, <c>false</c>.</value>
-        public bool IndentJson { get; }
-
-        /// <summary>
         /// Timestamp when administrator last accessed the management server.
         /// </summary>
         /// <value>The last login was at.</value>
@@ -136,12 +98,6 @@ namespace Koopman.CheckPoint
         /// <value>The login message.</value>
         [JsonProperty(PropertyName = "login-message")]
         public LoginMessage LoginMessage { get; private set; }
-
-        /// <summary>
-        /// Gets the max number of connections to management server allowed.
-        /// </summary>
-        /// <value>The maximum connections.</value>
-        public int MaxConnections { get; }
 
         /// <summary>
         /// Session is read only status.
@@ -178,25 +134,6 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "uid")]
         public string UID { get; private set; }
 
-        /// <summary>
-        /// URL that was used to reach the API server.
-        /// </summary>
-        /// <value>The URL.</value>
-        [JsonProperty(PropertyName = "url")]
-        public string URL { get; private set; }
-
-        /// <summary>
-        /// Gets the JSON formatting setting.
-        /// </summary>
-        /// <value>The JSON formatting.</value>
-        protected internal Formatting JsonFormatting => (IndentJson) ? Formatting.Indented : Formatting.None;
-
-        /// <summary>
-        /// Gets the expected server SSL certificate hash.
-        /// </summary>
-        /// <value>Expected Server SSL certificate hash.</value>
-        private string ExpectedCertificateHash { get; }
-
         #endregion Properties
 
         #region Methods
@@ -228,7 +165,7 @@ namespace Koopman.CheckPoint
         /// <param name="maxConnections">The maximum connections to establish to management server.</param>
         /// <param name="debugWriter">
         /// The debug writer. WARNING: Setting debug writer here will output you login credentials to
-        /// the debug writer in the clear. Set <see cref="DebugWriter" /> after Login to prevent this.
+        /// the debug writer in the clear. Set <see cref="HttpSession.DebugWriter" /> after Login to prevent this.
         /// </param>
         /// <param name="certificateHash">
         /// Used to check the the server SSL certificate matches this hash. Valid only if
@@ -257,22 +194,15 @@ namespace Koopman.CheckPoint
                     string certificateHash = null,
                     CancellationToken cancellationToken = default)
         {
-            var certValid = certificateValidation;
-            if (certificateValidation.HasFlag(CertificateValidation.Auto))
-                certValid = (string.IsNullOrEmpty(certificateHash)) ? CertificateValidation.ValidCertificate : CertificateValidation.CertificatePinning;
-
             var session = new Session(
-                    certificateValidation: certValid,
+                    url: $"https://{managementServer}:{port}/web_api/",
+                    certificateValidation: certificateValidation,
                     detailLevelAction: detailLevelAction,
                     indentJson: indentJson,
                     maxConnections: maxConnections,
-                    certificateHash: certificateHash
-                )
-            {
-                DebugWriter = debugWriter,
-                HttpSemaphore = new SemaphoreSlim(maxConnections + 1),
-                URL = $"https://{managementServer}:{port}/web_api/"
-            };
+                    certificateHash: certificateHash,
+                    debugWriter: debugWriter
+                );
 
             var data = new JObject()
             {
@@ -294,6 +224,8 @@ namespace Koopman.CheckPoint
 
             JsonConvert.PopulateObject(result, session);
 
+            session.HttpHeaders["X-chkp-sid"] = session.SID;
+
             return session;
         }
 
@@ -308,7 +240,7 @@ namespace Koopman.CheckPoint
             string jsonData = UIDToJson(uid);
             await PostAsync("continue-session-in-smartconsole", jsonData, cancellationToken);
             if (uid == null || uid.Equals(UID))
-                Dispose();
+                ((IDisposable)this).Dispose();
         }
 
         /// <summary>
@@ -321,21 +253,6 @@ namespace Koopman.CheckPoint
         {
             string jsonData = UIDToJson(uid);
             return PostAsync("discard", jsonData, cancellationToken);
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            if (_httpClient != null)
-            {
-                ((IDisposable)_httpClient).Dispose();
-                _httpClient = null;
-            }
-
-            _isDisposed = true;
         }
 
         /// <summary>
@@ -360,59 +277,7 @@ namespace Koopman.CheckPoint
         public async Task Logout(CancellationToken cancellationToken = default)
         {
             await PostAsync("logout", "{}", cancellationToken);
-            Dispose();
-        }
-
-        /// <summary>
-        /// Async posts the specified command with the JSON data supplied. This can be used to send
-        /// any commands this .NET package doesn't implement yet.
-        /// </summary>
-        /// <param name="command">The command.</param>
-        /// <param name="json">The json.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// A task that represents the asynchronous operation. The task result contains the JSON
-        /// Response Data
-        /// </returns>
-        public async System.Threading.Tasks.Task<string> PostAsync(string command, string json, CancellationToken cancellationToken)
-        {
-            if (_isDisposed)
-                throw new ObjectDisposedException("Session", "This session has already been disposed!");
-
-            await HttpSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-
-            try
-            {
-                string result = null;
-
-                string debugIP = WriteDebug(command, json);
-
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                if (command != "login")
-                    content.Headers.Add("X-chkp-sid", SID);
-
-                var response = await GetHttpClient().PostAsync(command, content, cancellationToken).ConfigureAwait(false);
-
-                try
-                {
-                    result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                    WriteDebug(debugIP, response.StatusCode, result);
-
-                    if (!response.IsSuccessStatusCode)
-                        throw CheckPointError.CreateException(result, response.StatusCode);
-                }
-                finally
-                {
-                    response.Dispose();
-                }
-
-                return result;
-            }
-            finally
-            {
-                HttpSemaphore.Release();
-            }
+            ((IDisposable)this).Dispose();
         }
 
         /// <summary>
@@ -461,49 +326,6 @@ namespace Koopman.CheckPoint
             return JsonConvert.DeserializeObject<LoginMessageDetails>(result);
         }
 
-        internal HttpClient GetHttpClient()
-        {
-            if (_isDisposed)
-                throw new ObjectDisposedException("Session", "This session has already been disposed!");
-
-            if (_httpClient == null)
-            {
-                var handler = new HttpClientHandler();
-                if (handler.SupportsAutomaticDecompression)
-                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-#if NET45
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(ValidateServerCertficate);
-                ServicePointManager.DefaultConnectionLimit = MaxConnections;
-#else
-                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => ValidateServerCertficate(message, cert, chain, errors);
-                handler.MaxConnectionsPerServer = MaxConnections;
-#endif
-
-                _httpClient = new HttpClient(handler)
-                {
-                    BaseAddress = new Uri($"{URL}/")
-                };
-                _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }
-
-            return _httpClient;
-        }
-
-        internal void WriteDebug(string message)
-        {
-            if (DebugWriter == null) return;
-            DebugWriter?.WriteLine(message);
-            DebugWriter?.Flush();
-        }
-
-        private static string RandomString(int length)
-        {
-            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
         private string UIDToJson(string uid)
         {
             var jObject = new JObject();
@@ -511,45 +333,6 @@ namespace Koopman.CheckPoint
                 jObject.Add("uid", uid);
             string jsonData = JsonConvert.SerializeObject(jObject, JsonFormatting);
             return jsonData;
-        }
-
-        private bool ValidateServerCertficate(
-                    object sender,
-            X509Certificate certificate,
-            X509Chain chain,
-            SslPolicyErrors sslPolicyErrors
-        )
-        {
-#if NETSTANDARD1_6
-            CertificateHash = BitConverter.ToString(certificate?.GetCertHash()).Replace("-", "");
-#else
-            CertificateHash = certificate?.GetCertHashString();
-#endif
-
-            if (CertificateValidation.HasFlag(CertificateValidation.ValidCertificate) && sslPolicyErrors != SslPolicyErrors.None)
-                return false;
-            if (CertificateValidation.HasFlag(CertificateValidation.CertificatePinning) && ExpectedCertificateHash != CertificateHash)
-                return false;
-
-            return true;
-        }
-
-        private string WriteDebug(string command, string data)
-        {
-            if (DebugWriter == null) return null;
-            string id = RandomString(8);
-            WriteDebug($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
-{data}
-");
-            return id;
-        }
-
-        private void WriteDebug(string id, HttpStatusCode code, string data)
-        {
-            if (DebugWriter == null) return;
-            WriteDebug($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Response ID:{id} Code: {code}
-{data}
-");
         }
 
         #endregion Methods
