@@ -215,25 +215,10 @@ namespace Koopman.CheckPoint.Common
 
 #if NET45
                 if (ServicePointManager.ServerCertificateValidationCallback?.Target is CertificateValidator validator)
-                {
-                    bool valid = validator.ValidateHosts.TryGetValue(HostName, out var value);
-
-                    if (valid)
-                    {
-                        if (value.Item1 != CertificateValidation)
-                            throw new Exception("Cannot use different certificate validation methods under .NET 4.5.");
-                        if (value.Item1.HasFlag(CertificateValidation.CertificatePinning) && value.Item2 != CertificateHash)
-                            throw new Exception("Cannot have two differently pinned certificates under .NET 4.5.");
-                    } else
-                    {
-                        if (!validator.ValidateHosts.TryAdd(HostName, new Tuple<CertificateValidation, string>(CertificateValidation, CertificateHash)))
-                            throw new Exception("Failed to add new host name to CertificateValidator");
-                    }
-                }
+                    validator.AddHostCertificateValidation(CertificateValidation, HostName, CertificateHash);
                 else
-                {
                     ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(new CertificateValidator(CertificateValidation, HostName, CertificateHash).ValidateServerCertificate);
-                }
+
                 ServicePointManager.DefaultConnectionLimit = MaxConnections;
 #else
                 handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => new CertificateValidator(CertificateValidation, HostName, CertificateHash).ValidateServerCertificate(message, cert, chain, errors);

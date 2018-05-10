@@ -41,12 +41,7 @@ namespace Koopman.CheckPoint.Common
         /// <param name="expectedCertificateHash">The expected certificate hash if pinning.</param>
         public CertificateValidator(CertificateValidation certificateValidation, string hostName, string expectedCertificateHash)
         {
-            var certValid = certificateValidation;
-            if (certificateValidation.HasFlag(CertificateValidation.Auto))
-                certValid = (string.IsNullOrEmpty(expectedCertificateHash)) ? CertificateValidation.ValidCertificate : CertificateValidation.CertificatePinning;
-
-            if (!ValidateHosts.TryAdd(hostName, new Tuple<CertificateValidation, string>(certValid, expectedCertificateHash)))
-                throw new Exception("Failed to create CertificateValidator");
+            AddHostCertificateValidation(certificateValidation, hostName, expectedCertificateHash);
         }
 
         #endregion Constructors
@@ -92,6 +87,37 @@ namespace Koopman.CheckPoint.Common
             string CertificateHash = serverCert?.GetCertHashString();
 #endif
             return new Tuple<string, string>(serverCert?.Subject, CertificateHash);
+        }
+
+        /// <summary>
+        /// Adds the host certificate validation.
+        /// </summary>
+        /// <param name="certificateValidation">The certificate validation method(s) to use.</param>
+        /// <param name="hostName">Host name for validation.</param>
+        /// <param name="expectedCertificateHash">The expected certificate hash if pinning.</param>
+        /// <exception cref="Exception">
+        /// Cannot use different certificate validation methods under .NET 4.5. or Cannot have two
+        /// differently pinned certificates for the same host under .NET 4.5. or Failed to add new
+        /// host name to CertificateValidator
+        /// </exception>
+        public void AddHostCertificateValidation(CertificateValidation certificateValidation, string hostName, string expectedCertificateHash)
+        {
+            var certValid = certificateValidation;
+            if (certificateValidation.HasFlag(CertificateValidation.Auto))
+                certValid = (string.IsNullOrEmpty(expectedCertificateHash)) ? CertificateValidation.ValidCertificate : CertificateValidation.CertificatePinning;
+
+            if (ValidateHosts.TryGetValue(hostName, out var value))
+            {
+                if (value.Item1 != certValid)
+                    throw new Exception("Cannot use different certificate validation methods under .NET 4.5.");
+                if (value.Item1.HasFlag(CertificateValidation.CertificatePinning) && value.Item2 != expectedCertificateHash)
+                    throw new Exception("Cannot have two differently pinned certificates for the same host under .NET 4.5.");
+            }
+            else
+            {
+                if (!ValidateHosts.TryAdd(hostName, new Tuple<CertificateValidation, string>(certValid, expectedCertificateHash)))
+                    throw new Exception("Failed to add new host name to CertificateValidator");
+            }
         }
 
         /// <summary>
