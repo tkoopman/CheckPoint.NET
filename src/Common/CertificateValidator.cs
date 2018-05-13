@@ -48,6 +48,10 @@ namespace Koopman.CheckPoint.Common
 
         #region Properties
 
+        /// <summary>
+        /// The hosts with validation details. Key is the hostname validation is for. Value of each
+        /// key if a Tuple where Item1 is CertificateValidation and Item2 is the Hash if pinning used.
+        /// </summary>
         internal readonly ConcurrentDictionary<string, Tuple<CertificateValidation, string>> ValidateHosts = new ConcurrentDictionary<string, Tuple<CertificateValidation, string>>();
 
         #endregion Properties
@@ -59,7 +63,7 @@ namespace Koopman.CheckPoint.Common
         /// </summary>
         /// <param name="url">The URL to get server certificate from.</param>
         /// <returns>Tuple where Item1 is the certificate subject, and Item2 is the Hash.</returns>
-        public static Tuple<string, string> GetServerCertificateHash(string url)
+        public static HashDetails GetServerCertificateHash(string url)
         {
             X509Certificate2 serverCert = null;
 #if NET45
@@ -81,12 +85,7 @@ namespace Koopman.CheckPoint.Common
                 using (var r = httpClient.GetAsync(url).GetAwaiter().GetResult()) { }
             }
 #endif
-#if NETSTANDARD1_6
-            string CertificateHash = BitConverter.ToString(serverCert?.GetCertHash()).Replace("-", "");
-#else
-            string CertificateHash = serverCert?.GetCertHashString();
-#endif
-            return new Tuple<string, string>(serverCert?.Subject, CertificateHash);
+            return new HashDetails(serverCert);
         }
 
         /// <summary>
@@ -148,20 +147,58 @@ namespace Koopman.CheckPoint.Common
             if (!ValidateHosts.TryGetValue(hostName, out var value) || value == null)
                 return sslPolicyErrors == SslPolicyErrors.None;
 
-#if NETSTANDARD1_6
-            string CertificateHash = BitConverter.ToString(certificate?.GetCertHash()).Replace("-", "");
-#else
-            string CertificateHash = certificate?.GetCertHashString();
-#endif
-
             if (value.Item1.HasFlag(CertificateValidation.ValidCertificate) && sslPolicyErrors != SslPolicyErrors.None)
                 return false;
-            if (value.Item1.HasFlag(CertificateValidation.CertificatePinning) && value.Item2 != CertificateHash)
+            if (value.Item1.HasFlag(CertificateValidation.CertificatePinning) && value.Item2 != GetHash(certificate))
                 return false;
 
             return true;
         }
 
+        internal static string GetHash(X509Certificate Certificate)
+        {
+#if NETSTANDARD1_6
+            return BitConverter.ToString(Certificate?.GetCertHash()).Replace("-", "");
+#else
+            return Certificate?.GetCertHashString();
+#endif
+        }
+
         #endregion Methods
+
+        #region Classes
+
+        /// <summary>
+        /// Results of <see cref="GetServerCertificateHash(string)" />
+        /// </summary>
+        public class HashDetails
+        {
+            #region Constructors
+
+            internal HashDetails(X509Certificate2 certificate)
+            {
+                Certificate = certificate;
+            }
+
+            #endregion Constructors
+
+            #region Properties
+
+            /// <summary>
+            /// Gets the certificate.
+            /// </summary>
+            /// <value>The certificate.</value>
+            public X509Certificate2 Certificate { get; }
+
+            /// <summary>
+            /// Gets the hash.
+            /// </summary>
+            /// <value>The hash.</value>
+            public string Hash { get => GetHash(Certificate); }
+
+            #endregion Properties
+        }
+
+        #endregion Classes
     }
 }

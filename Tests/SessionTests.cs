@@ -35,8 +35,8 @@ namespace Tests
             string ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
 
             var data = CertificateValidator.GetServerCertificateHash($"https://{ManagementServer}");
-            Console.WriteLine($"Subject: {data.Item1}");
-            Console.WriteLine($"Hash: {data.Item2}");
+            Console.WriteLine($"Subject: {data.Certificate.Subject}");
+            Console.WriteLine($"Hash: {data.Hash}");
         }
 
         [TestMethod]
