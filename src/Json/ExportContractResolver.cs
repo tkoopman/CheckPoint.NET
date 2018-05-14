@@ -50,10 +50,39 @@ namespace Koopman.CheckPoint.Json
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
+            property.Order = 100;
+
+            if (typeof(JsonExport) != member.DeclaringType)
+            {
+                if (typeof(Domain).GetTypeInfo().IsAssignableFrom(property.PropertyType) ||
+                    typeof(IEnumerable<Tag>).GetTypeInfo().IsAssignableFrom(property.PropertyType) ||
+                    typeof(Tag).GetTypeInfo().IsAssignableFrom(property.PropertyType) ||
+                    typeof(AccessRules.RulebaseAction).GetTypeInfo().IsAssignableFrom(property.PropertyType) ||
+                    typeof(AccessRules.TrackType).GetTypeInfo().IsAssignableFrom(property.PropertyType))
+                {
+                    property.Converter = ToStringConverter.Instance;
+                }
+                else if (typeof(IEnumerable<IObjectSummary>).GetTypeInfo().IsAssignableFrom(property.PropertyType) ||
+                    typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(property.PropertyType))
+                {
+                    property.Converter = ToStringConverter.UIDInstance;
+                }
+                if (typeof(IEnumerable<object>).GetTypeInfo().IsAssignableFrom(property.PropertyType))
+                {
+                    property.ShouldSerialize = instance =>
+                    {
+                        var p = instance.GetType().GetTypeInfo().GetAllProperties().FirstOrDefault(prop => prop.Name.Equals(property.UnderlyingName));
+                        object value = p?.GetValue(instance);
+                        if (value is IEnumerable<object> e)
+                            return e.Any();
+
+                        return true;
+                    };
+                }
+            }
 
             if (typeof(IObjectSummary).GetTypeInfo().IsAssignableFrom(member.DeclaringType))
             {
-                property.Order = 100;
                 switch (member.Name)
                 {
                     case nameof(IObjectSummary.DetailLevel):
@@ -77,73 +106,7 @@ namespace Koopman.CheckPoint.Json
                     case nameof(IObjectSummary.Type):
                         property.Order = 3;
                         break;
-
-                    case nameof(AccessRule.Layer):
-                    case nameof(AccessRule.InlineLayer):
-                    case nameof(AccessSection.Rulebase):
-                    case nameof(AccessSection.Objects):
-                        property.Converter = ToStringConverter.UIDInstance;
-                        break;
-
-                    case nameof(IObjectSummary.Domain):
-                    case nameof(ObjectBase<IObjectSummary>.Tags):
-                    case nameof(AccessRule.Action):
-                        property.Converter = ToStringConverter.Instance;
-                        break;
-
-                    default:
-                        if (
-                            property.PropertyType.GetTypeInfo().IsGenericType &&
-                            property.PropertyType.GetGenericTypeDefinition() == typeof(MemberMembershipChangeTracking<>)
-                            )
-                            property.Converter = ToStringConverter.UIDInstance;
-
-                        if (typeof(IEnumerable<object>).GetTypeInfo().IsAssignableFrom(property.PropertyType))
-                            property.ShouldSerialize = instance =>
-                                {
-                                    var p = instance.GetType().GetTypeInfo().GetAllProperties().FirstOrDefault(prop => prop.Name.Equals(property.UnderlyingName));
-                                    object value = p?.GetValue(instance);
-                                    if (value is IEnumerable<object> e)
-                                        return e.Any();
-
-                                    return true;
-                                };
-                        break;
                 }
-            }
-            else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults) && member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Objects)))
-            {
-                property.Converter = ToStringConverter.UIDInstance;
-            }
-            else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.Rules) &&
-                (
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Layer))  ||
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Rule))   ||
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Package))
-                ))
-            {
-                property.Converter = ToStringConverter.UIDInstance;
-            }
-            else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.NATs) &&
-                (
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.NATs.Rule))   ||
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.NATs.Package))
-                ))
-            {
-                property.Converter = ToStringConverter.UIDInstance;
-            }
-            else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.ThreatRules) &&
-                (
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Layer))  || 
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Rule))   ||
-                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Package))
-                ))
-            {
-                property.Converter = ToStringConverter.UIDInstance;
-            }
-            else if (member.DeclaringType == typeof(AccessRules.Track) && member.Name.Equals(nameof(AccessRules.Track.Type)))
-            {
-                property.Converter = ToStringConverter.Instance;
             }
             else if (member.DeclaringType == typeof(JsonExport) && member.Name.Equals(nameof(JsonExport.WhereUsed)))
             {
