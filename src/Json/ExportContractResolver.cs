@@ -116,18 +116,28 @@ namespace Koopman.CheckPoint.Json
                 property.Converter = ToStringConverter.UIDInstance;
             }
             else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.Rules) &&
-                (member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Layer)) ||
-                member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Rule)) ||
-                member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Package))))
+                (
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Layer))  ||
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Rule))   ||
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.Rules.Package))
+                ))
             {
                 property.Converter = ToStringConverter.UIDInstance;
             }
-            else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.NATs) && member.Name.Equals(nameof(WhereUsed.WhereUsedResults.NATs.Rule)))
+            else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.NATs) &&
+                (
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.NATs.Rule))   ||
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.NATs.Package))
+                ))
             {
                 property.Converter = ToStringConverter.UIDInstance;
             }
             else if (member.DeclaringType == typeof(WhereUsed.WhereUsedResults.ThreatRules) &&
-                (member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Layer)) || member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Rule))))
+                (
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Layer))  || 
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Rule))   ||
+                    member.Name.Equals(nameof(WhereUsed.WhereUsedResults.ThreatRules.Package))
+                ))
             {
                 property.Converter = ToStringConverter.UIDInstance;
             }
