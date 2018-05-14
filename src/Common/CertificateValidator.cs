@@ -68,8 +68,13 @@ namespace Koopman.CheckPoint.Common
             X509Certificate2 serverCert = null;
 #if NET45
             var request = (HttpWebRequest)WebRequest.Create(url);
-            var response = (HttpWebResponse)request.GetResponse();
-            response.Close();
+            try {
+                var response = (HttpWebResponse)request.GetResponse();
+                response.Close();
+            } catch (System.Net.WebException e) {
+                if (e.Status != System.Net.WebExceptionStatus.TrustFailure)
+                    throw;
+            }
             serverCert = new X509Certificate2(request.ServicePoint.Certificate);
 #else
             var handler = new HttpClientHandler

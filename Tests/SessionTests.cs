@@ -20,6 +20,7 @@
 using Koopman.CheckPoint.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Tests
@@ -32,6 +33,7 @@ namespace Tests
         [TestMethod]
         public void GetCertificateHash()
         {
+            ServicePointManager.ServerCertificateValidationCallback = null;
             string ManagementServer = TestContext.Properties["ManagementServer"]?.ToString() ?? Environment.GetEnvironmentVariable("TestMgmtServer");
 
             var data = CertificateValidator.GetServerCertificateHash($"https://{ManagementServer}");
