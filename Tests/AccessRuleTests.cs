@@ -70,11 +70,14 @@ namespace Tests
             // Find by rule#
             a = await Session.FindAccessRule(layer.Name, 1, DetailLevels.Full);
             Assert.AreEqual("Test Rule", a.Name);
+            Assert.AreEqual("1", a.RuleNumber);
 
             // Find rule base
             var b = await Session.FindAccessRulebase(layer.Name, detailLevel: DetailLevels.Full);
             Assert.IsNotNull(b);
             Assert.AreEqual(2, b.Total);
+            a = (AccessRule)b[0];
+            Assert.AreEqual("1", a.RuleNumber);
 
             // Export Rule base
             var export = new JsonExport(Session);

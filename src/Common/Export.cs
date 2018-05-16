@@ -63,6 +63,12 @@ namespace Koopman.CheckPoint.Common
 
         #region Fields
 
+        /// <summary>
+        /// ExportLock is not actually used to lock anything but to keep track if any Add operations
+        /// are in progress. If it is at 0 then no adds running. When each add method starts it will
+        /// "release a lock" increase that count until they request a lock again to reduce count back
+        /// down at end of add. Has to be at 0 for Export
+        /// </summary>
         private SemaphoreSlim ExportLock = new SemaphoreSlim(0);
 
         #endregion Fields

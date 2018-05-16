@@ -39,6 +39,7 @@ namespace Koopman.CheckPoint
 
             var accessRule = JsonConvert.DeserializeObject<AccessRule>(result, new JsonSerializerSettings() { Converters = { objectConverter } });
 
+            accessRule.RuleNumber = ruleNumber.ToString();
             objectConverter.PostDeserilization(accessRule);
 
             return accessRule;
