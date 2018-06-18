@@ -58,7 +58,8 @@ namespace Koopman.CheckPoint.Common
         /// <param name="debugWriter">The debug writer.</param>
         /// <param name="indentJson">if set to <c>true</c> json sent to server will be indented.</param>
         /// <param name="maxConnections">The maximum connections to server.</param>
-        protected HttpSession(string url, CertificateValidation certificateValidation, string certificateHash, TextWriter debugWriter, bool indentJson, int maxConnections)
+        /// <param name="timeout">The HTTP timeout per request.</param>
+        protected HttpSession(string url, CertificateValidation certificateValidation, string certificateHash, TextWriter debugWriter, bool indentJson, int maxConnections, TimeSpan? timeout)
         {
             var uri = new Uri(url);
             HostName = uri.Host;
@@ -69,6 +70,7 @@ namespace Koopman.CheckPoint.Common
             MaxConnections = maxConnections;
             URL = url;
             HttpSemaphore = new SemaphoreSlim(maxConnections + 1);
+            Timeout = timeout;
         }
 
         #endregion Constructors
@@ -76,6 +78,7 @@ namespace Koopman.CheckPoint.Common
         private readonly string CertificateHash;
         private readonly CertificateValidation CertificateValidation;
         private readonly string HostName;
+        private readonly TimeSpan? Timeout;
 
         #region Properties
 
@@ -229,6 +232,7 @@ namespace Koopman.CheckPoint.Common
                 {
                     BaseAddress = new Uri($"{URL}/")
                 };
+                if (Timeout != null) _httpClient.Timeout = (TimeSpan)Timeout;
                 _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             }
 

@@ -49,11 +49,12 @@ namespace Koopman.CheckPoint.IA
         /// if set to <c>true</c> the Json data sent to the server is indented.
         /// </param>
         /// <param name="maxConnections">The maximum HTTPS connections to gateway.</param>
+        /// <param name="httpTimeout">The HTTP timeout. Default 100 seconds</param>
         public IASession(
             string gateway, string sharedSecret, string certificateHash = null, int port = 443,
             CertificateValidation certificateValidation = CertificateValidation.Auto,
-            TextWriter debugWriter = null, bool indentJson = false, int maxConnections = 3) :
-            base($"https://{gateway}:{port}/_IA_API/v1.0", certificateValidation, certificateHash, debugWriter, indentJson, maxConnections)
+            TextWriter debugWriter = null, bool indentJson = false, int maxConnections = 3, TimeSpan? httpTimeout = null) :
+            base($"https://{gateway}:{port}/_IA_API/v1.0", certificateValidation, certificateHash, debugWriter, indentJson, maxConnections, httpTimeout)
         {
             SharedSecret = sharedSecret;
         }

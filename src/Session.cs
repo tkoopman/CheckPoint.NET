@@ -18,19 +18,12 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint.Common;
-using Koopman.CheckPoint.Exceptions;
 using Koopman.CheckPoint.Internal;
 using Koopman.CheckPoint.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Security;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,10 +35,10 @@ namespace Koopman.CheckPoint
     /// <example>
     /// <code>
     /// var session = Session.Login(
-    ///     managementServer: "192.168.1.1",
-    ///     userName: "admin",
-    ///     password: "***",
-    ///     certificateValidation: false
+    /// managementServer: "192.168.1.1",
+    /// userName: "admin",
+    /// password: "***",
+    /// certificateValidation: false
     /// );
     /// </code>
     /// </example>
@@ -54,8 +47,8 @@ namespace Koopman.CheckPoint
     {
         #region Constructors
 
-        private Session(string url, DetailLevelActions detailLevelAction, CertificateValidation certificateValidation, string certificateHash, TextWriter debugWriter, bool indentJson, int maxConnections) :
-            base(url, certificateValidation, certificateHash, debugWriter, indentJson, maxConnections)
+        private Session(string url, DetailLevelActions detailLevelAction, CertificateValidation certificateValidation, string certificateHash, TextWriter debugWriter, bool indentJson, int maxConnections, TimeSpan? httpTimeout) :
+            base(url, certificateValidation, certificateHash, debugWriter, indentJson, maxConnections, httpTimeout)
         {
             DetailLevelAction = detailLevelAction;
         }
@@ -165,13 +158,15 @@ namespace Koopman.CheckPoint
         /// <param name="maxConnections">The maximum connections to establish to management server.</param>
         /// <param name="debugWriter">
         /// The debug writer. WARNING: Setting debug writer here will output you login credentials to
-        /// the debug writer in the clear. Set <see cref="HttpSession.DebugWriter" /> after Login to prevent this.
+        /// the debug writer in the clear. Set <see cref="HttpSession.DebugWriter" /> after Login to
+        /// prevent this.
         /// </param>
         /// <param name="certificateHash">
         /// Used to check the the server SSL certificate matches this hash. Valid only if
         /// CertificateValidation contains the flag <see cref="CertificateValidation.Auto" /> or <see cref="CertificateValidation.CertificatePinning" />
         /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
+        /// <param name="httpTimeout">The HTTP timeout. Default: 100 seconds</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the New
         /// Logged in Session object
@@ -192,7 +187,8 @@ namespace Koopman.CheckPoint
                     int maxConnections = 5,
                     TextWriter debugWriter = null,
                     string certificateHash = null,
-                    CancellationToken cancellationToken = default)
+                    CancellationToken cancellationToken = default,
+                    TimeSpan? httpTimeout = null)
         {
             var session = new Session(
                     url: $"https://{managementServer}:{port}/web_api/",
@@ -201,7 +197,8 @@ namespace Koopman.CheckPoint
                     indentJson: indentJson,
                     maxConnections: maxConnections,
                     certificateHash: certificateHash,
-                    debugWriter: debugWriter
+                    debugWriter: debugWriter,
+                    httpTimeout: httpTimeout
                 );
 
             var data = new JObject()
