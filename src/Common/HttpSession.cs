@@ -194,8 +194,11 @@ namespace Koopman.CheckPoint.Common
         internal void WriteDebug(string message)
         {
             if (DebugWriter == null) return;
-            DebugWriter?.WriteLine(message);
-            DebugWriter?.Flush();
+            lock (DebugWriter)
+            {
+                DebugWriter?.WriteLine(message);
+                DebugWriter?.Flush();
+            }
         }
 
         private static string RandomString(int length)
