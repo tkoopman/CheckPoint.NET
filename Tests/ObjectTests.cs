@@ -75,6 +75,14 @@ namespace Tests
             Assert.IsNotNull(a);
         }
 
+        [TestMethod]
+        public async Task WhereUsedCustom()
+        {
+            var a = await Session.FindWhereUsedCustom("domain-udp", DetailLevels.Standard, true);
+            Assert.IsNotNull(a);
+            Assert.AreEqual(1, a.UsedIndirectly.Total);
+        }
+
         #endregion Methods
     }
 }

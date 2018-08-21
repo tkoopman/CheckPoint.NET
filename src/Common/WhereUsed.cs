@@ -30,7 +30,7 @@ namespace Koopman.CheckPoint.Common
         #region Constructors
 
         [JsonConstructor]
-        private WhereUsed(WhereUsedResults usedDirectly, WhereUsedResults usedIndirectly)
+        internal WhereUsed(WhereUsedResults usedDirectly, WhereUsedResults usedIndirectly)
         {
             UsedDirectly = usedDirectly;
             UsedIndirectly = usedIndirectly;
@@ -66,7 +66,7 @@ namespace Koopman.CheckPoint.Common
             #region Constructors
 
             [JsonConstructor]
-            private WhereUsedResults(int total, IObjectSummary[] objects, Rules[] accessControlRules, NATs[] natRules, ThreatRules[] threatPreventionRules)
+            internal WhereUsedResults(int total, IObjectSummary[] objects, Rules[] accessControlRules, NATs[] natRules, ThreatRules[] threatPreventionRules)
             {
                 Total = total;
                 Objects = objects;
