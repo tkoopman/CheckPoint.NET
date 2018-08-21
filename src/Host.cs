@@ -159,6 +159,12 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.Host;
+
+        /// <inheritdoc />
+        public override string Type => "host";
+
         #endregion Properties
 
         #region Methods

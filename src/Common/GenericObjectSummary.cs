@@ -159,6 +159,9 @@ namespace Koopman.CheckPoint.Common
             internal set => _name = value;
         }
 
+        /// <inheritdoc />
+        public virtual ObjectType ObjectType => ObjectType.Unknown;
+
         /// <summary>
         /// Type of the object.
         /// </summary>

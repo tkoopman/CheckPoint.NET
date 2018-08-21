@@ -92,6 +92,12 @@ namespace Koopman.CheckPoint
             internal set => _members = value;
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ServiceGroup;
+
+        /// <inheritdoc />
+        public override string Type => "service-group";
+
         #endregion Properties
 
         #region Methods

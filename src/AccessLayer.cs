@@ -31,7 +31,7 @@ namespace Koopman.CheckPoint
     /// Add new access layer using <see cref="AccessLayer.AccessLayer(Session, bool)" />
     /// <code>
     /// var al = new AccessLayer(Session) {
-    ///     Name = "MyAccessLayer"
+    /// Name = "MyAccessLayer"
     /// };
     /// al.AcceptChanges();
     /// </code>
@@ -176,6 +176,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.AccessLayer;
+
         /// <summary>
         /// Whether this layer is shared.
         /// </summary>
@@ -192,6 +195,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override string Type => "access-layer";
 
         [JsonProperty(PropertyName = "add-default-rule")]
         private bool AddDefaultRule { get; set; }

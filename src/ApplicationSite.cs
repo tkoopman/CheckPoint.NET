@@ -32,7 +32,7 @@ namespace Koopman.CheckPoint
     /// Add new site using <see cref="ApplicationSite.ApplicationSite(Session, bool)" />
     /// <code>
     /// var site = new ApplicationSite(Session) {
-    ///     Name = "MySite"
+    /// Name = "MySite"
     /// };
     /// site.UrlList.Add("www.mysite.com");
     /// site.AcceptChanges();
@@ -54,7 +54,7 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var site = new ApplicationSite(Session) {
-        ///     Name = "MySite"
+        /// Name = "MySite"
         /// };
         /// site.UrlList.Add("www.mysite.com");
         /// site.AcceptChanges();
@@ -196,6 +196,9 @@ namespace Koopman.CheckPoint
             internal set => _userDefined = value;
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ApplicationSite;
+
         /// <summary>
         /// Each application is assigned to one primary category based on its most defining aspect.
         /// </summary>
@@ -218,6 +221,9 @@ namespace Koopman.CheckPoint
         /// <value>The URLs that determine this particular application.</value>
         [JsonProperty(PropertyName = "risk")]
         public string Risk { get; internal set; }
+
+        /// <inheritdoc />
+        public override string Type => "application-site";
 
         /// <summary>
         /// URLs that determine this particular application.

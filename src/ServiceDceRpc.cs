@@ -117,6 +117,12 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ServiceDceRpc;
+
+        /// <inheritdoc />
+        public override string Type => "service-dce-rpc";
+
         #endregion Properties
 
         #region Methods

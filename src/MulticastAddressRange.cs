@@ -33,9 +33,9 @@ namespace Koopman.CheckPoint
     /// Add new multicast address range using <see cref="MulticastAddressRange.MulticastAddressRange(Session, bool)" />
     /// <code>
     /// var mar = new MulticastAddressRange(Session) {
-    ///     Name = "MyMulticastAddressRange",
-    ///     IPv6AddressFirst = IPAddress.Parse("ff05::1:3"),
-    ///     IPv6AddressLast = IPAddress.Parse("ff05::1:3")
+    /// Name = "MyMulticastAddressRange",
+    /// IPv6AddressFirst = IPAddress.Parse("ff05::1:3"),
+    /// IPv6AddressLast = IPAddress.Parse("ff05::1:3")
     /// };
     /// mar.AcceptChanges();
     /// </code>
@@ -66,9 +66,9 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var mar = new MulticastAddressRange(Session) {
-        ///     Name = "MyMulticastAddressRange",
-        ///     IPv6AddressFirst = IPAddress.Parse("ff05::1:3"),
-        ///     IPv6AddressLast = IPAddress.Parse("ff05::1:3")
+        /// Name = "MyMulticastAddressRange",
+        /// IPv6AddressFirst = IPAddress.Parse("ff05::1:3"),
+        /// IPv6AddressLast = IPAddress.Parse("ff05::1:3")
         /// };
         /// mar.AcceptChanges();
         /// </code>
@@ -185,6 +185,12 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.MulticastAddressRange;
+
+        /// <inheritdoc />
+        public override string Type => "multicast-address-range";
 
         #endregion Properties
 

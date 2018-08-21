@@ -138,6 +138,12 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ServiceICMP;
+
+        /// <inheritdoc />
+        public override string Type => "service-icmp";
+
         #endregion Properties
 
         #region Methods

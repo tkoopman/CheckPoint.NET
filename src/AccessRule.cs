@@ -273,6 +273,9 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "layer", ObjectCreationHandling = ObjectCreationHandling.Replace)]
         public AccessLayer Layer { get; internal set; }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.AccessRule;
+
         /// <summary>
         /// Gets the rule number.
         /// </summary>
@@ -357,6 +360,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override string Type => "access-rule";
 
         /// <summary>
         /// VPN objects.

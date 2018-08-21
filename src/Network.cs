@@ -34,9 +34,9 @@ namespace Koopman.CheckPoint
     /// Add new network using <see cref="Network.Network(Session, bool)" />
     /// <code>
     /// var n = new Network(Session) {
-    ///     Name = "MyNetwork",
-    ///     Subnet4 = IPAddress.Parse("10.0.0.0"),
-    ///     MaskLength4 = 24
+    /// Name = "MyNetwork",
+    /// Subnet4 = IPAddress.Parse("10.0.0.0"),
+    /// MaskLength4 = 24
     /// };
     /// n.AcceptChanges();
     /// </code>
@@ -69,9 +69,9 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var n = new Network(Session) {
-        ///     Name = "MyNetwork",
-        ///     Subnet4 = IPAddress.Parse("10.0.0.0"),
-        ///     MaskLength4 = 24
+        /// Name = "MyNetwork",
+        /// Subnet4 = IPAddress.Parse("10.0.0.0"),
+        /// MaskLength4 = 24
         /// };
         /// n.AcceptChanges();
         /// </code>
@@ -185,6 +185,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.Network;
+
         /// <summary>
         /// Gets or sets the IPv4 network address.
         /// </summary>
@@ -236,6 +239,9 @@ namespace Koopman.CheckPoint
 
             set => MaskLength4 = Internal.SubnetMask.SubnetMaskToMaskLength(value);
         }
+
+        /// <inheritdoc />
+        public override string Type => "network";
 
         #endregion Properties
 

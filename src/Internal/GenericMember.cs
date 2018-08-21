@@ -87,6 +87,9 @@ namespace Koopman.CheckPoint.Internal
         /// <remarks>Requires <see cref="IObjectSummary.DetailLevel" /> of at least <see cref="DetailLevels.Standard" /></remarks>
         public string Name => throw new DetailLevelException(DetailLevel, DetailLevels.Standard);
 
+        /// <inheritdoc />
+        public ObjectType ObjectType => ObjectType.Unknown;
+
         /// <summary>
         /// Type of the object.
         /// </summary>

@@ -60,6 +60,12 @@ namespace Koopman.CheckPoint
         string Name { get; }
 
         /// <summary>
+        /// The object type.
+        /// </summary>
+        /// <value>The object type.</value>
+        ObjectType ObjectType { get; }
+
+        /// <summary>
         /// Type of the object.
         /// </summary>
         /// <value>The type.</value>

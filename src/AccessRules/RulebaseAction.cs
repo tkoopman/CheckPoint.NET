@@ -101,6 +101,9 @@ namespace Koopman.CheckPoint.AccessRules
         public string Name { get; }
 
         /// <inheritdoc />
+        public ObjectType ObjectType => ObjectType.Unknown;
+
+        /// <inheritdoc />
         public string Type { get; }
 
         /// <inheritdoc />
