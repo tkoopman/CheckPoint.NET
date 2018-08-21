@@ -56,7 +56,7 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var group = new ApplicationGroup(Session) {
-        ///     Name = "MyAppGroup"
+        /// Name = "MyAppGroup"
         /// };
         /// group.Members.Add("App1");
         /// group.Members.Add("App2");
@@ -81,7 +81,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
-        protected internal ApplicationGroup(Session session, DetailLevels detailLevel) : base(session, detailLevel, "application-site-group")
+        protected internal ApplicationGroup(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new MemberMembershipChangeTracking<ApplicationGroup>(this);
             _members = new MemberMembershipChangeTracking<IApplicationGroupMember>(this);
@@ -119,6 +119,12 @@ namespace Koopman.CheckPoint
             get => _members;
             internal set => _members = value;
         }
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ApplicationSiteGroup;
+
+        /// <inheritdoc />
+        public override string Type => "application-site-group";
 
         #endregion Properties
 

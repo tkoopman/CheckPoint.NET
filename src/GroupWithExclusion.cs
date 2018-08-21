@@ -34,9 +34,9 @@ namespace Koopman.CheckPoint
     /// Add new group with exclusion using <see cref="GroupWithExclusion.GroupWithExclusion(Session, bool)" />
     /// <code>
     /// var gwe = new GroupWithExclusion(Session) {
-    ///     Name = "MyGroupWithExclusion",
-    ///     Include = ObjectSummary.Any,
-    ///     Except = Session.FindGroup("ExcludeGroup")
+    /// Name = "MyGroupWithExclusion",
+    /// Include = ObjectSummary.Any,
+    /// Except = Session.FindGroup("ExcludeGroup")
     /// };
     /// gwe.AcceptChanges();
     /// </code>
@@ -63,9 +63,9 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var gwe = new GroupWithExclusion(Session) {
-        ///     Name = "MyGroupWithExclusion",
-        ///     Include = ObjectSummary.Any,
-        ///     Except = Session.FindGroup("ExcludeGroup")
+        /// Name = "MyGroupWithExclusion",
+        /// Include = ObjectSummary.Any,
+        /// Except = Session.FindGroup("ExcludeGroup")
         /// };
         /// gwe.AcceptChanges();
         /// </code>
@@ -124,6 +124,12 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.GroupWithExclusion;
+
+        /// <inheritdoc />
+        public override string Type => "group-with-exclusion";
 
         /// <inheritdoc />
         protected override IContractResolver AddContractResolver => GroupWithExclusionContractResolver.AddInstance;
@@ -227,6 +233,7 @@ namespace Koopman.CheckPoint
             public string Name { get; }
 
             string IObjectSummary.Name => throw new System.NotImplementedException();
+            public ObjectType ObjectType => throw new System.NotImplementedException();
             public string Type => throw new System.NotImplementedException();
 
             string IObjectSummary.Type => throw new System.NotImplementedException();

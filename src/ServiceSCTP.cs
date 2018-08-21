@@ -142,6 +142,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ServiceSCTP;
+
         /// <summary>
         /// The number of the port used to provide this service.
         /// </summary>
@@ -216,6 +219,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override string Type => "service-sctp";
 
         /// <summary>
         /// Gets or sets the use default session timeout.

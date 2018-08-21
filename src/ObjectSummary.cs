@@ -74,24 +74,6 @@ namespace Koopman.CheckPoint
         {
             Session = session;
             DetailLevel = detailLevel;
-
-            // Set Type for New Objects.
-            Type = GetType().Name.CamelCaseToRegular("-").ToLower();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectSummary" /> class.
-        /// </summary>
-        /// <param name="session">The current session.</param>
-        /// <param name="detailLevel">The detail level.</param>
-        /// <param name="type">
-        /// The Check Point type. Must match type property returned in JSON data.
-        /// </param>
-        protected internal ObjectSummary(Session session, DetailLevels detailLevel, string type)
-        {
-            Session = session;
-            DetailLevel = detailLevel;
-            Type = type;
         }
 
         #endregion Constructors
@@ -141,12 +123,15 @@ namespace Koopman.CheckPoint
             }
         }
 
+        [JsonIgnore]
+        public abstract ObjectType ObjectType { get; }
+
         /// <summary>
         /// Type of the object.
         /// </summary>
         /// <value>The type.</value>
         [JsonProperty(PropertyName = "type")]
-        public string Type { get; private set; }
+        public abstract string Type { get; }
 
         /// <summary>
         /// Object unique identifier.

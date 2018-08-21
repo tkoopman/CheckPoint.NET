@@ -29,7 +29,7 @@ namespace Koopman.CheckPoint
     /// Add new security zone using <see cref="SecurityZone.SecurityZone(Session, bool)" />
     /// <code>
     /// var sz = new SecurityZone(Session) {
-    ///     Name = "MySecurityZone"
+    /// Name = "MySecurityZone"
     /// };
     /// sz.AcceptChanges();
     /// </code>
@@ -49,7 +49,7 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var sz = new SecurityZone(Session) {
-        ///     Name = "MySecurityZone"
+        /// Name = "MySecurityZone"
         /// };
         /// sz.AcceptChanges();
         /// </code>
@@ -76,6 +76,16 @@ namespace Koopman.CheckPoint
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.SecurityZone;
+
+        /// <inheritdoc />
+        public override string Type => "security-zone";
+
+        #endregion Properties
 
         #region Classes
 

@@ -60,6 +60,9 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "objects-dictionary", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public List<IObjectSummary> Objects { get; internal set; }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.AccessSection;
+
         /// <summary>
         /// <para type="description">
         /// How much details are returned depends on the details-level field of the request. This
@@ -74,6 +77,9 @@ namespace Koopman.CheckPoint
         /// </summary>
         [JsonProperty(PropertyName = "to")]
         public int To { get; set; }
+
+        /// <inheritdoc />
+        public override string Type => "access-section";
 
         #endregion Properties
 

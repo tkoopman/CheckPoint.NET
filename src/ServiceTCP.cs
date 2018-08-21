@@ -164,6 +164,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ServiceTCP;
+
         /// <summary>
         /// Indicates whether this service is a Data Domain service which has been overridden.
         /// </summary>
@@ -275,6 +278,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override string Type => "service-tcp";
 
         /// <summary>
         /// Gets or sets the use default session timeout.

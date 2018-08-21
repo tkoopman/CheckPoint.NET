@@ -55,6 +55,16 @@ namespace Koopman.CheckPoint
 
         #endregion Constructors
 
+        #region Properties
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.Tag;
+
+        /// <inheritdoc />
+        public override string Type => "tag";
+
+        #endregion Properties
+
         #region Classes
 
         /// <summary>

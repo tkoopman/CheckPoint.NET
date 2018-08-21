@@ -32,7 +32,7 @@ namespace Koopman.CheckPoint
     /// Add new group using <see cref="Group.Group(Session, bool)" />
     /// <code>
     /// var group = new Group(Session) {
-    ///     Name = "MyGroup"
+    /// Name = "MyGroup"
     /// };
     /// group.Members.Add("MyHost1");
     /// group.Members.Add("MyHost2");
@@ -63,7 +63,7 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var group = new Group(Session) {
-        ///     Name = "MyGroup"
+        /// Name = "MyGroup"
         /// };
         /// group.Members.Add("MyHost1");
         /// group.Members.Add("MyHost2");
@@ -119,6 +119,12 @@ namespace Koopman.CheckPoint
             get => _members;
             internal set => _members = value;
         }
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.Group;
+
+        /// <inheritdoc />
+        public override string Type => "group";
 
         #endregion Properties
 

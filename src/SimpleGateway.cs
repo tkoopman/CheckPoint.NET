@@ -305,6 +305,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.SimpleGateway;
+
         /// <summary>
         /// Gets or sets the gateway platform operating system.
         /// </summary>
@@ -422,6 +425,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override string Type => "simple-gateway";
 
         /// <summary>
         /// Gets or sets a value indicating whether URL Filtering blade is enabled.

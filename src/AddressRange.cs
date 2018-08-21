@@ -73,9 +73,9 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var ar = new AddressRange(Session) {
-        ///     Name = "MyAddressRange",
-        ///     IPv4AddressFirst = IPAddress.Parse("10.1.1.1"),
-        ///     IPv4AddressLast = IPAddress.Parse("10.1.1.10")
+        /// Name = "MyAddressRange",
+        /// IPv4AddressFirst = IPAddress.Parse("10.1.1.1"),
+        /// IPv4AddressLast = IPAddress.Parse("10.1.1.10")
         /// };
         /// ar.AcceptChanges();
         /// </code>
@@ -203,6 +203,12 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.AddressRange;
+
+        /// <inheritdoc />
+        public override string Type => "address-range";
 
         #endregion Properties
 

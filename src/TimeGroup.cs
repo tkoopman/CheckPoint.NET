@@ -61,7 +61,7 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var tg = new TimeGroup(Session) {
-        ///     Name = "MyTimeGroup"
+        /// Name = "MyTimeGroup"
         /// };
         /// tg.Members.Add("Weekend");
         /// tg.AcceptChanges();
@@ -115,6 +115,12 @@ namespace Koopman.CheckPoint
             get => _members;
             internal set => _members = value;
         }
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.TimeGroup;
+
+        /// <inheritdoc />
+        public override string Type => "time-group";
 
         #endregion Properties
 

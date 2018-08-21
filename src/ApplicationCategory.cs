@@ -32,7 +32,7 @@ namespace Koopman.CheckPoint
     /// Add new category using <see cref="ApplicationCategory.ApplicationCategory(Session, bool)" />
     /// <code>
     /// var cat = new ApplicationCategory(Session) {
-    ///     Name = "MyCategory"
+    /// Name = "MyCategory"
     /// };
     /// cat.AcceptChanges();
     /// </code>
@@ -53,7 +53,7 @@ namespace Koopman.CheckPoint
         /// <example>
         /// <code>
         /// var cat = new ApplicationCategory(Session) {
-        ///     Name = "MyCategory"
+        /// Name = "MyCategory"
         /// };
         /// cat.AcceptChanges();
         /// </code>
@@ -75,7 +75,7 @@ namespace Koopman.CheckPoint
         /// </summary>
         /// <param name="session">The current session.</param>
         /// <param name="detailLevel">The detail level of data that will be populated.</param>
-        protected internal ApplicationCategory(Session session, DetailLevels detailLevel) : base(session, detailLevel, "application-site-category")
+        protected internal ApplicationCategory(Session session, DetailLevels detailLevel) : base(session, detailLevel)
         {
             _groups = new MemberMembershipChangeTracking<ApplicationGroup>(this);
         }
@@ -130,6 +130,12 @@ namespace Koopman.CheckPoint
             get => (TestDetailLevel(DetailLevels.Full)) ? _userDefined : null;
             internal set => _userDefined = value;
         }
+
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ApplicationSiteCategory;
+
+        /// <inheritdoc />
+        public override string Type => "application-site-category";
 
         #endregion Properties
 

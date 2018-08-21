@@ -99,6 +99,9 @@ namespace Koopman.CheckPoint
             }
         }
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.ServiceRPC;
+
         /// <summary>
         /// Program Number.
         /// </summary>
@@ -116,6 +119,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override string Type => "service-rpc";
 
         #endregion Properties
 

@@ -63,16 +63,16 @@ namespace Koopman.CheckPoint
         /// <code>
         /// var t = new Time(Session)
         /// {
-        ///     Name = "MyTime",
-        ///     Color = Colors.Red
+        /// Name = "MyTime",
+        /// Color = Colors.Red
         /// };
         ///
         /// t.HourRanges[0] = new Koopman.CheckPoint.Common.TimeRange("03:00", "04:00");
         /// t.HourRanges[1] = new Koopman.CheckPoint.Common.TimeRange("15:00", "16:00");
         ///
         /// t.Recurrence = new Time.RecurrenceClass() {
-        ///     Pattern = Time.RecurrencePattern.Daily,
-        ///     Weekdays = Days.Weekend
+        /// Pattern = Time.RecurrencePattern.Daily,
+        /// Weekdays = Days.Weekend
         /// };
         ///
         /// t.AcceptChanges();
@@ -167,6 +167,9 @@ namespace Koopman.CheckPoint
         [JsonProperty(PropertyName = "hours-ranges")]
         public HourRanges HourRanges { get; set; } = new HourRanges();
 
+        /// <inheritdoc />
+        public override ObjectType ObjectType => ObjectType.Time;
+
         /// <summary>
         /// Gets or sets the days recurrence.
         /// </summary>
@@ -213,6 +216,9 @@ namespace Koopman.CheckPoint
                 OnPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public override string Type => "time";
 
         #endregion Properties
 
