@@ -83,13 +83,13 @@ namespace Tests
             a = Session.UpdateServiceTCP(Name);
             a.Comments = "Blah";
             a.Groups.Add(g);
-            await a.AcceptChanges();
+            await a.AcceptChanges(Ignore.Warnings);
 
             // Find
             a = await Session.FindServiceTCP(Name, DetailLevels.UID);
             Assert.AreEqual(1, a.Groups.Count);
             a.Groups.Clear();
-            await a.AcceptChanges();
+            await a.AcceptChanges(Ignore.Warnings);
 
             // Delete
             await a.Delete(Ignore.Warnings);

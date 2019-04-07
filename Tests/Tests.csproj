@@ -96,8 +96,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="R80.20_Tests.runsettings">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Tests.runsettings.example" />
-    <None Include="Tests.runsettings">
+    <None Include="R80.10_Tests.runsettings">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
