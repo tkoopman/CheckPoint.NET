@@ -49,6 +49,7 @@ namespace Tests
             Assert.IsNotNull(Session.SID);
             Assert.IsFalse(Session.ReadOnly);
             Assert.IsTrue(Session.APIServerVersion.Equals("1.1") || Session.APIServerVersion.Equals("1.3"));
+            Assert.AreNotEqual(0, Session.APIVersion);
             await Session.SendKeepAlive();
         }
 

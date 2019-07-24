@@ -95,7 +95,7 @@ namespace Tests
             }
             catch (ObjectNotFoundException)
             {
-                if (!Session.APIServerVersion.Equals("1.1"))
+                if (Session.APIVersion > 1.1F)
                     Assert.Fail("Failed to find application by ID.");
             }
             Assert.IsNotNull(a);

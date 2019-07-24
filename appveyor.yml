@@ -24,7 +24,7 @@ dotnet_csproj:
 configuration: Release
 platform: Any CPU
 install:
-- ps: .\AppVeyor_Install.ps1
+- ps: .${env:APPVEYOR_BUILD_FOLDER}\AppVeyor\install.ps1
 before_build:
 - cmd: nuget restore
 build:
@@ -34,18 +34,22 @@ environment:
   access_token:
     secure: Pz30C2oGEq4jlsrbFSRBWxPkmDMdQ0uRxZpKwLZ4yVgBZvrHWxRnnT4WFEI7KVyC
   TestMgmtServer:
-    secure: UCJ1RE6XfDNrlnauuyM7wQ==
+    secure: lx9LiOygrkHhoWjTcLWbAg==
   TestMgmtUser:
     secure: G+bmyM6HBj6hQg0noejtiQ==
   TestMgmtPassword:
-    secure: j5oFpdeVkXe0izAo73pe6Q==
-  TestCertificateHash: 9141948B07E09B13E6B980EFD7FFCB968A2DCB13
-  TestMgmtName: testgw
+    secure: UKr8fXGiH9zNRamDDEjKpg==
+  TestCertificateHash: FEEAF0B7E97E8EA693EB55B0CF26406351EA0EF5
+  TestMgmtName: r8020
   TestIAGateway:
-    secure: UCJ1RE6XfDNrlnauuyM7wQ==
+    secure: lx9LiOygrkHhoWjTcLWbAg==
   TestIASecret:
-    secure: j5oFpdeVkXe0izAo73pe6Q==
-  TestIACertificateHash: 9141948B07E09B13E6B980EFD7FFCB968A2DCB13
+    secure: UKr8fXGiH9zNRamDDEjKpg==
+  TestIACertificateHash: FEEAF0B7E97E8EA693EB55B0CF26406351EA0EF5
+  TEST_SECRET:
+    secure: psHf9gzh1NdoPBovCWs+VzQL9AILX7vy+tD73K6gjkMFHHxeFSGU0iChiPAMRqwH
+  APPVEYOR_RDP_PASSWORD:
+    secure: ffiKvwUIVY4Ps169F1N1Uw==
 test:
   assemblies:
     only:
@@ -62,7 +66,7 @@ artifacts:
 deploy:
 - provider: NuGet
   api_key:
-    secure: 7t1digdSmIqoH3Fl+QikPfgNn1IyFiFBNZxla2qmk0fQCH1pRqd3J6AQ4iJboUDV
+    secure: XTaEl0O07W12itVzJjGIhoYCy1huW9IfT7gK78rsyn5c/L6qhfCP6y4vYFZQu+6n
   artifact: NuGetPackage
 - provider: GitHub
   auth_token:
@@ -71,4 +75,4 @@ deploy:
   draft: true
   force_update: true
 after_deploy:
-  - ps: .\AppVeyor_Deploy_gh-pages.ps1
+  - ps: .${env:APPVEYOR_BUILD_FOLDER}\AppVeyor\Update_gh-pages.ps1

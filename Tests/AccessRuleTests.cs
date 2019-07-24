@@ -31,6 +31,24 @@ namespace Tests
         #region Methods
 
         [TestMethod]
+        public Task AccessRuleActionConvertions()
+        {
+            RulebaseAction t1 = Actions.Accept;
+            Assert.AreEqual(RulebaseAction.Accept, t1);
+
+            Actions t2 = RulebaseAction.Reject;
+            Assert.AreEqual(Actions.Reject, t2);
+
+            string t3 = RulebaseAction.Drop;
+            Assert.AreEqual(RulebaseAction.Drop.Name, t3);
+
+            RulebaseAction t4 = "ask";
+            Assert.AreEqual(RulebaseAction.Ask, t4);
+
+            return Task.FromResult(0);
+        }
+
+        [TestMethod]
         public async Task AccessRuleTest()
         {
             var layer = await AccessLayerTests.CreateTestAccessLayer(Session);
@@ -54,7 +72,7 @@ namespace Tests
             a.Source.Clear();
             a.Destination.Add(host);
             a.CustomFields.Field2 = "Test";
-            a.SetPosition(new Position(Positions.Top));
+            a.SetPosition(new Position(PositionsRelativeToRulebase.Top));
             a.Track.Type = TrackType.ExtendedLog;
             a.Track.PerConnection = false;
             a.Track.PerSession = true;

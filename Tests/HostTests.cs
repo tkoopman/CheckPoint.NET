@@ -73,6 +73,36 @@ namespace Tests
         }
 
         [TestMethod]
+        public async Task FindAllMemberships()
+        {
+            // Create Group
+            var group = await GroupTests.CreateTestGroup(Session);
+
+            // Add member
+            var host = await CreateTestHost(Session);
+            group.Members.Add(host);
+            await group.AcceptChanges();
+
+            var a = await Session.FindHosts(limit: 5, order: Host.Order.NameDesc, detailLevel: DetailLevels.Full, showMembership: true);
+
+            int count = 0;
+            foreach (var h in a)
+            {
+                if (h.Groups.Count > 0 && count == 0)
+                {
+                    /// v1.1 Returns standard detail level on memberships, v1.3 Returns just UIDs
+                    var member = h.Groups[0];
+                    if (member.DetailLevel == DetailLevels.UID)
+                        member = await member.Reload();
+                    Assert.AreNotEqual(DetailLevels.UID, member.DetailLevel);
+                }
+                count += h.Groups.Count;
+            }
+
+            Assert.AreNotEqual(0, count);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ObjectNotFoundException))]
         public async Task FindNotFound() => await Session.FindHost("I Don't Exist!");
 

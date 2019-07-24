@@ -65,6 +65,12 @@ namespace Koopman.CheckPoint
         public string APIServerVersion { get; private set; }
 
         /// <summary>
+        /// API version being used.
+        /// </summary>
+        /// <value>The API version being used.</value>
+        public float APIVersion { get; private set; }
+
+        /// <summary>
         /// Gets the action to be taken when current detail level is too low.
         /// </summary>
         /// <value>The detail level action to take.</value>
@@ -167,6 +173,10 @@ namespace Koopman.CheckPoint
         /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="httpTimeout">The HTTP timeout. Default: 100 seconds</param>
+        /// <param name="version">
+        /// The API version to use. Set to <c>0</c> to use management's default version.
+        /// <a href="https://sc1.checkpoint.com/documents/latest/APIs/#api_versions">API Versions</a>
+        /// </param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the New
         /// Logged in Session object
@@ -188,10 +198,15 @@ namespace Koopman.CheckPoint
                     TextWriter debugWriter = null,
                     string certificateHash = null,
                     CancellationToken cancellationToken = default,
-                    TimeSpan? httpTimeout = null)
+                    TimeSpan? httpTimeout = null,
+                    float version = 0)
         {
+            string url = $"https://{managementServer}:{port}/web_api/";
+            if (version > 0)
+                url += $"v{version}/";
+
             var session = new Session(
-                    url: $"https://{managementServer}:{port}/web_api/",
+                    url: url,
                     certificateValidation: certificateValidation,
                     detailLevelAction: detailLevelAction,
                     indentJson: indentJson,
@@ -220,6 +235,11 @@ namespace Koopman.CheckPoint
             string result = await session.PostAsync("login", jsonData, cancellationToken);
 
             JsonConvert.PopulateObject(result, session);
+
+            if (version == 0)
+                session.APIVersion = float.Parse(session.APIServerVersion);
+            else
+                session.APIVersion = version;
 
             session.HttpHeaders["X-chkp-sid"] = session.SID;
 

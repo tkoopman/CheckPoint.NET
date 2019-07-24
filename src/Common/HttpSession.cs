@@ -161,7 +161,7 @@ namespace Koopman.CheckPoint.Common
             {
                 string result = null;
 
-                string debugIP = WriteDebug(command, json);
+                string debugID = WriteDebug(command, json);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 foreach (var h in HttpHeaders)
@@ -173,7 +173,7 @@ namespace Koopman.CheckPoint.Common
                 {
                     result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    WriteDebug(debugIP, response.StatusCode, result);
+                    WriteDebug(debugID, response.StatusCode, result);
 
                     if (!response.IsSuccessStatusCode)
                         throw CheckPointError.CreateException(result, response.StatusCode);
@@ -233,7 +233,7 @@ namespace Koopman.CheckPoint.Common
 
                 _httpClient = new HttpClient(handler)
                 {
-                    BaseAddress = new Uri($"{URL}/")
+                    BaseAddress = new Uri($"{URL}")
                 };
                 if (Timeout != null) _httpClient.Timeout = (TimeSpan)Timeout;
                 _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -246,7 +246,7 @@ namespace Koopman.CheckPoint.Common
         {
             if (DebugWriter == null) return null;
             string id = RandomString(8);
-            WriteDebug($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {command}
+            WriteDebug($@"{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")} Start Post ID:{id} Command: {_httpClient?.BaseAddress?.AbsolutePath ?? ""}{command}
 {data}
 ");
             return id;

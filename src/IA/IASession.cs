@@ -54,7 +54,7 @@ namespace Koopman.CheckPoint.IA
             string gateway, string sharedSecret, string certificateHash = null, int port = 443,
             CertificateValidation certificateValidation = CertificateValidation.Auto,
             TextWriter debugWriter = null, bool indentJson = false, int maxConnections = 3, TimeSpan? httpTimeout = null) :
-            base($"https://{gateway}:{port}/_IA_API/v1.0", certificateValidation, certificateHash, debugWriter, indentJson, maxConnections, httpTimeout)
+            base($"https://{gateway}:{port}/_IA_API/v1.0/", certificateValidation, certificateHash, debugWriter, indentJson, maxConnections, httpTimeout)
         {
             SharedSecret = sharedSecret;
         }

@@ -67,6 +67,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
+        /// <param name="showMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the
@@ -78,6 +81,7 @@ namespace Koopman.CheckPoint
                 int limit = Finds.Defaults.Limit,
                 int offset = Finds.Defaults.Offset,
                 IOrder order = Finds.Defaults.Order,
+                bool showMembership = Finds.Defaults.ShowMembership,
                 CancellationToken cancellationToken = default
             )
         {
@@ -89,6 +93,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order,
+                    ShowMembership: showMembership,
                     cancellationToken: cancellationToken
                 );
         }
@@ -105,6 +110,9 @@ namespace Koopman.CheckPoint
         /// <param name="limit">The limit.</param>
         /// <param name="offset">The offset.</param>
         /// <param name="order">The order.</param>
+        /// <param name="showMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the
@@ -118,6 +126,7 @@ namespace Koopman.CheckPoint
                 int limit = Finds.Defaults.Limit,
                 int offset = Finds.Defaults.Offset,
                 IOrder order = Finds.Defaults.Order,
+                bool showMembership = Finds.Defaults.ShowMembership,
                 CancellationToken cancellationToken = default
             )
         {
@@ -131,6 +140,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order,
+                    ShowMembership: showMembership,
                     cancellationToken: cancellationToken
                 );
         }
@@ -141,6 +151,9 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level to return.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
+        /// <param name="showMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the Array of AddressRanges
@@ -150,6 +163,7 @@ namespace Koopman.CheckPoint
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
                 int limit = FindAll.Defaults.Limit,
                 IOrder order = FindAll.Defaults.Order,
+                bool showMembership = FindAll.Defaults.ShowMembership,
                 CancellationToken cancellationToken = default
             )
         {
@@ -160,6 +174,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order,
+                    ShowMembership: showMembership,
                     cancellationToken: cancellationToken
                 );
         }
@@ -175,6 +190,9 @@ namespace Koopman.CheckPoint
         /// <param name="detailLevel">The detail level.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="order">The order.</param>
+        /// <param name="showMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the Array of AddressRanges
@@ -186,6 +204,7 @@ namespace Koopman.CheckPoint
                 DetailLevels detailLevel = FindAll.Defaults.DetailLevel,
                 int limit = FindAll.Defaults.Limit,
                 IOrder order = FindAll.Defaults.Order,
+                bool showMembership = FindAll.Defaults.ShowMembership,
                 CancellationToken cancellationToken = default
             )
         {
@@ -198,6 +217,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order,
+                    ShowMembership: showMembership,
                     cancellationToken: cancellationToken
                 );
         }
