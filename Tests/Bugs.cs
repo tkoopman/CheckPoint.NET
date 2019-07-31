@@ -72,8 +72,10 @@ namespace Tests
             Assert.AreEqual(1, a.Tags.Count);
         }
 
+        /// <summary>
+        /// In API version 1.1 we expect this to fail but should work from version 1.3 onwards.
+        /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ObjectNotFoundException))]
         public async Task FindAppByID()
         {
             ApplicationSite a = null;
@@ -83,11 +85,19 @@ namespace Tests
             }
             catch (ObjectNotFoundException)
             {
-                Assert.Fail("Failed to create test site.");
+                Assert.Fail("Failed to find application.");
             }
 
             // ObjectNotFound error returned when it should be found
-            a = await Session.FindApplicationSite((int)a.ApplicationID);
+            try
+            {
+                a = await Session.FindApplicationSite((int)a.ApplicationID);
+            }
+            catch (ObjectNotFoundException)
+            {
+                if (Session.APIVersion > 1.1F)
+                    Assert.Fail("Failed to find application by ID.");
+            }
             Assert.IsNotNull(a);
         }
 

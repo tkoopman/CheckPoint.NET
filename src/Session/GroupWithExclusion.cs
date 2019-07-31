@@ -67,6 +67,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order,
+                    ShowMembership: null,
                     cancellationToken: cancellationToken
                 );
         }
@@ -96,6 +97,7 @@ namespace Koopman.CheckPoint
                     DetailLevel: detailLevel,
                     Limit: limit,
                     Order: order,
+                    ShowMembership: null,
                     cancellationToken: cancellationToken
                 );
         }
@@ -138,6 +140,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order,
+                    ShowMembership: null,
                     cancellationToken: cancellationToken
                 );
         }
@@ -171,6 +174,7 @@ namespace Koopman.CheckPoint
                     Limit: limit,
                     Offset: offset,
                     Order: order,
+                    ShowMembership: null,
                     cancellationToken: cancellationToken
                 );
         }

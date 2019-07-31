@@ -43,10 +43,13 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Limit">The number of objects to be returned.</param>
         /// <param name="Offset">The offset.</param>
         /// <param name="Order">The sort order.</param>
+        /// <param name="ShowMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) =>
-            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Command, DetailLevel, Limit, Offset, Order, cancellationToken);
+        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, bool? ShowMembership, CancellationToken cancellationToken) =>
+            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Command, DetailLevel, Limit, Offset, Order, ShowMembership, cancellationToken);
 
         /// <summary>
         /// Invokes the Finds command. This is the API commands like show-hosts
@@ -59,9 +62,12 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Limit">The number of objects to be returned.</param>
         /// <param name="Offset">The offset.</param>
         /// <param name="Order">The sort order.</param>
+        /// <param name="ShowMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<U> Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
+        internal async static Task<U> Invoke<T, U>(Session Session, string Command, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, bool? ShowMembership, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
         {
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
 
@@ -72,6 +78,9 @@ namespace Koopman.CheckPoint.Internal
                 { "offset", Offset },
                 { "order", (Order == null)? null:new IOrder[] { Order } }
             };
+
+            if (ShowMembership != null)
+                data["show-membership"] = ShowMembership;
 
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
@@ -85,7 +94,7 @@ namespace Koopman.CheckPoint.Internal
                 results.Next = delegate (CancellationToken ct)
                 {
                     if (results.To == results.Total) return Task.FromResult((U)null);
-                    return Invoke<T, U>(Session, Command, DetailLevel, Limit, results.To, Order, ct);
+                    return Invoke<T, U>(Session, Command, DetailLevel, Limit, results.To, Order, ShowMembership, ct);
                 };
             }
 
@@ -104,10 +113,13 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Limit">The number of objects to be returned.</param>
         /// <param name="Offset">The offset.</param>
         /// <param name="Order">The sort order.</param>
+        /// <param name="ShowMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) =>
-            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Type, Filter, IPOnly, DetailLevel, Limit, Offset, Order, cancellationToken);
+        internal static Task<NetworkObjectsPagingResults<T>> Invoke<T>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, bool? ShowMembership, CancellationToken cancellationToken) =>
+            Invoke<T, NetworkObjectsPagingResults<T>>(Session, Type, Filter, IPOnly, DetailLevel, Limit, Offset, Order, ShowMembership, cancellationToken);
 
         /// <summary>
         /// Invokes the Finds using the show-objects API command.
@@ -122,9 +134,12 @@ namespace Koopman.CheckPoint.Internal
         /// <param name="Limit">The number of objects to be returned.</param>
         /// <param name="Offset">The offset.</param>
         /// <param name="Order">The sort order.</param>
+        /// <param name="ShowMembership">
+        /// Indicates whether to calculate and populate "groups" field for every object in reply.
+        /// </param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        internal async static Task<U> Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
+        internal async static Task<U> Invoke<T, U>(Session Session, string Type, string Filter, bool IPOnly, DetailLevels DetailLevel, int Limit, int Offset, IOrder Order, bool? ShowMembership, CancellationToken cancellationToken) where U : ObjectsPagingResults<T, U>
         {
             var objectConverter = new ObjectConverter(Session, DetailLevel, DetailLevel);
 
@@ -139,6 +154,9 @@ namespace Koopman.CheckPoint.Internal
                 { "order", (Order == null)? null:new IOrder[] { Order } }
             };
 
+            if (ShowMembership != null)
+                data["show-membership"] = ShowMembership;
+
             string jsonData = JsonConvert.SerializeObject(data, Session.JsonFormatting);
 
             string result = await Session.PostAsync("show-objects", jsonData, cancellationToken);
@@ -151,7 +169,7 @@ namespace Koopman.CheckPoint.Internal
                 results.Next = delegate (CancellationToken ct)
                 {
                     if (results.To == results.Total) return Task.FromResult((U)null);
-                    return Invoke<T, U>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order, ct);
+                    return Invoke<T, U>(Session, Type, Filter, IPOnly, DetailLevel, Limit, results.To, Order, ShowMembership, ct);
                 };
             }
 
@@ -174,6 +192,7 @@ namespace Koopman.CheckPoint.Internal
             internal const int Limit = 50;
             internal const int Offset = 0;
             internal const IOrder Order = null;
+            internal const bool ShowMembership = true;
 
             #endregion Fields
         }

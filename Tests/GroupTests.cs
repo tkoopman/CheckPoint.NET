@@ -18,6 +18,7 @@
 // OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Koopman.CheckPoint;
+using Koopman.CheckPoint.Common;
 using Koopman.CheckPoint.FastUpdate;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
@@ -52,6 +53,37 @@ namespace Tests
         {
             var a = await Session.FindAllGroups(limit: 5, order: Group.Order.NameAsc);
             Assert.IsNotNull(a);
+        }
+
+        [TestMethod]
+        public async Task FindAllMemberships()
+        {
+            // Create Group
+            var group = await CreateTestGroup(Session);
+
+            // Add member
+            var host = await HostTests.CreateTestHost(Session);
+            group.Members.Add(host);
+            await group.AcceptChanges();
+
+            /// DetailLevel must be Full if API version >=v1.3 to get Memberships
+            var a = await Session.FindAllGroups(limit: 5, order: Group.Order.NameAsc, detailLevel: DetailLevels.Full);
+
+            int count = 0;
+            foreach (var g in a)
+            {
+                if (g.Members.Count > 0 && count == 0)
+                {
+                    /// v1.1 Returns standard detail level on memberships, v1.3 Returns just UIDs
+                    var member = g.Members[0];
+                    if (member.DetailLevel == DetailLevels.UID)
+                        member = (IGroupMember)await member.Reload();
+                    Assert.AreNotEqual(DetailLevels.UID, member.DetailLevel);
+                }
+                count += g.Members.Count;
+            }
+
+            Assert.AreNotEqual(0, count);
         }
 
         [TestMethod]

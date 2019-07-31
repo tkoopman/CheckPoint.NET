@@ -55,6 +55,55 @@ namespace Koopman.CheckPoint.AccessRules
         Bottom
     }
 
+    public enum PositionsRelativeToRule
+    {
+        /// <summary>
+        /// Above rule or section
+        /// </summary>
+        Above = Positions.Above,
+
+        /// <summary>
+        /// Below rule or section
+        /// </summary>
+        Below = Positions.Below
+    }
+
+    public enum PositionsRelativeToRulebase
+    {
+        /// <summary>
+        /// The top of rulebase
+        /// </summary>
+        Top = Positions.Top,
+
+        /// <summary>
+        /// The bottom of rulebase
+        /// </summary>
+        Bottom = Positions.Bottom
+    }
+
+    public enum PositionsRelativeToSection
+    {
+        /// <summary>
+        /// The top of section
+        /// </summary>
+        Top = Positions.Top,
+
+        /// <summary>
+        /// Above section
+        /// </summary>
+        Above = Positions.Above,
+
+        /// <summary>
+        /// Below section
+        /// </summary>
+        Below = Positions.Below,
+
+        /// <summary>
+        /// The bottom of section
+        /// </summary>
+        Bottom = Positions.Bottom
+    }
+
     /// <summary>
     /// Defines the position of new rulebase lines.
     /// </summary>
@@ -64,34 +113,53 @@ namespace Koopman.CheckPoint.AccessRules
         #region Constructors
 
         /// <summary>
-        /// Position above or below a section or rule or Position at the top or bottom of a section.
+        /// Position above or below a section or rule or Position at the top or bottom of a section
+        /// or rulebase.
         /// </summary>
         /// <param name="locate">Top, Bottom, Above or Below.</param>
         /// <param name="point">Name or UID of section or rule.</param>
-        /// <exception cref="InvalidOperationException">
-        /// Cannot use locate value of Absolute in this constructor.
+        /// <exception cref="ArgumentNullException">
+        /// Except for when using Top or Bottom, point must be defined
         /// </exception>
-        /// <exception cref="ArgumentNullException">point</exception>
-        public Position(Positions locate, string point) : this()
+        /// <exception cref="InvalidCastException">For Absolute, point must be an integer.</exception>
+        public Position(Positions locate, string point = null) : this()
         {
-            if (locate == Positions.Absolute)
-                throw new InvalidOperationException("Cannot use locate value of Absolute in this constructor.");
+            if (locate == Positions.Absolute && string.IsNullOrEmpty(point))
+                throw new ArgumentNullException("For Absolute, point must be an integer.");
+
+            if (locate == Positions.Absolute && !int.TryParse(point, out _))
+                throw new InvalidCastException("For Absolute, point must be an integer.");
+
+            if ((locate == Positions.Above || locate == Positions.Below) && string.IsNullOrEmpty(point))
+                throw new ArgumentNullException("Must define point when using Above or Below.");
+
             Locate = locate;
-            Point = point ?? throw new ArgumentNullException(nameof(point));
+            Point = point;
         }
+
+        /// <summary>
+        /// Position above or below a rule.
+        /// </summary>
+        /// <param name="locate">Above or Below.</param>
+        /// <param name="rule">AccessRule to place relative to.</param>
+        /// <exception cref="ArgumentNullException">rule</exception>
+        public Position(PositionsRelativeToRule locate, AccessRule rule) : this((Positions)locate, rule?.UID) { }
+
+        /// <summary>
+        /// Position top, bottom, above or below a section.
+        /// </summary>
+        /// <param name="locate">Top, Bottom, Above or Below.</param>
+        /// <param name="section">AccessSection to place relative to.</param>
+        /// <exception cref="ArgumentNullException">section</exception>
+        public Position(PositionsRelativeToSection locate, AccessSection section) : this((Positions)locate, section?.UID) { }
 
         /// <summary>
         /// Position at Top or Bottom of rulebase.
         /// </summary>
         /// <param name="locate">Top or Bottom.</param>
-        /// <exception cref="InvalidOperationException">
-        /// Cannot use locate values of Absolute, Above or Below in this constructor.
-        /// </exception>
-        public Position(Positions locate) : this()
+        public Position(PositionsRelativeToRulebase locate) : this()
         {
-            if (locate != Positions.Top && locate != Positions.Bottom)
-                throw new InvalidOperationException("Cannot use locate values of Absolute, Above or Below in this constructor.");
-            Locate = locate;
+            Locate = (Positions)locate;
         }
 
         /// <summary>
