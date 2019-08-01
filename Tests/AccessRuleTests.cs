@@ -111,6 +111,21 @@ namespace Tests
             await a.Delete();
         }
 
+        [TestMethod]
+        public Task AccessRuleTrackTypeConvertions()
+        {
+            TrackType t1 = TrackTypes.Log;
+            Assert.AreEqual(TrackType.Log, t1);
+
+            TrackTypes t2 = TrackType.None;
+            Assert.AreEqual(TrackTypes.None, t2);
+
+            TrackType t3 = "loG";
+            Assert.AreEqual(TrackType.Log, t3);
+
+            return Task.FromResult(0);
+        }
+
         #endregion Methods
     }
 }
